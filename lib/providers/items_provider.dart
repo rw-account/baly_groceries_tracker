@@ -52,21 +52,25 @@ class ItemsNotifier extends StateNotifier<List<ItemModel>> {
     required String name,
     required String quantityDescription,
     required int expectedDays,
+    String? notes,
     int safeThresholdDays = 20,
     int warningThresholdDays = 10,
     int urgentThresholdDays = 3,
     bool notificationsEnabled = true,
   }) async {
+    final now = DateTime.now();
     final item = ItemModel(
       id: _uuid.v4(),
       name: name,
       quantityDescription: quantityDescription,
       expectedDays: expectedDays,
-      createdAt: DateTime.now(),
+      createdAt: now,
       safeThresholdDays: safeThresholdDays,
       warningThresholdDays: warningThresholdDays,
       urgentThresholdDays: urgentThresholdDays,
       notificationsEnabled: notificationsEnabled,
+      lastRefreshedAt: now,
+      notes: notes,
     );
     await _storage.saveItem(item);
     await _load();

@@ -6,7 +6,7 @@ import '../models/item_model.dart';
 
 class StorageService {
   static const String _dbName = 'home_orders.db';
-  static const int _dbVersion = 1;
+  static const int _dbVersion = 2;
   static const String _tableName = 'items';
 
   Database? _db;
@@ -38,15 +38,23 @@ class StorageService {
             safeThresholdDays   INTEGER NOT NULL DEFAULT 20,
             warningThresholdDays INTEGER NOT NULL DEFAULT 10,
             urgentThresholdDays INTEGER NOT NULL DEFAULT 3,
-            lastRefreshedAt     TEXT
+            lastRefreshedAt     TEXT,
+            notes               TEXT
           )
         ''');
+      },
+      onUpgrade: (db, oldVersion, newVersion) async {
+        if (oldVersion < 2) {
+          await db.execute('ALTER TABLE $_tableName ADD COLUMN notes TEXT');
+        }
       },
     );
   }
 
   Database get _database {
-    if (_db == null) throw StateError('StorageService not initialised. Call init() first.');
+    if (_db == null) {
+      throw StateError('StorageService not initialised. Call init() first.');
+    }
     return _db!;
   }
 

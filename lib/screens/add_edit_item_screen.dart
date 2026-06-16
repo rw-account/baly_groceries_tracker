@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import '../models/item_model.dart';
 import '../providers/items_provider.dart';
 
@@ -15,6 +16,7 @@ class AddEditItemScreen extends ConsumerStatefulWidget {
 
 class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _dateFormat = DateFormat('yyyy-MM-dd');
 
   late TextEditingController _nameCtrl;
   late TextEditingController _descCtrl;
@@ -22,12 +24,38 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
   late TextEditingController _safeCtrl;
   late TextEditingController _warningCtrl;
   late TextEditingController _urgentCtrl;
+  late TextEditingController _notesCtrl;
+  late TextEditingController _dateCtrl;
   late bool _notificationsEnabled;
+  late DateTime _lastRefreshedAt;
 
   String? _nameErrorText;
   bool _saving = false;
 
+  // القيم الأصلية لرصد التغييرات
+  late String _initialName;
+  late String _initialDesc;
+  late String _initialDays;
+  late String _initialSafe;
+  late String _initialWarning;
+  late String _initialUrgent;
+  late String _initialNotes;
+  late bool _initialNotificationsEnabled;
+  late DateTime _initialLastRefreshedAt;
+
   bool get _isEditing => widget.item != null;
+
+  bool get _hasChanges {
+    return _nameCtrl.text != _initialName ||
+        _descCtrl.text != _initialDesc ||
+        _daysCtrl.text != _initialDays ||
+        _safeCtrl.text != _initialSafe ||
+        _warningCtrl.text != _initialWarning ||
+        _urgentCtrl.text != _initialUrgent ||
+        _notesCtrl.text != _initialNotes ||
+        _notificationsEnabled != _initialNotificationsEnabled ||
+        _lastRefreshedAt != _initialLastRefreshedAt;
+  }
 
   @override
   void initState() {
@@ -35,15 +63,30 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
     final i = widget.item;
     _nameCtrl = TextEditingController(text: i?.name ?? '');
     _descCtrl = TextEditingController(text: i?.quantityDescription ?? '');
-    _daysCtrl = TextEditingController(
-        text: i?.expectedDays.toString() ?? '');
-    _safeCtrl = TextEditingController(
-        text: (i?.safeThresholdDays ?? 20).toString());
-    _warningCtrl = TextEditingController(
-        text: (i?.warningThresholdDays ?? 10).toString());
-    _urgentCtrl = TextEditingController(
-        text: (i?.urgentThresholdDays ?? 3).toString());
+    _daysCtrl = TextEditingController(text: i?.expectedDays.toString() ?? '');
+    _safeCtrl =
+        TextEditingController(text: (i?.safeThresholdDays ?? 20).toString());
+    _warningCtrl =
+        TextEditingController(text: (i?.warningThresholdDays ?? 10).toString());
+    _urgentCtrl =
+        TextEditingController(text: (i?.urgentThresholdDays ?? 3).toString());
+    _notesCtrl = TextEditingController(text: i?.notes ?? '');
     _notificationsEnabled = i?.notificationsEnabled ?? true;
+    _lastRefreshedAt = i?.lastRefreshedAt ?? DateTime.now();
+    _dateCtrl = TextEditingController(
+      text: _dateFormat.format(_lastRefreshedAt),
+    );
+
+    // حفظ القيم الأصلية
+    _initialName = _nameCtrl.text;
+    _initialDesc = _descCtrl.text;
+    _initialDays = _daysCtrl.text;
+    _initialSafe = _safeCtrl.text;
+    _initialWarning = _warningCtrl.text;
+    _initialUrgent = _urgentCtrl.text;
+    _initialNotes = _notesCtrl.text;
+    _initialNotificationsEnabled = _notificationsEnabled;
+    _initialLastRefreshedAt = _lastRefreshedAt;
   }
 
   @override
@@ -54,6 +97,8 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
     _safeCtrl.dispose();
     _warningCtrl.dispose();
     _urgentCtrl.dispose();
+    _notesCtrl.dispose();
+    _dateCtrl.dispose();
     super.dispose();
   }
 
@@ -80,14 +125,14 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
     final safe = int.tryParse(_safeCtrl.text.trim()) ?? 20;
     final warn = int.tryParse(_warningCtrl.text.trim()) ?? 10;
     final urg = int.tryParse(_urgentCtrl.text.trim()) ?? 3;
+    final notes = _notesCtrl.text.trim();
 
-    // Validate threshold order: safe > warning > urgent.
     if (safe <= warn || warn <= urg) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text(
-                'يجب أن تكون الحدود مرتبة: الآمن > الانتباه > العاجل'),
+            content:
+                Text('يجب أن تكون الحدود مرتبة: الآمن > الانتباه > العاجل'),
             backgroundColor: Colors.red,
           ),
         );
@@ -108,7 +153,8 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
           safeThresholdDays: safe,
           warningThresholdDays: warn,
           urgentThresholdDays: urg,
-          lastRefreshedAt: widget.item!.lastRefreshedAt,
+          lastRefreshedAt: _lastRefreshedAt,
+          notes: notes.isEmpty ? null : notes,
         );
         await notifier.updateItem(updated);
       } else {
@@ -116,6 +162,7 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
           name: _nameCtrl.text.trim(),
           quantityDescription: _descCtrl.text.trim(),
           expectedDays: days,
+          notes: notes.isEmpty ? null : notes,
           safeThresholdDays: safe,
           warningThresholdDays: warn,
           urgentThresholdDays: urg,
@@ -125,6 +172,60 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
       if (mounted) Navigator.pop(context);
     } finally {
       if (mounted) setState(() => _saving = false);
+    }
+  }
+
+  // ─── Refreshed date ───────────────────────────────────────────────────────────
+
+  Future<void> _pickLastRefreshedDate() async {
+    final now = DateTime.now();
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _lastRefreshedAt.isAfter(now) ? now : _lastRefreshedAt,
+      firstDate: DateTime(now.year - 5),
+      lastDate: now,
+      locale: const Locale('ar'),
+      helpText: 'اختر تاريخ التجديد',
+      cancelText: 'إلغاء',
+      confirmText: 'تأكيد',
+    );
+    if (picked == null) return;
+    setState(() {
+      _lastRefreshedAt = picked;
+      _dateCtrl.text = _dateFormat.format(picked);
+    });
+  }
+
+  Future<void> _resetLastRefreshedToToday() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('إعادة تعيين تاريخ التجديد'),
+        content: const Text('هل تريد تعيين تاريخ التجديد إلى تاريخ اليوم؟'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('إلغاء'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('موافق'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true) return;
+    final today = DateTime.now();
+    setState(() {
+      _lastRefreshedAt = today;
+      _dateCtrl.text = _dateFormat.format(today);
+    });
+
+    if (_isEditing) {
+      await ref
+          .read(itemsProvider.notifier)
+          .updateLastRefreshedAt(widget.item!.id, today);
     }
   }
 
@@ -154,16 +255,56 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
     }
   }
 
+  // ─── Discard confirmation ─────────────────────────────────────────────────────
+
+  Future<bool> _confirmDiscard() async {
+    if (!_hasChanges) return true;
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('تجاهل التغييرات؟'),
+        content: const Text(
+            'لديك تغييرات غير محفوظة. هل تريد الخروج دون حفظ؟'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('إلغاء'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            child: const Text('تجاهل'),
+          ),
+        ],
+      ),
+    );
+    return result ?? false;
+  }
+
   // ─── Build ────────────────────────────────────────────────────────────────────
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Scaffold(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) async {
+        if (didPop) return;
+        final canLeave = await _confirmDiscard();
+        if (canLeave && mounted) Navigator.pop(context);
+      },
+      child: Scaffold(
       appBar: AppBar(
         title: Text(_isEditing ? 'تعديل المادة' : 'إضافة مادة جديدة'),
         centerTitle: false,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () async {
+            final canLeave = await _confirmDiscard();
+            if (canLeave && mounted) Navigator.pop(context);
+          },
+        ),
         actions: [
           if (_isEditing)
             IconButton(
@@ -178,43 +319,31 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            _sectionTitle('معلومات المادة', Icons.inventory_2_outlined),
-            const SizedBox(height: 12),
-            _buildTextField(
-              controller: _nameCtrl,
-              label: 'اسم المادة',
-              hint: 'مثال: سكر، دقيق، زيت',
-              icon: Icons.label_outline,
-              errorText: _nameErrorText,
-              onChanged: (_) {
-                if (_nameErrorText != null) {
-                  setState(() => _nameErrorText = null);
-                }
-              },
-              validator: (v) =>
-                  (v == null || v.trim().isEmpty) ? 'الاسم مطلوب' : null,
-            ),
-            const SizedBox(height: 12),
-            _buildTextField(
-              controller: _descCtrl,
-              label: 'وصف الكمية (اختياري)',
-              hint: 'مثال: كيس 5 كيلو، عبوتان',
-              icon: Icons.notes_outlined,
-            ),
-            const SizedBox(height: 12),
-            _buildTextField(
-              controller: _daysCtrl,
-              label: 'عدد الأيام المتوقعة',
-              hint: 'مثال: 30',
-              icon: Icons.calendar_today_outlined,
-              keyboardType: TextInputType.number,
-              suffix: 'يوم',
-              validator: (v) {
-                if (v == null || v.trim().isEmpty) return 'أدخل عدد الأيام';
-                final n = int.tryParse(v.trim());
-                if (n == null || n <= 0) return 'أدخل رقمًا صحيحًا';
-                return null;
-              },
+            _sectionTitle('الإشعارات', Icons.notifications_outlined),
+            const SizedBox(height: 8),
+            Container(
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surface,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: theme.colorScheme.outlineVariant),
+              ),
+              child: SwitchListTile(
+                title: const Text('تفعيل الإشعارات'),
+                subtitle: Text(
+                  _notificationsEnabled
+                      ? 'ستصلك إشعارات عند الاقتراب من النفاذ'
+                      : 'لن تصلك أي إشعارات لهذه المادة',
+                  style: theme.textTheme.bodySmall,
+                ),
+                value: _notificationsEnabled,
+                onChanged: (v) => setState(() => _notificationsEnabled = v),
+                secondary: Icon(
+                  _notificationsEnabled
+                      ? Icons.notifications_active_outlined
+                      : Icons.notifications_off_outlined,
+                  color: _notificationsEnabled ? Colors.green : Colors.grey,
+                ),
+              ),
             ),
             const SizedBox(height: 24),
             _sectionTitle('حدود التنبيه', Icons.tune_outlined),
@@ -254,32 +383,55 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
               ],
             ),
             const SizedBox(height: 24),
-            _sectionTitle('الإشعارات', Icons.notifications_outlined),
-            const SizedBox(height: 8),
-            Container(
-              decoration: BoxDecoration(
-                color: theme.colorScheme.surface,
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: theme.colorScheme.outlineVariant),
-              ),
-              child: SwitchListTile(
-                title: const Text('تفعيل الإشعارات'),
-                subtitle: Text(
-                  _notificationsEnabled
-                      ? 'ستصلك إشعارات عند الاقتراب من النفاذ'
-                      : 'لن تصلك أي إشعارات لهذه المادة',
-                  style: theme.textTheme.bodySmall,
-                ),
-                value: _notificationsEnabled,
-                onChanged: (v) => setState(() => _notificationsEnabled = v),
-                secondary: Icon(
-                  _notificationsEnabled
-                      ? Icons.notifications_active_outlined
-                      : Icons.notifications_off_outlined,
-                  color:
-                      _notificationsEnabled ? Colors.green : Colors.grey,
-                ),
-              ),
+            _sectionTitle('معلومات المادة', Icons.inventory_2_outlined),
+            const SizedBox(height: 12),
+            _buildTextField(
+              controller: _nameCtrl,
+              label: 'اسم المادة',
+              hint: 'مثال: سكر، دقيق، زيت',
+              icon: Icons.label_outline,
+              errorText: _nameErrorText,
+              onChanged: (_) {
+                if (_nameErrorText != null) {
+                  setState(() => _nameErrorText = null);
+                }
+              },
+              validator: (v) =>
+                  (v == null || v.trim().isEmpty) ? 'الاسم مطلوب' : null,
+            ),
+            const SizedBox(height: 12),
+            _buildTextField(
+              controller: _descCtrl,
+              label: 'وصف الكمية (اختياري)',
+              hint: 'مثال: كيس 5 كيلو، عبوتان',
+              icon: Icons.notes_outlined,
+            ),
+            const SizedBox(height: 12),
+            _buildTextField(
+              controller: _daysCtrl,
+              label: 'عدد الأيام المتوقعة',
+              hint: 'مثال: 30',
+              icon: Icons.calendar_today_outlined,
+              keyboardType: TextInputType.number,
+              suffix: 'يوم',
+              validator: (v) {
+                if (v == null || v.trim().isEmpty) return 'أدخل عدد الأيام';
+                final n = int.tryParse(v.trim());
+                if (n == null || n <= 0) return 'أدخل رقمًا صحيحًا';
+                return null;
+              },
+            ),
+            const SizedBox(height: 12),
+            _buildRefreshDateField(),
+            const SizedBox(height: 12),
+            _buildTextField(
+              controller: _notesCtrl,
+              label: 'ملاحظات (اختياري)',
+              hint: 'اكتب أي ملاحظة إضافية',
+              icon: Icons.edit_note_outlined,
+              keyboardType: TextInputType.multiline,
+              minLines: 3,
+              maxLines: null,
             ),
             const SizedBox(height: 32),
             FilledButton.icon(
@@ -291,9 +443,7 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
                       child: CircularProgressIndicator(
                           strokeWidth: 2, color: Colors.white),
                     )
-                  : Icon(_isEditing
-                      ? Icons.save_outlined
-                      : Icons.add),
+                  : Icon(_isEditing ? Icons.save_outlined : Icons.add),
               label: Text(_isEditing ? 'حفظ التعديلات' : 'إضافة المادة'),
               style: FilledButton.styleFrom(
                 minimumSize: const Size.fromHeight(52),
@@ -305,6 +455,7 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
           ],
         ),
       ),
+    ),
     );
   }
 
@@ -326,6 +477,70 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
     );
   }
 
+  Widget _buildRefreshDateField() {
+    final theme = Theme.of(context);
+
+    final dateField = TextFormField(
+      readOnly: true,
+      controller: _dateCtrl,
+      onTap: _isEditing ? _pickLastRefreshedDate : null,
+      decoration: InputDecoration(
+        labelText: 'تاريخ التجديد',
+        hintText: 'YYYY-MM-DD',
+        prefixIcon: const Icon(Icons.event_available_outlined),
+        suffixIcon: IconButton(
+          onPressed: _isEditing ? _pickLastRefreshedDate : null,
+          tooltip: 'اختيار تاريخ التجديد',
+          icon: const Icon(Icons.calendar_month_outlined),
+        ),
+        filled: true,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: theme.colorScheme.outlineVariant),
+        ),
+      ),
+    );
+
+    final resetButton = FilledButton.tonalIcon(
+      onPressed: _isEditing ? _resetLastRefreshedToToday : null,
+      icon: const Icon(Icons.today_outlined, size: 18),
+      label: const Text('إعادة تعيين إلى تاريخ اليوم'),
+      style: FilledButton.styleFrom(
+        minimumSize: const Size(0, 56),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+    );
+
+    if (!_isEditing) return dateField;
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth < 520) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              dateField,
+              const SizedBox(height: 8),
+              resetButton,
+            ],
+          );
+        }
+
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(child: dateField),
+            const SizedBox(width: 8),
+            resetButton,
+          ],
+        );
+      },
+    );
+  }
+
   Widget _buildTextField({
     required TextEditingController controller,
     required String label,
@@ -334,12 +549,16 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
     TextInputType keyboardType = TextInputType.text,
     String? suffix,
     String? errorText,
+    int? minLines,
+    int? maxLines = 1,
     void Function(String)? onChanged,
     String? Function(String?)? validator,
   }) {
     return TextFormField(
       controller: controller,
       keyboardType: keyboardType,
+      minLines: minLines,
+      maxLines: maxLines,
       validator: validator,
       onChanged: onChanged,
       onTap: () {
@@ -378,9 +597,7 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
       children: [
         Text(label,
             style: TextStyle(
-                fontSize: 12,
-                color: color,
-                fontWeight: FontWeight.w600)),
+                fontSize: 12, color: color, fontWeight: FontWeight.w600)),
         const SizedBox(height: 6),
         TextFormField(
           controller: controller,

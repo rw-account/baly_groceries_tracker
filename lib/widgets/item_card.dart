@@ -1,19 +1,17 @@
 // lib/widgets/item_card.dart
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../models/item_model.dart';
-import '../providers/items_provider.dart';
 
-class ItemCard extends ConsumerWidget {
+class ItemCard extends StatelessWidget {
   final ItemModel item;
   final VoidCallback onTap;
 
   const ItemCard({super.key, required this.item, required this.onTap});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final status = item.status;
 
@@ -42,33 +40,20 @@ class ItemCard extends ConsumerWidget {
     };
 
     final remainingText = item.remainingDaysText;
-    final expiryText =
-        DateFormat('yyyy-MM-dd').format(item.expectedExpiryDate);
-
-    // ─── Callbacks ──────────────────────────────────────────────────────────────
-
-    Future<void> onRefreshTap() async {
-      await ref.read(itemsProvider.notifier).refreshItem(item.id);
-    }
-
-    Future<void> onRefreshedDateTap() async {
-      final now = DateTime.now();
-      final picked = await showDatePicker(
-        context: context,
-        initialDate: item.lastRefreshedAt ?? now,
-        firstDate: DateTime(now.year - 5),
-        lastDate: now,
-        locale: const Locale('ar'),
-        helpText: 'اختر تاريخ التجديد',
-        cancelText: 'إلغاء',
-        confirmText: 'تأكيد',
-      );
-      if (picked != null) {
-        await ref
-            .read(itemsProvider.notifier)
-            .updateLastRefreshedAt(item.id, picked);
-      }
-    }
+    final expiryText = DateFormat('yyyy-MM-dd').format(item.expectedExpiryDate);
+    final refreshedText =
+        DateFormat('yyyy-MM-dd').format(item.lastRefreshedAt ?? item.createdAt);
+    final safeDifference = item.remainingDays - item.safeThresholdDays;
+    final safeDifferenceText = safeDifference > 0
+        ? 'زائد عن الحد الآمن بـ $safeDifference يوم'
+        : safeDifference < 0
+            ? 'ناقص عن الحد الآمن بـ ${safeDifference.abs()} يوم'
+            : 'عند الحد الآمن';
+    final safeDifferenceColor = safeDifference > 0
+        ? const Color(0xFF2E7D32)
+        : safeDifference < 0
+            ? const Color(0xFFC62828)
+            : const Color(0xFFF57F17);
 
     // ─── Build ──────────────────────────────────────────────────────────────────
 
@@ -110,6 +95,14 @@ class ItemCard extends ConsumerWidget {
                             color: theme.colorScheme.onSurface,
                           ),
                         ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'تاريخ التجديد: $refreshedText',
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                         if (item.quantityDescription.isNotEmpty) ...[
                           const SizedBox(height: 2),
                           Text(
@@ -119,61 +112,18 @@ class ItemCard extends ConsumerWidget {
                             ),
                           ),
                         ],
-                        // Refresh date (tappable to pick custom date)
-                        if (item.lastRefreshedAt != null) ...[
-                          const SizedBox(height: 4),
-                          GestureDetector(
-                            onTap: onRefreshedDateTap,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  Icons.event_available_outlined,
-                                  size: 13,
-                                  color: theme.colorScheme.primary,
-                                ),
-                                const SizedBox(width: 4),
-                                Text(
-                                  'تم التجديد: ${DateFormat('yyyy-MM-dd').format(item.lastRefreshedAt!)}',
-                                  style: theme.textTheme.bodySmall?.copyWith(
-                                    color: theme.colorScheme.primary,
-                                    decoration: TextDecoration.underline,
-                                    decorationColor:
-                                        theme.colorScheme.primary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
                       ],
                     ),
                   ),
-                  // Refresh-to-today button
-                  IconButton(
-                    onPressed: onRefreshTap,
-                    tooltip: 'تجديد المادة إلى اليوم',
-                    icon: const Icon(Icons.refresh),
-                    color: theme.colorScheme.primary,
-                    iconSize: 22,
-                    style: IconButton.styleFrom(
-                      backgroundColor:
-                          theme.colorScheme.primary.withValues(alpha: 0.08),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
                   // Status badge
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
                       color: statusBgColor,
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                          color: statusColor.withValues(alpha: 0.4)),
+                      border:
+                          Border.all(color: statusColor.withValues(alpha: 0.4)),
                     ),
                     child: Text(
                       '$statusIcon $statusLabel',
@@ -196,8 +146,7 @@ class ItemCard extends ConsumerWidget {
               // ── Expiry info ───────────────────────────────────────────────────
               Row(
                 children: [
-                  Icon(Icons.schedule_outlined,
-                      size: 16, color: statusColor),
+                  Icon(Icons.schedule_outlined, size: 16, color: statusColor),
                   const SizedBox(width: 6),
                   Text(
                     'النفاذ المتوقع',
@@ -218,12 +167,26 @@ class ItemCard extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 10),
+              Row(
+                children: [
+                  Icon(Icons.compare_arrows_outlined,
+                      size: 14, color: safeDifferenceColor),
+                  const SizedBox(width: 4),
+                  Text(
+                    safeDifferenceText,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: safeDifferenceColor,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
               // ── Bottom row: thresholds + notifications ────────────────────────
               Row(
                 children: [
                   Icon(Icons.shield_outlined,
-                      size: 14,
-                      color: theme.colorScheme.onSurfaceVariant),
+                      size: 14, color: theme.colorScheme.onSurfaceVariant),
                   const SizedBox(width: 4),
                   Text(
                     'الحد الآمن: ${item.safeThresholdDays} يوم',

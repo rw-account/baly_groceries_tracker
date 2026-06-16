@@ -13,6 +13,7 @@ class ItemModel {
   final int warningThresholdDays;
   final int urgentThresholdDays;
   final DateTime? lastRefreshedAt;
+  final String? notes;
 
   const ItemModel({
     required this.id,
@@ -25,6 +26,7 @@ class ItemModel {
     this.warningThresholdDays = 10,
     this.urgentThresholdDays = 3,
     this.lastRefreshedAt,
+    this.notes,
   });
 
   // ─── SQLite serialization ───────────────────────────────────────────────────
@@ -41,6 +43,7 @@ class ItemModel {
       'warningThresholdDays': warningThresholdDays,
       'urgentThresholdDays': urgentThresholdDays,
       'lastRefreshedAt': lastRefreshedAt?.toIso8601String(),
+      'notes': notes,
     };
   }
 
@@ -58,6 +61,7 @@ class ItemModel {
       lastRefreshedAt: map['lastRefreshedAt'] != null
           ? DateTime.parse(map['lastRefreshedAt'] as String)
           : null,
+      notes: map['notes'] as String?,
     );
   }
 
@@ -99,7 +103,9 @@ class ItemModel {
     int? warningThresholdDays,
     int? urgentThresholdDays,
     DateTime? lastRefreshedAt,
+    String? notes,
     bool clearLastRefreshedAt = false,
+    bool clearNotes = false,
   }) {
     return ItemModel(
       id: id ?? this.id,
@@ -111,8 +117,10 @@ class ItemModel {
       safeThresholdDays: safeThresholdDays ?? this.safeThresholdDays,
       warningThresholdDays: warningThresholdDays ?? this.warningThresholdDays,
       urgentThresholdDays: urgentThresholdDays ?? this.urgentThresholdDays,
-      lastRefreshedAt:
-          clearLastRefreshedAt ? null : (lastRefreshedAt ?? this.lastRefreshedAt),
+      lastRefreshedAt: clearLastRefreshedAt
+          ? null
+          : (lastRefreshedAt ?? this.lastRefreshedAt),
+      notes: clearNotes ? null : (notes ?? this.notes),
     );
   }
 }
