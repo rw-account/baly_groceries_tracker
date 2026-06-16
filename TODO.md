@@ -12,3 +12,6 @@
 
 وافهم وظيفه الملفات اللي هنا:
 /home/ramy/Desktop/Desktop/Projects/Flutter/my_flutter_application/android/app/src/main/res/drawable
+
+
+- اريد اضيف ملاحظات اختياريه لكل مادة
