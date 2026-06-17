@@ -14,7 +14,7 @@ import 'services/notification_service.dart';
 import 'services/workmanager_service.dart';
 import 'theme/app_theme.dart';
 
-const _batteryChannel = MethodChannel('battery_optimization');
+const _batteryChannel = MethodChannel('com.home_orders_tracker.app/battery_optimization');
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

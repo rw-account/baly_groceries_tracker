@@ -97,6 +97,26 @@ class StorageService {
         warningThresholdDays: 7,
         urgentThresholdDays: 2,
       ),
+      ItemModel(
+        id: 'default_rice',
+        name: 'ارز',
+        quantityDescription: 'كيس 5 كيلو',
+        expectedDays: 6,
+        createdAt: DateTime.now(),
+        safeThresholdDays: 14,
+        warningThresholdDays: 7,
+        urgentThresholdDays: 2,
+      ),
+      ItemModel(
+        id: 'default_eggs',
+        name: 'بيض',
+        quantityDescription: 'كرتونة 30 بيضة',
+        expectedDays: 2,
+        createdAt: DateTime.now(),
+        safeThresholdDays: 15,
+        warningThresholdDays: 7,
+        urgentThresholdDays: 3,
+      ),
     ];
 
     final batch = _database.batch();

@@ -24,7 +24,7 @@ class NotificationService {
     tz_data.initializeTimeZones();
 
     // الحصول على المنطقة الزمنية الحقيقية من الجهاز عبر القناة
-    const channel = MethodChannel('battery_optimization');
+    const channel = MethodChannel('com.home_orders_tracker.app/local_timezone');
     try {
       final String? deviceZone = await channel.invokeMethod<String>('getTimeZone');
       if (deviceZone != null && deviceZone.isNotEmpty) {
