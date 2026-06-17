@@ -40,6 +40,7 @@ class NotificationService {
     const settings = InitializationSettings(android: androidInit);
     await _plugin.initialize(settings);
 
+    // طلب إذن الإشعارات (ضروري لأندرويد 13+)
     final androidImpl = _plugin.resolvePlatformSpecificImplementation<
         AndroidFlutterLocalNotificationsPlugin>();
     await androidImpl?.requestNotificationsPermission();
