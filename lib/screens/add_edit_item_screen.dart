@@ -221,12 +221,6 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
       _lastRefreshedAt = today;
       _dateCtrl.text = _dateFormat.format(today);
     });
-
-    if (_isEditing) {
-      await ref
-          .read(itemsProvider.notifier)
-          .updateLastRefreshedAt(widget.item!.id, today);
-    }
   }
 
   // ─── Delete ───────────────────────────────────────────────────────────────────
@@ -292,6 +286,9 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
       onPopInvokedWithResult: (didPop, _) async {
         if (didPop) return;
         final canLeave = await _confirmDiscard();
+
+        if (!context.mounted) return;
+
         if (canLeave && mounted) Navigator.pop(context);
       },
       child: Scaffold(
@@ -302,6 +299,7 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () async {
             final canLeave = await _confirmDiscard();
+            if (!context.mounted) return;
             if (canLeave && mounted) Navigator.pop(context);
           },
         ),

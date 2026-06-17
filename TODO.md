@@ -8,3 +8,7 @@
 
 وافهم وظيفه الملفات اللي هنا:
 /home/ramy/Desktop/Desktop/Projects/Flutter/my_flutter_application/android/app/src/main/res/drawable
+
+- اشتي اصلح مشكله الاشعارات.
+
+- صلح جزئية النقاط الثلاث اللي في الواجهه الرئيسيه واعمل عندها خيار تصدير واستيراد البيانات.

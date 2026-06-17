@@ -47,6 +47,38 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 warningCount: warningCount,
               ),
             ),
+            PopupMenuButton<String>(
+              icon: const Icon(Icons.more_vert),
+              onSelected: (value) {
+                switch (value) {
+                  case 'settings':
+                    // افتح صفحة الإعدادات
+                    break;
+
+                  case 'about':
+                    // افتح صفحة حول التطبيق
+                    break;
+
+                  case 'delete_all':
+                    // حذف جميع العناصر
+                    break;
+                }
+              },
+              itemBuilder: (context) => [
+                const PopupMenuItem(
+                  value: 'settings',
+                  child: Text('الإعدادات'),
+                ),
+                const PopupMenuItem(
+                  value: 'about',
+                  child: Text('حول التطبيق'),
+                ),
+                const PopupMenuItem(
+                  value: 'delete_all',
+                  child: Text('حذف الكل'),
+                ),
+              ],
+            ),
         ],
       ),
       body: items.isEmpty
@@ -69,7 +101,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'اضغط + لإضافة مادة جديدة',
+                    'اضغط زر اضافة مادة جديدة',
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
