@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/item_model.dart';
 import '../providers/items_provider.dart';
 import '../widgets/item_card.dart';
-import 'add_edit_item_screen.dart';
+import 'add_edit_item/add_edit_item_screen.dart';
 import '../main.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {

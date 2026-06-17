@@ -20,31 +20,46 @@ class NotificationService {
   // ─── Init ────────────────────────────────────────────────────────────────────
 
 
-  static Future<void> init() async {
-    tz_data.initializeTimeZones(); // تحميل كل المناطق الزمنية في العالم
+static Future<void> init() async {
+  try {
+    // 1. تحميل بيانات المناطق الزمنية
+    tz_data.initializeTimeZones();
 
-    // الحصول على المنطقة الزمنية الحقيقية من الجهاز عبر القناة
-    const channel = MethodChannel('com.home_orders_tracker.app/local_timezone');
+    // 2. ضبط المنطقة الزمنية (أكثر توافقاً مع الخلفية)
     try {
-      final String? deviceZone = await channel.invokeMethod<String>('getLocalTimezone');
-      if (deviceZone != null && deviceZone.isNotEmpty) {
-        tz.setLocalLocation(tz.getLocation(deviceZone));
-      } else {
+      // المحاولة الأولى: استخدام وقت النظام (لا تعتمد على MethodChannel)
+      final String deviceZone = DateTime.now().timeZoneName;
+      tz.setLocalLocation(tz.getLocation(deviceZone));
+    } catch (_) {
+      // المحاولة الثانية: استخدام القناة الأصلية إن وجدت
+      try {
+        const channel = MethodChannel('com.home_orders_tracker.app/local_timezone');
+        final String? deviceZone = await channel.invokeMethod<String>('getLocalTimezone');
+        if (deviceZone != null && deviceZone.isNotEmpty) {
+          tz.setLocalLocation(tz.getLocation(deviceZone));
+        } else {
+          tz.setLocalLocation(tz.getLocation('Asia/Riyadh'));
+        }
+      } catch (_) {
+        // احتياطي أخير
         tz.setLocalLocation(tz.getLocation('Asia/Riyadh'));
       }
-    } catch (_) {
-      tz.setLocalLocation(tz.getLocation('Asia/Riyadh'));
     }
 
+    // 3. تهيئة الإشعارات
     const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
     const settings = InitializationSettings(android: androidInit);
     await _plugin.initialize(settings);
 
-    // طلب إذن الإشعارات (ضروري لأندرويد 13+)
+    // 4. طلب إذن الإشعارات (أندرويد 13+)
     final androidImpl = _plugin.resolvePlatformSpecificImplementation<
         AndroidFlutterLocalNotificationsPlugin>();
     await androidImpl?.requestNotificationsPermission();
+  } catch (e) {
+    // لو حدث أي خطأ غير متوقع، لن يوقف التطبيق
+    print('NotificationService.init error: $e');
   }
+}
 
   // ─── Schedule ─────────────────────────────────────────────────────────────────
 
