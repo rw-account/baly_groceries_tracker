@@ -88,7 +88,7 @@ class ItemsNotifier extends StateNotifier<List<ItemModel>> {
 
   /// Refreshes [lastRefreshedAt] to right now.
   Future<void> refreshItem(String id) async {
-    final index = state.indexWhere((item) => item.id == id);
+    final index = state.indexWhere((item) => item.id == id); // إذا لم تجد العنصر ترجع سالب واحد
     if (index == -1) return;
     final updated = state[index].copyWith(lastRefreshedAt: DateTime.now());
     await _storage.saveItem(updated);
