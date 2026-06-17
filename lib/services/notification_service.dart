@@ -87,7 +87,7 @@ class NotificationService {
         'ملخص طلبات البيت',
         body,
         scheduledDate,
-        const NotificationDetails(
+        NotificationDetails(
           android: AndroidNotificationDetails(
             _channelId,
             _channelName,
@@ -95,12 +95,13 @@ class NotificationService {
             importance: Importance.high,
             priority: Priority.high,
             icon: '@mipmap/ic_launcher',
+            styleInformation: BigTextStyleInformation(body),  // ✅ يضمن عرض النص كاملاً عند التوسيع
           ),
         ),
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
-        matchDateTimeComponents: DateTimeComponents.time,
+        matchDateTimeComponents: DateTimeComponents.time, // يجعل الإشعار يتكرر يومياً بنفسه
       );
     } catch (e) {
       // ignore: avoid_print
