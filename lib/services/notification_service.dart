@@ -21,12 +21,12 @@ class NotificationService {
 
 
   static Future<void> init() async {
-    tz_data.initializeTimeZones();
+    tz_data.initializeTimeZones(); // تحميل كل المناطق الزمنية في العالم
 
     // الحصول على المنطقة الزمنية الحقيقية من الجهاز عبر القناة
     const channel = MethodChannel('com.home_orders_tracker.app/local_timezone');
     try {
-      final String? deviceZone = await channel.invokeMethod<String>('getTimeZone');
+      final String? deviceZone = await channel.invokeMethod<String>('getLocalTimezone');
       if (deviceZone != null && deviceZone.isNotEmpty) {
         tz.setLocalLocation(tz.getLocation(deviceZone));
       } else {
