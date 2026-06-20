@@ -22,9 +22,19 @@ abstract class AddEditItemState extends ConsumerState<AddEditItemScreen> {
 
   late bool notificationsEnabled;
   late DateTime lastRefreshedAt;
+  bool isPickingDate = false;
 
-  String? nameErrorText;
-  bool saving = false;
+  String? _nameErrorText;
+  String? get nameErrorText => _nameErrorText;
+  void setNameErrorText(String? v) {
+    if (mounted) setState(() => _nameErrorText = v);
+  }
+
+  bool _saving = false;
+  bool get saving => _saving;
+  void setSaving(bool v) {
+    if (mounted) setState(() => _saving = v);
+  }
 
   // Original values for change detection
   late String _initialName;

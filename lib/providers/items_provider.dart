@@ -1,46 +1,45 @@
 // lib/providers/items_provider.dart
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 import '../models/item_model.dart';
 import '../services/storage_service.dart';
 import '../services/notification_service.dart';
 
+part 'items_provider.g.dart';
+
 final storageServiceProvider = Provider<StorageService>((ref) {
   return StorageService();
 });
 
-final itemsProvider =
-    StateNotifierProvider<ItemsNotifier, List<ItemModel>>((ref) {
-  return ItemsNotifier(ref.read(storageServiceProvider));
-});
-
-class ItemsNotifier extends StateNotifier<List<ItemModel>> {
-  final StorageService _storage;
+@riverpod
+class ItemsNotifier extends _$ItemsNotifier {
   final _uuid = const Uuid();
 
-  ItemsNotifier(this._storage) : super([]) {
-    _load();
+  @override
+  Future<List<ItemModel>> build() async {
+    final storage = ref.watch(storageServiceProvider); // ✅ مسموح داخل build
+    final items = await storage.getAllItems();
+    return items; // الحالة الأولية جاهزة
   }
 
-  // ─── Internal helpers ────────────────────────────────────────────────────────
+  // ─── Helpers ────────────────────────────────────────────────────────────────
 
-  Future<void> _load() async {
-    state = await _storage.getAllItems();
+  Future<void> _scheduleNotifications() async {
+    final currentItems = state.value ?? [];
+    await NotificationService.scheduleDailySummary(currentItems);
+  }
+
+  Future<void> _refreshStateAndNotifications(StorageService storage) async {
+    state = AsyncData(await storage.getAllItems()); // Note: The state here is provided by the Riverpod package, not created by the user.
     await _scheduleNotifications();
   }
 
-  Future<void> _scheduleNotifications() async {
-    await NotificationService.scheduleDailySummary(state);
-  }
-
-  // ─── Duplicate check ─────────────────────────────────────────────────────────
-
-  /// Returns true if another item already has the same name (case-insensitive,
-  /// trimmed). Pass [excludeId] when editing to skip the item itself.
   bool isNameDuplicate(String name, {String? excludeId}) {
+    final items = state.value ?? [];
     final normalized = name.trim().toLowerCase();
-    return state.any((item) {
+    return items.any((item) {
       if (excludeId != null && item.id == excludeId) return false;
       return item.name.trim().toLowerCase() == normalized;
     });
@@ -58,6 +57,7 @@ class ItemsNotifier extends StateNotifier<List<ItemModel>> {
     int urgentThresholdDays = 3,
     bool notificationsEnabled = true,
   }) async {
+    final storage = ref.read(storageServiceProvider);
     final now = DateTime.now();
     final item = ItemModel(
       id: _uuid.v4(),
@@ -72,35 +72,50 @@ class ItemsNotifier extends StateNotifier<List<ItemModel>> {
       lastRefreshedAt: now,
       notes: notes,
     );
-    await _storage.saveItem(item);
-    await _load();
+    await storage.saveItem(item);
+    await _refreshStateAndNotifications(storage);
   }
 
   Future<void> updateItem(ItemModel updated) async {
-    await _storage.saveItem(updated);
-    await _load();
+    final storage = ref.read(storageServiceProvider);
+    await storage.saveItem(updated);
+    await _refreshStateAndNotifications(storage);
   }
 
   Future<void> deleteItem(String id) async {
-    await _storage.deleteItem(id);
-    await _load();
+    final storage = ref.read(storageServiceProvider);
+    await storage.deleteItem(id);
+    await _refreshStateAndNotifications(storage);
   }
 
-  /// Refreshes [lastRefreshedAt] to right now.
-  Future<void> refreshItem(String id) async {
-    final index = state.indexWhere((item) => item.id == id); // إذا لم تجد العنصر ترجع سالب واحد
-    if (index == -1) return;
-    final updated = state[index].copyWith(lastRefreshedAt: DateTime.now());
-    await _storage.saveItem(updated);
-    await _load();
-  }
+  // ─── Refresh lastRefreshedAt ─────────────────────────────────────────────────
 
-  /// Sets a custom [lastRefreshedAt] date chosen by the user.
+  /// Allows the user to renew an item without deleting and recreating it.
+  ///
+  /// Useful when the same product is purchased again, resetting the remaining
+  /// days to today or a custom date.
+
+  /// Sets [lastRefreshedAt] to a user-specified date chosen via the date picker.
   Future<void> updateLastRefreshedAt(String id, DateTime newDate) async {
-    final index = state.indexWhere((item) => item.id == id);
+    final items = state.value ?? [];
+    final index = items.indexWhere((item) => item.id == id); // If the item is not found, it will return -1
     if (index == -1) return;
-    final updated = state[index].copyWith(lastRefreshedAt: newDate);
-    await _storage.saveItem(updated);
-    await _load();
+
+    final updated = items[index].copyWith(lastRefreshedAt: newDate);
+    final storage = ref.read(storageServiceProvider);
+    await storage.saveItem(updated);
+    await _refreshStateAndNotifications(storage);
+  }
+
+  /// Quickly renews the item by setting [lastRefreshedAt] to today's date.
+  Future<void> refreshItem(String id) async {
+    final items = state.value ?? [];
+    final index = items.indexWhere((item) => item.id == id);
+    if (index == -1) return;
+
+    final updated = items[index].copyWith(lastRefreshedAt: DateTime.now());
+    final storage = ref.read(storageServiceProvider);
+    await storage.saveItem(updated);
+    await _refreshStateAndNotifications(storage);
   }
 }
