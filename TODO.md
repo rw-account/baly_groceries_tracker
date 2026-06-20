@@ -29,4 +29,4 @@
 - battery_service.dart جاهز
 - home_screen.dart جاهز
 - غالبا جاهز: save_mixin.dart
-- مجلد mixins جاهز.
+- مجلد add_edit_item جاهز بكل بعاسسه ولله الحمد.

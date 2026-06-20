@@ -11,7 +11,7 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       colorScheme: base,
-      fontFamily: 'Cairo',
+      fontFamily: 'Tajawal',
       appBarTheme: AppBarTheme(
         backgroundColor: base.surface,
         elevation: 0,

@@ -30,7 +30,7 @@ mixin SaveMixin on AddEditItemState {
     if (saving) return;
 
     FocusScope.of(context).unfocus();
-    setState(() => setNameErrorText(null));
+    setNameErrorText(null);
 
     if (!formKey.currentState!.validate()) return;
 
@@ -38,7 +38,7 @@ mixin SaveMixin on AddEditItemState {
     final notifier = ref.read(itemsProvider.notifier);
 
     if (_isDuplicateName(notifier, name)) {
-      setState(() => setNameErrorText(_duplicateNameError));
+      setNameErrorText(_duplicateNameError);
       return;
     }
 
