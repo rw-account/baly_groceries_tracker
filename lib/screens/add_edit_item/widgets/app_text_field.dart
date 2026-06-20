@@ -1,10 +1,11 @@
 // lib/screens/add_edit_item/widgets/app_text_field.dart
 
 import 'package:flutter/material.dart';
-import '../../../core/utils/field_utils.dart';
+import 'package:flutter/services.dart';
+import 'field_utils.dart';
 
-/// حقل نصي قياسي يُستخدم في شاشة إضافة/تعديل العنصر.
-class AppTextField extends StatelessWidget {
+/// Reusable text field used throughout the add/edit item screen.
+class AppTextField extends StatefulWidget {
   const AppTextField({
     super.key,
     required this.controller,
@@ -16,7 +17,13 @@ class AppTextField extends StatelessWidget {
     this.errorText,
     this.minLines,
     this.maxLines = 1,
+    this.maxLength,
+    this.enabled = true,
+    this.textInputAction,
+    this.focusNode,
+    this.inputFormatters,
     this.onChanged,
+    this.onSubmitted,
     this.validator,
   });
 
@@ -29,32 +36,72 @@ class AppTextField extends StatelessWidget {
   final String? errorText;
   final int? minLines;
   final int? maxLines;
+  final int? maxLength;
+  final bool enabled;
+
+  /// Controls the keyboard action button (e.g. next, done, send).
+  final TextInputAction? textInputAction;
+
+  /// Optional external focus node.
+  /// If not provided, the widget creates and manages its own FocusNode.
+  final FocusNode? focusNode;
+  final List<TextInputFormatter>? inputFormatters;
   final void Function(String)? onChanged;
+  final void Function(String)? onSubmitted;
   final String? Function(String?)? validator;
+
+  @override
+  State<AppTextField> createState() => _AppTextFieldState();
+}
+
+class _AppTextFieldState extends State<AppTextField> {
+  FocusNode? _ownedFocusNode;
+  EndCursorOnFocus? _cursorHelper;
+
+  /// Uses the externally provided FocusNode when available;
+  /// otherwise lazily creates an internal one.
+  FocusNode get _focusNode => widget.focusNode ?? (_ownedFocusNode ??= FocusNode());
+
+  @override
+  void initState() {
+    super.initState();
+    _cursorHelper = EndCursorOnFocus(
+      controller: widget.controller,
+      focusNode: _focusNode,
+    );
+  }
+
+  @override
+  void dispose() {
+    _cursorHelper?.dispose();
+    _ownedFocusNode?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: controller,
-      keyboardType: keyboardType,
-      minLines: minLines,
-      maxLines: maxLines,
-      validator: validator,
-      onChanged: onChanged,
-      onTap: () => moveCursorToEndOnTap(controller),
+      controller: widget.controller,
+      focusNode: _focusNode,
+      enabled: widget.enabled,
+      keyboardType: widget.keyboardType,
+      minLines: widget.minLines,
+      maxLines: widget.maxLines,
+      maxLength: widget.maxLength,
+      textInputAction: widget.textInputAction,
+      inputFormatters: widget.inputFormatters,
+      validator: widget.validator,
+      onChanged: widget.onChanged,
+      onFieldSubmitted: widget.onSubmitted,
       decoration: InputDecoration(
-        labelText: label,
-        hintText: hint,
-        prefixIcon: Icon(icon),
-        suffixText: suffix,
+        labelText: widget.label,
+        hintText: widget.hint,
+        prefixIcon: Icon(widget.icon),
+        suffixText: widget.suffix,
         filled: true,
-        errorText: errorText,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide:
-              BorderSide(color: Theme.of(context).colorScheme.outlineVariant),
-        ),
+        errorText: widget.errorText,
+        border: appFieldBorder(context),
+        enabledBorder: appFieldBorder(context),
       ),
     );
   }

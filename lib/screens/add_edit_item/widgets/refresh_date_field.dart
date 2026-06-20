@@ -1,8 +1,13 @@
 // lib/screens/add_edit_item/widgets/refresh_date_field.dart
 
 import 'package:flutter/material.dart';
+import 'field_utils.dart';
 
-/// حقل تاريخ التجديد + زر "إعادة تعيين إلى اليوم" (يظهر فقط في وضع التعديل).
+/// Renewal date input field with a date picker selector.
+/// Date selection is always enabled in both add and edit modes.
+///
+/// In edit mode only, a "Reset to today" button is displayed
+/// to allow resetting the date to the current day when needed.
 class RefreshDateField extends StatelessWidget {
   const RefreshDateField({
     super.key,
@@ -24,23 +29,19 @@ class RefreshDateField extends StatelessWidget {
     final dateField = TextFormField(
       readOnly: true,
       controller: dateController,
-      onTap: isEditing ? onPickDate : null,
+      onTap: onPickDate,
       decoration: InputDecoration(
         labelText: 'تاريخ التجديد',
         hintText: 'YYYY-MM-DD',
         prefixIcon: const Icon(Icons.event_available_outlined),
         suffixIcon: IconButton(
-          onPressed: isEditing ? onPickDate : null,
+          onPressed: onPickDate,
           tooltip: 'اختيار تاريخ التجديد',
           icon: const Icon(Icons.calendar_month_outlined),
         ),
         filled: true,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide:
-              BorderSide(color: Theme.of(context).colorScheme.outlineVariant),
-        ),
+        border: appFieldBorder(context),
+        enabledBorder: appFieldBorder(context),
       ),
     );
 
@@ -58,7 +59,7 @@ class RefreshDateField extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth < _narrowLayoutBreakpoint) {
+        if (constraints.maxWidth < _narrowLayoutBreakpoint) { // Mobile layout: stack vertically
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [dateField, const SizedBox(height: 8), resetButton],
