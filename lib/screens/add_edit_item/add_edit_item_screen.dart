@@ -137,7 +137,7 @@ class _AddEditItemScreenState extends AddEditItemState
           title: const Text('تفعيل الإشعارات'),
           subtitle: Text(
             notificationsEnabled
-                ? 'ستصلك إشعارات عند الاقتراب من النفاذ'
+                ? 'ستصلك إشعارات عند الاقتراب من النفاد'
                 : 'لن تصلك أي إشعارات لهذه المادة',
             style: theme.textTheme.bodySmall,
           ),

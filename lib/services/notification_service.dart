@@ -1,11 +1,10 @@
 // lib/services/notification_service.dart
 
-import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz_data;
 import 'package:timezone/timezone.dart' as tz;
 
-import '../models/item_model.dart';
+import '../../models/item_model.dart';
 
 class NotificationService {
   static final FlutterLocalNotificationsPlugin _plugin =
@@ -19,54 +18,42 @@ class NotificationService {
 
   // ─── Init ────────────────────────────────────────────────────────────────────
 
-
-static Future<void> init() async {
-  try {
-    // 1. تحميل بيانات المناطق الزمنية
-    tz_data.initializeTimeZones();
-
-    // 2. ضبط المنطقة الزمنية (أكثر توافقاً مع الخلفية)
+  static Future<void> init() async {
     try {
-      // المحاولة الأولى: استخدام وقت النظام (لا تعتمد على MethodChannel)
-      final String deviceZone = DateTime.now().timeZoneName;
-      tz.setLocalLocation(tz.getLocation(deviceZone));
-    } catch (_) {
-      // المحاولة الثانية: استخدام القناة الأصلية إن وجدت
+      // 1. تحميل بيانات المناطق الزمنية
+      tz_data.initializeTimeZones();
+
+      // 2. ضبط المنطقة الزمنية باستخدام وقت النظام فقط (بدون أي قنوات أصلية)
       try {
-        const channel = MethodChannel('com.home_orders_tracker.app/local_timezone');
-        final String? deviceZone = await channel.invokeMethod<String>('getLocalTimezone');
-        if (deviceZone != null && deviceZone.isNotEmpty) {
-          tz.setLocalLocation(tz.getLocation(deviceZone));
-        } else {
-          tz.setLocalLocation(tz.getLocation('Asia/Riyadh'));
-        }
+        final String deviceZone = DateTime.now().timeZoneName;
+        tz.setLocalLocation(tz.getLocation(deviceZone));
       } catch (_) {
-        // احتياطي أخير
+        // احتياطي في حال تعذر تحديد المنطقة الزمنية من النظام
         tz.setLocalLocation(tz.getLocation('Asia/Riyadh'));
       }
+
+      // 3. تهيئة الإشعارات
+      const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
+      const settings = InitializationSettings(android: androidInit);
+      await _plugin.initialize(settings: settings);
+
+      // 4. طلب إذن الإشعارات (أندرويد 13+)
+      final androidImpl = _plugin.resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>();
+      await androidImpl?.requestNotificationsPermission();
+    } catch (e) {
+      // لو حدث أي خطأ غير متوقع، لن يوقف التطبيق
+      // ignore: avoid_print
+      print('NotificationService.init error: $e');
     }
-
-    // 3. تهيئة الإشعارات
-    const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
-    const settings = InitializationSettings(android: androidInit);
-    await _plugin.initialize(settings);
-
-    // 4. طلب إذن الإشعارات (أندرويد 13+)
-    final androidImpl = _plugin.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
-    await androidImpl?.requestNotificationsPermission();
-  } catch (e) {
-    // لو حدث أي خطأ غير متوقع، لن يوقف التطبيق
-    print('NotificationService.init error: $e');
   }
-}
 
   // ─── Schedule ─────────────────────────────────────────────────────────────────
 
   /// Schedules (or replaces) the single daily summary notification at 8 PM.
   static Future<void> scheduleDailySummary(List<ItemModel> items) async {
     try {
-      await _plugin.cancel(_notificationId);
+      await _plugin.cancel(id: _notificationId);
 
       final alertItems = items.where((item) {
         return item.notificationsEnabled && item.status != ItemStatus.safe;
@@ -98,11 +85,11 @@ static Future<void> init() async {
       }
 
       await _plugin.zonedSchedule(
-        _notificationId,
-        'ملخص طلبات البيت',
-        body,
-        scheduledDate,
-        NotificationDetails(
+        id: _notificationId,
+        title: 'ملخص طلبات البيت',
+        body: body,
+        scheduledDate: scheduledDate,
+        notificationDetails: NotificationDetails(
           android: AndroidNotificationDetails(
             _channelId,
             _channelName,
@@ -110,12 +97,11 @@ static Future<void> init() async {
             importance: Importance.high,
             priority: Priority.high,
             icon: '@mipmap/ic_launcher',
-            styleInformation: BigTextStyleInformation(body),  // ✅ يضمن عرض النص كاملاً عند التوسيع
+            styleInformation:
+                BigTextStyleInformation(body), // ✅ يضمن عرض النص كاملاً عند التوسيع
           ),
         ),
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.time, // يجعل الإشعار يتكرر يومياً بنفسه
       );
     } catch (e) {
@@ -125,6 +111,6 @@ static Future<void> init() async {
   }
 
   static Future<void> cancelAll() async {
-    await _plugin.cancel(_notificationId);
+    await _plugin.cancel(id: _notificationId);
   }
 }

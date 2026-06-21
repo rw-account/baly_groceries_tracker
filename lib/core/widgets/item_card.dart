@@ -97,7 +97,7 @@ class ItemCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          'تاريخ التجديد: $refreshedText',
+                          'تم التجديد في: $refreshedText',
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,
                             fontWeight: FontWeight.w500,
@@ -149,7 +149,7 @@ class ItemCard extends StatelessWidget {
                   Icon(Icons.schedule_outlined, size: 16, color: statusColor),
                   const SizedBox(width: 6),
                   Text(
-                    'النفاذ المتوقع',
+                    'النفاد المتوقع',
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,
                       fontWeight: FontWeight.w500,

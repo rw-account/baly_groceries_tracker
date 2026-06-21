@@ -14,6 +14,8 @@ void callbackDispatcher() {
     WidgetsFlutterBinding.ensureInitialized();
 
     try {
+      // لا حاجة لـ Hive أو Riverpod/ProviderContainer هنا؛ العزل (isolate)
+      // الخاص بالخلفية يعمل مباشرة مع NotificationService و StorageService.
       await NotificationService.init();
 
       if (task == dailyTask) {
