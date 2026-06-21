@@ -56,6 +56,7 @@ class ItemsNotifier extends _$ItemsNotifier {
     int warningThresholdDays = 10,
     int urgentThresholdDays = 3,
     bool notificationsEnabled = true,
+    DateTime? lastRefreshedAt,
   }) async {
     final storage = ref.read(storageServiceProvider);
     final now = DateTime.now();
@@ -69,7 +70,7 @@ class ItemsNotifier extends _$ItemsNotifier {
       warningThresholdDays: warningThresholdDays,
       urgentThresholdDays: urgentThresholdDays,
       notificationsEnabled: notificationsEnabled,
-      lastRefreshedAt: now,
+      lastRefreshedAt: lastRefreshedAt ?? now,
       notes: notes,
     );
     await storage.saveItem(item);

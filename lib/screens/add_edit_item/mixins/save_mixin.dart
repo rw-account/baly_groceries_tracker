@@ -129,6 +129,7 @@ mixin SaveMixin on AddEditItemState {
           warningThresholdDays: warn,
           urgentThresholdDays: urgent,
           notificationsEnabled: notificationsEnabled,
+          lastRefreshedAt: lastRefreshedAt,
         );
       }
 

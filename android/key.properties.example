@@ -1,0 +1,5 @@
+# قالب إعدادات توقيع التطبيق - املأ البيانات أدناه واحفظ الملف باسم key.properties
+STORE_FILE=your-keystore-file.jks
+STORE_PASSWORD=your_keystore_password_here
+KEY_ALIAS=your_key_alias_here
+KEY_PASSWORD=your_key_password_here
