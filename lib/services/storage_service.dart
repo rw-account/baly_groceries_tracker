@@ -70,7 +70,7 @@ class StorageService {
       ItemModel(
         id: 'default_sugar',
         name: 'سكر',
-        quantityDescription: 'كيس 5 كيلو',
+        quantityDescription: 'كيس 10 كيلو',
         expectedDays: 30,
         createdAt: DateTime.now(),
         safeThresholdDays: 20,
@@ -80,8 +80,8 @@ class StorageService {
       ItemModel(
         id: 'default_flour',
         name: 'دقيق',
-        quantityDescription: 'كيس 10 كيلو',
-        expectedDays: 45,
+        quantityDescription: 'كيس 25 كيلو',
+        expectedDays: 25,
         createdAt: DateTime.now(),
         safeThresholdDays: 25,
         warningThresholdDays: 12,
