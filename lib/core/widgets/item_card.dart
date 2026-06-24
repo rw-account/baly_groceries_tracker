@@ -43,17 +43,6 @@ class ItemCard extends StatelessWidget {
     final expiryText = DateFormat('yyyy-MM-dd').format(item.expectedExpiryDate);
     final refreshedText =
         DateFormat('yyyy-MM-dd').format(item.lastRefreshedAt ?? item.createdAt);
-    final safeDifference = item.remainingDays - item.safeThresholdDays;
-    final safeDifferenceText = safeDifference > 0
-        ? 'زائد عن الحد الآمن بـ $safeDifference يوم'
-        : safeDifference < 0
-            ? 'ناقص عن الحد الآمن بـ ${safeDifference.abs()} يوم'
-            : 'عند الحد الآمن';
-    final safeDifferenceColor = safeDifference > 0
-        ? const Color(0xFF2E7D32)
-        : safeDifference < 0
-            ? const Color(0xFFC62828)
-            : const Color(0xFFF57F17);
 
     // ─── Build ──────────────────────────────────────────────────────────────────
 
@@ -167,75 +156,106 @@ class ItemCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              Row(
-                children: [
-                  Icon(Icons.compare_arrows_outlined,
-                      size: 14, color: safeDifferenceColor),
-                  const SizedBox(width: 4),
-                  Text(
-                    safeDifferenceText,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: safeDifferenceColor,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
               // ── Bottom row: thresholds + notifications ────────────────────────
               Row(
                 children: [
-                  Icon(Icons.shield_outlined,
-                      size: 14, color: theme.colorScheme.onSurfaceVariant),
-                  const SizedBox(width: 4),
-                  Text(
-                    'الحد الآمن: ${item.safeThresholdDays} يوم',
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
-                  ),
                   const Spacer(),
-                  if (!item.notificationsEnabled)
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 3),
-                      decoration: BoxDecoration(
-                        color: Colors.red.shade100,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.red.shade300),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(Icons.notifications_off_outlined,
-                              size: 12, color: Colors.red.shade500),
-                          const SizedBox(width: 3),
-                          Text(
-                            'الإشعارات: متوقفة',
-                            style: TextStyle(
-                                fontSize: 11, color: Colors.red.shade600),
-                          ),
-                        ],
-                      ),
-                    )
-                  else
-                    Row(
-                      children: [
-                        Icon(Icons.notifications_active_outlined,
-                            size: 13, color: Colors.green.shade400),
-                        const SizedBox(width: 3),
-                        Text(
-                          'الإشعارات: مفعلة',
-                          style: TextStyle(
-                              fontSize: 11, color: Colors.green.shade400),
-                        ),
-                      ],
-                    ),
+                  // بناء النص المناسب
+                  _buildAlertText(item, theme),
                 ],
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+Widget _buildAlertText(ItemModel item, ThemeData theme) {
+  if (!item.notificationsEnabled) {
+    // الإشعارات متوقفة
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      decoration: BoxDecoration(
+        color: Colors.red.shade100,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.red.shade300),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.notifications_off_outlined, size: 12, color: Colors.red.shade500),
+          const SizedBox(width: 4),
+          Text(
+            'الإشعارات متوقفة',
+            style: TextStyle(fontSize: 11, color: Colors.red.shade600),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // الإشعارات مفعلة – حساب متى يبدأ التنبيه
+  final daysUntilWarning = item.remainingDays - item.warningThresholdDays;
+
+  if (item.status == ItemStatus.safe && daysUntilWarning > 0) {
+    // المادة آمنة وسيبدأ التنبيه بعد X أيام
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      decoration: BoxDecoration(
+        color: Colors.green.shade50,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.green.shade200),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.notifications_active_outlined, size: 12, color: Colors.green.shade600),
+          const SizedBox(width: 4),
+          Text(
+            'سيبدأ التنبيه بعد $daysUntilWarning يوم',
+            style: TextStyle(fontSize: 11, color: Colors.green.shade700),
+          ),
+        ],
+      ),
+    );
+  } else {
+    // المادة في حالة انتباه أو عاجل – التنبيه نشط
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      decoration: BoxDecoration(
+        color: item.status == ItemStatus.urgent
+            ? Colors.red.shade50
+            : Colors.orange.shade50,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: item.status == ItemStatus.urgent
+              ? Colors.red.shade200
+              : Colors.orange.shade200,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.warning_amber_rounded,
+            size: 12,
+            color: item.status == ItemStatus.urgent
+                ? Colors.red.shade600
+                : Colors.orange.shade600,
+          ),
+          const SizedBox(width: 4),
+          Text(
+            'التنبيه نشط الآن',
+            style: TextStyle(
+              fontSize: 11,
+              color: item.status == ItemStatus.urgent
+                  ? Colors.red.shade700
+                  : Colors.orange.shade700,
+            ),
+          ),
+        ],
       ),
     );
   }
