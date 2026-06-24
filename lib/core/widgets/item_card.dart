@@ -184,6 +184,7 @@ Widget _buildAlertText(ItemModel item, ThemeData theme) {
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(Icons.notifications_off_outlined, size: 12, color: Colors.red.shade500),
           const SizedBox(width: 4),
@@ -210,6 +211,7 @@ Widget _buildAlertText(ItemModel item, ThemeData theme) {
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(Icons.notifications_active_outlined, size: 12, color: Colors.green.shade600),
           const SizedBox(width: 4),
@@ -237,6 +239,7 @@ Widget _buildAlertText(ItemModel item, ThemeData theme) {
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(
             Icons.warning_amber_rounded,
