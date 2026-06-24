@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../models/item_model.dart';
+import '../utils/relative_date_utils.dart';
 
 class ItemCard extends StatelessWidget {
   final ItemModel item;
@@ -41,8 +42,9 @@ class ItemCard extends StatelessWidget {
 
     final remainingText = item.remainingDaysText;
     final expiryText = DateFormat('yyyy-MM-dd').format(item.expectedExpiryDate);
-    final refreshedText =
-        DateFormat('yyyy-MM-dd').format(item.lastRefreshedAt ?? item.createdAt);
+
+    final dateToShow = item.lastRefreshedAt ?? item.createdAt;
+    final relativeText = formatRelativeDate(dateToShow, locale: 'ar');
 
     // ─── Build ──────────────────────────────────────────────────────────────────
 
@@ -86,7 +88,7 @@ class ItemCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          'تم التجديد في: $refreshedText',
+                          'تم التجديد $relativeText',
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,
                             fontWeight: FontWeight.w500,
