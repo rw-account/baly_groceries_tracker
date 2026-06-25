@@ -3,11 +3,13 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
 import '../models/item_model.dart';
+import '../models/shopping_item_model.dart';
 
 class StorageService {
   static const String _dbName = 'home_orders.db';
-  static const int _dbVersion = 2;
+  static const int _dbVersion = 1;
   static const String _tableName = 'items';
+  static const String _shoppingItemsTableName = 'shopping_items';
 
   Database? _db;
 
@@ -42,11 +44,16 @@ class StorageService {
             notes               TEXT
           )
         ''');
-      },
-      onUpgrade: (db, oldVersion, newVersion) async {
-        if (oldVersion < 2) {
-          await db.execute('ALTER TABLE $_tableName ADD COLUMN notes TEXT');
-        }
+
+        await db.execute('''
+          CREATE TABLE $_shoppingItemsTableName (
+            id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+            title               TEXT NOT NULL,
+            inventory_item_id   INTEGER,
+            is_checked          INTEGER NOT NULL DEFAULT 0,
+            created_at          INTEGER NOT NULL
+          )
+        ''');
       },
     );
   }
@@ -127,7 +134,7 @@ class StorageService {
     await batch.commit(noResult: true);
   }
 
-  // ─── CRUD ────────────────────────────────────────────────────────────────────
+  // ─── CRUD: Items ─────────────────────────────────────────────────────────────
 
   Future<List<ItemModel>> getAllItems() async {
     final rows = await _database.query(
@@ -149,6 +156,46 @@ class StorageService {
 
   Future<void> deleteItem(String id) async {
     await _database.delete(_tableName, where: 'id = ?', whereArgs: [id]);
+  }
+
+// ─── CRUD: Shopping Items ────────────────────────────────────────────────────
+
+  Future<List<ShoppingItem>> getAllShoppingItems() async {
+    final rows = await _database.query(
+      _shoppingItemsTableName,
+      orderBy: 'created_at ASC',
+    );
+    return rows.map(ShoppingItem.fromMap).toList();
+  }
+
+  Future<ShoppingItem> addShoppingItem(ShoppingItem item) async {
+    final id = await _database.insert(_shoppingItemsTableName, item.toMap());
+    return item.copyWith(id: id);
+  }
+
+  Future<void> updateShoppingItem(ShoppingItem item) async {
+    if (item.id == null) {
+      throw ArgumentError('لا يمكن تحديث عنصر بدون id. استخدم addShoppingItem أولاً.');
+    }
+    await _database.update(
+      _shoppingItemsTableName,
+      item.toMap(),
+      where: 'id = ?',
+      whereArgs: [item.id],
+    );
+  }
+
+  Future<void> setShoppingItemChecked(int id, bool isChecked) async {
+    await _database.update(
+      _shoppingItemsTableName,
+      {'is_checked': isChecked ? 1 : 0},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
+  Future<void> deleteShoppingItem(int id) async {
+    await _database.delete(_shoppingItemsTableName, where: 'id = ?', whereArgs: [id]);
   }
 
   // ─── Background helper ────────────────────────────────────────────────────────
