@@ -51,6 +51,7 @@ class StorageService {
             title               TEXT NOT NULL,
             inventory_item_id   INTEGER,
             is_checked          INTEGER NOT NULL DEFAULT 0,
+            price               REAL,
             created_at          INTEGER NOT NULL
           )
         ''');

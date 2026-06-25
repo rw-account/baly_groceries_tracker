@@ -5,6 +5,7 @@ class ShoppingItem {
   final String title;
   final int? inventoryItemId; // مرتبط بعنصر في المخزون (items.id) إذا لم يكن null
   final bool isChecked;
+  final double? price; // السعر لكل وحدة من العنصر (اختياري)
   final DateTime createdAt;
 
   ShoppingItem({
@@ -12,6 +13,7 @@ class ShoppingItem {
     required this.title,
     this.inventoryItemId,
     this.isChecked = false,
+    this.price,
     DateTime? createdAt,
   }) : createdAt = createdAt ?? DateTime.now();
 
@@ -20,6 +22,7 @@ class ShoppingItem {
     String? title,
     int? inventoryItemId,
     bool? isChecked,
+    double? price,
     DateTime? createdAt,
   }) {
     return ShoppingItem(
@@ -27,6 +30,7 @@ class ShoppingItem {
       title: title ?? this.title,
       inventoryItemId: inventoryItemId ?? this.inventoryItemId,
       isChecked: isChecked ?? this.isChecked,
+      price: price ?? this.price,
       createdAt: createdAt ?? this.createdAt,
     );
   }
@@ -37,6 +41,7 @@ class ShoppingItem {
       'title': title,
       'inventory_item_id': inventoryItemId,
       'is_checked': isChecked ? 1 : 0,
+      'price': price,
       'created_at': createdAt.millisecondsSinceEpoch,
     };
   }
@@ -47,6 +52,7 @@ class ShoppingItem {
       title: map['title'] as String,
       inventoryItemId: map['inventory_item_id'] as int?,
       isChecked: (map['is_checked'] as int) == 1,
+      price: (map['price'] as num?)?.toDouble(),
       createdAt: DateTime.fromMillisecondsSinceEpoch(map['created_at'] as int),
     );
   }
@@ -54,5 +60,5 @@ class ShoppingItem {
   @override
   String toString() =>
       'ShoppingItem(id: $id, title: $title, inventoryItemId: $inventoryItemId, '
-      'isChecked: $isChecked, createdAt: $createdAt)';
+      'isChecked: $isChecked, price: $price, createdAt: $createdAt)';
 }
