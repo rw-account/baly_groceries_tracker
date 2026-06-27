@@ -52,7 +52,7 @@ class ErrorScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.errorContainer.withOpacity(0.5),
+                    color: theme.colorScheme.errorContainer.withValues(alpha: 0.5),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
