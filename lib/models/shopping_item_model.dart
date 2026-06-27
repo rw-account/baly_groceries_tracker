@@ -3,7 +3,7 @@
 class ShoppingItem {
   final int? id; // null عند الإنشاء قبل الحفظ في قاعدة البيانات (AUTOINCREMENT)
   final String title;
-  final int? inventoryItemId; // مرتبط بعنصر في المخزون (items.id) إذا لم يكن null
+  final String? inventoryItemId; // مرتبط بعنصر في المخزون (items.id) إذا لم يكن null
   final bool isChecked;
   final double? price; // السعر لكل وحدة من العنصر (اختياري)
   final DateTime createdAt;
@@ -20,7 +20,7 @@ class ShoppingItem {
   ShoppingItem copyWith({
     int? id,
     String? title,
-    int? inventoryItemId,
+    String? inventoryItemId,
     bool? isChecked,
     double? price,
     DateTime? createdAt,
@@ -50,7 +50,7 @@ class ShoppingItem {
     return ShoppingItem(
       id: map['id'] as int?,
       title: map['title'] as String,
-      inventoryItemId: map['inventory_item_id'] as int?,
+      inventoryItemId: map['inventory_item_id'] as String?,
       isChecked: (map['is_checked'] as int) == 1,
       price: (map['price'] as num?)?.toDouble(),
       createdAt: DateTime.fromMillisecondsSinceEpoch(map['created_at'] as int),
