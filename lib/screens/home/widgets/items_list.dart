@@ -2,7 +2,8 @@
 import 'package:flutter/material.dart';
 import '../../../models/item_model.dart';
 import '../../../core/widgets/item_card.dart';
-import '../../add_edit_item/add_edit_item_screen.dart';
+import 'package:go_router/go_router.dart';
+import '../../../router/route_paths.dart';
 
 class ItemsList extends StatelessWidget {
   final List<ItemModel> items;
@@ -18,12 +19,7 @@ class ItemsList extends StatelessWidget {
                 final item = items[index];
                 return ItemCard(
                   item: item,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => AddEditItemScreen(item: item),
-            ),
-          ),
+                  onTap: () => context.push(RoutePaths.editItemPath(item.id), extra: item),
         );
       },
     );

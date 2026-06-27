@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'widgets/widgets.dart';
 import '../../providers/items_provider.dart';
-import '../add_edit_item/add_edit_item_screen.dart';
 import '../../services/battery_service.dart';
 import '../../providers/summary_provider.dart';
+import 'package:go_router/go_router.dart';
+import '../../router/route_paths.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -49,10 +50,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         error: (error, _) => Center(child: Text('خطأ: $error')),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const AddEditItemScreen()),
-        ),
+      onPressed: () => context.push(RoutePaths.addItemFull),
         icon: const Icon(Icons.add),
         label: const Text('إضافة مادة'),
       ),
