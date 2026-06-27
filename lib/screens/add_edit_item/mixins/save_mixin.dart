@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../models/item_model.dart';
 import '../../../providers/items_provider.dart';
 import '../add_edit_item_state.dart';
+import 'package:go_router/go_router.dart';
 
 /// Handles the save logic (create / update) for an [ItemModel].
 ///
@@ -133,7 +134,7 @@ mixin SaveMixin on AddEditItemState {
         );
       }
 
-      if (mounted) Navigator.pop(context);
+      if (mounted) context.pop();
     } catch (e) {
       _showError(_genericSaveError);
     } finally {

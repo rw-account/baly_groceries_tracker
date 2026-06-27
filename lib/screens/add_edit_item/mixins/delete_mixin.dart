@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import '../../../providers/items_provider.dart';
 import '../add_edit_item_state.dart';
+import 'package:go_router/go_router.dart';
 
 /// Handles the deletion of an [ItemModel] with confirmation.
 ///
@@ -57,7 +58,7 @@ mixin DeleteMixin on AddEditItemState {
       await ref.read(itemsProvider.notifier).deleteItem(widget.item!.id);
 
       // 5. On success, return to the previous screen.
-      if (mounted) Navigator.pop(context);
+      if (mounted) context.pop();
     } catch (_) {
       // 6. On failure, show a snackbar and stay on the current screen.
       if (mounted) {

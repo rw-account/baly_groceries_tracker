@@ -10,6 +10,7 @@ import 'mixins/delete_mixin.dart';
 import 'mixins/date_picker_mixin.dart';
 import 'mixins/discard_mixin.dart';
 import 'widgets/widgets.dart';
+import 'package:go_router/go_router.dart';
 
 /// شاشة إضافة/تعديل مادة.
 ///
@@ -48,7 +49,7 @@ class _AddEditItemScreenState extends AddEditItemState
     if (saving) return;
     final canLeave = await confirmDiscard();
     if (!mounted) return;
-    if (canLeave) Navigator.pop(context);
+    if (canLeave) context.pop();
   }
 
   // ─── Build ──────────────────────────────────────────────────────────────
