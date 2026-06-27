@@ -7,10 +7,12 @@ import 'services/workmanager_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'screens/home/home_screen.dart';
 import 'core/theme/app_theme.dart'; 
+import 'router/app_router.dart'; // ✅ استيراد المسارات
+import 'package:home_orders_tracker/router/error_screen.dart';
 
 Future<void> main() async {
+  installGlobalErrorHandling(); 
   WidgetsFlutterBinding.ensureInitialized();
 
   final storage = StorageService();
@@ -34,7 +36,7 @@ class HomeOrdersTrackerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'متابعة طلبات البيت',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
@@ -45,7 +47,7 @@ class HomeOrdersTrackerApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      home: const HomeScreen(),
+      routerConfig: appRouter, // ✅ استخدام GoRouter
     );
   }
 }
