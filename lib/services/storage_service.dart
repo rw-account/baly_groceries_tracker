@@ -49,7 +49,7 @@ class StorageService {
           CREATE TABLE $_shoppingItemsTableName (
             id                  INTEGER PRIMARY KEY AUTOINCREMENT,
             title               TEXT NOT NULL,
-            inventory_item_id   INTEGER,
+            inventory_item_id   TEXT,
             is_checked          INTEGER NOT NULL DEFAULT 0,
             price               REAL,
             created_at          INTEGER NOT NULL
