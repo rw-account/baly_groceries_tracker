@@ -1,19 +1,38 @@
 // lib/core/widgets/edit_price_dialog.dart
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+/// نوع بيانات موحد لنجاح أو إلغاء الديالوج (أفضل للقراءة)
+typedef PriceDialogResult = ({bool confirmed, double? price});
+const PriceDialogResult _cancelledResult = (confirmed: false, price: null);
+
+/// دالة مساعدة لتسهيل استدعاء الديالوج ومعالجة الإغلاق بالخارج
+Future<PriceDialogResult> showEditPriceDialog(
+  BuildContext context, {
+  double? initialPrice,
+  String? itemName, // اختياري: لعرض اسم المنتج في العنوان
+}) async {
+  final result = await showDialog<PriceDialogResult>(
+    context: context,
+    builder: (context) => EditPriceDialog(
+      initialPrice: initialPrice,
+      itemName: itemName,
+    ),
+  );
+  return result ?? _cancelledResult;
+}
+
 /// A reusable dialog that allows the user to edit or clear a price value.
-///
-/// Returns `(confirmed: false, price: null)` when cancelled, and
-/// `(confirmed: true, price: parsedValue)` when the user saves.
-/// If the text field is left empty, `price` will be `null`, which clears
-/// any previously stored price.
 class EditPriceDialog extends StatefulWidget {
   final double? initialPrice;
+  final String? itemName;
 
-  const EditPriceDialog({super.key, required this.initialPrice});
+  const EditPriceDialog({
+    super.key,
+    this.initialPrice,
+    this.itemName,
+  });
 
   @override
   State<EditPriceDialog> createState() => _EditPriceDialogState();
@@ -27,9 +46,7 @@ class _EditPriceDialogState extends State<EditPriceDialog> {
   void initState() {
     super.initState();
     _controller = TextEditingController(
-      text: widget.initialPrice != null
-          ? widget.initialPrice!.toString()
-          : '',
+      text: widget.initialPrice != null ? widget.initialPrice!.toString() : '',
     );
   }
 
@@ -49,8 +66,13 @@ class _EditPriceDialogState extends State<EditPriceDialog> {
 
   @override
   Widget build(BuildContext context) {
+    // عنوان ذكي: يعرض اسم المنتج إذا تم تمريره، وإلا يعرض "تعديل السعر"
+    final titleText = widget.itemName != null 
+        ? 'السعر لـ "${widget.itemName}"' 
+        : 'تعديل السعر';
+
     return AlertDialog(
-      title: const Text('تعديل السعر'),
+      title: Text(titleText),
       content: Form(
         key: _formKey,
         child: TextFormField(
@@ -58,13 +80,10 @@ class _EditPriceDialogState extends State<EditPriceDialog> {
           autofocus: true,
           textInputAction: TextInputAction.done,
           inputFormatters: [
-            // 1. يسمح بالأرقام والنقطة العادية فقط، ويمنع الفاصلة (,) تماماً
             FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
-            
-            // 2. يمنع المستخدم من كتابة أكثر من نقطة عشرية واحدة
             TextInputFormatter.withFunction((oldValue, newValue) {
               if ('.'.allMatches(newValue.text).length > 1) {
-                return oldValue; // يرفض النقطة الثانية ويبقي الرقم القديم
+                return oldValue;
               }
               return newValue;
             }),
@@ -73,13 +92,14 @@ class _EditPriceDialogState extends State<EditPriceDialog> {
           decoration: const InputDecoration(
             labelText: 'السعر',
             hintText: '0.00',
+            border: OutlineInputBorder(), // إضافة إطار ليكون أوضح في الديالوج
           ),
           onFieldSubmitted: (_) => _submit(),
           validator: (value) {
             if (value == null || value.trim().isEmpty) return null;
             final cleanValue = value.trim();
             final parsed = double.tryParse(cleanValue);
-            if (parsed == null) return 'يرجى إدخال رقم صحيح';
+            if (parsed == null) return 'صيغة السعر غير صحيحة';
             if (parsed < 0) return 'لا يمكن أن يكون السعر سالباً';
             return null;
           },
@@ -87,8 +107,7 @@ class _EditPriceDialogState extends State<EditPriceDialog> {
       ),
       actions: [
         TextButton(
-          onPressed: () =>
-              Navigator.pop(context, (confirmed: false, price: null)),
+          onPressed: () => Navigator.pop(context, _cancelledResult),
           child: const Text('إلغاء'),
         ),
         FilledButton(
