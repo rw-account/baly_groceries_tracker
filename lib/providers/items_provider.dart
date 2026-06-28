@@ -89,6 +89,14 @@ class ItemsNotifier extends _$ItemsNotifier {
     await _refreshStateAndNotifications(storage);
   }
 
+  /// Finds a single item by its [id].
+  /// Returns the [ItemModel] if found, or `null` otherwise.
+  ItemModel? getItemById(String id) {
+    final items = state.value ?? [];
+    final index = items.indexWhere((item) => item.id == id);
+    return index == -1 ? null : items[index];
+  }
+
   // ─── Refresh lastRefreshedAt ─────────────────────────────────────────────────
 
   /// Allows the user to renew an item without deleting and recreating it.
