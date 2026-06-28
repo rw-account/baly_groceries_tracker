@@ -38,7 +38,7 @@ class ShoppingItemCard extends ConsumerWidget {
       onDismissed: (_) => _handleDismissed(context),
       background: Container(
         margin: const EdgeInsets.symmetric(vertical: 4),
-        alignment: Alignment.centerRight,  // ← يظهر من اليمين
+        alignment: Alignment.centerRight,  
         padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
           color: theme.colorScheme.errorContainer,
@@ -51,7 +51,7 @@ class ShoppingItemCard extends ConsumerWidget {
       ),
       secondaryBackground: Container(
         margin: const EdgeInsets.symmetric(vertical: 4),
-        alignment: Alignment.centerLeft,  // ← يظهر من اليسار
+        alignment: Alignment.centerLeft,  
         padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
           color: theme.colorScheme.errorContainer,
@@ -80,14 +80,11 @@ class ShoppingItemCard extends ConsumerWidget {
           borderRadius: BorderRadius.circular(16),
           child: InkWell(
             borderRadius: BorderRadius.circular(16),
-            onTap: () => _showEditPriceDialog(context, ref),
+            onTap: null, // 🔴 تم إيقاف الضغط على الكرت بالكامل هنا
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               child: Row(
                 children: [
-                  // Leading checkbox ("تم شراؤه") — first in the children
-                  // list, so it renders at the start edge (right side in
-                  // RTL) automatically.
                   Checkbox(
                     value: isChecked,
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -154,6 +151,16 @@ class ShoppingItemCard extends ConsumerWidget {
                     hasPrice: hasPrice,
                     theme: theme,
                   ),
+                  const SizedBox(width: 4),
+                  // 🟢 إضافة زر القلم هنا ليكون هو المسؤول الوحيد عن التعديل
+                  IconButton(
+                    icon: Icon(
+                      Icons.edit_outlined,
+                      color: theme.colorScheme.primary,
+                      size: 20,
+                    ),
+                    onPressed: () => _showEditPriceDialog(context, ref),
+                  ),
                 ],
               ),
             ),
@@ -163,8 +170,6 @@ class ShoppingItemCard extends ConsumerWidget {
     );
   }
 
-  /// Deletes the item immediately, then offers a few seconds to undo
-  /// via a SnackBar instead of blocking with a confirmation dialog.
   void _handleDismissed(BuildContext context) {
     onDelete();
 
@@ -198,8 +203,6 @@ class ShoppingItemCard extends ConsumerWidget {
   }
 }
 
-/// Small tappable-looking price badge with an edit affordance, so it's
-/// clear at a glance that the price can be changed (not just displayed).
 class _PriceChip extends StatelessWidget {
   final String text;
   final bool hasPrice;
@@ -221,27 +224,14 @@ class _PriceChip extends StatelessWidget {
             : theme.colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            text,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: hasPrice
-                  ? theme.colorScheme.onPrimaryContainer
-                  : theme.colorScheme.onSurfaceVariant,
-            ),
-          ),
-          const SizedBox(width: 4),
-          Icon(
-            Icons.edit_outlined,
-            size: 14,
-            color: hasPrice
-                ? theme.colorScheme.onPrimaryContainer.withValues(alpha: 0.7)
-                : theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.7),
-          ),
-        ],
+      child: Text(
+        text,
+        style: theme.textTheme.labelLarge?.copyWith(
+          fontWeight: FontWeight.bold,
+          color: hasPrice
+              ? theme.colorScheme.onPrimaryContainer
+              : theme.colorScheme.onSurfaceVariant,
+        ),
       ),
     );
   }
