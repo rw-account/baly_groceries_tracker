@@ -52,6 +52,7 @@ class ShoppingListView extends ConsumerWidget {
                       inventoryItemId: deletedItem.inventoryItemId,
                       price: deletedItem.price,
                       isChecked: deletedItem.isChecked,
+                      createdAt: deletedItem.createdAt,
                     );
                   },
                 ),
