@@ -3,7 +3,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 
 /// A reusable dialog that allows the user to edit or clear a price value.
 ///
@@ -22,17 +21,14 @@ class EditPriceDialog extends StatefulWidget {
 
 class _EditPriceDialogState extends State<EditPriceDialog> {
   final _formKey = GlobalKey<FormState>();
-  static final _formatter = NumberFormat('#,##0.###');
   late final TextEditingController _controller;
-  // دالة مساعدة لتنظيف النص من الفواصل
-  String _cleanText(String text) => text.replaceAll(',', '');
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController(
       text: widget.initialPrice != null
-          ? _formatter.format(widget.initialPrice)
+          ? widget.initialPrice!.toString()
           : '',
     );
   }
@@ -45,8 +41,7 @@ class _EditPriceDialogState extends State<EditPriceDialog> {
 
   void _submit() {
     if (_formKey.currentState?.validate() ?? false) {
-      final text = _controller.text.trim();
-      final cleanText = _cleanText(text);
+      final cleanText = _controller.text.trim();
       final parsed = cleanText.isEmpty ? null : double.tryParse(cleanText);
       Navigator.pop(context, (confirmed: true, price: parsed));
     }
@@ -63,7 +58,16 @@ class _EditPriceDialogState extends State<EditPriceDialog> {
           autofocus: true,
           textInputAction: TextInputAction.done,
           inputFormatters: [
-            FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
+            // 1. يسمح بالأرقام والنقطة العادية فقط، ويمنع الفاصلة (,) تماماً
+            FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+            
+            // 2. يمنع المستخدم من كتابة أكثر من نقطة عشرية واحدة
+            TextInputFormatter.withFunction((oldValue, newValue) {
+              if ('.'.allMatches(newValue.text).length > 1) {
+                return oldValue; // يرفض النقطة الثانية ويبقي الرقم القديم
+              }
+              return newValue;
+            }),
           ],
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           decoration: const InputDecoration(
@@ -73,7 +77,7 @@ class _EditPriceDialogState extends State<EditPriceDialog> {
           onFieldSubmitted: (_) => _submit(),
           validator: (value) {
             if (value == null || value.trim().isEmpty) return null;
-            final cleanValue = _cleanText(value.trim());
+            final cleanValue = value.trim();
             final parsed = double.tryParse(cleanValue);
             if (parsed == null) return 'يرجى إدخال رقم صحيح';
             if (parsed < 0) return 'لا يمكن أن يكون السعر سالباً';
