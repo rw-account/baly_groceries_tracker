@@ -190,12 +190,13 @@ class ShoppingItemCard extends ConsumerWidget {
   }
 
   Future<void> _showEditPriceDialog(BuildContext context, WidgetRef ref) async {
-    final result = await showDialog<({bool confirmed, double? price})>(
-      context: context,
-      builder: (_) => EditPriceDialog(initialPrice: item.price),
+    final PriceDialogResult result = await showEditPriceDialog(
+      context,
+      initialPrice: item.price,
+      itemName: item.title,
     );
 
-    if (result == null || !result.confirmed) return;
+    if (!result.confirmed) return;
     if (item.id == null) return;
     await ref
         .read(shoppingListProvider.notifier)
