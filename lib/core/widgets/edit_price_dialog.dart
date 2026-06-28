@@ -15,7 +15,7 @@ Future<PriceDialogResult> showEditPriceDialog(
 }) async {
   final result = await showDialog<PriceDialogResult>(
     context: context,
-    builder: (context) => EditPriceDialog(
+    builder: (context) => _EditPriceDialog(
       initialPrice: initialPrice,
       itemName: itemName,
     ),
@@ -24,21 +24,20 @@ Future<PriceDialogResult> showEditPriceDialog(
 }
 
 /// A reusable dialog that allows the user to edit or clear a price value.
-class EditPriceDialog extends StatefulWidget {
+class _EditPriceDialog extends StatefulWidget {
   final double? initialPrice;
   final String? itemName;
 
-  const EditPriceDialog({
-    super.key,
+  const _EditPriceDialog({
     this.initialPrice,
     this.itemName,
   });
 
   @override
-  State<EditPriceDialog> createState() => _EditPriceDialogState();
+  State<_EditPriceDialog> createState() => _EditPriceDialogState();
 }
 
-class _EditPriceDialogState extends State<EditPriceDialog> {
+class _EditPriceDialogState extends State<_EditPriceDialog> {
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _controller;
 
