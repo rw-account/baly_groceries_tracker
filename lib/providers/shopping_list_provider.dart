@@ -36,6 +36,7 @@ class ShoppingListNotifier extends _$ShoppingListNotifier {
     required String title,
     String? inventoryItemId,
     double? price,
+    bool isChecked = false,
   }) async {
     if (isDuplicate(inventoryItemId: inventoryItemId, title: title)) {
       return false;
@@ -45,6 +46,7 @@ class ShoppingListNotifier extends _$ShoppingListNotifier {
       title: title,
       inventoryItemId: inventoryItemId,
       price: price,
+      isChecked: isChecked,
     );
     await storage.addShoppingItem(newItem);
     await _refreshState(storage);
