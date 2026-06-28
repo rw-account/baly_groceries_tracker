@@ -85,7 +85,8 @@ class ShoppingListNotifier extends _$ShoppingListNotifier {
       title: oldItem.title,
       isChecked: oldItem.isChecked,
       inventoryItemId: oldItem.inventoryItemId,
-      price: newPrice, 
+      price: newPrice,
+      createdAt: oldItem.createdAt,
     );
 
     final storage = ref.read(storageServiceProvider);
