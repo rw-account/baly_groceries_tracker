@@ -36,10 +36,22 @@ class ShoppingItemCard extends ConsumerWidget {
       key: ValueKey(item.id ?? item.title),
       direction: DismissDirection.horizontal,
       onDismissed: (_) => _handleDismissed(context),
-      background: const SizedBox.shrink(),
+      background: Container(
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        alignment: Alignment.centerRight,  // ← يظهر من اليمين
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        decoration: BoxDecoration(
+          color: theme.colorScheme.errorContainer,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Icon(
+          Icons.delete_outline,
+          color: theme.colorScheme.onErrorContainer,
+        ),
+      ),
       secondaryBackground: Container(
         margin: const EdgeInsets.symmetric(vertical: 4),
-        alignment: Alignment.centerLeft,
+        alignment: Alignment.centerLeft,  // ← يظهر من اليسار
         padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
           color: theme.colorScheme.errorContainer,
