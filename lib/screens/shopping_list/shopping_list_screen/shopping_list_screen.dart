@@ -43,9 +43,12 @@ class ShoppingListScreen extends ConsumerWidget {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _navigateToAddScreen(context),
-        child: const Icon(Icons.add),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 70, left: 3), 
+        child: FloatingActionButton(
+          onPressed: () => _navigateToAddScreen(context),
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }

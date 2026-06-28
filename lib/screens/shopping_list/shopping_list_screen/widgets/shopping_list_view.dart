@@ -30,7 +30,7 @@ class ShoppingListView extends ConsumerWidget {
       children: [
         Expanded(
           child: ListView.builder(
-            padding: const EdgeInsets.fromLTRB(12, 12, 12, 4),
+            padding: const EdgeInsets.fromLTRB(12, 12, 12, 80),
             itemCount: items.length,
             itemBuilder: (context, index) {
               final item = items[index];
