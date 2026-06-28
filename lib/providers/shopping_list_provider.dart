@@ -76,8 +76,19 @@ class ShoppingListNotifier extends _$ShoppingListNotifier {
     final index = items.indexWhere((item) => item.id == id);
     if (index == -1) return;
 
+    // We avoid using copyWith() here because its internal implementation (price ?? this.price)
+    // prevents resetting the price to null. Re-instantiating the object via the primary 
+    // constructor allows us to explicitly clear the price value.
+    final oldItem = items[index];
+    final updatedItem = ShoppingItem(
+      id: oldItem.id,
+      title: oldItem.title,
+      isChecked: oldItem.isChecked,
+      inventoryItemId: oldItem.inventoryItemId,
+      price: newPrice, 
+    );
+
     final storage = ref.read(storageServiceProvider);
-    final updatedItem = items[index].copyWith(price: newPrice);
     await storage.updateShoppingItem(updatedItem);
     await _refreshState(storage);
   }
@@ -91,5 +102,5 @@ class ShoppingListNotifier extends _$ShoppingListNotifier {
     final storage = ref.read(storageServiceProvider);
     await storage.updateShoppingItem(updated);
     await _refreshState(storage);
-}
+  }
 }
