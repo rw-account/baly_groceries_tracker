@@ -2,6 +2,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 /// A reusable dialog that allows the user to edit or clear a price value.
@@ -61,6 +62,9 @@ class _EditPriceDialogState extends State<EditPriceDialog> {
           controller: _controller,
           autofocus: true,
           textInputAction: TextInputAction.done,
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
+          ],
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           decoration: const InputDecoration(
             labelText: 'السعر',
