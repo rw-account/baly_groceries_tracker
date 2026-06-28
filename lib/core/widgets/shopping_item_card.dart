@@ -140,7 +140,7 @@ class ShoppingItemCard extends ConsumerWidget {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          isLinked ? 'مرتبط بعنصر مخزون' : 'عنصر مُضاف يدوياً',
+                          isLinked ? 'مُتابع في التطبيق' : 'عنصر مُضاف يدوياً',
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,
                           ),
