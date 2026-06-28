@@ -10,7 +10,6 @@ import 'package:intl/intl.dart';
 class ShoppingItemCard extends ConsumerWidget {
   final ShoppingItem item;
   final VoidCallback onDelete;
-
   final ValueChanged<ShoppingItem>? onUndo;
 
   const ShoppingItemCard({
@@ -62,106 +61,116 @@ class ShoppingItemCard extends ConsumerWidget {
           color: theme.colorScheme.onErrorContainer,
         ),
       ),
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 4),
-        decoration: BoxDecoration(
-          color: theme.colorScheme.surface,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: theme.colorScheme.shadow.withValues(alpha: 0.06),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Material(
-          color: Colors.transparent,
-          borderRadius: BorderRadius.circular(16),
-          child: InkWell(
+      // 💡 قمنا بتغليف الكرت بـ AnimatedOpacity لجعله باهتاً ومريحاً للعين عند الاختيار
+      child: AnimatedOpacity(
+        duration: const Duration(milliseconds: 200),
+        opacity: isChecked ? 0.5 : 1.0, // يصبح شفافاً بنسبة 50% إذا تم اختياره
+        child: Container(
+          margin: const EdgeInsets.symmetric(vertical: 4),
+          decoration: BoxDecoration(
+            color: isChecked 
+                ? theme.colorScheme.surfaceContainerLowest // لون خلفية مختلف قليلاً عند الاختيار
+                : theme.colorScheme.surface,
             borderRadius: BorderRadius.circular(16),
-            onTap: null, // 🔴 تم إيقاف الضغط على الكرت بالكامل هنا
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              child: Row(
-                children: [
-                  Checkbox(
-                    value: isChecked,
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    visualDensity: VisualDensity.compact,
-                    shape: const CircleBorder(),
-                    activeColor: theme.colorScheme.primary,
-                    onChanged: item.id == null
-                        ? null
-                        : (_) => ref
-                            .read(shoppingListProvider.notifier)
-                            .toggleChecked(item.id!),
-                  ),
-                  const SizedBox(width: 4),
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: accentColor.withValues(
-                        alpha: isChecked ? 0.06 : 0.12,
+            boxShadow: [
+              BoxShadow(
+                color: theme.colorScheme.shadow.withValues(alpha: isChecked ? 0.01 : 0.06), // تقليل الظل عند الاختيار
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Material(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(16),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(16),
+              onTap: null, 
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                child: Row(
+                  children: [
+                    Checkbox(
+                      value: isChecked,
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      visualDensity: VisualDensity.compact,
+                      shape: const CircleBorder(),
+                      activeColor: theme.colorScheme.primary,
+                      onChanged: item.id == null
+                          ? null
+                          : (_) => ref
+                              .read(shoppingListProvider.notifier)
+                              .toggleChecked(item.id!),
+                    ),
+                    const SizedBox(width: 4),
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: accentColor.withValues(
+                          alpha: isChecked ? 0.04 : 0.12,
+                        ),
+                        shape: BoxShape.circle,
                       ),
-                      shape: BoxShape.circle,
+                      child: Icon(
+                        isLinked ? Icons.inventory_2_outlined : Icons.edit_note,
+                        color: isChecked
+                            ? theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.4)
+                            : accentColor,
+                        size: 20,
                     ),
-                    child: Icon(
-                      isLinked ? Icons.inventory_2_outlined : Icons.edit_note,
-                      color: isChecked
-                          ? accentColor.withValues(alpha: 0.5)
-                          : accentColor,
-                      size: 20,
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          item.title,
-                          style: theme.textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            decoration: isChecked
-                                ? TextDecoration.lineThrough
-                                : null,
-                            color: isChecked
-                                ? theme.colorScheme.onSurfaceVariant
-                                : null,
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            item.title,
+                            style: theme.textTheme.bodyLarge?.copyWith(
+                              // تغيير سمك الخط ليصبح أنحف عند الشطب لتسهيل الرؤية
+                              fontWeight: isChecked ? FontWeight.normal : FontWeight.w600,
+                              decoration: isChecked
+                                  ? TextDecoration.lineThrough
+                                  : null,
+                              color: isChecked
+                                  ? theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.7)
+                                  : null,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          isLinked ? 'مُتابع في التطبيق' : 'عنصر مُضاف يدوياً',
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onSurfaceVariant,
+                          const SizedBox(height: 2),
+                          Text(
+                            isLinked ? 'مُتابع في التطبيق' : 'عنصر مُضاف يدوياً',
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: theme.colorScheme.onSurfaceVariant.withValues(alpha: isChecked ? 0.5 : 1.0),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  _PriceChip(
-                    text: priceText,
-                    hasPrice: hasPrice,
-                    theme: theme,
-                  ),
-                  const SizedBox(width: 4),
-                  // 🟢 إضافة زر القلم هنا ليكون هو المسؤول الوحيد عن التعديل
-                  IconButton(
-                    icon: Icon(
-                      Icons.edit_outlined,
-                      color: theme.colorScheme.primary,
-                      size: 20,
+                    const SizedBox(width: 8),
+                    _PriceChip(
+                      text: priceText,
+                      hasPrice: hasPrice,
+                      isChecked: isChecked, // تمرير الحالة لشريحة السعر
+                      theme: theme,
                     ),
-                    onPressed: () => _showEditPriceDialog(context, ref),
-                  ),
-                ],
+                    const SizedBox(width: 4),
+                    IconButton(
+                      icon: Icon(
+                        Icons.edit_outlined,
+                        color: isChecked 
+                            ? theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.4)
+                            : theme.colorScheme.primary,
+                        size: 20,
+                      ),
+                      onPressed: isChecked ? null : () => _showEditPriceDialog(context, ref), // Disable the edit button when the item is purchased.
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -172,7 +181,6 @@ class ShoppingItemCard extends ConsumerWidget {
 
   void _handleDismissed(BuildContext context) {
     onDelete();
-
     final messenger = ScaffoldMessenger.of(context);
     messenger.hideCurrentSnackBar();
     messenger.showSnackBar(
@@ -207,11 +215,13 @@ class ShoppingItemCard extends ConsumerWidget {
 class _PriceChip extends StatelessWidget {
   final String text;
   final bool hasPrice;
+  final bool isChecked;
   final ThemeData theme;
 
   const _PriceChip({
     required this.text,
     required this.hasPrice,
+    required this.isChecked,
     required this.theme,
   });
 
@@ -220,18 +230,23 @@ class _PriceChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: hasPrice
-            ? theme.colorScheme.primaryContainer
-            : theme.colorScheme.surfaceContainerHighest,
+        color: isChecked
+            ? theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5) // تغيير اللون إذا تم الاختيار
+            : (hasPrice
+                ? theme.colorScheme.primaryContainer
+                : theme.colorScheme.surfaceContainerHighest),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Text(
         text,
         style: theme.textTheme.labelLarge?.copyWith(
           fontWeight: FontWeight.bold,
-          color: hasPrice
-              ? theme.colorScheme.onPrimaryContainer
-              : theme.colorScheme.onSurfaceVariant,
+          decoration: isChecked ? TextDecoration.lineThrough : null, // شطب السعر أيضاً عند الشراء
+          color: isChecked
+              ? theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.5)
+              : (hasPrice
+                  ? theme.colorScheme.onPrimaryContainer
+                  : theme.colorScheme.onSurfaceVariant),
         ),
       ),
     );
