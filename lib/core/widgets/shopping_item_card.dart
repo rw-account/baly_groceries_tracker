@@ -9,14 +9,12 @@ import 'package:intl/intl.dart';
 
 class ShoppingItemCard extends ConsumerWidget {
   final ShoppingItem item;
-  final VoidCallback onDelete;
-  final ValueChanged<ShoppingItem>? onUndo;
+  final ValueChanged<ShoppingItem> onDelete;
 
   const ShoppingItemCard({
     super.key,
     required this.item,
     required this.onDelete,
-    this.onUndo,
   });
 
   @override
@@ -34,10 +32,10 @@ class ShoppingItemCard extends ConsumerWidget {
     return Dismissible(
       key: ValueKey(item.id ?? item.title),
       direction: DismissDirection.horizontal,
-      onDismissed: (_) => _handleDismissed(context),
+      onDismissed: (_) => onDelete(item),
       background: Container(
         margin: const EdgeInsets.symmetric(vertical: 4),
-        alignment: Alignment.centerRight,  
+        alignment: Alignment.centerRight,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
           color: theme.colorScheme.errorContainer,
@@ -50,7 +48,7 @@ class ShoppingItemCard extends ConsumerWidget {
       ),
       secondaryBackground: Container(
         margin: const EdgeInsets.symmetric(vertical: 4),
-        alignment: Alignment.centerLeft,  
+        alignment: Alignment.centerLeft,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
           color: theme.colorScheme.errorContainer,
@@ -68,13 +66,15 @@ class ShoppingItemCard extends ConsumerWidget {
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 4),
           decoration: BoxDecoration(
-            color: isChecked 
-                ? theme.colorScheme.surfaceContainerLowest // لون خلفية مختلف قليلاً عند الاختيار
+            color: isChecked
+                ? theme.colorScheme
+                    .surfaceContainerLowest // لون خلفية مختلف قليلاً عند الاختيار
                 : theme.colorScheme.surface,
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: theme.colorScheme.shadow.withValues(alpha: isChecked ? 0.01 : 0.06), // تقليل الظل عند الاختيار
+                color: theme.colorScheme.shadow.withValues(
+                    alpha: isChecked ? 0.01 : 0.06), // تقليل الظل عند الاختيار
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
@@ -85,7 +85,7 @@ class ShoppingItemCard extends ConsumerWidget {
             borderRadius: BorderRadius.circular(16),
             child: InkWell(
               borderRadius: BorderRadius.circular(16),
-              onTap: null, 
+              onTap: null,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 child: Row(
@@ -115,10 +115,11 @@ class ShoppingItemCard extends ConsumerWidget {
                       child: Icon(
                         isLinked ? Icons.inventory_2_outlined : Icons.edit_note,
                         color: isChecked
-                            ? theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.4)
+                            ? theme.colorScheme.onSurfaceVariant
+                                .withValues(alpha: 0.4)
                             : accentColor,
                         size: 20,
-                    ),
+                      ),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
@@ -130,12 +131,14 @@ class ShoppingItemCard extends ConsumerWidget {
                             item.title,
                             style: theme.textTheme.bodyLarge?.copyWith(
                               // تغيير سمك الخط ليصبح أنحف عند الشطب لتسهيل الرؤية
-                              fontWeight: isChecked ? FontWeight.normal : FontWeight.w600,
-                              decoration: isChecked
-                                  ? TextDecoration.lineThrough
-                                  : null,
+                              fontWeight: isChecked
+                                  ? FontWeight.normal
+                                  : FontWeight.w600,
+                              decoration:
+                                  isChecked ? TextDecoration.lineThrough : null,
                               color: isChecked
-                                  ? theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.7)
+                                  ? theme.colorScheme.onSurfaceVariant
+                                      .withValues(alpha: 0.7)
                                   : null,
                             ),
                             maxLines: 1,
@@ -143,9 +146,12 @@ class ShoppingItemCard extends ConsumerWidget {
                           ),
                           const SizedBox(height: 2),
                           Text(
-                            isLinked ? 'مُتابع في التطبيق' : 'عنصر مُضاف يدوياً',
+                            isLinked
+                                ? 'مُتابع في التطبيق'
+                                : 'عنصر مُضاف يدوياً',
                             style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onSurfaceVariant.withValues(alpha: isChecked ? 0.5 : 1.0),
+                              color: theme.colorScheme.onSurfaceVariant
+                                  .withValues(alpha: isChecked ? 0.5 : 1.0),
                             ),
                           ),
                         ],
@@ -162,12 +168,16 @@ class ShoppingItemCard extends ConsumerWidget {
                     IconButton(
                       icon: Icon(
                         Icons.edit_outlined,
-                        color: isChecked 
-                            ? theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.4)
+                        color: isChecked
+                            ? theme.colorScheme.onSurfaceVariant
+                                .withValues(alpha: 0.4)
                             : theme.colorScheme.primary,
                         size: 20,
                       ),
-                      onPressed: isChecked ? null : () => _showEditPriceDialog(context, ref), // Disable the edit button when the item is purchased.
+                      onPressed: isChecked
+                          ? null
+                          : () => _showEditPriceDialog(context,
+                              ref), // Disable the edit button when the item is purchased.
                     ),
                   ],
                 ),
@@ -175,24 +185,6 @@ class ShoppingItemCard extends ConsumerWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  void _handleDismissed(BuildContext context) {
-    onDelete();
-    final messenger = ScaffoldMessenger.of(context);
-    messenger.hideCurrentSnackBar();
-    messenger.showSnackBar(
-      SnackBar(
-        content: Text('تم حذف "${item.title}"'),
-        duration: const Duration(seconds: 5),
-        action: onUndo == null
-            ? null
-            : SnackBarAction(
-                label: 'تراجع',
-                onPressed: () => onUndo!(item),
-              ),
       ),
     );
   }
@@ -231,7 +223,8 @@ class _PriceChip extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
         color: isChecked
-            ? theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5) // تغيير اللون إذا تم الاختيار
+            ? theme.colorScheme.surfaceContainerHighest
+                .withValues(alpha: 0.5) // تغيير اللون إذا تم الاختيار
             : (hasPrice
                 ? theme.colorScheme.primaryContainer
                 : theme.colorScheme.surfaceContainerHighest),
@@ -241,7 +234,9 @@ class _PriceChip extends StatelessWidget {
         text,
         style: theme.textTheme.labelLarge?.copyWith(
           fontWeight: FontWeight.bold,
-          decoration: isChecked ? TextDecoration.lineThrough : null, // شطب السعر أيضاً عند الشراء
+          decoration: isChecked
+              ? TextDecoration.lineThrough
+              : null, // شطب السعر أيضاً عند الشراء
           color: isChecked
               ? theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.5)
               : (hasPrice
