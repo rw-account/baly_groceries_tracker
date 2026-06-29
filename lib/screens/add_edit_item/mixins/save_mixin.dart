@@ -26,6 +26,9 @@ mixin SaveMixin on AddEditItemState {
   static const String _genericSaveError =
       'حدث خطأ أثناء حفظ العنصر، حاول مرة أخرى';
 
+  // أضف هذا التعريف المجرد (abstract) ليجبر الشاشة على توفير دالة عرض الخطأ
+  void Function(String message) get showError;
+
   // ---------- Public entry point ----------
   Future<void> save() async {
     if (saving) return;
@@ -45,7 +48,7 @@ mixin SaveMixin on AddEditItemState {
 
     final days = int.tryParse(daysCtrl.text.trim());
     if (days == null) {
-      _showError(_invalidDaysError);
+      showError(_invalidDaysError);
       return;
     }
 
@@ -57,7 +60,7 @@ mixin SaveMixin on AddEditItemState {
 
     final thresholdError = _validateThresholds(safe, warn, urgent);
     if (thresholdError != null) {
-      _showError(thresholdError);
+      showError(thresholdError);
       return;
     }
 
@@ -136,19 +139,10 @@ mixin SaveMixin on AddEditItemState {
 
       if (mounted) context.pop();
     } catch (e) {
-      _showError(_genericSaveError);
+      showError(_genericSaveError);
     } finally {
       if (mounted) setState(() => setSaving(false));
     }
   }
 
-  void _showError(String message) {
-    if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: Colors.red,
-      ),
-    );
-  }
 }
