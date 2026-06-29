@@ -89,7 +89,7 @@ class _EditPriceDialogState extends State<_EditPriceDialog> {
           ],
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           decoration: const InputDecoration(
-            labelText: 'السعر',
+            labelText: 'السعر (اختياري)',
             hintText: '0.00',
             border: OutlineInputBorder(), // إضافة إطار ليكون أوضح في الديالوج
           ),
