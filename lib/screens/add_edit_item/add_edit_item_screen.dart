@@ -27,6 +27,9 @@ class AddEditItemScreen extends ConsumerStatefulWidget {
 
 class _AddEditItemScreenState extends AddEditItemState
     with SaveMixin, DeleteMixin, DatePickerMixin, DiscardMixin {
+
+  final _scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>(); 
+
   // ─── Focus nodes (للتنقل السلس بين الحقول بالضغط على "التالي") ─────────────
   final _nameFocus = FocusNode();
   final _descFocus = FocusNode();
@@ -39,6 +42,19 @@ class _AddEditItemScreenState extends AddEditItemState
     _daysFocus.dispose();
     super.dispose();
   }
+
+  // ─── تنفيذ showError المطلوب من SaveMixin ─────────────────────────────────
+  @override
+  void Function(String message) get showError => (String message) {
+    _scaffoldMessengerKey.currentState
+      ?..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: Colors.red,
+        ),
+      );
+  };
 
   // ─── Navigation ─────────────────────────────────────────────────────────
 
@@ -58,16 +74,19 @@ class _AddEditItemScreenState extends AddEditItemState
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return PopScope(
-      canPop: false,  // معناه ان زر الرجوع مغلق تماماً، ولا يمكن للمستخدم الخروج إلا إذا قمت أنت برمجياً باستدعاء Navigator.pop()
-      onPopInvokedWithResult: (didPop, _) async {
-        if (didPop) return; // اذا خرج المستخدم بالفعل (مثلاً بالضغط على زر 'الغاء')، ارجع ولا تفعل شيء لمنع الحلقه غير النهائيه
-        await _handleBack();
-      },
-      child: Scaffold(
-        appBar: _buildAppBar(theme),
-        body: SafeArea(
-          child: _buildForm(theme),
+    return ScaffoldMessenger(
+      key: _scaffoldMessengerKey,
+      child: PopScope(
+        canPop: false,  // معناه ان زر الرجوع مغلق تماماً، ولا يمكن للمستخدم الخروج إلا إذا قمت أنت برمجياً باستدعاء Navigator.pop()
+        onPopInvokedWithResult: (didPop, _) async {
+          if (didPop) return; // اذا خرج المستخدم بالفعل (مثلاً بالضغط على زر 'الغاء')، ارجع ولا تفعل شيء لمنع الحلقه غير النهائيه
+          await _handleBack();
+        },
+        child: Scaffold(
+          appBar: _buildAppBar(theme),
+          body: SafeArea(
+            child: _buildForm(theme),
+          ),
         ),
       ),
     );
