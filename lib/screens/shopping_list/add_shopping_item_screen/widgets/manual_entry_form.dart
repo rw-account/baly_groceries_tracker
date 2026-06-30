@@ -7,6 +7,7 @@ class ManualEntryForm extends StatefulWidget {
   final TextEditingController nameController;
   final TextEditingController priceController;
   final bool isDuplicate;
+  final String? duplicateMessage; 
   final String? priceError;
   final bool canSubmit;
   final bool isSubmitting;
@@ -23,6 +24,7 @@ class ManualEntryForm extends StatefulWidget {
     required this.onNameChanged,
     required this.onPriceChanged,
     required this.onSubmit,
+    this.duplicateMessage,
     this.priceError,
     this.isSubmitting = false,
   });
@@ -42,7 +44,8 @@ class _ManualEntryFormState extends State<ManualEntryForm> {
     _nameFocus = FocusNode();
     _priceFocus = FocusNode();
     // تركيز تلقائي عند فتح الشاشة
-    WidgetsBinding.instance.addPostFrameCallback((_) => _nameFocus.requestFocus());
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _nameFocus.requestFocus());
   }
 
   @override
@@ -55,6 +58,8 @@ class _ManualEntryFormState extends State<ManualEntryForm> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final canSubmit =
+        widget.canSubmit && !widget.isDuplicate && !widget.isSubmitting;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
@@ -72,13 +77,12 @@ class _ManualEntryFormState extends State<ManualEntryForm> {
             onSubmitted: (_) => _priceFocus.requestFocus(),
             decoration: _inputDeco(
               cs: cs,
-              hint: 'مثال: حليب، خبز، أرز…',
+              hint: 'مثال: حليب، بيض، أرز…',
               label: 'اسم العنصر',
               hasError: widget.isDuplicate,
             ),
           ),
 
-          //TODO: اشتي نفس هذه الرساله مع منع الضغط على الزر لما يكون الاسم موجود في المخزون او التطبيق مع توضيح انه لازم يضيفه من شاشة البحث اللي كانت قبل هذه الشاشه
           // رسالة التكرار
           AnimatedSize(
             duration: const Duration(milliseconds: 200),
@@ -89,11 +93,14 @@ class _ManualEntryFormState extends State<ManualEntryForm> {
                     padding: const EdgeInsets.only(top: 6, right: 4),
                     child: Row(
                       children: [
-                        Icon(Icons.warning_amber_rounded, size: 14, color: cs.error),
+                        Icon(Icons.warning_amber_rounded,
+                            size: 14, color: cs.error),
                         const SizedBox(width: 6),
-                        Text(
-                          'يوجد عنصر بنفس الاسم في القائمة',
-                          style: TextStyle(fontSize: 12, color: cs.error),
+                        Expanded(
+                          child: Text(
+                            widget.duplicateMessage ?? '',
+                            style: TextStyle(fontSize: 12, color: cs.error),
+                          ),
                         ),
                       ],
                     ),
@@ -117,7 +124,7 @@ class _ManualEntryFormState extends State<ManualEntryForm> {
             ],
             onChanged: widget.onPriceChanged,
             onSubmitted: (_) {
-              if (widget.canSubmit && !widget.isSubmitting) widget.onSubmit();
+              if (canSubmit) widget.onSubmit();
             },
             decoration: _inputDeco(
               cs: cs,
@@ -132,19 +139,23 @@ class _ManualEntryFormState extends State<ManualEntryForm> {
 
           // ── زر الإضافة ───────────────────────────────────────
           FilledButton.icon(
-            onPressed: (widget.canSubmit && !widget.isSubmitting) ? widget.onSubmit : null,
+            onPressed: canSubmit ? widget.onSubmit : null,
             icon: widget.isSubmitting
                 ? SizedBox(
                     width: 18,
                     height: 18,
-                    child: CircularProgressIndicator(strokeWidth: 2.2, color: cs.onPrimary),
+                    child: CircularProgressIndicator(
+                        strokeWidth: 2.2, color: cs.onPrimary),
                   )
                 : const Icon(Icons.add_rounded, size: 20),
-            label: Text(widget.isSubmitting ? 'جارٍ الإضافة…' : 'إضافة للقائمة'),
+            label:
+                Text(widget.isSubmitting ? 'جارٍ الإضافة…' : 'إضافة للقائمة'),
             style: FilledButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 15),
-              textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+              textStyle:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14)),
             ),
           ),
         ],
