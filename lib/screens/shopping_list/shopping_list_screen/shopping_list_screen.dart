@@ -33,7 +33,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('قائمة الشراء'),
-          centerTitle: true,
+          centerTitle: false,
           elevation: 0,
           scrolledUnderElevation: 1,
         ),
