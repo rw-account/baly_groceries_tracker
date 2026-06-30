@@ -159,6 +159,10 @@ class StorageService {
     await _database.delete(_tableName, where: 'id = ?', whereArgs: [id]);
   }
 
+  Future<void> deleteAllShoppingItems() async {
+    await _database.delete(_shoppingItemsTableName); // Deletes all rows (not the table)
+  }
+
 // ─── CRUD: Shopping Items ────────────────────────────────────────────────────
 
   Future<List<ShoppingItem>> getAllShoppingItems() async {
