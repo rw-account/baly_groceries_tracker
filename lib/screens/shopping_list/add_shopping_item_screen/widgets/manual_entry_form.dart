@@ -363,7 +363,7 @@ class _Chip extends StatelessWidget {
         color: bg,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: isActive ? cs.primary.withOpacity(0.4) : Colors.transparent,
+          color: isActive ? cs.primary.withValues(alpha: 0.4) : Colors.transparent,
           width: 1,
         ),
       ),
