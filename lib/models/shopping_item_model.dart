@@ -1,6 +1,8 @@
 // lib/models/shopping_item_model.dart
 
-class ShoppingItem {
+import 'package:equatable/equatable.dart';
+
+class ShoppingItem extends Equatable {
   final int? id; // null عند الإنشاء قبل الحفظ في قاعدة البيانات (AUTOINCREMENT)
   final String title;
   final String? inventoryItemId; // مرتبط بعنصر في المخزون (items.id) إذا لم يكن null
@@ -17,6 +19,10 @@ class ShoppingItem {
     DateTime? createdAt,
   }) : createdAt = createdAt ?? DateTime.now();
 
+  // NOTE: copyWith uses `??` for all fields, so explicitly passing `null`
+  // will NOT set a field back to `null`. To clear a field (e.g., price or
+  // inventoryItemId), you'll need to add a dedicated `clear*` flag or use a
+  // sentinel value.
   ShoppingItem copyWith({
     int? id,
     String? title,
@@ -56,6 +62,16 @@ class ShoppingItem {
       createdAt: DateTime.fromMillisecondsSinceEpoch(map['created_at'] as int),
     );
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        title,
+        inventoryItemId,
+        isChecked,
+        price,
+        createdAt,
+      ];
 
   @override
   String toString() =>

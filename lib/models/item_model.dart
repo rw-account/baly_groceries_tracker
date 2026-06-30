@@ -1,8 +1,10 @@
 // lib/models/item_model.dart
 
+import 'package:equatable/equatable.dart';
+
 enum ItemStatus { safe, warning, urgent }
 
-class ItemModel {
+class ItemModel extends Equatable {
   final String id;
   final String name;
   final String quantityDescription;
@@ -123,4 +125,22 @@ class ItemModel {
       notes: clearNotes ? null : (notes ?? this.notes),
     );
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        quantityDescription,
+        expectedDays,
+        createdAt,
+        notificationsEnabled,
+        safeThresholdDays,
+        warningThresholdDays,
+        urgentThresholdDays,
+        lastRefreshedAt,
+        notes,
+      ];
+
+  @override
+  bool get stringify => true;
 }
