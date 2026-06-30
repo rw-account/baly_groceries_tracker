@@ -145,12 +145,33 @@ class AddItemCubit extends Cubit<AddItemState> {
   void _validateManualEntry() {
     final name = state.manualName.trim();
     final normalizedName = name.toLowerCase();
-    final isDuplicate = name.isNotEmpty &&
-        (_allItems.any(
-                (item) => item.name.trim().toLowerCase() == normalizedName) ||
-            _allShoppingItems.any(
-              (item) => item.title.trim().toLowerCase() == normalizedName,
-            ));
+
+    bool isInShoppingList = false;
+    bool isInInventory = false;
+    String? duplicateMessage;
+
+    if (name.isNotEmpty) {
+      // فحص قائمة الشراء أولاً
+      isInShoppingList = _allShoppingItems.any(
+        (item) => item.title.trim().toLowerCase() == normalizedName,
+      );
+
+      // فحص المخزون فقط إذا لم يكن موجوداً في قائمة الشراء
+      if (!isInShoppingList) {
+        isInInventory = _allItems.any(
+          (item) => item.name.trim().toLowerCase() == normalizedName,
+        );
+      }
+
+      // بناء الرسالة المناسبة
+      if (isInShoppingList) {
+        duplicateMessage = 'هذا العنصر موجود بالفعل في قائمة الشراء.';
+      } else if (isInInventory) {
+        duplicateMessage = 'هذا العنصر مُتابع في التطبيق. يُرجى إضافته من شاشة البحث السابقة.';
+      }
+    }
+
+    final isDuplicate = isInShoppingList || isInInventory;
 
     final priceText = state.manualPrice.trim();
     String? priceError;
@@ -170,6 +191,7 @@ class AddItemCubit extends Cubit<AddItemState> {
 
     emit(state.copyWith(
       manualNameDuplicate: isDuplicate,
+      manualDuplicateMessage: duplicateMessage, // ✅ يملأ الحقل الجديد
       manualPriceError: priceError,
       canSubmitManual: canSubmit,
     ));
