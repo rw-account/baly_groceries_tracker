@@ -15,7 +15,8 @@ mixin DeleteMixin on AddEditItemState {
   // ---------- User-facing messages ----------
   static const String _dialogTitle = 'حذف المادة';
   static const String _dialogContentPrefix = 'هل أنت متأكد من حذف "';
-  static const String _dialogContentSuffix = '"؟ لا يمكن التراجع عن هذا الإجراء.';
+  static const String _dialogContentSuffix =
+      '"؟ سيتم حذفها أيضًا من قائمة الشراء إن كانت مضافة هناك. لا يمكن التراجع عن هذا الإجراء.';
   static const String _cancelButtonLabel = 'إلغاء';
   static const String _deleteButtonLabel = 'حذف';
   static const String _deleteError = 'تعذّر حذف المادة، يرجى المحاولة مرة أخرى';
