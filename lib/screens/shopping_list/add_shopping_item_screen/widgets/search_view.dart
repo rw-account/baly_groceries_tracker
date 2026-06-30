@@ -79,26 +79,42 @@ class SearchView extends StatelessWidget {
         Expanded(
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 220),
+            // تم تعديل الشرط: القائمة تظهر طالما هناك نص، وتحتوي بداخلها على زر الإضافة
             child: query.isEmpty
                 ? _buildHint(theme, 'ابدأ بكتابة اسم العنصر للاضافة')
-                : !_hasResults
-                    ? _buildNoResultsView(theme)
-                    : ListView(
-                        key: const ValueKey('results'),
-                        padding: const EdgeInsets.fromLTRB(12, 4, 12, 16),
-                        children: [
-                          for (final item in matchingInventoryItems)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
-                              child: _buildInventoryResultTile(theme, item),
+                : ListView(
+                    key: const ValueKey('results'),
+                    padding: const EdgeInsets.fromLTRB(12, 4, 12, 16),
+                    children: [
+                      // ── زر الإضافة السريع كأول عنصر في القائمة ──
+                      _buildQuickAddTile(theme),
+                      
+                      // ── فصل النتائج إذا وجدت ──
+                      if (_hasResults) ...[
+                        Padding(
+                          padding: const EdgeInsets.only(top: 12, bottom: 6, right: 4),
+                          child: Text(
+                            'نتائج البحث',
+                            style: theme.textTheme.labelSmall?.copyWith(
+                              color: theme.colorScheme.onSurfaceVariant,
+                              fontWeight: FontWeight.w600,
                             ),
-                          for (final shoppingItem in matchingManualShoppingItems)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
-                              child: _buildManualResultTile(theme, shoppingItem),
-                            ),
-                        ],
-                      ),
+                          ),
+                        ),
+                        
+                        for (final item in matchingInventoryItems)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: _buildInventoryResultTile(theme, item),
+                          ),
+                        for (final shoppingItem in matchingManualShoppingItems)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: _buildManualResultTile(theme, shoppingItem),
+                          ),
+                      ],
+                    ],
+                  ),
           ),
         ),
       ],
@@ -116,27 +132,50 @@ class SearchView extends StatelessWidget {
     );
   }
 
-  Widget _buildNoResultsView(ThemeData theme) {
-    return Center(
-      key: const ValueKey('no_results'),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.search_off,
-              size: 56, color: theme.colorScheme.onSurfaceVariant),
-          const SizedBox(height: 16),
-          Text(
-            'لا توجد نتائج مطابقة',
-            style: theme.textTheme.bodyMedium
-                ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+  // ─── بطاقة الإضافة السريعة (التصميم المدمج) ───────────────────────────
+  Widget _buildQuickAddTile(ThemeData theme) {
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(14),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(14),
+        onTap: isSubmitting ? null : onEnterManualMode,
+        child: Container(
+          // لون خلفية مميز قليلاً ليدل على أنه إجراء (Action) وليس نتيجة
+          decoration: BoxDecoration(
+            color: theme.colorScheme.primaryContainer.withValues(alpha: 0.5),
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(
+              color: theme.colorScheme.primary.withValues(alpha: 0.3),
+            ),
           ),
-          const SizedBox(height: 8),
-          Text(
-            'استخدم الزر أعلاه لإضافته كعنصر جديد',
-            style: theme.textTheme.bodySmall
-                ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          child: Row(
+            children: [
+              // أيقونة مميزة للإضافة (بدون دائرة خلفية)
+              Icon(
+                Icons.add_circle_outline, 
+                color: theme.colorScheme.primary, 
+                size: 28, // قمت بزيادة الحجم قليلاً لتعويض اختفاء الدائرة
+              ),
+              const SizedBox(width: 12),
+              // نص البحث
+              Expanded(
+                child: Text(
+                  'إضافة "$query" كعنصر جديد',
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: theme.colorScheme.onSurface,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              // سهم يوضح أنه قابل للضغط
+              Icon(Icons.adaptive.arrow_forward, size: 20, color: theme.colorScheme.onSurfaceVariant),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
