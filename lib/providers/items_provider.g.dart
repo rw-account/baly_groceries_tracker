@@ -33,7 +33,7 @@ final class ItemsNotifierProvider
   ItemsNotifier create() => ItemsNotifier();
 }
 
-String _$itemsNotifierHash() => r'535e8738f2eab989699d3699b6b8e592bf1a910f';
+String _$itemsNotifierHash() => r'209e05483bc9904ba7908030e3e931830101892c';
 
 abstract class _$ItemsNotifier extends $AsyncNotifier<List<ItemModel>> {
   FutureOr<List<ItemModel>> build();
