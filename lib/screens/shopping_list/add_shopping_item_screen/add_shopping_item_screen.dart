@@ -167,6 +167,7 @@ class _AddShoppingItemViewState extends State<_AddShoppingItemView> {
       nameController: _manualNameController,
       priceController: _manualPriceController,
       isDuplicate: state.manualNameDuplicate,
+      duplicateMessage: state.manualDuplicateMessage,
       priceError: state.manualPriceError,
       canSubmit: state.canSubmitManual,
       isSubmitting: state.isSubmitting,
