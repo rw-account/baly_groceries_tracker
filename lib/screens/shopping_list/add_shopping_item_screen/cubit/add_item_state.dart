@@ -31,6 +31,7 @@ class AddItemState extends Equatable {
     this.manualName = '',
     this.manualPrice = '',
     this.manualNameDuplicate = false,
+    this.manualDuplicateMessage,
     this.manualPriceError,
     this.canSubmitManual = false,
   });
@@ -55,6 +56,7 @@ class AddItemState extends Equatable {
   final String manualName;
   final String manualPrice;
   final bool manualNameDuplicate;
+  final String? manualDuplicateMessage;
   final String? manualPriceError;
   final bool canSubmitManual;
 
@@ -79,6 +81,7 @@ class AddItemState extends Equatable {
     String? manualName,
     String? manualPrice,
     bool? manualNameDuplicate,
+    Object? manualDuplicateMessage = _unset,
     Object? manualPriceError = _unset,
     bool? canSubmitManual,
   }) {
@@ -97,6 +100,9 @@ class AddItemState extends Equatable {
       manualName: manualName ?? this.manualName,
       manualPrice: manualPrice ?? this.manualPrice,
       manualNameDuplicate: manualNameDuplicate ?? this.manualNameDuplicate,
+      manualDuplicateMessage: manualDuplicateMessage == _unset 
+          ? this.manualDuplicateMessage
+          : manualDuplicateMessage as String?,
       manualPriceError: manualPriceError == _unset
           ? this.manualPriceError
           : manualPriceError as String?,
@@ -117,6 +123,7 @@ class AddItemState extends Equatable {
         manualName,
         manualPrice,
         manualNameDuplicate,
+        manualDuplicateMessage,
         manualPriceError,
         canSubmitManual,
       ];
