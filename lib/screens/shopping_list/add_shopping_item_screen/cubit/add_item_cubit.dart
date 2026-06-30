@@ -111,14 +111,15 @@ class AddItemCubit extends Cubit<AddItemState> {
 
     emit(state.copyWith(status: AddItemStatus.submitting, errorMessage: null));
     try {
-      final added =
-          await _ref.read(shoppingListProvider.notifier).addShoppingItem(
-                title: item.name,
-                inventoryItemId: item.id,
-                price: price,
-              );
+      final added = await _ref.read(shoppingListProvider.notifier).addShoppingItem(
+            title: item.name,
+            inventoryItemId: item.id,
+            price: price,
+          );
+      if (isClosed) return;
       _emitResult(added);
     } catch (_) {
+      if (isClosed) return;
       _emitFailure('حدث خطأ أثناء الإضافة، حاول مرة أخرى');
     }
   }
