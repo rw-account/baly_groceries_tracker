@@ -199,6 +199,30 @@ class StorageService {
     await _database.delete(_shoppingItemsTableName, where: 'id = ?', whereArgs: [id]);
   }
 
+  /// Updates the title in all shopping_list rows linked to the given
+  /// inventory item, so they always mirror the source name.
+  Future<void> updateShoppingItemTitleForInventoryItem(
+      String inventoryItemId, String newTitle) async {
+    await _database.update(
+      _shoppingItemsTableName,
+      {'title': newTitle},
+      where: 'inventory_item_id = ?',
+      whereArgs: [inventoryItemId],
+    );
+  }
+
+  /// Deletes all shopping_list rows linked to the given inventory item.
+  /// Used when the inventory item itself is removed, so no orphaned
+  /// references remain.
+  Future<void> deleteShoppingItemsForInventoryItem(
+      String inventoryItemId) async {
+    await _database.delete(
+      _shoppingItemsTableName,
+      where: 'inventory_item_id = ?',
+      whereArgs: [inventoryItemId],
+    );
+  }
+
   // ─── Background helper ────────────────────────────────────────────────────────
 
   /// Opens its own DB connection (for use in background isolates / Workmanager).
