@@ -64,7 +64,7 @@ class _AddShoppingItemViewState extends State<_AddShoppingItemView> {
     final result = await showEditPriceDialog(context, itemName: item.name);
     if (!result.confirmed || !context.mounted) return;
 
-    cubit.selectInventoryItem(item, price: result.price);
+    cubit.addInventoryItem(item, price: result.price);
   }
 
   void _enterManualMode(BuildContext context) {
