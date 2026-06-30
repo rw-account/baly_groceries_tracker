@@ -76,7 +76,6 @@ class SearchView extends StatelessWidget {
             ),
           ),
         ),
-        // TODO: لازم اضيف زر هنا علشان المستخدم يضيف العنصر
         Expanded(
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 220),
@@ -127,15 +126,15 @@ class SearchView extends StatelessWidget {
               size: 56, color: theme.colorScheme.onSurfaceVariant),
           const SizedBox(height: 16),
           Text(
-            'لا توجد نتائج',
+            'لا توجد نتائج مطابقة',
             style: theme.textTheme.bodyMedium
                 ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
           ),
-          const SizedBox(height: 20),
-          FilledButton.icon(
-            onPressed: isSubmitting ? null : onEnterManualMode,
-            icon: const Icon(Icons.add),
-            label: const Text('إضافة عنصر جديد'),
+          const SizedBox(height: 8),
+          Text(
+            'استخدم الزر أعلاه لإضافته كعنصر جديد',
+            style: theme.textTheme.bodySmall
+                ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
           ),
         ],
       ),
