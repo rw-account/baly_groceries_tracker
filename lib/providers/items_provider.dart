@@ -1,6 +1,7 @@
 // lib/providers/items_provider.dart
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:home_orders_tracker/providers/shopping_list_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 import '../models/item_model.dart';
@@ -80,12 +81,28 @@ class ItemsNotifier extends _$ItemsNotifier {
   Future<void> updateItem(ItemModel updated) async {
     final storage = ref.read(storageServiceProvider);
     await storage.saveItem(updated);
+
+    // Update the title of all shopping items associated with this inventory item
+    await storage.updateShoppingItemTitleForInventoryItem(
+        updated.id, updated.name);
+
+    // Invalidate the shopping list provider to trigger a UI update
+    ref.invalidate(shoppingListProvider);
+
     await _refreshStateAndNotifications(storage);
   }
 
   Future<void> deleteItem(String id) async {
     final storage = ref.read(storageServiceProvider);
+
+    // Delete all shopping items associated with this inventory item
+    await storage.deleteShoppingItemsForInventoryItem(id);
+
     await storage.deleteItem(id);
+
+    // Invalidate the shopping list provider to trigger a UI update
+    ref.invalidate(shoppingListProvider);
+
     await _refreshStateAndNotifications(storage);
   }
 
