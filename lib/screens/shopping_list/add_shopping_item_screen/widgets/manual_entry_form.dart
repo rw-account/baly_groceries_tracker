@@ -78,6 +78,7 @@ class _ManualEntryFormState extends State<ManualEntryForm> {
             ),
           ),
 
+          //TODO: اشتي نفس هذه الرساله مع منع الضغط على الزر لما يكون الاسم موجود في المخزون او التطبيق مع توضيح انه لازم يضيفه من شاشة البحث اللي كانت قبل هذه الشاشه
           // رسالة التكرار
           AnimatedSize(
             duration: const Duration(milliseconds: 200),
