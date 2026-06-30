@@ -106,7 +106,6 @@ class AddItemCubit extends Cubit<AddItemState> {
     emit(state.copyWith(mode: AddItemMode.search));
   }
 
-  // TODO: اشتي اخلي اسم هذه الدالة يعني الضغط على زر اضافة عنصر مخزون في التطبيق.
   Future<void> addInventoryItem(ItemModel item, {required double? price}) async {
     if (state.isSubmitting) return;
 
