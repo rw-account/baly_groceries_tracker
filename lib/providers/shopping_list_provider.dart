@@ -61,22 +61,6 @@ class ShoppingListNotifier extends _$ShoppingListNotifier {
     await _refreshState(storage);
   }
 
-  /// Updates an existing shopping item with new values.
-  /// This is a general-purpose update, unlike [updatePrice] which only
-  /// changes the price. Use this when you need to modify multiple fields
-  /// at once (e.g., title, inventoryItemId, isChecked, price, createdAt).
-  Future<void> updateShoppingItem(ShoppingItem updated) async {
-    final storage = ref.read(storageServiceProvider);
-    await storage.updateShoppingItem(updated);
-    await _refreshState(storage);
-  }
-
-  Future<void> setChecked(int id, bool isChecked) async {
-    final storage = ref.read(storageServiceProvider);
-    await storage.setShoppingItemChecked(id, isChecked);
-    await _refreshState(storage);
-  }
-
   /// Updates the price of the shopping item with the given [id].
   /// Persists the change via [StorageService.updateShoppingItem] and
   /// refreshes the in-memory state afterwards. Does nothing if no item

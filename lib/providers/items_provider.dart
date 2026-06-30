@@ -114,19 +114,6 @@ class ItemsNotifier extends _$ItemsNotifier {
     return index == -1 ? null : items[index];
   }
 
-  /// Returns the [id] of the item with the given [name] (case‑insensitive,
-  /// trimmed). Returns `null` if no matching item is found.
-  String? findIdByName(String name) {
-    final items = state.value ?? [];
-    final normalized = name.trim().toLowerCase();
-    for (final item in items) {
-      if (item.name.trim().toLowerCase() == normalized) {
-        return item.id;
-      }
-    }
-    return null;
-  }
-
   // ─── Refresh lastRefreshedAt ─────────────────────────────────────────────────
 
   /// Allows the user to renew an item without deleting and recreating it.
