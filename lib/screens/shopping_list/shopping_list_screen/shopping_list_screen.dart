@@ -75,7 +75,17 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
     final id = item.id;
     if (id == null) return;
 
-    await ref.read(shoppingListProvider.notifier).deleteShoppingItem(id);
+    try {
+      await ref.read(shoppingListProvider.notifier).deleteShoppingItem(id);
+    } catch (e) {
+      if (!mounted) return;
+        _scaffoldMessengerKey.currentState
+          ?..hideCurrentSnackBar()
+          ..showSnackBar(
+            SnackBar(content: Text('تعذر حذف "${item.title}"')),
+          );
+        return;
+    }
     if (!mounted) return;
 
     _scaffoldMessengerKey.currentState
