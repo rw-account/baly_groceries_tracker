@@ -181,8 +181,10 @@ class AddItemCubit extends Cubit<AddItemState> {
             inventoryItemId: null,
             price: price,
           );
+      if (isClosed) return;
       _emitResult(added);
     } catch (_) {
+      if (isClosed) return;
       _emitFailure('حدث خطأ أثناء الإضافة، حاول مرة أخرى');
     }
   }
