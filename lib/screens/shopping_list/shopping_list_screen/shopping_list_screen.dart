@@ -23,6 +23,11 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
   Widget build(BuildContext context) {
     final shoppingAsync = ref.watch(shoppingListProvider);
 
+    final showFab = shoppingAsync.maybeWhen(
+      data: (items) => items.isNotEmpty,
+      orElse: () => true,
+    );
+
     return ScaffoldMessenger(
       key: _scaffoldMessengerKey,
       child: Scaffold(
@@ -56,13 +61,15 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
             ),
           ),
         ),
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.only(bottom: 70, left: 3),
-          child: FloatingActionButton(
-            onPressed: () => _navigateToAddScreen(context),
-            child: const Icon(Icons.add),
-          ),
-        ),
+        floatingActionButton: showFab
+          ? Padding(
+              padding: const EdgeInsets.only(bottom: 70, left: 3),
+              child: FloatingActionButton(
+                onPressed: () => _navigateToAddScreen(context),
+                child: const Icon(Icons.add),
+              ),
+            )
+          : null,   // يُخفي الزر تماماً عندما تكون القائمة فارغة
       ),
     );
   }
