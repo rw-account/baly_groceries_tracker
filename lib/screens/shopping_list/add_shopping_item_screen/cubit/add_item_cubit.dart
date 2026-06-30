@@ -29,6 +29,7 @@ class AddItemCubit extends Cubit<AddItemState> {
       (previous, next) {
         _allItems = next.value ?? const [];
         _recomputeSearchResults();
+        if (state.mode == AddItemMode.manual) _validateManualEntry();
       },
       fireImmediately: true,
     );
@@ -37,6 +38,7 @@ class AddItemCubit extends Cubit<AddItemState> {
       (previous, next) {
         _allShoppingItems = next.value ?? const [];
         _recomputeSearchResults();
+        if (state.mode == AddItemMode.manual) _validateManualEntry();
       },
       fireImmediately: true,
     );
@@ -106,16 +108,18 @@ class AddItemCubit extends Cubit<AddItemState> {
     emit(state.copyWith(mode: AddItemMode.search));
   }
 
-  Future<void> addInventoryItem(ItemModel item, {required double? price}) async {
+  Future<void> addInventoryItem(ItemModel item,
+      {required double? price}) async {
     if (state.isSubmitting) return;
 
     emit(state.copyWith(status: AddItemStatus.submitting, errorMessage: null));
     try {
-      final added = await _ref.read(shoppingListProvider.notifier).addShoppingItem(
-            title: item.name,
-            inventoryItemId: item.id,
-            price: price,
-          );
+      final added =
+          await _ref.read(shoppingListProvider.notifier).addShoppingItem(
+                title: item.name,
+                inventoryItemId: item.id,
+                price: price,
+              );
       if (isClosed) return;
       _emitResult(added);
     } catch (_) {
@@ -140,11 +144,13 @@ class AddItemCubit extends Cubit<AddItemState> {
   /// flags. Price is optional: an empty field is treated as valid.
   void _validateManualEntry() {
     final name = state.manualName.trim();
-    final isDuplicate = name.isEmpty
-        ? false
-        : _ref
-            .read(shoppingListProvider.notifier)
-            .isDuplicate(inventoryItemId: null, title: name);
+    final normalizedName = name.toLowerCase();
+    final isDuplicate = name.isNotEmpty &&
+        (_allItems.any(
+                (item) => item.name.trim().toLowerCase() == normalizedName) ||
+            _allShoppingItems.any(
+              (item) => item.title.trim().toLowerCase() == normalizedName,
+            ));
 
     final priceText = state.manualPrice.trim();
     String? priceError;
@@ -157,8 +163,10 @@ class AddItemCubit extends Cubit<AddItemState> {
       }
     }
 
-    final canSubmit =
-        !state.isSubmitting && name.isNotEmpty && !isDuplicate && priceError == null;
+    final canSubmit = !state.isSubmitting &&
+        name.isNotEmpty &&
+        !isDuplicate &&
+        priceError == null;
 
     emit(state.copyWith(
       manualNameDuplicate: isDuplicate,
@@ -176,11 +184,12 @@ class AddItemCubit extends Cubit<AddItemState> {
 
     emit(state.copyWith(status: AddItemStatus.submitting, errorMessage: null));
     try {
-      final added = await _ref.read(shoppingListProvider.notifier).addShoppingItem(
-            title: name,
-            inventoryItemId: null,
-            price: price,
-          );
+      final added =
+          await _ref.read(shoppingListProvider.notifier).addShoppingItem(
+                title: name,
+                inventoryItemId: null,
+                price: price,
+              );
       if (isClosed) return;
       _emitResult(added);
     } catch (_) {
