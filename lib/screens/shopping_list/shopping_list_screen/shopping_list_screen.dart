@@ -25,7 +25,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
 
     final showFab = shoppingAsync.maybeWhen(
       data: (items) => items.isNotEmpty,
-      orElse: () => true,
+      orElse: () => false,
     );
 
     return ScaffoldMessenger(
