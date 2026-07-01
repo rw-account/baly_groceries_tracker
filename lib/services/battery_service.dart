@@ -63,16 +63,17 @@ class BatteryService {
       await prefs.setBool('battery_prompt_shown', true);
       try {
         const intent = AndroidIntent(
-          action: 'android.settings.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS',
-          data: 'package:com.home_orders_tracker.app',
+          action: 'android.settings.IGNORE_BATTERY_OPTIMIZATION_SETTINGS', 
         );
         await intent.launch();
       } catch (_) {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
+              duration: Duration(seconds: 15),
+              backgroundColor: Colors.red,
               content: Text(
-                'لضمان ظهور الاشعارات التذكيرية يرجى الذهاب إلى الإعدادات > التطبيقات > تطبيقنا > البطارية > السماح بالتشغيل في الخلفية',
+                'تعذر فتح الإعدادات تلقائيًا. لضمان ظهور الاشعارات التذكيرية يرجى الذهاب إلى الإعدادات > التطبيقات > تطبيقنا > البطارية > السماح بالتشغيل في الخلفية',
               ),
             ),
           );
