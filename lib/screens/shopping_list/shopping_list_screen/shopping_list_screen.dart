@@ -25,7 +25,6 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
 
   @override
   void dispose() {
-    // ✅ إلغاء الـ Timer عند إغلاق الشاشة لمنع تسرب الذاكرة
     snackBarTimer?.cancel();
     super.dispose();
   }
