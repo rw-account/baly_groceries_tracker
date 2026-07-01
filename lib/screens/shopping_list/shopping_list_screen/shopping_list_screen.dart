@@ -18,7 +18,7 @@ class ShoppingListScreen extends ConsumerStatefulWidget {
 }
 
 class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
-  // ✅ دالة مساعدة لتوحيد طريقة عرض الـ SnackBar وتنظيف الكود
+
   void _showSnackBar(String message,) {
     if (!mounted) return;
     ScaffoldMessenger.of(context)
