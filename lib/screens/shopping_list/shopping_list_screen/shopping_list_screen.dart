@@ -188,7 +188,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
     buffer.writeln('🛒 قائمة الشراء:');
     
     for (final item in items) {
-      // ملاحظه مهمه: عند تحويل لغة التطبيق الى الانجليزي يجب انك تغير اتجاه ايموجي اليد وتجيب ايموجي يشير للجهه الاخرى
+      // ملاحظه مهمه لا تحذفها: عند تحويل لغة التطبيق الى الانجليزي يجب انك تغير اتجاه ايموجي اليد وتجيب ايموجي يشير للجهه الاخرى
       final price = item.price != null ? ' 👈 (السعر: ${item.price})' : ''; 
       
       final checked = item.isChecked ? ' [مكتمل ✓]' : '';
