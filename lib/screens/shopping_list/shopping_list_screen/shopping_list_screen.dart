@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -7,8 +9,6 @@ import '../../../models/shopping_item_model.dart';
 import '../../../providers/shopping_list_provider.dart';
 import '../../../router/route_paths.dart';
 import 'widgets/widgets.dart';
-
-import 'dart:async';
 
 class ShoppingListScreen extends ConsumerStatefulWidget {
   const ShoppingListScreen({super.key});
@@ -23,7 +23,14 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
   // ⏱️ Used to auto-hide the SnackBar after the undo window expires.
   Timer? snackBarTimer;
 
-  void _showSnackBar(String message,) {
+  @override
+  void dispose() {
+    // ✅ إلغاء الـ Timer عند إغلاق الشاشة لمنع تسرب الذاكرة
+    snackBarTimer?.cancel();
+    super.dispose();
+  }
+
+  void _showSnackBar(String message) {
     if (!mounted) return;
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
@@ -254,6 +261,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
         ],
       ),
     );
+    
     if (confirmed != true || !mounted) return;
 
     try {
@@ -284,7 +292,6 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
       buffer.writeln('• ${item.title}$price$checked');
     }
 
-    // ✅ الكود الصحيح والآمن للإصدارات الجديدة
     SharePlus.instance.share(
       ShareParams(text: buffer.toString()),
     );
