@@ -58,7 +58,7 @@ class BatteryService {
 
     if (shouldProceed == true) {
       // Guard again after the dialog async gap.
-      if (!context.mounted) return; // احتياطي زائد، يمكن اضيف مستقبلا شيء يحتاج context
+      if (!context.mounted) return;
 
       await prefs.setBool('battery_prompt_shown', true);
       try {
