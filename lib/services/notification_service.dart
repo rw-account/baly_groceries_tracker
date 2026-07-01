@@ -3,6 +3,7 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz_data;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:flutter_timezone/flutter_timezone.dart';
 
 import '../../models/item_model.dart';
 
@@ -23,12 +24,17 @@ class NotificationService {
       // 1. تحميل بيانات المناطق الزمنية
       tz_data.initializeTimeZones();
 
-      // 2. ضبط المنطقة الزمنية باستخدام وقت النظام فقط (بدون أي قنوات أصلية)
+      // 2. ضبط المنطقة الزمنية باستخدام flutter_timezone (موثوق في أندرويد و iOS)
       try {
-        final String deviceZone = DateTime.now().timeZoneName;
+        // نقوم بجلب كائن معلومات المنطقة الزمنية أولاً
+        final TimezoneInfo deviceZoneInfo = await FlutterTimezone.getLocalTimezone();
+        
+        // نستخدم الـ identifier لاستخراج النص مثل "Asia/Riyadh"
+        final String deviceZone = deviceZoneInfo.identifier;
+        
         tz.setLocalLocation(tz.getLocation(deviceZone));
       } catch (_) {
-        // احتياطي في حال تعذر تحديد المنطقة الزمنية من النظام
+        // احتياطي في حال تعذر تحديد المنطقة الزمنية
         tz.setLocalLocation(tz.getLocation('Asia/Riyadh'));
       }
 
@@ -101,7 +107,7 @@ class NotificationService {
                 BigTextStyleInformation(body), // ✅ يضمن عرض النص كاملاً عند التوسيع
           ),
         ),
-        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
         matchDateTimeComponents: DateTimeComponents.time, // يجعل الإشعار يتكرر يومياً بنفسه
       );
     } catch (e) {
