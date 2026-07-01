@@ -5,11 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:android_intent_plus/android_intent.dart';
 
-
 class BatteryService {
   BatteryService._(); // Prevents instantiation of this class.
 
-  static const _batteryChannel = MethodChannel('com.home_orders_tracker.app/battery_optimization');
+  static const _batteryChannel =
+      MethodChannel('com.home_orders_tracker.app/battery_optimization');
 
   static Future<bool> isIgnoringBatteryOptimizations() async {
     try {
@@ -25,15 +25,29 @@ class BatteryService {
   static Future<void> requestBatteryOptimizationExemption(BuildContext context) async {
     if (!context.mounted) return;
 
+    // 1. إن كان معفيًا بالفعل، لا حاجة لأي حوار
     if (await isIgnoringBatteryOptimizations()) return;
 
     final prefs = await SharedPreferences.getInstance();
+
+    // 2. عداد مرات فتح التطبيق
+    const String openCountKey = 'app_open_count';
+    int openCount = prefs.getInt(openCountKey) ?? 0;
+
+    // إذا لم نصل للعدد المطلوب (3 مرات)، نزيد العداد ونخرج
+    if (openCount < 3) {
+      await prefs.setInt(openCountKey, openCount + 1);
+      return;
+    }
+
+    // 3. إن عُرض الحوار مرة سابقة فلا نكرره
     final alreadyShown = prefs.getBool('battery_prompt_shown') ?? false;
     if (alreadyShown) return;
 
     // Guard after the async gap.
     if (!context.mounted) return;
 
+    // 4. نعرض الحوار
     final shouldProceed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -63,7 +77,7 @@ class BatteryService {
       await prefs.setBool('battery_prompt_shown', true);
       try {
         const intent = AndroidIntent(
-          action: 'android.settings.IGNORE_BATTERY_OPTIMIZATION_SETTINGS', 
+          action: 'android.settings.IGNORE_BATTERY_OPTIMIZATION_SETTINGS',
         );
         await intent.launch();
       } catch (_) {
