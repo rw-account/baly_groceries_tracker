@@ -18,6 +18,10 @@ class ShoppingListScreen extends ConsumerStatefulWidget {
 }
 
 class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
+  
+  // 🔴 Local timer for _deleteShoppingItem() undo SnackBar
+  // ⏱️ Used to auto-hide the SnackBar after the undo window expires.
+  Timer? snackBarTimer;
 
   void _showSnackBar(String message,) {
     if (!mounted) return;
@@ -142,8 +146,11 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
     if (id == null) return;
 
     const int durationSeconds = 5; // How long the Undo action remains available.
-    Timer? snackBarTimer; // ⏱️ Holds the sleep Timer.
     final scaffoldMessenger = ScaffoldMessenger.of(context);
+
+    // Immediately cancel any previous timer when a new delete operation starts
+    // to ensure that an old timer does not "wake up" later and incorrectly dismiss the new SnackBar.
+    snackBarTimer?.cancel();
 
     try {
       await ref.read(shoppingListProvider.notifier).deleteShoppingItem(id);
