@@ -16,13 +16,17 @@ class ShoppingListScreen extends ConsumerStatefulWidget {
 }
 
 class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
-  // ✅ دالة مساعدة لتوحيد طريقة عرض الـ SnackBar وتنظيف الكود
-  void _showSnackBar(String message, {SnackBarAction? action}) {
+
+  void _showSnackBar(String message) {
     if (!mounted) return;
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(
-        SnackBar(content: Text(message), action: action),
+        SnackBar(
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          content: Text(message), 
+        ),
       );
   }
 
@@ -104,46 +108,54 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
         ),
       ),
       floatingActionButton: showFab
-          ? Padding(
-              padding: const EdgeInsets.only(bottom: 70, left: 3),
-              child: FloatingActionButton(
-                onPressed: () => context.push(RoutePaths.addShoppingItemFull),
-                child: const Icon(Icons.add),
-              ),
+          ? FloatingActionButton(
+              onPressed: () => context.push(RoutePaths.addShoppingItemFull),
+              child: const Icon(Icons.add),
             )
           : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 
-  // ─── حذف عنصر واحد ─────────────────────────────────────────────────
+  // ─── حذف عنصر واحد (مع رسالة تأكيد) ─────────────────────────────────
   Future<void> _deleteShoppingItem(ShoppingItem item) async {
+    // 1. إظهار رسالة التأكيد أولاً
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('تأكيد الحذف'),
+        content: Text('هل تريد حذف "${item.title}" من القائمة؟'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('إلغاء'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(ctx).colorScheme.error,
+            ),
+            child: const Text('حذف'),
+          ),
+        ],
+      ),
+    );
+
+    // 2. إذا ألغى المستخدم أو أغلق النافذة، نتوقف
+    if (confirmed != true || !mounted) return;
+
     final id = item.id;
     if (id == null) return;
 
+    // 3. تنفيذ الحذف الفعلي
     try {
       await ref.read(shoppingListProvider.notifier).deleteShoppingItem(id);
+      if (!mounted) return;
+      _showSnackBar('تم حذف "${item.title}"');
     } catch (e) {
+      if (!mounted) return;
       _showSnackBar('تعذر حذف "${item.title}"');
-      return;
     }
-
-    _showSnackBar(
-      'تم حذف "${item.title}"',
-      action: SnackBarAction(
-        label: 'تراجع',
-        onPressed: () => _restoreShoppingItem(item),
-      ),
-    );
-  }
-
-  Future<void> _restoreShoppingItem(ShoppingItem item) async {
-    await ref.read(shoppingListProvider.notifier).addShoppingItem(
-          title: item.title,
-          inventoryItemId: item.inventoryItemId,
-          price: item.price,
-          isChecked: item.isChecked,
-          createdAt: item.createdAt,
-        );
   }
 
   // ─── حذف الكل ──────────────────────────────────────────────────────
@@ -160,7 +172,9 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(ctx).colorScheme.error,
+            ),
             child: const Text('حذف الكل'),
           ),
         ],
@@ -188,15 +202,13 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
     buffer.writeln('🛒 قائمة الشراء:');
     
     for (final item in items) {
-      // ملاحظه مهمه لا تحذفها: عند تحويل لغة التطبيق الى الانجليزي يجب انك تغير اتجاه ايموجي اليد وتجيب ايموجي يشير للجهه الاخرى
-      final price = item.price != null ? ' 👈 (السعر: ${item.price})' : ''; 
-      
+      //TODO: ملاحظه مهمه لا تحذفها: عند تحويل لغة التطبيق الى الانجليزي يجب انك تغير اتجاه ايموجي اليد وتجيب ايموجي يشير للجهه الاخرى
+      final price = item.price != null ? ' 👈 (السعر: ${item.price})' : '';
       final checked = item.isChecked ? ' [مكتمل ✓]' : '';
-      
+
       buffer.writeln('• ${item.title}$price$checked');
     }
 
-    // ✅ الكود الصحيح والآمن للإصدارات الجديدة
     SharePlus.instance.share(
       ShareParams(text: buffer.toString()),
     );
