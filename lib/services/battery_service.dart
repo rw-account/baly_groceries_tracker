@@ -10,6 +10,10 @@ class BatteryService {
 
   static const _batteryChannel =
       MethodChannel('com.home_orders_tracker.app/battery_optimization');
+      
+  // مفتاح تخزين تاريخ آخر ظهور للحوار
+  static const _lastPromptKey = 'battery_prompt_last_shown';
+  static const _reminderDays = 7; // عدد الأيام الانتظارية
 
   static Future<bool> isIgnoringBatteryOptimizations() async {
     try {
@@ -18,36 +22,37 @@ class BatteryService {
       return result ?? false;
     } catch (_) {
       // On iOS or if the channel is unavailable, assume unrestricted.
-      return false;
+      return true;
     }
   }
 
   static Future<void> requestBatteryOptimizationExemption(BuildContext context) async {
     if (!context.mounted) return;
 
-    // 1. إن كان معفيًا بالفعل، لا حاجة لأي حوار
+    // 1. التحقق من الحالة الحقيقية للجهاز
+    // إذا كان التطبيق معفى من القيود، انتهى الأمر ولا نعرض الحوار أبداً
     if (await isIgnoringBatteryOptimizations()) return;
 
     final prefs = await SharedPreferences.getInstance();
 
-    // 2. عداد مرات فتح التطبيق
-    const String openCountKey = 'app_open_count';
-    int openCount = prefs.getInt(openCountKey) ?? 0;
-
-    // إذا لم نصل للعدد المطلوب (3 مرات)، نزيد العداد ونخرج
-    if (openCount < 3) {
-      await prefs.setInt(openCountKey, openCount + 1);
-      return;
+    // 2. التحقق من تاريخ آخر ظهور للحوار
+    final int? lastPromptMillis = prefs.getInt(_lastPromptKey);
+    
+    if (lastPromptMillis != null) {
+      final DateTime lastPromptDate = 
+          DateTime.fromMillisecondsSinceEpoch(lastPromptMillis);
+      final int daysPassed = DateTime.now().difference(lastPromptDate).inDays;
+      
+      // إذا لم تمر 7 أيام بعد، لا نعرض الحوار
+      if (daysPassed < _reminderDays) {
+        return; 
+      }
     }
-
-    // 3. إن عُرض الحوار مرة سابقة فلا نكرره
-    final alreadyShown = prefs.getBool('battery_prompt_shown') ?? false;
-    if (alreadyShown) return;
 
     // Guard after the async gap.
     if (!context.mounted) return;
 
-    // 4. نعرض الحوار
+    // 3. نعرض الحوار (إما لأول مرة، أو بعد مرور 7 أيام)
     final shouldProceed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -70,11 +75,14 @@ class BatteryService {
       ),
     );
 
+    // 4. بمجرد ظهور الحوار (سواء ضغط "فتح الإعدادات" أو "ليس الآن")، 
+    // نسجل تاريخ اليوم لكي نعيد الكرة بعد 7 أيام إن لم يقم بتفعيل الاستثناء فعلياً.
+    await prefs.setInt(_lastPromptKey, DateTime.now().millisecondsSinceEpoch);
+
     if (shouldProceed == true) {
       // Guard again after the dialog async gap.
       if (!context.mounted) return;
 
-      await prefs.setBool('battery_prompt_shown', true);
       try {
         const intent = AndroidIntent(
           action: 'android.settings.IGNORE_BATTERY_OPTIMIZATION_SETTINGS',
