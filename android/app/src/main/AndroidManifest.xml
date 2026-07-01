@@ -2,11 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
 
+    <queries>
+        <intent>
+            <action android:name="android.settings.IGNORE_BATTERY_OPTIMIZATION_SETTINGS" />
+        </intent>
+    </queries>
 
     <application
         android:label="Home Orders Tracker"
