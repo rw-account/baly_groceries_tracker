@@ -61,6 +61,13 @@ class ShoppingListNotifier extends _$ShoppingListNotifier {
     await _refreshState(storage);
   }
 
+  /// Deletes every shopping-list item at once (used for "Delete All").
+  Future<void> clearAll() async {
+    final storage = ref.read(storageServiceProvider);
+    await storage.deleteAllShoppingItems();
+    await _refreshState(storage);
+  }
+
   /// Updates the price of the shopping item with the given [id].
   /// Persists the change via [StorageService.updateShoppingItem] and
   /// refreshes the in-memory state afterwards. Does nothing if no item
