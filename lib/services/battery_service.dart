@@ -11,9 +11,13 @@ class BatteryService {
   static const _batteryChannel =
       MethodChannel('com.home_orders_tracker.app/battery_optimization');
       
-  // مفتاح تخزين تاريخ آخر ظهور للحوار
+  // مفاتيح التخزين
   static const _lastPromptKey = 'battery_prompt_last_shown';
-  static const _reminderDays = 7; // عدد الأيام الانتظارية
+  static const _firstLaunchKey = 'app_first_launch_date';
+  
+  // فترات الانتظار بالأيام
+  static const _initialDelayDays = 3; // ننتظر 3 أيام قبل أول ظهور للحوار
+  static const _reminderDays = 7; // نذكره كل 7 أيام إذا رفض
 
   static Future<bool> isIgnoringBatteryOptimizations() async {
     try {
@@ -30,12 +34,27 @@ class BatteryService {
     if (!context.mounted) return;
 
     // 1. التحقق من الحالة الحقيقية للجهاز
-    // إذا كان التطبيق معفى من القيود، انتهى الأمر ولا نعرض الحوار أبداً
     if (await isIgnoringBatteryOptimizations()) return;
 
     final prefs = await SharedPreferences.getInstance();
 
-    // 2. التحقق من تاريخ آخر ظهور للحوار
+    // 2. تسجيل تاريخ أول إطلاق للتطبيق (إذا لم يكن مسجلاً)
+    int? firstLaunchMillis = prefs.getInt(_firstLaunchKey);
+    if (firstLaunchMillis == null) {
+      firstLaunchMillis = DateTime.now().millisecondsSinceEpoch;
+      await prefs.setInt(_firstLaunchKey, firstLaunchMillis);
+    }
+
+    final DateTime firstLaunchDate = 
+        DateTime.fromMillisecondsSinceEpoch(firstLaunchMillis);
+    final int daysSinceFirstLaunch = DateTime.now().difference(firstLaunchDate).inDays;
+
+    // 3. إذا لم تمر 3 أيام على تثبيت التطبيق، لا تعرض الحوار إطلاقاً
+    if (daysSinceFirstLaunch < _initialDelayDays) {
+      return; 
+    }
+
+    // 4. التحقق من تاريخ آخر ظهور للحوار (نظام التذكير كل 7 أيام)
     final int? lastPromptMillis = prefs.getInt(_lastPromptKey);
     
     if (lastPromptMillis != null) {
@@ -43,7 +62,7 @@ class BatteryService {
           DateTime.fromMillisecondsSinceEpoch(lastPromptMillis);
       final int daysPassed = DateTime.now().difference(lastPromptDate).inDays;
       
-      // إذا لم تمر 7 أيام بعد، لا نعرض الحوار
+      // إذا لم تمر 7 أيام منذ آخر تذكير، لا نعرض الحوار
       if (daysPassed < _reminderDays) {
         return; 
       }
@@ -52,7 +71,7 @@ class BatteryService {
     // Guard after the async gap.
     if (!context.mounted) return;
 
-    // 3. نعرض الحوار (إما لأول مرة، أو بعد مرور 7 أيام)
+    // 5. نعرض الحوار
     final shouldProceed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -75,12 +94,10 @@ class BatteryService {
       ),
     );
 
-    // 4. بمجرد ظهور الحوار (سواء ضغط "فتح الإعدادات" أو "ليس الآن")، 
-    // نسجل تاريخ اليوم لكي نعيد الكرة بعد 7 أيام إن لم يقم بتفعيل الاستثناء فعلياً.
+    // 6. نسجل تاريخ اليوم لكي نعيد الكرة بعد 7 أيام
     await prefs.setInt(_lastPromptKey, DateTime.now().millisecondsSinceEpoch);
 
     if (shouldProceed == true) {
-      // Guard again after the dialog async gap.
       if (!context.mounted) return;
 
       try {
