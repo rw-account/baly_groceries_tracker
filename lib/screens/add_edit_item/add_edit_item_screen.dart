@@ -262,7 +262,7 @@ class _AddEditItemScreenState extends AddEditItemState
       const SizedBox(height: 12),
       AppTextField(
         controller: daysCtrl,
-        label: 'عدد الأيام المتوقعة',
+        label: 'عدد الأيام المتوقعة للنفاد',
         hint: 'مثال: 30',
         icon: Icons.calendar_today_outlined,
         keyboardType: TextInputType.number,
