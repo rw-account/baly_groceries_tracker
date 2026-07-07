@@ -47,13 +47,19 @@ class _ShareOptionsDialogState extends State<ShareOptionsDialog> {
                     contentPadding: EdgeInsets.zero,
                   ),
                   RadioListTile<String>(
+                    title: const Text('حالات التنبيه والعاجلة فقط'),
+                    value: 'warning_urgent',
+                    dense: true,
+                    contentPadding: EdgeInsets.zero,
+                  ),
+                  RadioListTile<String>(
                     title: const Text('حالة التنبيه فقط'),
                     value: 'warning',
                     dense: true,
                     contentPadding: EdgeInsets.zero,
                   ),
                   RadioListTile<String>(
-                    title: const Text('الحالة الحرجة فقط'),
+                    title: const Text('الحالة العاجلة فقط'),
                     value: 'urgent',
                     dense: true,
                     contentPadding: EdgeInsets.zero,
@@ -105,6 +111,7 @@ class _ShareOptionsDialogState extends State<ShareOptionsDialog> {
       // تصفية العناصر حسب الاختيار
       if (_statusFilter == 'warning' && item.status != ItemStatus.warning) continue;
       if (_statusFilter == 'urgent' && item.status != ItemStatus.urgent) continue;
+      if (_statusFilter == 'warning_urgent' && item.status != ItemStatus.warning && item.status != ItemStatus.urgent) continue;
 
       String line = '• ${item.name}';
 
