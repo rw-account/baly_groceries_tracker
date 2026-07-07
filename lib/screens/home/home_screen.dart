@@ -8,6 +8,7 @@ import '../../services/battery_service.dart';
 import '../../providers/summary_provider.dart';
 import 'package:go_router/go_router.dart';
 import '../../router/route_paths.dart';
+import '../../models/item_model.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -17,43 +18,131 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  bool _isSearching = false;
+  String _searchQuery = '';
+  final TextEditingController _searchController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
-
-    // Wait until the first frame is built so the context is safe to use for dialogs
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) BatteryService.requestBatteryOptimizationExemption(context);
     });
   }
 
-  // ─── Build ──────────────────────────────────────────────────────────────────
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _toggleSearch() {
+    setState(() {
+      _isSearching = !_isSearching;
+      if (!_isSearching) {
+        _searchController.clear();
+        _searchQuery = '';
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final itemsAsync = ref.watch(itemsProvider);
     final summary = ref.watch(summaryProvider);
-    final urgentCount = summary.urgentCount;
-    final warningCount = summary.warningCount;
 
     return Scaffold(
-
-      appBar: HomeAppBar(urgentCount: urgentCount, warningCount: warningCount),
+      appBar: _isSearching
+          ? AppBar(
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: _toggleSearch,
+              ),
+              title: TextField(
+                controller: _searchController,
+                autofocus: true,
+                decoration: const InputDecoration(
+                  hintText: 'ابحث عن مادة...',
+                  border: InputBorder.none,
+                  filled: false,
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    _searchQuery = value;
+                  });
+                },
+              ),
+            )
+          : HomeAppBar(
+              urgentCount: summary.urgentCount,
+              warningCount: summary.warningCount,
+              onSharePressed: () => _showShareDialog(itemsAsync.value ?? []),
+            ),
       body: itemsAsync.when(
         data: (items) {
           if (items.isEmpty) {
             return const EmptyState();
           }
-          return ItemsList(items: items);
+
+          // أثناء وضع البحث
+          if (_isSearching) {
+            // إذا كان حقل البحث فارغًا، لا تعرض أي عناصر
+            if (_searchQuery.isEmpty) {
+              return const SizedBox.shrink();
+            }
+            
+            // تصفية العناصر بناءً على النص المدخل
+            final searchResults = items
+                .where((item) => item.name.toLowerCase().contains(_searchQuery.toLowerCase()))
+                .toList();
+
+            if (searchResults.isEmpty) {
+              return const Center(child: Text('لا توجد نتائج مطابقة'));
+            }
+            return ItemsList(items: searchResults);
+          }
+
+          // الوضع العادي: شريط الحالة + القائمة
+          return Column(
+            children: [
+              SummaryBar(
+                safeCount: items.length - summary.urgentCount - summary.warningCount,
+                warningCount: summary.warningCount,
+                urgentCount: summary.urgentCount,
+              ),
+              Expanded(child: ItemsList(items: items)),
+            ],
+          );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) => Center(child: Text('خطأ: $error')),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-      onPressed: () => context.push(RoutePaths.addItemFull),
-        icon: const Icon(Icons.add),
-        label: const Text('إضافة مادة'),
+      // زر عائم مزدوج: زر البحث فوق زر الإضافة
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            heroTag: 'search_fab',
+            onPressed: _toggleSearch,
+            child: Icon(_isSearching ? Icons.close : Icons.search),
+          ),
+          const SizedBox(height: 12),
+          FloatingActionButton.extended(
+            heroTag: 'add_fab',
+            onPressed: () => context.push(RoutePaths.addItemFull),
+            icon: const Icon(Icons.add),
+            label: const Text('إضافة مادة'),
+          ),
+        ],
       ),
+    );
+  }
+
+  void _showShareDialog(List<ItemModel> items) {
+    showDialog(
+      context: context,
+      builder: (context) => ShareOptionsDialog(items: items),
     );
   }
 }
