@@ -268,9 +268,9 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
 
     try {
       await ref.read(shoppingListProvider.notifier).clearAll();
-      _showSnackBar('تم حذف جميع العناصر');
+      _showSnackBar('تم حذف جميع عناصر قائمة الشراء');
     } catch (_) {
-      _showSnackBar('تعذر حذف جميع العناصر');
+      _showSnackBar('تعذر حذف جميع عناصر قائمة الشراء');
     }
   }
 
