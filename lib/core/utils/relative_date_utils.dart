@@ -27,11 +27,12 @@ String formatRelativeDate(
       singularEn: 'year',
       pluralEn: 'years',
       singularAr: 'سنة',
-      dualAr: 'سنتان',
+      dualAr: 'سنتين',
       pluralAr: 'سنوات',
       oneAr: 'واحدة',
-    ));
-  }
+      accusativeAr: 'سنة',
+  ));
+}
 
   if (diff.months > 0) {
     parts.add(_formatUnit(
@@ -40,9 +41,10 @@ String formatRelativeDate(
       singularEn: 'month',
       pluralEn: 'months',
       singularAr: 'شهر',
-      dualAr: 'شهران',
+      dualAr: 'شهرين',
       pluralAr: 'أشهر',
       oneAr: 'واحد',
+      accusativeAr: 'شهر',
     ));
   }
 
@@ -53,9 +55,10 @@ String formatRelativeDate(
       singularEn: 'day',
       pluralEn: 'days',
       singularAr: 'يوم',
-      dualAr: 'يومان',
+      dualAr: 'يومين',
       pluralAr: 'أيام',
       oneAr: 'واحد',
+      accusativeAr: 'يوم',
     ));
   }
 
@@ -155,14 +158,28 @@ String _formatUnit(
   required String dualAr,
   required String pluralAr,
   required String oneAr,
+  String? accusativeAr,
 }) {
   if (locale == 'en') {
     return '$value ${value == 1 ? singularEn : pluralEn}';
   }
 
+  // -------- العربية --------
   if (value == 1) return '$singularAr $oneAr';
   if (value == 2) return dualAr;
-  return '$value $pluralAr';
+  if (value <= 10) return '$value $pluralAr';
+  
+  // 11 فأكثر: تمييز مفرد منصوب
+  final word = accusativeAr ?? singularAr;
+  return '$value ${_addTanweenFatha(word)}';
+}
+
+/// تضيف تنوين فتح إذا لم يكن موجوداً
+String _addTanweenFatha(String word) {
+  if (word.endsWith('ً')) return word;
+  if (word.endsWith('ة')) return '${word.substring(0, word.length - 1)}ةً';
+  if (word.endsWith('اء')) return '$wordً';
+  return '$wordً';
 }
 
 String _joinParts(List<String> parts, String locale) {
