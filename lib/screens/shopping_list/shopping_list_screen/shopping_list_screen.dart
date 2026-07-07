@@ -62,6 +62,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
         actions: [
           PopupMenuButton<String>(
             icon: const Icon(Icons.more_vert),
+            position: PopupMenuPosition.under,
             onSelected: (value) {
               switch (value) {
                 case 'delete_all':
