@@ -1,3 +1,5 @@
+// lib/screens/shopping_list/shopping_list_screen.dart
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -272,25 +274,94 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
   }
 
   // ─── مشاركة القائمة ──────────────────────────────────────────────
-  void _shareList() {
+  Future<void> _shareList() async {
     final items = ref.read(shoppingListProvider).value ?? [];
     if (items.isEmpty) {
       _showSnackBar('القائمة فارغة');
       return;
     }
 
+    // القيم الافتراضية (كل شيء محدد)
+    bool includePrice = true;
+    bool includeChecked = true;
+
+    // إظهار نافذة خيارات المشاركة
+    // بارامتر barrierDismissible: true (افتراضي) يسمح بالإغلاق عند الضغط خارج النافذة
+    final result = await showDialog<List<bool>>(
+      context: context,
+      builder: (ctx) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              title: const Text('خيارات المشاركة'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CheckboxListTile(
+                    title: const Text('تضمين السعر'),
+                    value: includePrice,
+                    onChanged: (val) {
+                      if (val != null) {
+                        setDialogState(() => includePrice = val);
+                      }
+                    },
+                    contentPadding: EdgeInsets.zero,
+                  ),
+                  CheckboxListTile(
+                    title: const Text('تضمين حالة الشراء'),
+                    value: includeChecked,
+                    onChanged: (val) {
+                      if (val != null) {
+                        setDialogState(() => includeChecked = val);
+                      }
+                    },
+                    contentPadding: EdgeInsets.zero,
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  // إرجاع null عند الإلغاء
+                  onPressed: () => Navigator.pop(ctx, null),
+                  child: const Text('إلغاء'),
+                ),
+                FilledButton(
+                  // إرجاع القيم المحددة عند الموافقة
+                  onPressed: () => Navigator.pop(ctx, [includePrice, includeChecked]),
+                  child: const Text('مشاركة'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+
+    // إذا أغلق المستخدم النافذة (بالضغط خارجها أو زر الإلغاء)، لا تفعل شيئاً
+    if (result == null) return;
+
+    final shouldIncludePrice = result[0];
+    final shouldIncludeChecked = result[1];
+
     final buffer = StringBuffer();
     buffer.writeln('🛒 قائمة الشراء:');
     
     for (final item in items) {
       //TODO: ملاحظه مهمه لا تحذفها: عند تحويل لغة التطبيق الى الانجليزي يجب انك تغير اتجاه ايموجي اليد وتجيب ايموجي يشير للجهه الاخرى
-      final price = item.price != null ? ' 👈 (السعر: ${item.price})' : ''; 
+      String line = '• ${item.title}';
       
-      final checked = item.isChecked ? ' [مكتمل ✓]' : '';
+      if (shouldIncludePrice && item.price != null) {
+        line += ' 👈 (السعر: ${item.price})'; 
+      }
       
-      buffer.writeln('• ${item.title}$price$checked');
+      if (shouldIncludeChecked && item.isChecked) {
+        line += ' [مكتمل ✓]';
+      }
+      
+      buffer.writeln(line);
     }
 
+    // مشاركة النص المجمّع
     SharePlus.instance.share(
       ShareParams(text: buffer.toString()),
     );
