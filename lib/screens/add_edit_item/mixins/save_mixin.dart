@@ -5,18 +5,11 @@ import '../../../providers/items_provider.dart';
 import '../add_edit_item_state.dart';
 import 'package:go_router/go_router.dart';
 
-/// Handles the save logic (create / update) for an [ItemModel].
-///
-/// Any [State] using this mixin must implement the abstract getters below,
-/// which expose the form fields and editing context required to build
-/// and persist the item.
 mixin SaveMixin on AddEditItemState {
-  // ---------- Default threshold values ----------
   static const int _defaultSafeThreshold = 20;
   static const int _defaultWarningThreshold = 10;
   static const int _defaultUrgentThreshold = 3;
 
-  // ---------- User-facing messages ----------
   static const String _duplicateNameError = 'الاسم موجود مسبقاً';
   static const String _invalidDaysError = 'يرجى إدخال عدد أيام صحيح';
   static const String _thresholdOrderError =
@@ -26,10 +19,8 @@ mixin SaveMixin on AddEditItemState {
   static const String _genericSaveError =
       'حدث خطأ أثناء حفظ العنصر، حاول مرة أخرى';
 
-  // أضف هذا التعريف المجرد (abstract) ليجبر الشاشة على توفير دالة عرض الخطأ
   void Function(String message) get showError;
 
-  // ---------- Public entry point ----------
   Future<void> save() async {
     if (saving) return;
 
@@ -74,8 +65,6 @@ mixin SaveMixin on AddEditItemState {
     );
   }
 
-  // ---------- Helpers ----------
-
   bool _isDuplicateName(ItemsNotifier notifier, String name) {
     return notifier.isNameDuplicate(
       name,
@@ -83,7 +72,6 @@ mixin SaveMixin on AddEditItemState {
     );
   }
 
-  /// Returns an error message if thresholds are invalid, otherwise null.
   String? _validateThresholds(int safe, int warn, int urgent) {
     if (safe < 0 || warn < 0 || urgent < 0) {
       return _negativeThresholdError;
@@ -144,5 +132,4 @@ mixin SaveMixin on AddEditItemState {
       if (mounted) setState(() => setSaving(false));
     }
   }
-
 }
