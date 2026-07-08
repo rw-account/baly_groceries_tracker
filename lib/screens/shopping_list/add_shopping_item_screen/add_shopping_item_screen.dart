@@ -76,6 +76,8 @@ class _AddShoppingItemViewState extends State<_AddShoppingItemView> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
     return BlocListener<AddItemCubit, AddItemState>(
       listenWhen: (previous, current) => previous.eventId != current.eventId,
       listener: (context, state) {
@@ -85,7 +87,12 @@ class _AddShoppingItemViewState extends State<_AddShoppingItemView> {
             state.errorMessage != null) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
-            ..showSnackBar(SnackBar(content: Text(state.errorMessage!)));
+            ..showSnackBar(
+              SnackBar(
+                content: Text(state.errorMessage!),
+                backgroundColor: cs.error,
+              ),
+            );
         }
       },
       child: BlocBuilder<AddItemCubit, AddItemState>(
@@ -99,7 +106,7 @@ class _AddShoppingItemViewState extends State<_AddShoppingItemView> {
               ),
               centerTitle: true,
               elevation: 0,
-              scrolledUnderElevation: 1,
+              scrolledUnderElevation: 0,
               leading: isManual
                   ? IconButton(
                       icon: const Icon(Icons.arrow_back),
@@ -113,7 +120,11 @@ class _AddShoppingItemViewState extends State<_AddShoppingItemView> {
                 child: AnimatedOpacity(
                   opacity: state.isSubmitting ? 1 : 0,
                   duration: const Duration(milliseconds: 180),
-                  child: const LinearProgressIndicator(minHeight: 3),
+                  child: LinearProgressIndicator(
+                    minHeight: 3,
+                    color: cs.primary,
+                    backgroundColor: cs.surfaceContainerHighest,
+                  ),
                 ),
               ),
             ),
