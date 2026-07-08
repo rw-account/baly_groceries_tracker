@@ -76,13 +76,16 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
   }
 
   Widget _buildAppBarAction(AsyncValue<List<ItemModel>> itemsAsync) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     if (_isAddingAll) {
       return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: SizedBox(
           width: 20,
           height: 20,
-          child: CircularProgressIndicator(strokeWidth: 2, color: Theme.of(context).colorScheme.primary),
+          child: CircularProgressIndicator(strokeWidth: 2, color: colorScheme.primary),
         ),
       );
     }
@@ -95,14 +98,15 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
         final items = itemsAsync.value ?? const <ItemModel>[];
         _addAllToShoppingList(items.needingAttention);
       },
-      itemBuilder: (context) => const [
+      itemBuilder: (context) => [
         PopupMenuItem(
           value: 'add_all',
           child: Row(
             children: [
-              Icon(Icons.add_shopping_cart, size: 20),
-              SizedBox(width: 8),
-              Text('إضافة كل المواد إلى قائمة الشراء'),
+              // تلوين الأيقونة بالأزرق الخاص بـ Steam
+              Icon(Icons.add_shopping_cart, size: 20, color: Theme.of(context).colorScheme.primary),
+              const SizedBox(width: 8),
+              const Text('إضافة كل المواد إلى قائمة الشراء'),
             ],
           ),
         ),
@@ -122,8 +126,12 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
     if (itemsToAdd.isEmpty) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('جميع العناصر موجودة بالفعل في قائمة الشراء'),
+          SnackBar(
+            content: Text(
+              'جميع العناصر موجودة بالفعل في قائمة الشراء',
+              style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+            ),
+            backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
           ),
         );
       }
@@ -143,14 +151,23 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
       
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('تمت إضافة جميع العناصر الى قائمة الشراء.')),
+          SnackBar(
+            content: Text(
+              'تمت إضافة جميع العناصر الى قائمة الشراء.',
+              style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+            ),
+            backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+          ),
         );
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('حدث خطأ أثناء إضافة العناصر إلى قائمة الشراء: $e'),
+            content: Text(
+              'حدث خطأ أثناء إضافة العناصر إلى قائمة الشراء: $e',
+              style: TextStyle(color: Theme.of(context).colorScheme.onError),
+            ),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
@@ -171,19 +188,27 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
             price: null,
           );
       if (mounted) {
-        final colorScheme = Theme.of(context).colorScheme;
+        final theme = Theme.of(context);
+        final colorScheme = theme.colorScheme;
         
-        if (wasAdded){
+        if (wasAdded) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('تمت إضافة "${item.name}" إلى قائمة الشراء'),
+              content: Text(
+                'تمت إضافة "${item.name}" إلى قائمة الشراء',
+                style: TextStyle(color: colorScheme.onSurface),
+              ),
+              backgroundColor: colorScheme.surfaceContainerHighest,
               duration: const Duration(seconds: 2),
             ),
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('"${item.name}" موجود بالفعل في قائمة الشراء'),
+              content: Text(
+                '"${item.name}" موجود بالفعل في قائمة الشراء',
+                style: TextStyle(color: colorScheme.onTertiary),
+              ),
               duration: const Duration(seconds: 2),
               backgroundColor: colorScheme.tertiary, 
             ),
@@ -194,7 +219,10 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('فشل إضافة العنصر: $e'),
+            content: Text(
+              'فشل إضافة العنصر: $e',
+              style: TextStyle(color: Theme.of(context).colorScheme.onError),
+            ),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
