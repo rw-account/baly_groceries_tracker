@@ -100,7 +100,7 @@ class AddItemState extends Equatable {
       manualName: manualName ?? this.manualName,
       manualPrice: manualPrice ?? this.manualPrice,
       manualNameDuplicate: manualNameDuplicate ?? this.manualNameDuplicate,
-      manualDuplicateMessage: manualDuplicateMessage == _unset 
+      manualDuplicateMessage: manualDuplicateMessage == _unset
           ? this.manualDuplicateMessage
           : manualDuplicateMessage as String?,
       manualPriceError: manualPriceError == _unset
