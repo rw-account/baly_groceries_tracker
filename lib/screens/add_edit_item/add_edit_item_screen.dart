@@ -215,6 +215,7 @@ class _AddEditItemScreenState extends AddEditItemState
       AppTextField(
         controller: nameCtrl,
         label: 'اسم المادة',
+        labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
         hint: 'مثال: سكر، دقيق، زيت',
         icon: Icon(Icons.label_outline, color: Theme.of(context).colorScheme.primary),
         errorText: nameErrorText,
@@ -232,6 +233,7 @@ class _AddEditItemScreenState extends AddEditItemState
       AppTextField(
         controller: descCtrl,
         label: 'وصف الكمية (اختياري)',
+        labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
         hint: 'مثال: كيس 5 كيلو، عبوتان',
         icon: Icon(Icons.notes_outlined, color: Theme.of(context).colorScheme.primary),
         focusNode: _descFocus,
@@ -242,10 +244,12 @@ class _AddEditItemScreenState extends AddEditItemState
       AppTextField(
         controller: daysCtrl,
         label: 'عدد الأيام المتوقعة للنفاد',
+        labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
         hint: 'مثال: 30',
         icon: Icon(Icons.calendar_today_outlined, color: Theme.of(context).colorScheme.primary),
         keyboardType: TextInputType.number,
         suffix: 'يوم',
+        suffixStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
         focusNode: _daysFocus,
         textInputAction: TextInputAction.done,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],

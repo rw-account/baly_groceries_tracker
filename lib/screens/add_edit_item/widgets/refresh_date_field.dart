@@ -27,6 +27,7 @@ class RefreshDateField extends StatelessWidget {
       onTap: onPickDate,
       decoration: InputDecoration(
         labelText: 'تاريخ التجديد',
+        labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
         hintText: 'YYYY-MM-DD',
         prefixIcon: Icon(Icons.event_available_outlined, color: Theme.of(context).colorScheme.primary),
         suffixIcon: IconButton(

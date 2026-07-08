@@ -14,6 +14,7 @@ class AppTextField extends StatefulWidget {
     required this.icon,
     this.keyboardType = TextInputType.text,
     this.suffix,
+    this.suffixStyle,
     this.errorText,
     this.minLines,
     this.maxLines = 1,
@@ -30,10 +31,12 @@ class AppTextField extends StatefulWidget {
 
   final TextEditingController controller;
   final String label;
+  final TextStyle? labelStyle;
   final String hint;
   final Icon icon;
   final TextInputType keyboardType;
   final String? suffix;
+  final TextStyle? suffixStyle;
   final String? errorText;
   final int? minLines;
   final int? maxLines;
@@ -46,7 +49,6 @@ class AppTextField extends StatefulWidget {
   final void Function(String)? onChanged;
   final void Function(String)? onSubmitted;
   final String? Function(String?)? validator;
-  final TextStyle? labelStyle;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -91,12 +93,13 @@ class _AppTextFieldState extends State<AppTextField> {
       onFieldSubmitted: widget.onSubmitted,
       decoration: InputDecoration(
         labelText: widget.label,
+        labelStyle: widget.labelStyle,
         hintText: widget.hint,
         prefixIcon: widget.icon,
         suffixText: widget.suffix,
+        suffixStyle: widget.suffixStyle,
         filled: true,
         errorText: widget.errorText,
-        labelStyle: widget.labelStyle,
         border: appFieldBorder(context),
         enabledBorder: appFieldBorder(context),
       ),
