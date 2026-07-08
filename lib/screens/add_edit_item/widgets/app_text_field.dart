@@ -25,6 +25,7 @@ class AppTextField extends StatefulWidget {
     this.onChanged,
     this.onSubmitted,
     this.validator,
+    this.labelStyle,
   });
 
   final TextEditingController controller;
@@ -45,6 +46,7 @@ class AppTextField extends StatefulWidget {
   final void Function(String)? onChanged;
   final void Function(String)? onSubmitted;
   final String? Function(String?)? validator;
+  final TextStyle? labelStyle;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -94,6 +96,7 @@ class _AppTextFieldState extends State<AppTextField> {
         suffixText: widget.suffix,
         filled: true,
         errorText: widget.errorText,
+        labelStyle: widget.labelStyle,
         border: appFieldBorder(context),
         enabledBorder: appFieldBorder(context),
       ),
