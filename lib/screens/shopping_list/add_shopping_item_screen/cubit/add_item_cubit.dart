@@ -167,7 +167,8 @@ class AddItemCubit extends Cubit<AddItemState> {
       if (isInShoppingList) {
         duplicateMessage = 'هذا العنصر موجود بالفعل في قائمة الشراء.';
       } else if (isInInventory) {
-        duplicateMessage = 'هذا العنصر مُتابع في التطبيق. يُرجى إضافته من شاشة البحث السابقة.';
+        duplicateMessage =
+            'هذا العنصر مُتابع في التطبيق. يُرجى إضافته من شاشة البحث السابقة.';
       }
     }
 
@@ -191,7 +192,7 @@ class AddItemCubit extends Cubit<AddItemState> {
 
     emit(state.copyWith(
       manualNameDuplicate: isDuplicate,
-      manualDuplicateMessage: duplicateMessage, // ✅ يملأ الحقل الجديد
+      manualDuplicateMessage: duplicateMessage,
       manualPriceError: priceError,
       canSubmitManual: canSubmit,
     ));
