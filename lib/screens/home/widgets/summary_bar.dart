@@ -15,21 +15,26 @@ class SummaryBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final safeColor = theme.colorScheme.primary;
+    final warningColor = theme.colorScheme.tertiary;
+    final urgentColor = theme.colorScheme.error;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       padding: const EdgeInsets.symmetric(vertical: 12),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(12),
+        color: theme.colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(4),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildStatusItem(context, 'آمن', safeCount, Colors.green),
-          _divider(),
-          _buildStatusItem(context, 'انتبه', warningCount, Colors.orange),
-          _divider(),
-          _buildStatusItem(context, 'عاجل', urgentCount, Colors.red),
+          _buildStatusItem(context, 'آمن', safeCount, safeColor),
+          _divider(theme),
+          _buildStatusItem(context, 'انتبه', warningCount, warningColor),
+          _divider(theme),
+          _buildStatusItem(context, 'عاجل', urgentCount, urgentColor),
         ],
       ),
     );
@@ -56,11 +61,11 @@ class SummaryBar extends StatelessWidget {
     );
   }
 
-  Widget _divider() {
+  Widget _divider(ThemeData theme) {
     return Container(
       height: 30,
       width: 1,
-      color: Colors.grey.withValues(alpha: 0.3),
+      color: theme.colorScheme.outlineVariant.withValues(alpha: 0.5),
     );
   }
 }
