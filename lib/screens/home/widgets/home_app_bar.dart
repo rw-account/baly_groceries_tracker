@@ -28,13 +28,13 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
             }
           },
           itemBuilder: (context) => [
-            const PopupMenuItem(
+            PopupMenuItem(
               value: 'share',
               child: Row(
                 children: [
-                  Icon(Icons.share_outlined, size: 20),
-                  SizedBox(width: 8),
-                  Text('مشاركة تفاصيل المواد'),
+                  Icon(Icons.share_outlined, size: 20, color: Theme.of(context).colorScheme.primary),
+                  const SizedBox(width: 8),
+                  const Text('مشاركة تفاصيل المواد'),
                 ],
               ),
             ),
