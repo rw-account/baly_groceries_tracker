@@ -5,12 +5,6 @@ import 'package:flutter/material.dart';
 import '../../../models/item_model.dart';
 import 'expiry_remaining_label.dart';
 
-/// بطاقة عرض عنصر واحد ضمن شاشة العناصر على وشك النفاد، مع شريط جانبي
-/// ملوّن يدل على درجة الخطورة، وزر لإضافة العنصر إلى قائمة الشراء.
-///
-/// الودجت بلا حالة داخلية (Stateless): كل ما يخص "هل هو قيد الإضافة؟"
-/// أو "هل هو موجود بالقائمة؟" يُمرَّر من الشاشة الأم، مما يجعل هذه
-/// البطاقة سهلة إعادة الاستخدام والاختبار بمعزل عن باقي الشاشة.
 class ExpiryItemTile extends StatelessWidget {
   const ExpiryItemTile({
     super.key,
@@ -18,6 +12,7 @@ class ExpiryItemTile extends StatelessWidget {
     required this.color,
     required this.isInShoppingList,
     required this.isAdding,
+    required this.isAddingAll, // <-- أضف هذا
     required this.onAddToShoppingList,
   });
 
@@ -25,6 +20,7 @@ class ExpiryItemTile extends StatelessWidget {
   final Color color;
   final bool isInShoppingList;
   final bool isAdding;
+  final bool isAddingAll; // <-- أضف هذا
   final VoidCallback onAddToShoppingList;
 
   static const double _stripeWidth = 5;
@@ -49,8 +45,6 @@ class ExpiryItemTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(14),
         child: Row(
           children: [
-            // يظهر هذا الشريط على يمين البطاقة تلقائياً بفضل اتجاه
-            // الواجهة RTL المعتمد في التطبيق.
             Container(width: _stripeWidth, height: _stripeHeight, color: color),
             Expanded(
               child: ListTile(
@@ -88,7 +82,8 @@ class ExpiryItemTile extends StatelessWidget {
     return IconButton(
       icon: const Icon(Icons.add_shopping_cart),
       tooltip: 'إضافة إلى قائمة الشراء',
-      onPressed: onAddToShoppingList,
+      // <-- تعطيل الزر إذا كان يتم إضافة الكل حالياً
+      onPressed: isAddingAll ? null : onAddToShoppingList, 
     );
   }
 }
