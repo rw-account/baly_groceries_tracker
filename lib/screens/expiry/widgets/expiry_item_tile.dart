@@ -28,14 +28,17 @@ class ExpiryItemTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: colorScheme.surfaceContainerLow,
         borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
+            color: colorScheme.shadow.withValues(alpha: 0.06),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -50,10 +53,10 @@ class ExpiryItemTile extends StatelessWidget {
               child: ListTile(
                 title: Text(
                   item.name,
-                  style: const TextStyle(fontWeight: FontWeight.w600),
+                  style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
                 ),
                 subtitle: ExpiryRemainingLabel(item: item),
-                trailing: _buildTrailing(),
+                trailing: _buildTrailing(context),
               ),
             ),
           ],
@@ -62,27 +65,29 @@ class ExpiryItemTile extends StatelessWidget {
     );
   }
 
-  Widget _buildTrailing() {
+  Widget _buildTrailing(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     if (isAdding) {
-      return const SizedBox(
+      return SizedBox(
         width: 24,
         height: 24,
-        child: CircularProgressIndicator(strokeWidth: 2),
+        child: CircularProgressIndicator(strokeWidth: 2, color: colorScheme.primary),
       );
     }
 
     if (isInShoppingList) {
       return Chip(
         label: const Text('في القائمة'),
-        avatar: const Icon(Icons.check, size: 18),
-        backgroundColor: Colors.grey.shade100,
+        avatar: Icon(Icons.check, size: 18, color: colorScheme.onSecondaryContainer),
+        backgroundColor: colorScheme.secondaryContainer,
+        labelStyle: TextStyle(color: colorScheme.onSecondaryContainer),
       );
     }
 
     return IconButton(
       icon: const Icon(Icons.add_shopping_cart),
       tooltip: 'إضافة إلى قائمة الشراء',
-      // <-- تعطيل الزر إذا كان يتم إضافة الكل حالياً
       onPressed: isAddingAll ? null : onAddToShoppingList, 
     );
   }
