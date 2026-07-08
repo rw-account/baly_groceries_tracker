@@ -76,7 +76,6 @@ abstract class AddEditItemState extends ConsumerState<AddEditItemScreen> {
     lastRefreshedAt = i?.lastRefreshedAt ?? DateTime.now();
     dateCtrl = TextEditingController(text: _dateFormat.format(lastRefreshedAt));
 
-    // Snapshot originals
     _initialName = nameCtrl.text;
     _initialDesc = descCtrl.text;
     _initialDays = daysCtrl.text;
