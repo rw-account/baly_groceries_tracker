@@ -143,6 +143,13 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
 
     try {
       await ref.read(shoppingListProvider.notifier).addMultipleShoppingItems(itemsToInsert);
+      
+      // If the code reaches this point, it means the operation succeeded without errors.
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('تمت إضافة جميع العناصر الى قائمة الشراء.')),
+        );
+      }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -151,17 +158,11 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
             backgroundColor: Colors.red,
           ),
         );
-        setState(() => _isAddingAll = false);
-        return;
       }
-    }
-
-    if (mounted) {
-      setState(() => _isAddingAll = false);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('تمت إضافة جميع العناصر الى قائمة الشراء.')),
-      );
+    } finally {
+      if (mounted) {
+        setState(() => _isAddingAll = false);
+      }
     }
   }
 
