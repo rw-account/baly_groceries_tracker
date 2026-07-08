@@ -22,6 +22,7 @@ class _ShareOptionsDialogState extends State<ShareOptionsDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
       title: const Text('خيارات المشاركة'),
       content: SingleChildScrollView(
         child: Column(
@@ -108,7 +109,6 @@ class _ShareOptionsDialogState extends State<ShareOptionsDialog> {
     buffer.writeln('-------------------');
 
     for (final item in widget.items) {
-      // تصفية العناصر حسب الاختيار
       if (_statusFilter == 'warning' && item.status != ItemStatus.warning) continue;
       if (_statusFilter == 'urgent' && item.status != ItemStatus.urgent) continue;
       if (_statusFilter == 'warning_urgent' && item.status != ItemStatus.warning && item.status != ItemStatus.urgent) continue;
@@ -127,7 +127,7 @@ class _ShareOptionsDialogState extends State<ShareOptionsDialog> {
       buffer.writeln(line);
     }
 
-    Navigator.pop(context); // أغلق الـ Dialog أولاً
+    Navigator.pop(context);
     
     SharePlus.instance.share(
       ShareParams(text: buffer.toString()),
