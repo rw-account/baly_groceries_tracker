@@ -86,11 +86,11 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
                   ],
                 ),
               ),
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: 'share_list',
                 child: Row(
                   children: [
-                    Icon(Icons.share_outlined, size: 20),
+                    Icon(Icons.share_outlined, size: 20, color: Theme.of(context).colorScheme.primary),
                     SizedBox(width: 8),
                     Text('مشاركة القائمة'),
                   ],
