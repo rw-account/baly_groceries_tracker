@@ -16,7 +16,6 @@ class ScaffoldWithNavBar extends StatelessWidget {
   const ScaffoldWithNavBar({super.key, required this.navigationShell});
 
   void _onDestinationSelected(int index) {
-
     // إن كان التبويب المحدد هو نفسه الحالي، تُعاد للجذر (initialLocation)؛
     // وإن كان تبويبًا آخر، يُحافَظ على آخر مكان توقّف عنده المستخدم فيه.
     navigationShell.goBranch(
@@ -27,6 +26,8 @@ class ScaffoldWithNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
     return Scaffold(
       body: navigationShell,
       bottomNavigationBar: NavigationBar(
@@ -34,22 +35,28 @@ class ScaffoldWithNavBar extends StatelessWidget {
         onDestinationSelected: _onDestinationSelected,
         animationDuration: const Duration(milliseconds: 400),
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-        destinations: const [
+        backgroundColor: cs.surface,
+        surfaceTintColor: Colors.transparent,
+        indicatorColor: cs.primary.withValues(alpha: 0.12),
+        shadowColor: Colors.transparent,
+        elevation: 0,
+        height: 65,
+        destinations: [
           NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home_rounded),
+            icon: Icon(Icons.home_outlined, color: cs.outline),
+            selectedIcon: Icon(Icons.home_rounded, color: cs.primary),
             label: 'الرئيسية',
             tooltip: 'الشاشة الرئيسية',
           ),
           NavigationDestination(
-            icon: Icon(Icons.warning_amber_outlined),
-            selectedIcon: Icon(Icons.warning),
+            icon: Icon(Icons.warning_amber_outlined, color: cs.outline),
+            selectedIcon: Icon(Icons.warning, color: cs.primary),
             label: 'النفاد',
             tooltip: 'العناصر القريبة من النفاد',
           ),
           NavigationDestination(
-            icon: Icon(Icons.shopping_cart_outlined),
-            selectedIcon: Icon(Icons.shopping_cart_rounded),
+            icon: Icon(Icons.shopping_cart_outlined, color: cs.outline),
+            selectedIcon: Icon(Icons.shopping_cart_rounded, color: cs.primary),
             label: 'الشراء',
             tooltip: 'قائمة التسوق',
           ),
