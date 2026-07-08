@@ -13,7 +13,7 @@ class ExpiryBucketSection extends StatelessWidget {
     required this.items,
     required this.addingItemIds,
     required this.itemIdsInShoppingList,
-    required this.isAddingAll, // <-- أضف هذا
+    required this.isAddingAll,
     required this.onAddToShoppingList,
   });
 
@@ -21,7 +21,7 @@ class ExpiryBucketSection extends StatelessWidget {
   final List<ItemModel> items;
   final Set<String> addingItemIds;
   final Set<String> itemIdsInShoppingList;
-  final bool isAddingAll; // <-- أضف هذا
+  final bool isAddingAll;
   final ValueChanged<ItemModel> onAddToShoppingList;
 
   @override
@@ -39,7 +39,7 @@ class ExpiryBucketSection extends StatelessWidget {
             color: color,
             isInShoppingList: itemIdsInShoppingList.contains(item.id),
             isAdding: addingItemIds.contains(item.id),
-            isAddingAll: isAddingAll, // <-- تمريره هنا
+            isAddingAll: isAddingAll,
             onAddToShoppingList: () => onAddToShoppingList(item),
           ),
       ],
