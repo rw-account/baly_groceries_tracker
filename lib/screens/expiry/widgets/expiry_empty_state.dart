@@ -38,7 +38,7 @@ class ExpiryEmptyState extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               'لا توجد عناصر تحتاج إلى انتباه حالياً',
-              style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant),
+              style: theme.textTheme.bodyMedium?.copyWith(color: theme.textTheme.bodySmall?.color),
               textAlign: TextAlign.center,
             ),
           ],
