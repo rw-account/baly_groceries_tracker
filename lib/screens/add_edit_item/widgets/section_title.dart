@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 
-/// عنوان قسم مع أيقونة + نص بخط عريض.
 class SectionTitle extends StatelessWidget {
   const SectionTitle({
     super.key,
@@ -19,13 +18,11 @@ class SectionTitle extends StatelessWidget {
       children: [
         Icon(icon, size: 18, color: Theme.of(context).colorScheme.primary),
         const SizedBox(width: 8),
-        // Expanded + ellipsis يمنعان تجاوز النص لحدود الشاشة (overflow) عند
-        // استخدام عنوان طويل أو على شاشات ضيقة.
         Expanded(
           child: Text(
             title,
             maxLines: 1,
-            overflow: TextOverflow.ellipsis, // اذا النص طويل جدًا، يظهر "..." بدل تجاوز الشاشة
+            overflow: TextOverflow.ellipsis,
             style: Theme.of(context)
                 .textTheme
                 .titleMedium
