@@ -3,11 +3,6 @@
 import 'package:flutter/material.dart';
 import 'field_utils.dart';
 
-/// Renewal date input field with a date picker selector.
-/// Date selection is always enabled in both add and edit modes.
-///
-/// In edit mode only, a "Reset to today" button is displayed
-/// to allow resetting the date to the current day when needed.
 class RefreshDateField extends StatelessWidget {
   const RefreshDateField({
     super.key,
@@ -53,13 +48,13 @@ class RefreshDateField extends StatelessWidget {
       label: const Text('إعادة تعيين إلى تاريخ اليوم'),
       style: FilledButton.styleFrom(
         minimumSize: const Size(0, 56),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
       ),
     );
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth < _narrowLayoutBreakpoint) { // Mobile layout: stack vertically
+        if (constraints.maxWidth < _narrowLayoutBreakpoint) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [dateField, const SizedBox(height: 8), resetButton],
