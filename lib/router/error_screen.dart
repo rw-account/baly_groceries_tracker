@@ -40,8 +40,10 @@ class ErrorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final cs = theme.colorScheme;
 
     return Scaffold(
+      backgroundColor: cs.surface,
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -52,13 +54,13 @@ class ErrorScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.errorContainer.withValues(alpha: 0.5),
+                    color: cs.error.withValues(alpha: 0.12),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     icon,
                     size: 56,
-                    color: theme.colorScheme.error,
+                    color: cs.error,
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -67,6 +69,7 @@ class ErrorScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: theme.textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
+                    color: cs.onSurface,
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -74,14 +77,18 @@ class ErrorScreen extends StatelessWidget {
                   message,
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
+                    color: cs.outline,
                   ),
                 ),
                 const SizedBox(height: 28),
-                FilledButton.icon(
-                  onPressed: onRetry ?? () => context.go('/home'),
-                  icon: const Icon(Icons.home_rounded),
-                  label: Text(retryLabel),
+                SizedBox(
+                  width: double.infinity,
+                  height: 48,
+                  child: ElevatedButton.icon(
+                    onPressed: onRetry ?? () => context.go('/home'),
+                    icon: const Icon(Icons.home_rounded),
+                    label: Text(retryLabel),
+                  ),
                 ),
               ],
             ),
