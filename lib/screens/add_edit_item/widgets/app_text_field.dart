@@ -39,11 +39,7 @@ class AppTextField extends StatefulWidget {
   final int? maxLength;
   final bool enabled;
 
-  /// Controls the keyboard action button (e.g. next, done, send).
   final TextInputAction? textInputAction;
-
-  /// Optional external focus node.
-  /// If not provided, the widget creates and manages its own FocusNode.
   final FocusNode? focusNode;
   final List<TextInputFormatter>? inputFormatters;
   final void Function(String)? onChanged;
@@ -58,8 +54,6 @@ class _AppTextFieldState extends State<AppTextField> {
   FocusNode? _ownedFocusNode;
   EndCursorOnFocus? _cursorHelper;
 
-  /// Uses the externally provided FocusNode when available;
-  /// otherwise lazily creates an internal one.
   FocusNode get _focusNode => widget.focusNode ?? (_ownedFocusNode ??= FocusNode());
 
   @override
