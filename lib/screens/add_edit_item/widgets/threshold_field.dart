@@ -54,8 +54,6 @@ class _ThresholdFieldState extends State<ThresholdField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Semantics منفصل لأن الاعتماد على اللون فقط (آمن/تحذير/عاجل) لا
-        // يكفي لمستخدمي قارئات الشاشة أو من يعانون من عمى الألوان.
         Semantics(
           label: '${widget.label} بالأيام',
           child: ExcludeSemantics(
@@ -88,12 +86,12 @@ class _ThresholdFieldState extends State<ThresholdField> {
             border: appFieldBorder(
               context,
               color: widget.color.withValues(alpha: 0.4),
-              radius: 10,
+              radius: 4,
             ),
             enabledBorder: appFieldBorder(
               context,
               color: widget.color.withValues(alpha: 0.3),
-              radius: 10,
+              radius: 4,
             ),
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
