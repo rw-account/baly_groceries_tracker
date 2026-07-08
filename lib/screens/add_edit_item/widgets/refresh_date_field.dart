@@ -28,11 +28,11 @@ class RefreshDateField extends StatelessWidget {
       decoration: InputDecoration(
         labelText: 'تاريخ التجديد',
         hintText: 'YYYY-MM-DD',
-        prefixIcon: const Icon(Icons.event_available_outlined),
+        prefixIcon: Icon(Icons.event_available_outlined, color: Theme.of(context).colorScheme.primary),
         suffixIcon: IconButton(
           onPressed: onPickDate,
           tooltip: 'اختيار تاريخ التجديد',
-          icon: const Icon(Icons.calendar_month_outlined),
+          icon: Icon(Icons.calendar_month_outlined, color: Theme.of(context).colorScheme.primary),
         ),
         filled: true,
         border: appFieldBorder(context),
@@ -42,13 +42,14 @@ class RefreshDateField extends StatelessWidget {
 
     if (!isEditing) return dateField;
 
-    final resetButton = FilledButton.tonalIcon(
+    final resetButton = OutlinedButton.icon(
       onPressed: onResetToToday,
-      icon: const Icon(Icons.today_outlined, size: 18),
+      icon: Icon(Icons.today_outlined, size: 18, color: Theme.of(context).colorScheme.primary),
       label: const Text('إعادة تعيين إلى تاريخ اليوم'),
-      style: FilledButton.styleFrom(
+      style: OutlinedButton.styleFrom(
         minimumSize: const Size(0, 56),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+        side: BorderSide(color: Theme.of(context).colorScheme.primary),
       ),
     );
 
