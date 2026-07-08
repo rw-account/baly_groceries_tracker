@@ -13,10 +13,6 @@ import 'widgets/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 /// شاشة إضافة/تعديل مادة.
-///
-/// المنطق (الحفظ، الحذف، اختيار التاريخ، تأكيد التجاهل) موزّع على
-/// الـ mixins في `mixins/`، بينما عناصر الواجهة القابلة لإعادة الاستخدام
-/// موجودة في `widgets/`. هذا الملف مسؤول فقط عن تركيب الشاشة وتنظيمها.
 class AddEditItemScreen extends ConsumerStatefulWidget {
   final ItemModel? item;
   const AddEditItemScreen({super.key, this.item});
@@ -30,7 +26,6 @@ class _AddEditItemScreenState extends AddEditItemState
 
   final _scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>(); 
 
-  // ─── Focus nodes (للتنقل السلس بين الحقول بالضغط على "التالي") ─────────────
   final _nameFocus = FocusNode();
   final _descFocus = FocusNode();
   final _daysFocus = FocusNode();
@@ -43,32 +38,28 @@ class _AddEditItemScreenState extends AddEditItemState
     super.dispose();
   }
 
-  // ─── تنفيذ showError المطلوب من SaveMixin ─────────────────────────────────
   @override
   void Function(String message) get showError => (String message) {
+    final theme = _scaffoldMessengerKey.currentContext != null 
+        ? Theme.of(_scaffoldMessengerKey.currentContext!) 
+        : ThemeData.dark();
+      
     _scaffoldMessengerKey.currentState
       ?..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
-          content: Text(message),
-          backgroundColor: Colors.red,
+          content: Text(message, style: TextStyle(color: theme.colorScheme.onError)),
+          backgroundColor: theme.colorScheme.error,
         ),
       );
   };
 
-  // ─── Navigation ─────────────────────────────────────────────────────────
-
-  /// يعالج الرجوع للخلف (زر AppBar أو زر النظام)، مع تأكيد التجاهل عند
-  /// وجود تغييرات غير محفوظة. يتم تجاهل الطلب أثناء الحفظ لمنع مغادرة
-  /// الشاشة في وضع غير مكتمل.
   Future<void> _handleBack() async {
     if (saving) return;
     final canLeave = await confirmDiscard();
     if (!mounted) return;
     if (canLeave) context.pop();
   }
-
-  // ─── Build ──────────────────────────────────────────────────────────────
 
   @override
   Widget build(BuildContext context) {
@@ -77,9 +68,9 @@ class _AddEditItemScreenState extends AddEditItemState
     return ScaffoldMessenger(
       key: _scaffoldMessengerKey,
       child: PopScope(
-        canPop: false,  // معناه ان زر الرجوع مغلق تماماً، ولا يمكن للمستخدم الخروج إلا إذا قمت أنت برمجياً باستدعاء Navigator.pop()
+        canPop: false,
         onPopInvokedWithResult: (didPop, _) async {
-          if (didPop) return; // اذا خرج المستخدم بالفعل (مثلاً بالضغط على زر 'الغاء')، ارجع ولا تفعل شيء لمنع الحلقه غير النهائيه
+          if (didPop) return;
           await _handleBack();
         },
         child: Scaffold(
@@ -112,8 +103,6 @@ class _AddEditItemScreenState extends AddEditItemState
     );
   }
 
-  /// يلفّ محتوى النموذج بـ [AbsorbPointer]/[AnimatedOpacity] حتى تُعطَّل
-  /// كل الحقول والأزرار تلقائيًا أثناء الحفظ، بدل تعطيل كل حقل يدويًا.
   Widget _buildForm(ThemeData theme) {
     return AbsorbPointer(
       absorbing: saving,
@@ -137,8 +126,6 @@ class _AddEditItemScreenState extends AddEditItemState
     );
   }
 
-  // ── Notifications ─────────────────────────────────────────────────────
-
   List<Widget> _buildNotificationsSection(ThemeData theme) {
     return [
       const SectionTitle(
@@ -150,7 +137,7 @@ class _AddEditItemScreenState extends AddEditItemState
         color: theme.colorScheme.surface,
         clipBehavior: Clip.antiAlias,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(4),
           side: BorderSide(color: theme.colorScheme.outlineVariant),
         ),
         child: SwitchListTile(
@@ -167,15 +154,13 @@ class _AddEditItemScreenState extends AddEditItemState
             notificationsEnabled
                 ? Icons.notifications_active_outlined
                 : Icons.notifications_off_outlined,
-            color: notificationsEnabled ? Colors.green : Colors.grey,
+            color: notificationsEnabled ? theme.colorScheme.primary : theme.iconTheme.color,
           ),
         ),
       ),
       const SizedBox(height: 24),
     ];
   }
-
-  // ── Thresholds ─────────────────────────────────────────────────────────
 
   List<Widget> _buildThresholdsSection(ThemeData theme) {
     return [
@@ -186,9 +171,7 @@ class _AddEditItemScreenState extends AddEditItemState
       const SizedBox(height: 4),
       Text(
         'يحدد التطبيق حالة كل مادة بناءً على هذه الحدود',
-        style: theme.textTheme.bodySmall?.copyWith(
-          color: theme.colorScheme.onSurfaceVariant,
-        ),
+        style: theme.textTheme.bodySmall,
       ),
       const SizedBox(height: 12),
       Row(
@@ -222,8 +205,6 @@ class _AddEditItemScreenState extends AddEditItemState
     ];
   }
 
-  // ── Item info ────────────────────────────────────────────────────────────
-
   List<Widget> _buildItemInfoSection() {
     return [
       const SectionTitle(
@@ -241,8 +222,6 @@ class _AddEditItemScreenState extends AddEditItemState
         textInputAction: TextInputAction.next,
         maxLength: 40,
         onChanged: (_) {
-          // يمسح رسالة الخطأ (مثل "الاسم موجود مسبقاً") بمجرد ما يبدأ
-          // المستخدم بالتعديل، بدل انتظار محاولة حفظ جديدة.
           if (nameErrorText != null) setNameErrorText(null);
         },
         onSubmitted: (_) => _descFocus.requestFocus(),
@@ -299,27 +278,26 @@ class _AddEditItemScreenState extends AddEditItemState
     ];
   }
 
-  // ── Save button ──────────────────────────────────────────────────────────
-
   List<Widget> _buildSaveSection() {
+    final theme = Theme.of(context);
     return [
       const SizedBox(height: 32),
       FilledButton.icon(
         onPressed: saving ? null : save,
         icon: saving
-            ? const SizedBox(
+            ? SizedBox(
                 width: 18,
                 height: 18,
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
-                  color: Colors.white,
+                  color: theme.colorScheme.onPrimary,
                 ),
               )
             : Icon(isEditing ? Icons.save_outlined : Icons.add),
         label: Text(isEditing ? 'حفظ التعديلات' : 'إضافة المادة'),
         style: FilledButton.styleFrom(
           minimumSize: const Size.fromHeight(52),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
         ),
       ),
       const SizedBox(height: 20),
