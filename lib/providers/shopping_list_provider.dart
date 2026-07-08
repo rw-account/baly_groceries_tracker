@@ -55,6 +55,27 @@ class ShoppingListNotifier extends _$ShoppingListNotifier {
     return true;
   }
 
+  /// Adds multiple items.
+  Future<void> addMultipleShoppingItems(List<ShoppingItem> itemsToAdd) async {
+    final storage = ref.read(storageServiceProvider);
+    
+    final uniqueItemsToAdd = <ShoppingItem>[];
+
+    for (final item in itemsToAdd) {
+
+      if (isDuplicate(title: item.title, inventoryItemId: item.inventoryItemId)) {
+        continue; // skip duplicates
+      }
+
+      uniqueItemsToAdd.add(item);
+    }
+    
+    if (uniqueItemsToAdd.isNotEmpty) {
+      await storage.addMultipleShoppingItems(uniqueItemsToAdd);
+      await _refreshState(storage);
+    }
+  }
+
   Future<void> deleteShoppingItem(int id) async {
     final storage = ref.read(storageServiceProvider);
     await storage.deleteShoppingItem(id);
