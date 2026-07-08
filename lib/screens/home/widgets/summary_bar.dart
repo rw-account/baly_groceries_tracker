@@ -16,9 +16,9 @@ class SummaryBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final safeColor = theme.colorScheme.primary;
-    final warningColor = theme.colorScheme.tertiary;
-    final urgentColor = theme.colorScheme.error;
+    final safeColor = Color(0xFF2E7D32);
+    final warningColor = Color(0xFFF57F17);
+    final urgentColor = Color(0xFFC62828);
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
