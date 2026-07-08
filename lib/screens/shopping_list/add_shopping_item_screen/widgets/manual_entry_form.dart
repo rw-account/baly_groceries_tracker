@@ -7,7 +7,7 @@ class ManualEntryForm extends StatefulWidget {
   final TextEditingController nameController;
   final TextEditingController priceController;
   final bool isDuplicate;
-  final String? duplicateMessage; 
+  final String? duplicateMessage;
   final String? priceError;
   final bool canSubmit;
   final bool isSubmitting;
@@ -75,6 +75,8 @@ class _ManualEntryFormState extends State<ManualEntryForm> {
             maxLength: _maxLength,
             onChanged: widget.onNameChanged,
             onSubmitted: (_) => _priceFocus.requestFocus(),
+            style: const TextStyle(color: Color(0xFFC7D5E0)),
+            cursorColor: cs.primary,
             decoration: _inputDeco(
               cs: cs,
               hint: 'مثال: حليب، بيض، أرز…',
@@ -126,6 +128,8 @@ class _ManualEntryFormState extends State<ManualEntryForm> {
             onSubmitted: (_) {
               if (canSubmit) widget.onSubmit();
             },
+            style: const TextStyle(color: Color(0xFFC7D5E0)),
+            cursorColor: cs.primary,
             decoration: _inputDeco(
               cs: cs,
               hint: '0.00',
@@ -138,24 +142,24 @@ class _ManualEntryFormState extends State<ManualEntryForm> {
           const SizedBox(height: 24),
 
           // ── زر الإضافة ───────────────────────────────────────
-          FilledButton.icon(
-            onPressed: canSubmit ? widget.onSubmit : null,
-            icon: widget.isSubmitting
-                ? SizedBox(
-                    width: 18,
-                    height: 18,
-                    child: CircularProgressIndicator(
-                        strokeWidth: 2.2, color: cs.onPrimary),
-                  )
-                : const Icon(Icons.add_rounded, size: 20),
-            label:
-                Text(widget.isSubmitting ? 'جارٍ الإضافة…' : 'إضافة للقائمة'),
-            style: FilledButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 15),
-              textStyle:
-                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14)),
+          SizedBox(
+            width: double.infinity,
+            height: 48,
+            child: ElevatedButton.icon(
+              onPressed: canSubmit ? widget.onSubmit : null,
+              icon: widget.isSubmitting
+                  ? SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.2,
+                        color: cs.onPrimary,
+                      ),
+                    )
+                  : const Icon(Icons.add_rounded, size: 20),
+              label: Text(
+                widget.isSubmitting ? 'جارٍ الإضافة…' : 'إضافة للقائمة',
+              ),
             ),
           ),
         ],
@@ -174,37 +178,41 @@ class _ManualEntryFormState extends State<ManualEntryForm> {
       labelText: label,
       hintText: hint,
       hintStyle: TextStyle(color: cs.outline),
+      labelStyle: TextStyle(color: cs.outline),
+      floatingLabelStyle: TextStyle(color: cs.primary),
       errorText: errorText,
+      errorStyle: TextStyle(color: cs.error),
       filled: true,
       fillColor: hasError
-          ? cs.errorContainer.withValues(alpha: 0.12)
+          ? cs.error.withValues(alpha: 0.08)
           : cs.surfaceContainerHighest,
       contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+      counterStyle: TextStyle(color: cs.outline, fontSize: 12),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(4),
         borderSide: BorderSide.none,
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(4),
         borderSide: BorderSide(
           color: hasError ? cs.error : cs.outlineVariant,
-          width: 1.5,
+          width: 1,
         ),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(4),
         borderSide: BorderSide(
           color: hasError ? cs.error : cs.primary,
-          width: 2,
+          width: 1.5,
         ),
       ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: cs.error, width: 1.5),
+        borderRadius: BorderRadius.circular(4),
+        borderSide: BorderSide(color: cs.error, width: 1),
       ),
       focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: cs.error, width: 2),
+        borderRadius: BorderRadius.circular(4),
+        borderSide: BorderSide(color: cs.error, width: 1.5),
       ),
     );
   }
