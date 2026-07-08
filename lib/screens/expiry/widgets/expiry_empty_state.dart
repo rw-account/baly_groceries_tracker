@@ -8,6 +8,9 @@ class ExpiryEmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -17,25 +20,25 @@ class ExpiryEmptyState extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Colors.green.shade50,
+                color: colorScheme.primaryContainer,
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 Icons.check_circle_outline_rounded,
                 size: 64,
-                color: Colors.green.shade400,
+                color: colorScheme.onPrimaryContainer,
               ),
             ),
             const SizedBox(height: 16),
-            const Text(
+            Text(
               'ممتاز! مخزونك في حالة آمنة',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),
             Text(
               'لا توجد عناصر تحتاج إلى انتباه حالياً',
-              style: TextStyle(color: Colors.grey.shade600),
+              style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant),
               textAlign: TextAlign.center,
             ),
           ],
