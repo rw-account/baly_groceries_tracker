@@ -38,8 +38,6 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
       ..showSnackBar(
         SnackBar(
           content: Text(message), 
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         )
       );
   }
@@ -74,13 +72,13 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
               }
             },
             itemBuilder: (context) => [
-              const PopupMenuItem(
+               PopupMenuItem(
                 value: 'delete_all',
                 child: Row(
                   children: [
-                    Icon(Icons.delete_outline, size: 20),
-                    SizedBox(width: 8),
-                    Text('حذف كل العناصر'),
+                    Icon(Icons.delete_outline, size: 20, color: Theme.of(context).colorScheme.error),
+                    const SizedBox(width: 8),
+                    const Text('حذف كل العناصر'),
                   ],
                 ),
               ),
@@ -156,6 +154,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
 
     const int durationSeconds = 5; // How long the Undo action remains available.
     final scaffoldMessenger = ScaffoldMessenger.of(context);
+    final theme = Theme.of(context);
 
     // Immediately cancel any previous timer when a new delete operation starts
     // to ensure that an old timer does not "wake up" later and incorrectly dismiss the new SnackBar.
@@ -192,8 +191,8 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
                   children: [
                     Text(
                       '${value.ceil()}',
-                      style: const TextStyle(
-                        color: Colors.amber,
+                      style: TextStyle(
+                        color: theme.colorScheme.tertiary,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -204,7 +203,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
                       child: CircularProgressIndicator(
                         value: value / durationSeconds,
                         strokeWidth: 2,
-                        valueColor: const AlwaysStoppedAnimation<Color>(Colors.amber),
+                        valueColor: AlwaysStoppedAnimation<Color>(theme.colorScheme.tertiary),
                       ),
                     ),
                   ],
@@ -216,7 +215,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
         ),
         action: SnackBarAction(
           label: 'تراجع',
-          textColor: Colors.amber,
+          textColor: theme.colorScheme.tertiary,
           onPressed: () {
             snackBarTimer?.cancel();// ❌ Cancel the sleep timer immediately because the user tapped Undo.
             _restoreShoppingItem(item);
@@ -257,7 +256,10 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(ctx).colorScheme.error,
+              foregroundColor: Theme.of(ctx).colorScheme.onError,
+            ),
             child: const Text('حذف الكل'),
           ),
         ],
