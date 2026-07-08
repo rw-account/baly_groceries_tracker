@@ -31,7 +31,7 @@ class ExpiryBucketSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildHeader(color),
+        _buildHeader(context, color),
         for (final item in items)
           ExpiryItemTile(
             key: ValueKey(item.id),
@@ -46,7 +46,9 @@ class ExpiryBucketSection extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(Color color) {
+  Widget _buildHeader(BuildContext context, Color color) {
+    final theme = Theme.of(context);
+    
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
       child: Row(
@@ -55,7 +57,7 @@ class ExpiryBucketSection extends StatelessWidget {
           const SizedBox(width: 8),
           Text(
             bucket.label,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(width: 8),
           Container(
@@ -66,10 +68,9 @@ class ExpiryBucketSection extends StatelessWidget {
             ),
             child: Text(
               '${items.length}',
-              style: TextStyle(
+              style: theme.textTheme.labelSmall?.copyWith(
                 color: color,
                 fontWeight: FontWeight.bold,
-                fontSize: 12,
               ),
             ),
           ),
