@@ -14,6 +14,7 @@ class ItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final cs = theme.colorScheme;
     final status = item.status;
 
     final statusColor = switch (status) {
@@ -22,11 +23,7 @@ class ItemCard extends StatelessWidget {
       ItemStatus.urgent => const Color(0xFFC62828),
     };
 
-    final statusBgColor = switch (status) {
-      ItemStatus.safe => const Color(0xFFE8F5E9),
-      ItemStatus.warning => const Color(0xFFFFFDE7),
-      ItemStatus.urgent => const Color(0xFFFFEBEE),
-    };
+    final statusBgColor = statusColor.withValues(alpha: 0.12);
 
     final statusIcon = switch (status) {
       ItemStatus.safe => '🟢',
@@ -53,22 +50,22 @@ class ItemCard extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
         decoration: BoxDecoration(
-          color: theme.colorScheme.surface,
-          borderRadius: BorderRadius.circular(16),
+          color: cs.surface,
+          borderRadius: BorderRadius.circular(4),
           border: Border.all(
             color: statusColor.withValues(alpha: 0.3),
-            width: 1.5,
+            width: 1,
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: 8,
+              color: Colors.black.withValues(alpha: 0.2),
+              blurRadius: 6,
               offset: const Offset(0, 2),
             ),
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(14),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -83,14 +80,14 @@ class ItemCard extends StatelessWidget {
                           item.name,
                           style: theme.textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: theme.colorScheme.onSurface,
+                            color: cs.onSurface,
                           ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           'تم التجديد $relativeText',
                           style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onSurfaceVariant,
+                            color: cs.outline,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -99,7 +96,7 @@ class ItemCard extends StatelessWidget {
                           Text(
                             item.quantityDescription,
                             style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onSurfaceVariant,
+                              color: cs.outline,
                             ),
                           ),
                         ],
@@ -109,10 +106,10 @@ class ItemCard extends StatelessWidget {
                   // Status badge
                   Container(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
                       color: statusBgColor,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(4),
                       border:
                           Border.all(color: statusColor.withValues(alpha: 0.4)),
                     ),
@@ -121,7 +118,7 @@ class ItemCard extends StatelessWidget {
                       style: TextStyle(
                         color: statusColor,
                         fontWeight: FontWeight.w600,
-                        fontSize: 13,
+                        fontSize: 12,
                       ),
                     ),
                   ),
@@ -131,7 +128,7 @@ class ItemCard extends StatelessWidget {
               // ── Divider ───────────────────────────────────────────────────────
               Container(
                 height: 1,
-                color: theme.colorScheme.outlineVariant.withValues(alpha: 0.5),
+                color: cs.outlineVariant.withValues(alpha: 0.5),
               ),
               const SizedBox(height: 12),
               // ── Expiry info ───────────────────────────────────────────────────
@@ -142,7 +139,7 @@ class ItemCard extends StatelessWidget {
                   Text(
                     'النفاد المتوقع',
                     style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
+                      color: cs.outline,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -162,7 +159,6 @@ class ItemCard extends StatelessWidget {
               Row(
                 children: [
                   const Spacer(),
-                  // بناء النص المناسب
                   _buildAlertText(item, theme),
                 ],
               ),
@@ -175,24 +171,26 @@ class ItemCard extends StatelessWidget {
 }
 
 Widget _buildAlertText(ItemModel item, ThemeData theme) {
+  final cs = theme.colorScheme;
+
   if (!item.notificationsEnabled) {
     // الإشعارات متوقفة
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: Colors.red.shade100,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.red.shade300),
+        color: cs.error.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: cs.error.withValues(alpha: 0.2)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(Icons.notifications_off_outlined, size: 12, color: Colors.red.shade500),
+          Icon(Icons.notifications_off_outlined, size: 12, color: cs.error),
           const SizedBox(width: 4),
           Text(
             'الإشعارات متوقفة',
-            style: TextStyle(fontSize: 11, color: Colors.red.shade600),
+            style: TextStyle(fontSize: 11, color: cs.error),
           ),
         ],
       ),
@@ -207,37 +205,34 @@ Widget _buildAlertText(ItemModel item, ThemeData theme) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: Colors.green.shade50,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.green.shade200),
+        color: Colors.green.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: Colors.green.withValues(alpha: 0.2)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(Icons.notifications_active_outlined, size: 12, color: Colors.green.shade600),
+          Icon(Icons.notifications_active_outlined, size: 12, color: Colors.green),
           const SizedBox(width: 4),
           Text(
             'سيبدأ التنبيه بعد $daysUntilWarning يوم',
-            style: TextStyle(fontSize: 11, color: Colors.green.shade700),
+            style: const TextStyle(fontSize: 11, color: Colors.green),
           ),
         ],
       ),
     );
   } else {
     // المادة في حالة انتباه أو عاجل – التنبيه نشط
+    final bool isUrgent = item.status == ItemStatus.urgent;
+    final Color alertColor = isUrgent ? cs.error : Colors.orange;
+    
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: item.status == ItemStatus.urgent
-            ? Colors.red.shade50
-            : Colors.orange.shade50,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: item.status == ItemStatus.urgent
-              ? Colors.red.shade200
-              : Colors.orange.shade200,
-        ),
+        color: alertColor.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: alertColor.withValues(alpha: 0.2)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -246,18 +241,14 @@ Widget _buildAlertText(ItemModel item, ThemeData theme) {
           Icon(
             Icons.warning_amber_rounded,
             size: 12,
-            color: item.status == ItemStatus.urgent
-                ? Colors.red.shade600
-                : Colors.orange.shade600,
+            color: alertColor,
           ),
           const SizedBox(width: 4),
           Text(
             'التنبيه نشط الآن',
             style: TextStyle(
               fontSize: 11,
-              color: item.status == ItemStatus.urgent
-                  ? Colors.red.shade700
-                  : Colors.orange.shade700,
+              color: alertColor,
             ),
           ),
         ],
