@@ -17,7 +17,7 @@ class ExpiryNoticeCard extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: colorScheme.secondaryContainer,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(4),
         border: Border.all(color: colorScheme.outlineVariant),
       ),
       child: Row(
