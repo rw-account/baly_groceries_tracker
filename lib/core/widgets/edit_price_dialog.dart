@@ -65,19 +65,31 @@ class _EditPriceDialogState extends State<_EditPriceDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    
     // عنوان ذكي: يعرض اسم المنتج إذا تم تمريره، وإلا يعرض "تعديل السعر"
     final titleText = widget.itemName != null 
         ? 'السعر لـ "${widget.itemName}"' 
         : 'تعديل السعر';
 
     return AlertDialog(
-      title: Text(titleText),
+      backgroundColor: cs.surface,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4),
+        side: BorderSide(color: cs.outlineVariant, width: 1),
+      ),
+      title: Text(
+        titleText,
+        style: TextStyle(color: cs.onSurface, fontWeight: FontWeight.w600),
+      ),
       content: Form(
         key: _formKey,
         child: TextFormField(
           controller: _controller,
           autofocus: true,
           textInputAction: TextInputAction.done,
+          style: TextStyle(color: cs.onSurface),
+          cursorColor: cs.primary,
           inputFormatters: [
             FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
             TextInputFormatter.withFunction((oldValue, newValue) {
@@ -88,10 +100,26 @@ class _EditPriceDialogState extends State<_EditPriceDialog> {
             }),
           ],
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             labelText: 'السعر (اختياري)',
             hintText: '0.00',
-            border: OutlineInputBorder(), // إضافة إطار ليكون أوضح في الديالوج
+            labelStyle: TextStyle(color: cs.outline),
+            hintStyle: TextStyle(color: cs.outline),
+            floatingLabelStyle: TextStyle(color: cs.primary),
+            filled: true,
+            fillColor: cs.surfaceContainerHighest,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: BorderSide.none,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: BorderSide(color: cs.outlineVariant, width: 1),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: BorderSide(color: cs.primary, width: 1.5),
+            ),
           ),
           onFieldSubmitted: (_) => _submit(),
           validator: (value) {
@@ -107,9 +135,12 @@ class _EditPriceDialogState extends State<_EditPriceDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context, _cancelledResult),
+          style: TextButton.styleFrom(
+            foregroundColor: cs.primary,
+          ),
           child: const Text('إلغاء'),
         ),
-        FilledButton(
+        ElevatedButton(
           onPressed: _submit,
           child: const Text('حفظ'),
         ),
