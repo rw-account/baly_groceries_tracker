@@ -75,8 +75,6 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
     );
   }
 
-  /// The options icon (⋮) in the AppBar turns into a loading indicator
-  /// during the "Add All" operation to prevent repeated taps.
   Widget _buildAppBarAction(AsyncValue<List<ItemModel>> itemsAsync) {
     if (_isAddingAll) {
       return Padding(
@@ -112,8 +110,6 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
     );
   }
 
-  /// إضافة كل العناصر (غير الآمنة) غير الموجودة مسبقاً في قائمة الشراء，
-  /// مع تجاهل ما هو موجود بالفعل.
   Future<void> _addAllToShoppingList(List<ItemModel> items) async {
     final shoppingItems =
         ref.read(shoppingListProvider).value ?? const <ShoppingItem>[];
@@ -145,7 +141,6 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
     try {
       await ref.read(shoppingListProvider.notifier).addMultipleShoppingItems(itemsToInsert);
       
-      // If the code reaches this point, it means the operation succeeded without errors.
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('تمت إضافة جميع العناصر الى قائمة الشراء.')),
@@ -156,7 +151,7 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('حدث خطأ أثناء إضافة العناصر إلى قائمة الشراء: $e'),
-            backgroundColor: Colors.red,
+            backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
       }
@@ -176,22 +171,23 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
             price: null,
           );
       if (mounted) {
+        final colorScheme = Theme.of(context).colorScheme;
+        
         if (wasAdded){
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('تمت إضافة "${item.name}" إلى قائمة الشراء'),
-            duration: const Duration(seconds: 2),
-          ),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('"${item.name}" موجود بالفعل في قائمة الشراء'),
-            duration: const Duration(seconds: 2),
-            // يمكنك تغيير اللون ليدل على التحذير أو التجاهل
-            backgroundColor: Colors.orange, 
-          ),
-        );
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('تمت إضافة "${item.name}" إلى قائمة الشراء'),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('"${item.name}" موجود بالفعل في قائمة الشراء'),
+              duration: const Duration(seconds: 2),
+              backgroundColor: colorScheme.tertiary, 
+            ),
+          );
         }
       }
     } catch (e) {
@@ -199,7 +195,7 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('فشل إضافة العنصر: $e'),
-            backgroundColor: Colors.red,
+            backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
       }
