@@ -84,14 +84,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             return const EmptyState();
           }
 
-          // أثناء وضع البحث
           if (_isSearching) {
-            // إذا كان حقل البحث فارغًا، لا تعرض أي عناصر
             if (_searchQuery.isEmpty) {
               return const SizedBox.shrink();
             }
             
-            // تصفية العناصر بناءً على النص المدخل
             final searchResults = items
                 .where((item) => item.name.toLowerCase().contains(_searchQuery.toLowerCase()))
                 .toList();
@@ -102,7 +99,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             return ItemsList(items: searchResults);
           }
 
-          // الوضع العادي: شريط الحالة + القائمة
           return Column(
             children: [
               SummaryBar(
@@ -117,7 +113,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) => Center(child: Text('خطأ: $error')),
       ),
-      // زر عائم مزدوج: زر البحث فوق زر الإضافة
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -133,6 +128,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             onPressed: () => context.push(RoutePaths.addItemFull),
             icon: const Icon(Icons.add),
             label: const Text('إضافة مادة'),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
           ),
         ],
       ),
