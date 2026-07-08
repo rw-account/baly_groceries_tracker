@@ -63,6 +63,7 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
                     items: buckets[bucket]!,
                     addingItemIds: _addingItemIds,
                     itemIdsInShoppingList: itemIdsInShoppingList,
+                    isAddingAll: _isAddingAll,
                     onAddToShoppingList: _addToShoppingList,
                   ),
             ],
