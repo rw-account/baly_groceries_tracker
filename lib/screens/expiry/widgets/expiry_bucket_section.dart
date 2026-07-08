@@ -6,12 +6,6 @@ import '../../../models/expiry_bucket.dart';
 import '../../../models/item_model.dart';
 import 'expiry_item_tile.dart';
 
-/// قسم كامل لفئة زمنية واحدة: عنوان الفئة مع عدد العناصر، متبوعاً بقائمة
-/// بطاقات العناصر التابعة لها.
-///
-/// يستقبل [itemIdsInShoppingList] كمجموعة (Set) جاهزة بدلاً من قائمة
-/// عناصر السلة الخام، حتى لا يعيد كل عنصر البحث الخطي (O(n)) بنفسه؛
-/// الشاشة الأم تبني هذه المجموعة مرة واحدة فقط لكل عملية بناء.
 class ExpiryBucketSection extends StatelessWidget {
   const ExpiryBucketSection({
     super.key,
@@ -19,6 +13,7 @@ class ExpiryBucketSection extends StatelessWidget {
     required this.items,
     required this.addingItemIds,
     required this.itemIdsInShoppingList,
+    required this.isAddingAll, // <-- أضف هذا
     required this.onAddToShoppingList,
   });
 
@@ -26,6 +21,7 @@ class ExpiryBucketSection extends StatelessWidget {
   final List<ItemModel> items;
   final Set<String> addingItemIds;
   final Set<String> itemIdsInShoppingList;
+  final bool isAddingAll; // <-- أضف هذا
   final ValueChanged<ItemModel> onAddToShoppingList;
 
   @override
@@ -43,6 +39,7 @@ class ExpiryBucketSection extends StatelessWidget {
             color: color,
             isInShoppingList: itemIdsInShoppingList.contains(item.id),
             isAdding: addingItemIds.contains(item.id),
+            isAddingAll: isAddingAll, // <-- تمريره هنا
             onAddToShoppingList: () => onAddToShoppingList(item),
           ),
       ],
