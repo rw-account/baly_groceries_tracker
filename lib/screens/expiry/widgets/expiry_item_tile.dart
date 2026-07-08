@@ -35,7 +35,7 @@ class ExpiryItemTile extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
       decoration: BoxDecoration(
         color: colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(4),
         boxShadow: [
           BoxShadow(
             color: colorScheme.shadow.withValues(alpha: 0.06),
@@ -45,7 +45,7 @@ class ExpiryItemTile extends StatelessWidget {
         ],
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(4),
         child: Row(
           children: [
             Container(width: _stripeWidth, height: _stripeHeight, color: color),
@@ -88,6 +88,7 @@ class ExpiryItemTile extends StatelessWidget {
     return IconButton(
       icon: const Icon(Icons.add_shopping_cart),
       tooltip: 'إضافة إلى قائمة الشراء',
+      color: colorScheme.primary,
       onPressed: isAddingAll ? null : onAddToShoppingList, 
     );
   }
