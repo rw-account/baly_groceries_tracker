@@ -12,7 +12,7 @@ class ExpiryItemTile extends StatelessWidget {
     required this.color,
     required this.isInShoppingList,
     required this.isAdding,
-    required this.isAddingAll, // <-- أضف هذا
+    required this.isAddingAll,
     required this.onAddToShoppingList,
   });
 
@@ -20,7 +20,7 @@ class ExpiryItemTile extends StatelessWidget {
   final Color color;
   final bool isInShoppingList;
   final bool isAdding;
-  final bool isAddingAll; // <-- أضف هذا
+  final bool isAddingAll;
   final VoidCallback onAddToShoppingList;
 
   static const double _stripeWidth = 5;
