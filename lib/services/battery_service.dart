@@ -71,22 +71,36 @@ class BatteryService {
     // Guard after the async gap.
     if (!context.mounted) return;
 
+    final cs = Theme.of(context).colorScheme;
+
     // 5. نعرض الحوار
     final shouldProceed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('تفعيل الاشعارات في الخلفية'),
-        content: const Text(
+        backgroundColor: cs.surface,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(4),
+          side: BorderSide(color: cs.outlineVariant, width: 1),
+        ),
+        title: Text(
+          'تفعيل الاشعارات في الخلفية',
+          style: TextStyle(color: cs.onSurface, fontWeight: FontWeight.w600),
+        ),
+        content: Text(
           'نريد أن تصلك التنبيهات في الوقت الصحيح دائمًا، حتى لو كان التطبيق مغلقًا.\n\n'
           'بعض الأجهزة قد تقوم بتقييد التطبيقات لتوفير البطارية، وهذا قد يؤثر على ظهور الإشعارات.\n\n'
           'يمكنك السماح للتطبيق بالعمل بحرية من إعدادات الجهاز.',
+          style: TextStyle(color: cs.onSurface, height: 1.5),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
+            style: TextButton.styleFrom(
+              foregroundColor: cs.primary,
+            ),
             child: const Text('ليس الآن'),
           ),
-          FilledButton(
+          ElevatedButton(
             onPressed: () => Navigator.pop(ctx, true),
             child: const Text('فتح الإعدادات'),
           ),
@@ -108,10 +122,13 @@ class BatteryService {
       } catch (_) {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              duration: Duration(seconds: 15),
-              backgroundColor: Colors.red,
-              content: Text(
+            SnackBar(
+              duration: const Duration(seconds: 15),
+              backgroundColor: cs.error,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+              ),
+              content: const Text(
                 'تعذر فتح الإعدادات تلقائيًا. لضمان ظهور الاشعارات التذكيرية يرجى الذهاب إلى الإعدادات > التطبيقات > تطبيقنا > البطارية > السماح بالتشغيل في الخلفية',
               ),
             ),
