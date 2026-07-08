@@ -8,6 +8,7 @@ class EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final secondaryColor = theme.textTheme.bodySmall?.color;
 
     return Center(
       child: Column(
@@ -16,20 +17,20 @@ class EmptyState extends StatelessWidget {
           Icon(
             Icons.inventory_2_outlined,
             size: 64,
-            color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.4),
+            color: secondaryColor?.withValues(alpha: 0.4),
           ),
           const SizedBox(height: 16),
           Text(
             'لا توجد مواد بعد',
             style: theme.textTheme.titleMedium?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
+              color: secondaryColor,
             ),
           ),
           const SizedBox(height: 8),
           Text(
             'اضغط زر اضافة مادة جديدة',
             style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
+              color: secondaryColor,
             ),
           ),
         ],
