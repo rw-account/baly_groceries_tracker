@@ -16,7 +16,7 @@ class SummaryBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final safeColor = Color(0xFF2E7D32);
+    final safeColor = Color(0xFF00A884);
     final warningColor = Color(0xFFF57F17);
     final urgentColor = Color(0xFFC62828);
 

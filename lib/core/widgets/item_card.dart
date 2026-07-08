@@ -18,7 +18,7 @@ class ItemCard extends StatelessWidget {
     final status = item.status;
 
     final statusColor = switch (status) {
-      ItemStatus.safe => const Color(0xFF2E7D32),
+      ItemStatus.safe => const Color(0xFF00A884),
       ItemStatus.warning => const Color(0xFFF57F17),
       ItemStatus.urgent => const Color(0xFFC62828),
     };

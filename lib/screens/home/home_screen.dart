@@ -117,18 +117,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          FloatingActionButton(
-            heroTag: 'search_fab',
-            onPressed: _toggleSearch,
-            child: Icon(_isSearching ? Icons.close : Icons.search),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: FloatingActionButton(
+              heroTag: 'search_fab',
+              onPressed: _toggleSearch,
+              child: Icon(_isSearching ? Icons.close : Icons.search),
+            ),
           ),
           const SizedBox(height: 12),
-          FloatingActionButton.extended(
-            heroTag: 'add_fab',
-            onPressed: () => context.push(RoutePaths.addItemFull),
-            icon: const Icon(Icons.add),
-            label: const Text('إضافة مادة'),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+          Padding(
+            padding: const EdgeInsets.only(left: 4.0),
+            child: FloatingActionButton.extended(
+              heroTag: 'add_fab',
+              onPressed: () => context.push(RoutePaths.addItemFull),
+              icon: const Icon(Icons.add),
+              label: const Text('إضافة'),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+            ),
           ),
         ],
       ),

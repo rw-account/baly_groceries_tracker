@@ -30,7 +30,7 @@ class AppTextField extends StatefulWidget {
   final TextEditingController controller;
   final String label;
   final String hint;
-  final IconData icon;
+  final Icon icon;
   final TextInputType keyboardType;
   final String? suffix;
   final String? errorText;
@@ -90,7 +90,7 @@ class _AppTextFieldState extends State<AppTextField> {
       decoration: InputDecoration(
         labelText: widget.label,
         hintText: widget.hint,
-        prefixIcon: Icon(widget.icon),
+        prefixIcon: widget.icon,
         suffixText: widget.suffix,
         filled: true,
         errorText: widget.errorText,
