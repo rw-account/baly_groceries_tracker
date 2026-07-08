@@ -46,6 +46,7 @@ class SearchView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final cs = theme.colorScheme;
 
     return Column(
       children: [
@@ -57,38 +58,48 @@ class SearchView extends StatelessWidget {
             autofocus: true,
             textInputAction: TextInputAction.done,
             onChanged: onSearchChanged,
+            style: const TextStyle(color: Color(0xFFC7D5E0)),
+            cursorColor: cs.primary,
             decoration: InputDecoration(
               hintText: 'ابحث أو أنشئ عنصرًا...',
-              prefixIcon: const Icon(Icons.add_circle_outline),
-              filled: true,
-              fillColor: theme.colorScheme.surfaceContainerHighest,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(14),
-                borderSide: BorderSide.none,
-              ),
+              hintStyle: TextStyle(color: cs.outline),
+              prefixIcon: Icon(Icons.add_circle_outline, color: cs.outline),
               suffixIcon: query.isNotEmpty
                   ? IconButton(
                       tooltip: 'مسح البحث',
-                      icon: const Icon(Icons.clear),
+                      icon: Icon(Icons.clear, color: cs.outline),
                       onPressed: onClearSearch,
                     )
                   : null,
+              filled: true,
+              fillColor: cs.surfaceContainerHighest,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4),
+                borderSide: BorderSide.none,
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4),
+                borderSide: BorderSide(color: cs.outlineVariant, width: 1),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4),
+                borderSide: BorderSide(color: cs.primary, width: 1.5),
+              ),
             ),
           ),
         ),
         Expanded(
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 220),
-            // تم تعديل الشرط: القائمة تظهر طالما هناك نص، وتحتوي بداخلها على زر الإضافة
             child: query.isEmpty
-                ? _buildHint(theme, 'ابدأ بكتابة اسم العنصر للاضافة')
+                ? _buildHint(theme, 'ابدأ بكتابة اسم العنصر للإضافة')
                 : ListView(
                     key: const ValueKey('results'),
                     padding: const EdgeInsets.fromLTRB(12, 4, 12, 16),
                     children: [
                       // ── زر الإضافة السريع كأول عنصر في القائمة ──
                       _buildQuickAddTile(theme),
-                      
+
                       // ── فصل النتائج إذا وجدت ──
                       if (_hasResults) ...[
                         Padding(
@@ -96,12 +107,12 @@ class SearchView extends StatelessWidget {
                           child: Text(
                             'نتائج البحث',
                             style: theme.textTheme.labelSmall?.copyWith(
-                              color: theme.colorScheme.onSurfaceVariant,
-                              fontWeight: FontWeight.w600,
+                              color: cs.outline,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
-                        
+
                         for (final item in matchingInventoryItems)
                           Padding(
                             padding: const EdgeInsets.only(bottom: 8),
@@ -126,53 +137,58 @@ class SearchView extends StatelessWidget {
       key: const ValueKey('hint'),
       child: Text(
         text,
-        style: theme.textTheme.bodyMedium
-            ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+        style: theme.textTheme.bodyMedium?.copyWith(
+          color: theme.colorScheme.outline,
+        ),
       ),
     );
   }
 
   // ─── بطاقة الإضافة السريعة (التصميم المدمج) ───────────────────────────
   Widget _buildQuickAddTile(ThemeData theme) {
+    final cs = theme.colorScheme;
+
     return Material(
       color: Colors.transparent,
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: BorderRadius.circular(4),
       child: InkWell(
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(4),
         onTap: isSubmitting ? null : onEnterManualMode,
+        splashColor: cs.primary.withValues(alpha: 0.12),
+        highlightColor: cs.primary.withValues(alpha: 0.06),
         child: Container(
-          // لون خلفية مميز قليلاً ليدل على أنه إجراء (Action) وليس نتيجة
           decoration: BoxDecoration(
-            color: theme.colorScheme.primaryContainer.withValues(alpha: 0.5),
-            borderRadius: BorderRadius.circular(14),
+            color: cs.primaryContainer,
+            borderRadius: BorderRadius.circular(4),
             border: Border.all(
-              color: theme.colorScheme.primary.withValues(alpha: 0.3),
+              color: cs.primary.withValues(alpha: 0.25),
             ),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           child: Row(
             children: [
-              // أيقونة مميزة للإضافة (بدون دائرة خلفية)
               Icon(
-                Icons.add_circle_outline, 
-                color: theme.colorScheme.primary, 
-                size: 28, // قمت بزيادة الحجم قليلاً لتعويض اختفاء الدائرة
+                Icons.add_circle_outline,
+                color: cs.onPrimaryContainer,
+                size: 28,
               ),
               const SizedBox(width: 12),
-              // نص البحث
               Expanded(
                 child: Text(
                   'إضافة "$query" كعنصر جديد',
                   style: theme.textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: theme.colorScheme.onSurface,
+                    color: cs.onSurface,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              // سهم يوضح أنه قابل للضغط
-              Icon(Icons.adaptive.arrow_forward, size: 20, color: theme.colorScheme.onSurfaceVariant),
+              Icon(
+                Icons.adaptive.arrow_forward,
+                size: 20,
+                color: cs.outline,
+              ),
             ],
           ),
         ),
@@ -181,34 +197,33 @@ class SearchView extends StatelessWidget {
   }
 
   Widget _buildInventoryResultTile(ThemeData theme, ItemModel item) {
+    final cs = theme.colorScheme;
     final alreadyInList =
         shoppingItems.any((s) => s.inventoryItemId == item.id);
     final enabled = !alreadyInList && !isSubmitting;
-    final color = !alreadyInList
-        ? theme.colorScheme.primary
-        : theme.colorScheme.onSurfaceVariant;
+    final color = !alreadyInList ? cs.primary : cs.outline;
 
     return Material(
       color: Colors.transparent,
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: BorderRadius.circular(4),
       child: Container(
         decoration: BoxDecoration(
-          color: theme.colorScheme.surface,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: theme.colorScheme.outlineVariant),
+          color: cs.surface,
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(color: cs.outlineVariant),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         child: Row(
           children: [
             // أيقونة المخزون
             Container(
-              width: 38,
-              height: 38,
+              width: 36,
+              height: 36,
               decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.12),
+                color: color.withValues(alpha: 0.15),
                 shape: BoxShape.circle,
               ),
-              child: Icon(Icons.inventory_2_outlined, color: color, size: 20),
+              child: Icon(Icons.inventory_2_outlined, color: color, size: 18),
             ),
             const SizedBox(width: 12),
             // اسم العنصر وحالته
@@ -220,9 +235,7 @@ class SearchView extends StatelessWidget {
                     item.name,
                     style: theme.textTheme.bodyLarge?.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: enabled
-                          ? null
-                          : theme.colorScheme.onSurfaceVariant,
+                      color: enabled ? cs.onSurface : cs.outline,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -231,7 +244,7 @@ class SearchView extends StatelessWidget {
                     Text(
                       'موجود في قائمة الشراء',
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
+                        color: cs.outline,
                       ),
                     ),
                 ],
@@ -239,14 +252,19 @@ class SearchView extends StatelessWidget {
             ),
             // زر الإضافة أو علامة الوجود
             if (alreadyInList)
-              Icon(Icons.check_circle,
-                  size: 18, color: theme.colorScheme.onSurfaceVariant)
+              Icon(Icons.check_circle, size: 18, color: cs.outline)
             else
-              IconButton(
-                icon: const Icon(Icons.add_shopping_cart),
-                color: theme.colorScheme.primary,
-                onPressed: enabled ? () => onSelectInventoryItem(item) : null,
-                tooltip: 'إضافة إلى قائمة الشراء',
+              SizedBox(
+                width: 36,
+                height: 36,
+                child: IconButton(
+                  icon: const Icon(Icons.add_shopping_cart, size: 20),
+                  color: cs.primary,
+                  onPressed: enabled ? () => onSelectInventoryItem(item) : null,
+                  tooltip: 'إضافة إلى قائمة الشراء',
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                ),
               ),
           ],
         ),
@@ -257,7 +275,7 @@ class SearchView extends StatelessWidget {
   Widget _buildManualResultTile(ThemeData theme, ShoppingItem item) {
     return ResultTile(
       icon: Icons.edit_note,
-      color: theme.colorScheme.onSurfaceVariant,
+      color: theme.colorScheme.outline,
       title: item.title,
       subtitle: 'موجود في قائمة الشراء',
       enabled: false,
