@@ -227,6 +227,69 @@ class StorageService {
     );
   }
 
+  /// Adds multiple shopping items at once using a database batch.
+  /// Skips duplicates based on inventory_item_id or title.
+  /// Returns the list of items that were actually added.
+  Future<List<ShoppingItem>> addMultipleShoppingItems(List<ShoppingItem> itemsToAdd) async {
+    // 1. جلب العناصر الحالية من قاعدة البيانات لفحص التكرار
+    final existingItems = await getAllShoppingItems();
+    
+    // إنشاء Sets للبحث السريع (O(1)) بدلاً من البحث في القوائم (O(N))
+    final existingInventoryIds = existingItems
+        .where((i) => i.inventoryItemId != null)
+        .map((i) => i.inventoryItemId!)
+        .toSet();
+        
+    final existingTitles = existingItems
+        .map((i) => i.title.trim().toLowerCase())
+        .toSet();
+
+    // لتتبع التكرار داخل القائمة الجديدة نفسها (أثناء اللوب)
+    final newInventoryIds = <String>{};
+    final newTitles = <String>{};
+
+    final uniqueItemsToAdd = <ShoppingItem>[];
+
+    // 2. فلترة العناصر لاستخراج غير المكررة فقط
+    for (final item in itemsToAdd) {
+      bool isDuplicate = false;
+
+      // فحص التكرار بناءً على inventoryItemId
+      if (item.inventoryItemId != null) {
+        if (existingInventoryIds.contains(item.inventoryItemId) ||
+            newInventoryIds.contains(item.inventoryItemId)) {
+          isDuplicate = true;
+        }
+        newInventoryIds.add(item.inventoryItemId!);
+      } 
+      // فحص التكرار بناءً على الاسم (إذا لم يكن هناك inventoryItemId)
+      else {
+        final normalizedTitle = item.title.trim().toLowerCase();
+        if (existingTitles.contains(normalizedTitle) ||
+            newTitles.contains(normalizedTitle)) {
+          isDuplicate = true;
+        }
+        newTitles.add(normalizedTitle);
+      }
+
+      if (!isDuplicate) {
+        uniqueItemsToAdd.add(item);
+      }
+    }
+
+    // 3. إضافة العناصر غير المكررة دفعة واحدة باستخدام Batch
+    if (uniqueItemsToAdd.isNotEmpty) {
+      final batch = _database.batch();
+      for (final item in uniqueItemsToAdd) {
+        batch.insert(_shoppingItemsTableName, item.toMap());
+      }
+      await batch.commit(noResult: true); // تنفيذ كل الإضافات في معاملة واحدة (Transaction)
+    }
+
+    // إرجاع العناصر التي تمت إضافتها فعلياً (مفيد للـ Provider ليعرف النتيجة)
+    return uniqueItemsToAdd;
+  }
+
   // ─── Background helper ────────────────────────────────────────────────────────
 
   /// Opens its own DB connection (for use in background isolates / Workmanager).
