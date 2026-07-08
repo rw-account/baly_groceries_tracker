@@ -22,7 +22,8 @@ class ShoppingListTotalBar extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
         decoration: BoxDecoration(
           color: theme.colorScheme.primaryContainer,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(color: theme.colorScheme.outlineVariant, width: 1),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
