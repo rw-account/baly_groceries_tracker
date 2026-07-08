@@ -37,7 +37,11 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
-          content: Text(message), 
+          content: Text(
+            message,
+            style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
         )
       );
   }
@@ -179,7 +183,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
         content: Row(
           children: [
             Expanded(
-              child: Text('تم حذف "${item.title}"'),
+              child: Text('تم حذف "${item.title}"', style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
             ),
             // Circular and numeric countdown timer.
             TweenAnimationBuilder<double>(
@@ -192,7 +196,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
                     Text(
                       '${value.ceil()}',
                       style: TextStyle(
-                        color: theme.colorScheme.tertiary,
+                        color: theme.colorScheme.onSurface,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -203,7 +207,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
                       child: CircularProgressIndicator(
                         value: value / durationSeconds,
                         strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation<Color>(theme.colorScheme.tertiary),
+                        valueColor: AlwaysStoppedAnimation<Color>(theme.colorScheme.onSurface),
                       ),
                     ),
                   ],
@@ -213,9 +217,10 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
             const SizedBox(width: 8),
           ],
         ),
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
         action: SnackBarAction(
           label: 'تراجع',
-          textColor: theme.colorScheme.tertiary,
+          textColor: theme.colorScheme.onSurface,
           onPressed: () {
             snackBarTimer?.cancel();// ❌ Cancel the sleep timer immediately because the user tapped Undo.
             _restoreShoppingItem(item);
