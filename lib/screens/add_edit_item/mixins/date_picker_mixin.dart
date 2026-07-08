@@ -3,39 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../add_edit_item_state.dart';
 
-/// Provides date picking and reset logic for the "last refreshed" field.
-///
-/// Mix this into [AddEditItemState] to allow the user to select a custom
-/// date or reset it to today, with proper validation and error feedback.
 mixin DatePickerMixin on AddEditItemState {
   static final DateFormat _dateFormat = DateFormat('yyyy-MM-dd');
 
-  // ---------- Date picker labels (localized) ----------
   static const String _datePickerHelpText = 'اختر تاريخ التجديد';
   static const String _datePickerCancelText = 'إلغاء';
   static const String _datePickerConfirmText = 'تأكيد';
   static const String _datePickerError = 'تعذّر فتح منتقي التاريخ، يرجى المحاولة مرة أخرى';
 
-  // ---------- Reset dialog labels ----------
   static const String _resetDialogTitle = 'إعادة تعيين تاريخ التجديد';
   static const String _resetDialogContent = 'هل تريد تعيين تاريخ التجديد إلى تاريخ اليوم؟';
   static const String _resetCancelLabel = 'إلغاء';
   static const String _resetConfirmLabel = 'موافق';
 
-  /// Opens a date picker and updates [lastRefreshedAt] with the chosen date.
-  ///
-  /// The picker restricts selection to dates within the past 5 years up to
-  /// today. If [lastRefreshedAt] is in the future (e.g., due to manual edit),
-  /// the picker automatically caps the initial date to today.
   Future<void> pickLastRefreshedDate() async {
-    // Prevent overlapping date picker dialogs
     if (isPickingDate) return;
     isPickingDate = true;
 
     try {
       final now = DateTime.now();
-
-      // Ensure the initial date is not after today to avoid picker issues.
       final initialDate = lastRefreshedAt.isAfter(now) ? now : lastRefreshedAt;
 
       final picked = await showDatePicker(
@@ -54,10 +40,11 @@ mixin DatePickerMixin on AddEditItemState {
       _applyDateChange(picked);
     } catch (_) {
       if (mounted) {
+        final theme = Theme.of(context);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(_datePickerError),
-            backgroundColor: Colors.orange,
+          SnackBar(
+            content: Text(_datePickerError, style: TextStyle(color: theme.colorScheme.onTertiary)),
+            backgroundColor: theme.colorScheme.tertiary,
           ),
         );
       }
@@ -68,12 +55,7 @@ mixin DatePickerMixin on AddEditItemState {
     }
   }
 
-  /// Resets [lastRefreshedAt] to today's date after a confirmation dialog.
-  ///
-  /// A confirmation dialog is shown to prevent accidental resets. On approval,
-  /// the date is set to today and the text field is updated accordingly.
   Future<void> resetLastRefreshedToToday() async {
-    // Prevent multiple dialog opens at once
     if (isPickingDate) return;
 
     final confirmed = await showDialog<bool>(
@@ -100,9 +82,6 @@ mixin DatePickerMixin on AddEditItemState {
     _applyDateChange(DateTime.now());
   }
 
-  // ---------- Private helpers ----------
-
-  /// Updates [lastRefreshedAt] and the associated text controller.
   void _applyDateChange(DateTime newDate) {
     setState(() {
       lastRefreshedAt = newDate;
