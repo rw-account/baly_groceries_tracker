@@ -16,18 +16,26 @@ class ExpiryRemainingLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     final locale = Localizations.localeOf(context).languageCode;
     final days = item.remainingDays;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     if (days < 0) {
       return Text(
         _expiredText(locale),
-        style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+        style: theme.textTheme.bodyMedium?.copyWith(
+          color: colorScheme.error, 
+          fontWeight: FontWeight.bold
+        ),
       );
     }
 
     if (days == 0) {
       return Text(
         locale == 'en' ? 'Expires today' : 'ينفد اليوم',
-        style: const TextStyle(color: Colors.orange, fontWeight: FontWeight.bold),
+        style: theme.textTheme.bodyMedium?.copyWith(
+          color: colorScheme.tertiary, 
+          fontWeight: FontWeight.bold
+        ),
       );
     }
 
@@ -35,6 +43,7 @@ class ExpiryRemainingLabel extends StatelessWidget {
       locale == 'en'
           ? 'Expires ${formatRelativeDate(item.expectedExpiryDate, locale: locale)}'
           : 'سينفد ${formatRelativeDate(item.expectedExpiryDate, locale: locale)}',
+      style: theme.textTheme.bodyMedium,
     );
   }
 
