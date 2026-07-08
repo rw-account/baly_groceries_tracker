@@ -41,35 +41,43 @@ class _ResultTileState extends State<ResultTile> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final cs = theme.colorScheme;
 
     return Material(
       color: Colors.transparent,
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: BorderRadius.circular(4),
       child: InkWell(
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(4),
         onTap: widget.enabled ? widget.onTap : null,
         onHighlightChanged: _setPressed,
+        splashColor: cs.primary.withValues(alpha: 0.12),
+        highlightColor: cs.primary.withValues(alpha: 0.06),
         child: AnimatedScale(
-          scale: _pressed ? 0.97 : 1.0,
-          duration: const Duration(milliseconds: 120),
+          scale: _pressed ? 0.98 : 1.0,
+          duration: const Duration(milliseconds: 100),
           curve: Curves.easeOut,
           child: Container(
             decoration: BoxDecoration(
-              color: theme.colorScheme.surface,
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: theme.colorScheme.outlineVariant),
+              color: cs.surface,
+              borderRadius: BorderRadius.circular(4),
+              border: Border.all(
+                color: cs.outlineVariant,
+                width: 1,
+              ),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             child: Row(
               children: [
                 Container(
-                  width: 38,
-                  height: 38,
+                  width: 36,
+                  height: 36,
                   decoration: BoxDecoration(
-                    color: widget.color.withValues(alpha: 0.12),
+                    color: widget.color.withValues(alpha: 0.15),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(widget.icon, color: widget.color, size: 20),
+                  child: Icon(widget.color == cs.primary
+                      ? widget.icon
+                      : widget.icon, color: widget.color, size: 18),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -81,25 +89,31 @@ class _ResultTileState extends State<ResultTile> {
                         style: theme.textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.w600,
                           color: widget.enabled
-                              ? null
-                              : theme.colorScheme.onSurfaceVariant,
+                              ? cs.onSurface
+                              : cs.onSurfaceVariant,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       if (widget.subtitle != null)
-                        Text(
-                          widget.subtitle!,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onSurfaceVariant,
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2),
+                          child: Text(
+                            widget.subtitle!,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: cs.onSurfaceVariant,
+                            ),
                           ),
                         ),
                     ],
                   ),
                 ),
                 if (!widget.enabled)
-                  Icon(Icons.check_circle,
-                      size: 18, color: theme.colorScheme.onSurfaceVariant),
+                  Icon(
+                    Icons.check_circle,
+                    size: 18,
+                    color: cs.onSurfaceVariant,
+                  ),
               ],
             ),
           ),
