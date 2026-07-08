@@ -21,13 +21,14 @@ class ShoppingItemCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final formatter = NumberFormat('#,##0.###');
     final theme = Theme.of(context);
+    final cs = theme.colorScheme;
     final isLinked = item.inventoryItemId != null;
     final hasPrice = item.price != null;
     final priceText = hasPrice ? formatter.format(item.price) : '—';
     final isChecked = item.isChecked;
 
     final accentColor =
-        isLinked ? theme.colorScheme.primary : theme.colorScheme.tertiary;
+        isLinked ? cs.primary : cs.tertiary;
 
     return Dismissible(
       key: ValueKey(item.id ?? item.title),
@@ -38,12 +39,12 @@ class ShoppingItemCard extends ConsumerWidget {
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
-          color: theme.colorScheme.errorContainer,
-          borderRadius: BorderRadius.circular(16),
+          color: cs.error.withValues(alpha: 0.15),
+          borderRadius: BorderRadius.circular(4),
         ),
         child: Icon(
           Icons.delete_outline,
-          color: theme.colorScheme.onErrorContainer,
+          color: cs.error,
         ),
       ),
       secondaryBackground: Container(
@@ -51,40 +52,42 @@ class ShoppingItemCard extends ConsumerWidget {
         alignment: Alignment.centerLeft,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
-          color: theme.colorScheme.errorContainer,
-          borderRadius: BorderRadius.circular(16),
+          color: cs.error.withValues(alpha: 0.15),
+          borderRadius: BorderRadius.circular(4),
         ),
         child: Icon(
           Icons.delete_outline,
-          color: theme.colorScheme.onErrorContainer,
+          color: cs.error,
         ),
       ),
       // 💡 قمنا بتغليف الكرت بـ AnimatedOpacity لجعله باهتاً ومريحاً للعين عند الاختيار
       child: AnimatedOpacity(
         duration: const Duration(milliseconds: 200),
-        opacity: isChecked ? 0.5 : 1.0, // يصبح شفافاً بنسبة 50% إذا تم اختياره
+        opacity: isChecked ? 0.5 : 1.0,
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 4),
           decoration: BoxDecoration(
             color: isChecked
-                ? theme.colorScheme
-                    .surfaceContainerLowest // لون خلفية مختلف قليلاً عند الاختيار
-                : theme.colorScheme.surface,
-            borderRadius: BorderRadius.circular(16),
+                ? cs.surfaceContainerLow
+                : cs.surface,
+            borderRadius: BorderRadius.circular(4),
+            border: Border.all(
+              color: cs.outlineVariant.withValues(alpha: isChecked ? 0.3 : 0.6),
+              width: 1,
+            ),
             boxShadow: [
               BoxShadow(
-                color: theme.colorScheme.shadow.withValues(
-                    alpha: isChecked ? 0.01 : 0.06), // تقليل الظل عند الاختيار
-                blurRadius: 8,
+                color: Colors.black.withValues(alpha: isChecked ? 0.05 : 0.15),
+                blurRadius: 6,
                 offset: const Offset(0, 2),
               ),
             ],
           ),
           child: Material(
             color: Colors.transparent,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(4),
             child: InkWell(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(4),
               onTap: null,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -95,7 +98,7 @@ class ShoppingItemCard extends ConsumerWidget {
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       visualDensity: VisualDensity.compact,
                       shape: const CircleBorder(),
-                      activeColor: theme.colorScheme.primary,
+                      activeColor: cs.primary,
                       onChanged: item.id == null
                           ? null
                           : (_) => ref
@@ -104,21 +107,20 @@ class ShoppingItemCard extends ConsumerWidget {
                     ),
                     const SizedBox(width: 4),
                     Container(
-                      width: 40,
-                      height: 40,
+                      width: 36,
+                      height: 36,
                       decoration: BoxDecoration(
                         color: accentColor.withValues(
-                          alpha: isChecked ? 0.04 : 0.12,
+                          alpha: isChecked ? 0.04 : 0.15,
                         ),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
                         isLinked ? Icons.inventory_2_outlined : Icons.edit_note,
                         color: isChecked
-                            ? theme.colorScheme.onSurfaceVariant
-                                .withValues(alpha: 0.4)
+                            ? cs.outline.withValues(alpha: 0.4)
                             : accentColor,
-                        size: 20,
+                        size: 18,
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -130,16 +132,14 @@ class ShoppingItemCard extends ConsumerWidget {
                           Text(
                             item.title,
                             style: theme.textTheme.bodyLarge?.copyWith(
-                              // تغيير سمك الخط ليصبح أنحف عند الشطب لتسهيل الرؤية
                               fontWeight: isChecked
                                   ? FontWeight.normal
                                   : FontWeight.w600,
                               decoration:
                                   isChecked ? TextDecoration.lineThrough : null,
                               color: isChecked
-                                  ? theme.colorScheme.onSurfaceVariant
-                                      .withValues(alpha: 0.7)
-                                  : null,
+                                  ? cs.outline.withValues(alpha: 0.7)
+                                  : cs.onSurface,
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -150,8 +150,7 @@ class ShoppingItemCard extends ConsumerWidget {
                                 ? 'مُتابع في التطبيق'
                                 : 'عنصر مُضاف يدوياً',
                             style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onSurfaceVariant
-                                  .withValues(alpha: isChecked ? 0.5 : 1.0),
+                              color: cs.outline.withValues(alpha: isChecked ? 0.5 : 1.0),
                             ),
                           ),
                         ],
@@ -161,23 +160,21 @@ class ShoppingItemCard extends ConsumerWidget {
                     _PriceChip(
                       text: priceText,
                       hasPrice: hasPrice,
-                      isChecked: isChecked, // تمرير الحالة لشريحة السعر
-                      theme: theme,
+                      isChecked: isChecked,
+                      cs: cs,
                     ),
                     const SizedBox(width: 4),
                     IconButton(
                       icon: Icon(
                         Icons.edit_outlined,
                         color: isChecked
-                            ? theme.colorScheme.onSurfaceVariant
-                                .withValues(alpha: 0.4)
-                            : theme.colorScheme.primary,
+                            ? cs.outline.withValues(alpha: 0.4)
+                            : cs.primary,
                         size: 20,
                       ),
                       onPressed: isChecked
                           ? null
-                          : () => _showEditPriceDialog(context,
-                              ref), // Disable the edit button when the item is purchased.
+                          : () => _showEditPriceDialog(context, ref),
                     ),
                   ],
                 ),
@@ -208,13 +205,13 @@ class _PriceChip extends StatelessWidget {
   final String text;
   final bool hasPrice;
   final bool isChecked;
-  final ThemeData theme;
+  final ColorScheme cs;
 
   const _PriceChip({
     required this.text,
     required this.hasPrice,
     required this.isChecked,
-    required this.theme,
+    required this.cs,
   });
 
   @override
@@ -223,25 +220,23 @@ class _PriceChip extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
         color: isChecked
-            ? theme.colorScheme.surfaceContainerHighest
-                .withValues(alpha: 0.5) // تغيير اللون إذا تم الاختيار
+            ? cs.surfaceContainerHighest.withValues(alpha: 0.5)
             : (hasPrice
-                ? theme.colorScheme.primaryContainer
-                : theme.colorScheme.surfaceContainerHighest),
-        borderRadius: BorderRadius.circular(10),
+                ? cs.primaryContainer
+                : cs.surfaceContainerHighest),
+        borderRadius: BorderRadius.circular(4),
       ),
       child: Text(
         text,
-        style: theme.textTheme.labelLarge?.copyWith(
+        style: TextStyle(
           fontWeight: FontWeight.bold,
-          decoration: isChecked
-              ? TextDecoration.lineThrough
-              : null, // شطب السعر أيضاً عند الشراء
+          fontSize: 13,
+          decoration: isChecked ? TextDecoration.lineThrough : null,
           color: isChecked
-              ? theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.5)
+              ? cs.outline.withValues(alpha: 0.5)
               : (hasPrice
-                  ? theme.colorScheme.onPrimaryContainer
-                  : theme.colorScheme.onSurfaceVariant),
+                  ? cs.onPrimaryContainer
+                  : cs.outline),
         ),
       ),
     );
