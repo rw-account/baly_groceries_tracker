@@ -82,6 +82,22 @@ class ShoppingListNotifier extends _$ShoppingListNotifier {
     await _refreshState(storage);
   }
 
+  /// Deletes multiple shopping items by their IDs in one operation.
+  /// The caller should save the [ShoppingItem] objects beforehand if
+  /// they want to offer an undo action via [restoreMultiple].
+  Future<void> deleteMultiple(List<int> ids) async {
+    if (ids.isEmpty) return;
+    final storage = ref.read(storageServiceProvider);
+    await storage.deleteMultipleShoppingItems(ids);
+    await _refreshState(storage);
+  }
+
+  /// Re-inserts a list of previously deleted items (used for undo after bulk delete).
+  Future<void> restoreMultiple(List<ShoppingItem> items) async {
+    if (items.isEmpty) return;
+    await addMultipleShoppingItems(items);
+  }
+
   /// Deletes every shopping-list item at once (used for "Delete All").
   Future<void> clearAll() async {
     final storage = ref.read(storageServiceProvider);
