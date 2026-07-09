@@ -243,6 +243,19 @@ class StorageService {
     }
   }
 
+  /// Deletes multiple shopping items at once using their ids.
+  Future<void> deleteMultipleShoppingItems(List<int> ids) async {
+    if(ids.isNotEmpty){
+
+      final batch = _database.batch();
+      for (final id in ids) {
+        batch.delete(_shoppingItemsTableName, where: 'id = ?', whereArgs: [id]);
+      }
+
+      await batch.commit(noResult: true);
+    }
+  }
+
   // ─── Background helper ────────────────────────────────────────────────────────
 
   /// Opens its own DB connection (for use in background isolates / Workmanager).
