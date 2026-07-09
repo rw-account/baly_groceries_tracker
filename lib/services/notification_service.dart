@@ -39,7 +39,7 @@ class NotificationService {
       }
 
       // 3. تهيئة الإشعارات
-      const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
+      const androidInit = AndroidInitializationSettings('ic_notification');
       const settings = InitializationSettings(android: androidInit);
       await _plugin.initialize(settings: settings);
 
@@ -102,7 +102,7 @@ class NotificationService {
             channelDescription: _channelDescription,
             importance: Importance.high,
             priority: Priority.high,
-            icon: '@mipmap/ic_launcher',
+            icon: 'ic_notification',
             styleInformation:
                 BigTextStyleInformation(body), // ✅ يضمن عرض النص كاملاً عند التوسيع
           ),
