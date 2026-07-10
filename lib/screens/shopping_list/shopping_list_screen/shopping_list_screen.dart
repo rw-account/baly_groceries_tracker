@@ -224,7 +224,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
       title: AnimatedSwitcher(
         duration: const Duration(milliseconds: 200),
         child: Text(
-          'تم تحديد $count ${_arabicItemWord(count)}',
+          'تم تحديد $count عنصر',
           key: ValueKey(count),
           style: TextStyle(color: cs.onSurface, fontWeight: FontWeight.w600),
         ),
@@ -239,15 +239,6 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
         const SizedBox(width: 4),
       ],
     );
-  }
-
-  // ─── Arabic plural helper ──────────────────────────────────────────────────
-
-  String _arabicItemWord(int count) {
-    if (count == 1) return 'عنصر';
-    if (count == 2) return 'عنصرين';
-    if (count >= 3 && count <= 10) return 'عناصر';
-    return 'عنصر'; // 11+
   }
 
   // ─── Single-item delete (swipe) ────────────────────────────────────────────
@@ -370,7 +361,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
       builder: (ctx) => AlertDialog(
         title: const Text('حذف العناصر المحددة'),
         content: Text(
-          'هل تريد حذف ($count) ${_arabicItemWord(count)}؟',
+          'هل تريد حذف ($count) عنصر؟',
         ),
         actions: [
           TextButton(
@@ -419,7 +410,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
     scaffoldMessenger.showSnackBar(
       SnackBar(
         content: Text(
-          'تم حذف ($count) ${_arabicItemWord(count)}',
+          'تم حذف ($count) عنصر',
           style: TextStyle(color: theme.colorScheme.onSurface),
         ),
         backgroundColor: theme.colorScheme.surfaceContainerHighest,
