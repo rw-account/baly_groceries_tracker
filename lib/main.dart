@@ -10,6 +10,7 @@ import 'package:home_orders_tracker/l10n/app_localizations.dart';
 import 'core/theme/app_theme.dart'; 
 import 'router/app_router.dart';
 import 'package:home_orders_tracker/router/error_screen.dart';
+import 'core/utils/context_extensions.dart';
 
 Future<void> main() async {
   installGlobalErrorHandling(); 
@@ -39,11 +40,11 @@ class HomeOrdersTrackerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'متابعة طلبات البيت',
+      title: context.loc.appTitle,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.dark,
       darkTheme: AppTheme.dark,
-      themeMode: ThemeMode.dark, 
+      themeMode: ThemeMode.dark,
       
       // 🌟 تحديد اللغة العربية كلغة افتراضية حالياً
       locale: const Locale('ar'),
