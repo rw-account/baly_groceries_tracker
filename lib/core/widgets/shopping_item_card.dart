@@ -10,18 +10,9 @@ import 'package:intl/intl.dart';
 class ShoppingItemCard extends ConsumerWidget {
   final ShoppingItem item;
   final ValueChanged<ShoppingItem> onDelete;
-
-  // ── Selection-mode parameters ──────────────────────────────────────────────
-  /// Whether the list is currently in multi-select mode.
   final bool isInSelectionMode;
-
-  /// Whether this specific item is currently selected.
   final bool isSelected;
-
-  /// Called when the user long-presses this card (to enter selection mode).
   final VoidCallback? onLongPress;
-
-  /// Called when the user taps this card while in selection mode.
   final VoidCallback? onSelectionTap;
 
   const ShoppingItemCard({
@@ -214,22 +205,30 @@ class ShoppingItemCard extends ConsumerWidget {
       background: Container(
         margin: const EdgeInsets.symmetric(vertical: 4),
         alignment: Alignment.centerRight,
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 24),
         decoration: BoxDecoration(
-          color: cs.error.withValues(alpha: 0.15),
+          color: cs.errorContainer,
           borderRadius: BorderRadius.circular(4),
         ),
-        child: Icon(Icons.delete_outline, color: cs.error),
+        child: Icon(
+          Icons.delete_outline,
+          color: cs.onErrorContainer,
+          size: 28,
+        ),
       ),
       secondaryBackground: Container(
         margin: const EdgeInsets.symmetric(vertical: 4),
         alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 24),
         decoration: BoxDecoration(
-          color: cs.error.withValues(alpha: 0.15),
+          color: cs.errorContainer,
           borderRadius: BorderRadius.circular(4),
         ),
-        child: Icon(Icons.delete_outline, color: cs.error),
+        child: Icon(
+          Icons.delete_outline,
+          color: cs.onErrorContainer,
+          size: 28,
+        ),
       ),
       child: cardBody,
     );
