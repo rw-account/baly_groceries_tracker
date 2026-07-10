@@ -604,8 +604,15 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
       buffer.writeln(line);
     }
 
-    SharePlus.instance.share(
-      ShareParams(text: buffer.toString()),
-    );
+    try {
+      SharePlus.instance.share(
+        ShareParams(text: buffer.toString()),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('تعذر مشاركة القائمة: $e')),
+      );
+    }
   }
 }
