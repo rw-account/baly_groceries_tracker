@@ -403,28 +403,81 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
 
     if (!mounted) return;
 
-    // Show undo SnackBar.
+    // ── Same Undo Logic as _deleteShoppingItem ──────────────────────────────
+    const int durationSeconds = 5;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     final theme = Theme.of(context);
+
+    // Cancel any previous timer to prevent a stale timer from hiding the new SnackBar.
+    _snackBarTimer?.cancel();
+
     scaffoldMessenger.hideCurrentSnackBar();
+
     scaffoldMessenger.showSnackBar(
       SnackBar(
-        content: Text(
-          'تم حذف ($count) عنصر',
-          style: TextStyle(color: theme.colorScheme.onSurface),
+        duration: const Duration(seconds: durationSeconds),
+        content: Row(
+          children: [
+            Expanded(
+              child: Text(
+                'تم حذف ($count) عنصر',
+                style: TextStyle(color: theme.colorScheme.onSurface),
+              ),
+            ),
+            TweenAnimationBuilder<double>(
+              tween: Tween<double>(
+                  begin: durationSeconds.toDouble(), end: 0.0),
+              duration: const Duration(seconds: durationSeconds),
+              builder: (context, value, child) {
+                return Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      '${value.ceil()}',
+                      style: TextStyle(
+                        color: theme.colorScheme.onSurface,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    SizedBox(
+                      width: 14,
+                      height: 14,
+                      child: CircularProgressIndicator(
+                        value: value / durationSeconds,
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            theme.colorScheme.onSurface),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+            const SizedBox(width: 8),
+          ],
         ),
         backgroundColor: theme.colorScheme.surfaceContainerHighest,
         action: SnackBarAction(
           label: 'تراجع',
           textColor: theme.colorScheme.onSurface,
           onPressed: () async {
-            await ref
-                .read(shoppingListProvider.notifier)
-                .restoreMultiple(deletedItems);
+            _snackBarTimer?.cancel(); // ❌ Cancel the sleep timer immediately because the user tapped Undo.
+            try {
+              await ref
+                  .read(shoppingListProvider.notifier)
+                  .restoreMultiple(deletedItems);
+            } catch (_) {
+              _showSnackBar('تعذر استعادة العناصر');
+            }
           },
         ),
       ),
     );
+
+    _snackBarTimer = Timer(const Duration(seconds: durationSeconds), () {
+      if (mounted) scaffoldMessenger.hideCurrentSnackBar(); // 👈 Called immediately after the timer expires.
+    });
   }
 
   // ─── Delete all ────────────────────────────────────────────────────────────
