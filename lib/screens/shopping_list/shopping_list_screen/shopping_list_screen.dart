@@ -1,4 +1,4 @@
-// lib/screens/shopping_list/shopping_list_screen.dart
+// lib/screens/shopping_list/shopping_list_screen/shopping_list_screen.dart
 
 import 'dart:async';
 
@@ -6,11 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/shopping_item_model.dart';
 import '../../../providers/shopping_list_provider.dart';
+import '../../../providers/shopping_selection_provider.dart';
 import '../../../router/route_paths.dart';
 import 'widgets/widgets.dart';
+
+// SharedPreferences key for the swipe-hint flag.
+const _kHasSeenSwipeHint = 'has_seen_swipe_hint';
 
 class ShoppingListScreen extends ConsumerStatefulWidget {
   const ShoppingListScreen({super.key});
@@ -20,16 +25,41 @@ class ShoppingListScreen extends ConsumerStatefulWidget {
 }
 
 class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
-  
-  // 🔴 Local timer for _deleteShoppingItem() undo SnackBar
-  // ⏱️ Used to auto-hide the SnackBar after the undo window expires.
-  Timer? snackBarTimer;
+  // ── Undo timer for single-item delete ──────────────────────────────────────
+  Timer? _snackBarTimer;
+
+  // ── Swipe-hint flag ────────────────────────────────────────────────────────
+  bool _hasSeenSwipeHint = true; // default to true → no flicker on load
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSwipeHintFlag();
+  }
+
+  Future<void> _loadSwipeHintFlag() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!mounted) return;
+    setState(() {
+      _hasSeenSwipeHint = prefs.getBool(_kHasSeenSwipeHint) ?? false;
+    });
+  }
+
+  Future<void> _markSwipeHintSeen() async {
+    if (_hasSeenSwipeHint) return;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_kHasSeenSwipeHint, true);
+    if (!mounted) return;
+    setState(() => _hasSeenSwipeHint = true);
+  }
 
   @override
   void dispose() {
-    snackBarTimer?.cancel();
+    _snackBarTimer?.cancel();
     super.dispose();
   }
+
+  // ─── Helpers ───────────────────────────────────────────────────────────────
 
   void _showSnackBar(String message) {
     if (!mounted) return;
@@ -41,102 +71,186 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
             message,
             style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
           ),
-          backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
-        )
+          backgroundColor:
+              Theme.of(context).colorScheme.surfaceContainerHighest,
+        ),
       );
   }
+
+  // ─── Build ─────────────────────────────────────────────────────────────────
 
   @override
   Widget build(BuildContext context) {
     final shoppingAsync = ref.watch(shoppingListProvider);
+    final selection = ref.watch(shoppingSelectionProvider);
+    final isSelecting = selection.isSelecting;
 
-    final showFab = shoppingAsync.maybeWhen(
-      data: (items) => items.isNotEmpty,
-      orElse: () => false,
-    );
+    final showFab = !isSelecting &&
+        shoppingAsync.maybeWhen(
+          data: (items) => items.isNotEmpty,
+          orElse: () => false,
+        );
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('قائمة الشراء'),
-        centerTitle: false,
-        elevation: 0,
-        scrolledUnderElevation: 1,
-        actions: [
-          PopupMenuButton<String>(
-            icon: const Icon(Icons.more_vert),
-            position: PopupMenuPosition.under,
-            onSelected: (value) {
-              switch (value) {
-                case 'delete_all':
-                  _confirmDeleteAll();
-                  break;
-                case 'share_list':
-                  _shareList();
-                  break;
-              }
-            },
-            itemBuilder: (context) => [
-               PopupMenuItem(
-                value: 'delete_all',
-                child: Row(
-                  children: [
-                    Icon(Icons.delete_outline, size: 20, color: Theme.of(context).colorScheme.error),
-                    const SizedBox(width: 8),
-                    const Text('حذف كل العناصر'),
-                  ],
-                ),
-              ),
-              PopupMenuItem(
-                value: 'share_list',
-                child: Row(
-                  children: [
-                    Icon(Icons.share_outlined, size: 20, color: Theme.of(context).colorScheme.primary),
-                    SizedBox(width: 8),
-                    Text('مشاركة القائمة'),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-      body: shoppingAsync.when(
-        data: (items) {
-          if (items.isEmpty) {
-            return ShoppingListEmptyState(
-              onAddPressed: () => context.push(RoutePaths.addShoppingItemFull),
+    return PopScope(
+      // Intercept the back gesture while in selection mode.
+      canPop: !isSelecting,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop && isSelecting) {
+          ref.read(shoppingSelectionProvider.notifier).clearSelection();
+        }
+      },
+      child: Scaffold(
+        appBar: isSelecting
+            ? _buildSelectionAppBar(context, selection)
+            : _buildNormalAppBar(context),
+        body: shoppingAsync.when(
+          data: (items) {
+            if (items.isEmpty) {
+              return ShoppingListEmptyState(
+                onAddPressed: () =>
+                    context.push(RoutePaths.addShoppingItemFull),
+              );
+            }
+            return ShoppingListView(
+              items: items,
+              onDelete: _deleteShoppingItem,
+              isInSelectionMode: isSelecting,
+              selectedIds: selection.selectedIds,
+              onItemLongPress: (id) => ref
+                  .read(shoppingSelectionProvider.notifier)
+                  .enterSelectionMode(id),
+              onItemTap: (id) => ref
+                  .read(shoppingSelectionProvider.notifier)
+                  .toggleSelection(id),
+              showPeekAnimation: !_hasSeenSwipeHint && items.isNotEmpty,
+              onSwipeCompleted: _markSwipeHintSeen,
             );
-          }
-          return ShoppingListView(
-            items: items,
-            onDelete: _deleteShoppingItem,
-          );
-        },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Text(
-              'حدث خطأ: $error',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Theme.of(context).colorScheme.error),
+          },
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, stack) => Center(
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Text(
+                'حدث خطأ: $error',
+                textAlign: TextAlign.center,
+                style:
+                    TextStyle(color: Theme.of(context).colorScheme.error),
+              ),
             ),
           ),
         ),
+        floatingActionButton: showFab
+            ? Padding(
+                padding: const EdgeInsets.only(bottom: 70, left: 3),
+                child: FloatingActionButton(
+                  onPressed: () =>
+                      context.push(RoutePaths.addShoppingItemFull),
+                  child: const Icon(Icons.add),
+                ),
+              )
+            : null,
       ),
-      floatingActionButton: showFab
-          ? Padding(
-              padding: const EdgeInsets.only(bottom: 70, left: 3),
-              child: FloatingActionButton(
-                onPressed: () => context.push(RoutePaths.addShoppingItemFull),
-                child: const Icon(Icons.add),
-              ),
-            )
-          : null,
     );
   }
 
-  // ─── حذف عنصر واحد ─────────────────────────────────────────────────
+  // ─── AppBars ───────────────────────────────────────────────────────────────
+
+  AppBar _buildNormalAppBar(BuildContext context) {
+    return AppBar(
+      title: const Text('قائمة الشراء'),
+      centerTitle: false,
+      elevation: 0,
+      scrolledUnderElevation: 1,
+      actions: [
+        PopupMenuButton<String>(
+          icon: const Icon(Icons.more_vert),
+          position: PopupMenuPosition.under,
+          onSelected: (value) {
+            switch (value) {
+              case 'delete_all':
+                _confirmDeleteAll();
+                break;
+              case 'share_list':
+                _shareList();
+                break;
+            }
+          },
+          itemBuilder: (context) => [
+            PopupMenuItem(
+              value: 'delete_all',
+              child: Row(
+                children: [
+                  Icon(Icons.delete_outline,
+                      size: 20,
+                      color: Theme.of(context).colorScheme.error),
+                  const SizedBox(width: 8),
+                  const Text('حذف كل العناصر'),
+                ],
+              ),
+            ),
+            PopupMenuItem(
+              value: 'share_list',
+              child: Row(
+                children: [
+                  Icon(Icons.share_outlined,
+                      size: 20,
+                      color: Theme.of(context).colorScheme.primary),
+                  const SizedBox(width: 8),
+                  const Text('مشاركة القائمة'),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  AppBar _buildSelectionAppBar(
+      BuildContext context, ShoppingSelectionState selection) {
+    final cs = Theme.of(context).colorScheme;
+    final count = selection.count;
+
+    return AppBar(
+      elevation: 0,
+      scrolledUnderElevation: 1,
+      backgroundColor: cs.surfaceContainerHighest,
+      leading: IconButton(
+        icon: const Icon(Icons.close),
+        tooltip: 'إلغاء التحديد',
+        onPressed: () =>
+            ref.read(shoppingSelectionProvider.notifier).clearSelection(),
+      ),
+      title: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 200),
+        child: Text(
+          'تم تحديد $count ${_arabicItemWord(count)}',
+          key: ValueKey(count),
+          style: TextStyle(color: cs.onSurface, fontWeight: FontWeight.w600),
+        ),
+      ),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.delete_outline, color: cs.error),
+          tooltip: 'حذف المحدد',
+          onPressed:
+              count == 0 ? null : () => _confirmBulkDelete(selection),
+        ),
+        const SizedBox(width: 4),
+      ],
+    );
+  }
+
+  // ─── Arabic plural helper ──────────────────────────────────────────────────
+
+  String _arabicItemWord(int count) {
+    if (count == 1) return 'عنصر';
+    if (count == 2) return 'عنصرين';
+    if (count >= 3 && count <= 10) return 'عناصر';
+    return 'عنصر'; // 11+
+  }
+
+  // ─── Single-item delete (swipe) ────────────────────────────────────────────
   //
   // NOTE: This non-standard approach was adopted after trying the usual
   // ways of showing a SnackBar with an "Undo" action. The issue was that
@@ -156,13 +270,12 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
     final id = item.id;
     if (id == null) return;
 
-    const int durationSeconds = 5; // How long the Undo action remains available.
+    const int durationSeconds = 5;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     final theme = Theme.of(context);
 
-    // Immediately cancel any previous timer when a new delete operation starts
-    // to ensure that an old timer does not "wake up" later and incorrectly dismiss the new SnackBar.
-    snackBarTimer?.cancel();
+    // Cancel any previous timer to prevent a stale timer from hiding the new SnackBar.
+    _snackBarTimer?.cancel();
 
     try {
       await ref.read(shoppingListProvider.notifier).deleteShoppingItem(id);
@@ -173,21 +286,22 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
 
     if (!mounted) return;
 
-    // Hide any existing SnackBar to prevent overlap.
     scaffoldMessenger.hideCurrentSnackBar();
 
-    // Show the enhanced SnackBar with a countdown timer.
     scaffoldMessenger.showSnackBar(
       SnackBar(
         duration: const Duration(seconds: durationSeconds),
         content: Row(
           children: [
             Expanded(
-              child: Text('تم حذف "${item.title}"', style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
+              child: Text(
+                'تم حذف "${item.title}"',
+                style: TextStyle(color: theme.colorScheme.onSurface),
+              ),
             ),
-            // Circular and numeric countdown timer.
             TweenAnimationBuilder<double>(
-              tween: Tween<double>(begin: durationSeconds.toDouble(), end: 0.0),
+              tween: Tween<double>(
+                  begin: durationSeconds.toDouble(), end: 0.0),
               duration: const Duration(seconds: durationSeconds),
               builder: (context, value, child) {
                 return Row(
@@ -207,7 +321,8 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
                       child: CircularProgressIndicator(
                         value: value / durationSeconds,
                         strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation<Color>(theme.colorScheme.onSurface),
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            theme.colorScheme.onSurface),
                       ),
                     ),
                   ],
@@ -217,23 +332,20 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
             const SizedBox(width: 8),
           ],
         ),
-        backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+        backgroundColor: theme.colorScheme.surfaceContainerHighest,
         action: SnackBarAction(
           label: 'تراجع',
           textColor: theme.colorScheme.onSurface,
           onPressed: () {
-            snackBarTimer?.cancel();// ❌ Cancel the sleep timer immediately because the user tapped Undo.
+            _snackBarTimer?.cancel();// ❌ Cancel the sleep timer immediately because the user tapped Undo.
             _restoreShoppingItem(item);
           },
         ),
       ),
     );
 
-    // ⏳ Sleep function (5-second timer).
-    snackBarTimer = Timer(const Duration(seconds: durationSeconds), () {
-      if (mounted) {
-        scaffoldMessenger.hideCurrentSnackBar(); // 👈 Called immediately after the timer expires.
-      }
+    _snackBarTimer = Timer(const Duration(seconds: durationSeconds), () {
+      if (mounted) scaffoldMessenger.hideCurrentSnackBar();// 👈 Called immediately after the timer expires.
     });
   }
 
@@ -247,13 +359,92 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
         );
   }
 
-  // ─── حذف الكل ──────────────────────────────────────────────────────
+  // ─── Bulk delete (multi-select) ────────────────────────────────────────────
+
+  Future<void> _confirmBulkDelete(ShoppingSelectionState selection) async {
+    final count = selection.count;
+    if (count == 0) return;
+
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('حذف العناصر المحددة'),
+        content: Text(
+          'هل تريد حذف ($count) ${_arabicItemWord(count)}؟',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('إلغاء'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(ctx).colorScheme.error,
+              foregroundColor: Theme.of(ctx).colorScheme.onError,
+            ),
+            child: const Text('حذف'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true || !mounted) return;
+
+    // Capture the items BEFORE deletion so we can restore on undo.
+    final allItems = ref.read(shoppingListProvider).value ?? [];
+    final selectedIds = selection.selectedIds.toList();
+    final deletedItems = allItems
+        .where((item) => item.id != null && selectedIds.contains(item.id))
+        .toList();
+
+    // Exit selection mode immediately for snappy UX.
+    ref.read(shoppingSelectionProvider.notifier).clearSelection();
+
+    try {
+      await ref
+          .read(shoppingListProvider.notifier)
+          .deleteMultiple(selectedIds);
+    } catch (_) {
+      _showSnackBar('تعذر حذف العناصر المحددة');
+      return;
+    }
+
+    if (!mounted) return;
+
+    // Show undo SnackBar.
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+    final theme = Theme.of(context);
+    scaffoldMessenger.hideCurrentSnackBar();
+    scaffoldMessenger.showSnackBar(
+      SnackBar(
+        content: Text(
+          'تم حذف ($count) ${_arabicItemWord(count)}',
+          style: TextStyle(color: theme.colorScheme.onSurface),
+        ),
+        backgroundColor: theme.colorScheme.surfaceContainerHighest,
+        action: SnackBarAction(
+          label: 'تراجع',
+          textColor: theme.colorScheme.onSurface,
+          onPressed: () async {
+            await ref
+                .read(shoppingListProvider.notifier)
+                .restoreMultiple(deletedItems);
+          },
+        ),
+      ),
+    );
+  }
+
+  // ─── Delete all ────────────────────────────────────────────────────────────
+
   Future<void> _confirmDeleteAll() async {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text('حذف جميع العناصر'),
-        content: const Text('هل أنت متأكد من حذف كل عناصر قائمة الشراء؟ لا يمكن التراجع.'),
+        content: const Text(
+            'هل أنت متأكد من حذف كل عناصر قائمة الشراء؟ لا يمكن التراجع.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
@@ -270,7 +461,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
         ],
       ),
     );
-    
+
     if (confirmed != true || !mounted) return;
 
     try {
@@ -281,7 +472,8 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
     }
   }
 
-  // ─── مشاركة القائمة ──────────────────────────────────────────────
+  // ─── Share list ────────────────────────────────────────────────────────────
+
   Future<void> _shareList() async {
     final items = ref.read(shoppingListProvider).value ?? [];
     if (items.isEmpty) {
@@ -289,12 +481,9 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
       return;
     }
 
-    // القيم الافتراضية (كل شيء محدد)
     bool includePrice = true;
     bool includeChecked = true;
 
-    // إظهار نافذة خيارات المشاركة
-    // بارامتر barrierDismissible: true (افتراضي) يسمح بالإغلاق عند الضغط خارج النافذة
     final result = await showDialog<List<bool>>(
       context: context,
       builder: (ctx) {
@@ -329,13 +518,12 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
               ),
               actions: [
                 TextButton(
-                  // إرجاع null عند الإلغاء
                   onPressed: () => Navigator.pop(ctx, null),
                   child: const Text('إلغاء'),
                 ),
                 FilledButton(
-                  // إرجاع القيم المحددة عند الموافقة
-                  onPressed: () => Navigator.pop(ctx, [includePrice, includeChecked]),
+                  onPressed: () =>
+                      Navigator.pop(ctx, [includePrice, includeChecked]),
                   child: const Text('مشاركة'),
                 ),
               ],
@@ -345,7 +533,6 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
       },
     );
 
-    // إذا أغلق المستخدم النافذة (بالضغط خارجها أو زر الإلغاء)، لا تفعل شيئاً
     if (result == null) return;
 
     final shouldIncludePrice = result[0];
@@ -353,23 +540,22 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
 
     final buffer = StringBuffer();
     buffer.writeln('🛒 قائمة الشراء:');
-    
+
     for (final item in items) {
       //TODO: ملاحظه مهمه لا تحذفها: عند تحويل لغة التطبيق الى الانجليزي يجب انك تغير اتجاه ايموجي اليد وتجيب ايموجي يشير للجهه الاخرى
       String line = '• ${item.title}';
-      
+
       if (shouldIncludePrice && item.price != null) {
-        line += ' 👈 (السعر: ${item.price})'; 
+        line += ' 👈 (السعر: ${item.price})';
       }
-      
+
       if (shouldIncludeChecked && item.isChecked) {
         line += ' [مكتمل ✓]';
       }
-      
+
       buffer.writeln(line);
     }
 
-    // مشاركة النص المجمّع
     SharePlus.instance.share(
       ShareParams(text: buffer.toString()),
     );
