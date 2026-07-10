@@ -6,8 +6,8 @@ class SteamTheme {
   // ألوان Steam الأصلية
   static const steamBlue = Color(0xFF66C0F4);      // أزرار وروابط
   static const bg = Color(0xFF171A21);             // خلفية التطبيق
-  static const surface = Color(0xFF1B2838);        // AppBar و surfaces
-  static const card = Color(0xFF2A475E);           // كروت وقوائم
+  static const surface = Color(0xFF151E2B);        // AppBar و surfaces
+  static const card = Color(0xFF22394F);           // كروت وقوائم
   static const textPrimary = Color(0xFFC7D5E0);   // نص أساسي
   static const textSecondary = Color(0xFF8B9BB4);  // نص ثانوي
 
@@ -42,7 +42,7 @@ class SteamTheme {
       surfaceContainerLow: Color(0xFF1E2D3D), // درجة بين surface والـ card لتبدو بارزة
 
       // لخلفية العناصر الفرعية (بديل Colors.grey.shade100) - مثل بطاقة الملاحظات والـ Chips
-      secondaryContainer: Color(0xFF2A475E), // استخدام لون الـ card كخلفية ثانوية
+      secondaryContainer: Color(0xFF22394F), // استخدام لون الـ card كخلفية ثانوية
       onSecondaryContainer: textPrimary,     // لون النص فوقها
 
       // لحالات النجاح / الآمنة (بديل Colors.green) - استخدمنا primaryContainer في Empty State
@@ -87,7 +87,7 @@ class SteamTheme {
     ),
     iconTheme: const IconThemeData(color: textSecondary),
     chipTheme: ChipThemeData(
-      backgroundColor: const Color(0xFF2A475E), // secondaryContainer
+      backgroundColor: const Color(0xFF22394F), // secondaryContainer
       labelStyle: const TextStyle(color: textPrimary), // onSecondaryContainer
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
     ),
