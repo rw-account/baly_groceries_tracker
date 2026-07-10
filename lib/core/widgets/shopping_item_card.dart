@@ -51,7 +51,6 @@ class ShoppingItemCard extends ConsumerWidget {
     // ── Build the visual card body ──────────────────────────────────────────
     final cardBody = AnimatedContainer(
       duration: const Duration(milliseconds: 180),
-      margin: const EdgeInsets.symmetric(vertical: 4),
       decoration: BoxDecoration(
         color: cardColor,
         borderRadius: BorderRadius.circular(4),
@@ -203,7 +202,6 @@ class ShoppingItemCard extends ConsumerWidget {
       direction: DismissDirection.horizontal,
       onDismissed: (_) => onDelete(item),
       background: Container(
-        margin: const EdgeInsets.symmetric(vertical: 4),
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.symmetric(horizontal: 24),
         decoration: BoxDecoration(
@@ -217,7 +215,6 @@ class ShoppingItemCard extends ConsumerWidget {
         ),
       ),
       secondaryBackground: Container(
-        margin: const EdgeInsets.symmetric(vertical: 4),
         alignment: Alignment.centerLeft,
         padding: const EdgeInsets.symmetric(horizontal: 24),
         decoration: BoxDecoration(
