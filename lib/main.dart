@@ -7,7 +7,7 @@ import 'services/workmanager_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'core/theme/steam_theme.dart'; 
+import 'core/theme/app_theme.dart'; 
 import 'router/app_router.dart';
 import 'package:home_orders_tracker/router/error_screen.dart';
 
@@ -21,7 +21,7 @@ Future<void> main() async {
   await NotificationService.init();
   await WorkmanagerService.init();
 
-  SteamTheme.applySystemUI(); 
+  AppTheme.applySystemUI(); 
   
   runApp(
     ProviderScope(
@@ -41,8 +41,8 @@ class HomeOrdersTrackerApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'متابعة طلبات البيت',
       debugShowCheckedModeBanner: false,
-      theme: SteamTheme.dark,
-      darkTheme: SteamTheme.dark,
+      theme: AppTheme.dark,
+      darkTheme: AppTheme.dark,
       themeMode: ThemeMode.dark, 
       locale: const Locale('ar'),
       supportedLocales: const [Locale('ar')],
@@ -51,7 +51,7 @@ class HomeOrdersTrackerApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      routerConfig: appRouter, // ✅ استخدام GoRouter
+      routerConfig: appRouter,
     );
   }
 }

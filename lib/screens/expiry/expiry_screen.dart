@@ -103,7 +103,6 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
           value: 'add_all',
           child: Row(
             children: [
-              // تلوين الأيقونة بالأزرق الخاص بـ Steam
               Icon(Icons.add_shopping_cart, size: 20, color: Theme.of(context).colorScheme.primary),
               const SizedBox(width: 8),
               const Text('إضافة كل المواد إلى قائمة الشراء'),
