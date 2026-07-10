@@ -93,16 +93,8 @@ class ShoppingListView extends StatelessWidget {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Peek animation widget
+// Peek animation widget (shows the red delete background correctly)
 // ─────────────────────────────────────────────────────────────────────────────
-
-/// Wraps its [child] and plays a one-shot "peek" slide animation:
-///   1. Slides right → ~12 % of screen width (200 ms, easeOut)
-///   2. Holds for 400 ms
-///   3. Slides back to 0 (250 ms, easeIn)
-///
-/// The animation fires once in [initState] and never repeats for the
-/// lifetime of this widget instance.
 class _PeekAnimatedItem extends StatefulWidget {
   const _PeekAnimatedItem({super.key, required this.child});
 
@@ -116,41 +108,30 @@ class _PeekAnimatedItemState extends State<_PeekAnimatedItem>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 
-  // How far the card slides as a fraction of screen width.
   static const double _peekFraction = 0.12;
+
+  // This margin MUST match the vertical margin used by ShoppingItemCard
+  static const _cardMargin = EdgeInsets.symmetric(vertical: 4);
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this);
-    // Kick off the animation after the first frame so the card is visible.
     WidgetsBinding.instance.addPostFrameCallback((_) => _runPeekSequence());
   }
 
   Future<void> _runPeekSequence() async {
-    if (!mounted) return;
-
-    // 1. Slide right.
-    await _controller.animateTo(
-      1.0,
-      duration: const Duration(milliseconds: 200),
-      curve: Curves.easeOut,
-    );
-
-    if (!mounted) return;
-
-    // 2. Hold.
-    await Future<void>.delayed(const Duration(milliseconds: 400));
-
-    if (!mounted) return;
-
-    // 3. Slide back.
-    await _controller.animateTo(
-      0.0,
-      duration: const Duration(milliseconds: 250),
-      curve: Curves.easeIn,
-    );
-  }
+      if (!mounted) return;
+      await _controller.animateTo(1.0,
+          duration: const Duration(milliseconds: 200), curve: Curves.easeOut);
+          
+      if (!mounted) return;
+      await Future<void>.delayed(const Duration(milliseconds: 400));
+      
+      if (!mounted) return;
+      await _controller.animateBack(0.0,
+          duration: const Duration(milliseconds: 250), curve: Curves.easeIn);
+    }
 
   @override
   void dispose() {
@@ -162,16 +143,38 @@ class _PeekAnimatedItemState extends State<_PeekAnimatedItem>
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.sizeOf(context).width;
     final peekOffset = screenWidth * _peekFraction;
+    final cs = Theme.of(context).colorScheme;
 
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        return Transform.translate(
-          offset: Offset(_controller.value * peekOffset, 0),
-          child: child,
-        );
-      },
-      child: widget.child,
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Padding(
+          padding: _cardMargin,
+          child: Container(
+            decoration: BoxDecoration(
+              color: cs.errorContainer,
+              borderRadius: BorderRadius.circular(4),
+            ),
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            child: Icon(
+              Icons.delete_outline,
+              color: cs.onErrorContainer,
+              size: 32,
+            ),
+          ),
+        ),
+        AnimatedBuilder(
+          animation: _controller,
+          builder: (context, child) {
+            return Transform.translate(
+              offset: Offset(_controller.value * peekOffset, 0),
+              child: child,
+            );
+          },
+          child: widget.child,
+        ),
+      ],
     );
   }
 }
