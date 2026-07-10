@@ -341,13 +341,17 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
   }
 
   Future<void> _restoreShoppingItem(ShoppingItem item) async {
-    await ref.read(shoppingListProvider.notifier).addShoppingItem(
-          title: item.title,
-          inventoryItemId: item.inventoryItemId,
-          price: item.price,
-          isChecked: item.isChecked,
-          createdAt: item.createdAt,
-        );
+    try {
+      await ref.read(shoppingListProvider.notifier).addShoppingItem(
+            title: item.title,
+            inventoryItemId: item.inventoryItemId,
+            price: item.price,
+            isChecked: item.isChecked,
+            createdAt: item.createdAt,
+          );
+    } catch (error) {
+      _showSnackBar('تعذر استعادة "${item.title}"');
+    }
   }
 
   // ─── Bulk delete (multi-select) ────────────────────────────────────────────
