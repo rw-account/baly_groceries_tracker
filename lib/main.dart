@@ -6,7 +6,7 @@ import 'services/notification_service.dart';
 import 'services/workmanager_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:home_orders_tracker/l10n/app_localizations.dart';
 import 'core/theme/app_theme.dart'; 
 import 'router/app_router.dart';
 import 'package:home_orders_tracker/router/error_screen.dart';
@@ -44,13 +44,14 @@ class HomeOrdersTrackerApp extends StatelessWidget {
       theme: AppTheme.dark,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.dark, 
+      
+      // 🌟 تحديد اللغة العربية كلغة افتراضية حالياً
       locale: const Locale('ar'),
-      supportedLocales: const [Locale('ar')],
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
+      
+      // 🌟 الطريقة الحديثة والمختصرة لتسجيل اللغات والمندوبين
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+
       routerConfig: appRouter,
     );
   }

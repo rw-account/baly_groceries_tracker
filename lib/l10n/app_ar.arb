@@ -1,0 +1,29 @@
+{
+  "@@locale": "ar",
+  
+  "searchHint": "ابحث عن مادة...",
+  "@searchHint": {
+    "description": "Placeholder text for the search field"
+  },
+  
+  "noResultsFound": "لا توجد نتائج مطابقة",
+  "@noResultsFound": {
+    "description": "Message shown when search yields no items"
+  },
+  
+  "errorMessage": "خطأ: {error}",
+  "@errorMessage": {
+    "description": "Generic error message with the error details",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "تعذر الاتصال بالخادم"
+      }
+    }
+  },
+  
+  "addButtonLabel": "إضافة",
+  "@addButtonLabel": {
+    "description": "Label for the add item button"
+  }
+}

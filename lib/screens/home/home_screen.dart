@@ -9,6 +9,7 @@ import '../../providers/summary_provider.dart';
 import 'package:go_router/go_router.dart';
 import '../../router/route_paths.dart';
 import '../../models/item_model.dart';
+import '../../core/utils/context_extensions.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -61,8 +62,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               title: TextField(
                 controller: _searchController,
                 autofocus: true,
-                decoration: const InputDecoration(
-                  hintText: 'ابحث عن مادة...',
+                decoration: InputDecoration(
+                  hintText: context.loc.searchHint,
                   border: InputBorder.none,
                   filled: false,
                 ),
@@ -94,7 +95,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 .toList();
 
             if (searchResults.isEmpty) {
-              return const Center(child: Text('لا توجد نتائج مطابقة'));
+              return Center(child: Text(context.loc.noResultsFound));
             }
             return ItemsList(items: searchResults);
           }
@@ -111,7 +112,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, _) => Center(child: Text('خطأ: $error')),
+        error: (error, _) => Center(child: Text(context.loc.errorMessage(error.toString()))),
       ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -132,7 +133,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               heroTag: 'add_fab',
               onPressed: () => context.push(RoutePaths.addItemFull),
               icon: const Icon(Icons.add),
-              label: const Text('إضافة'),
+              label: Text(context.loc.addButtonLabel),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
             ),
           ),
