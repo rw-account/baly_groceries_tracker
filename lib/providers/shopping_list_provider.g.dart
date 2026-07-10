@@ -34,7 +34,7 @@ final class ShoppingListNotifierProvider
 }
 
 String _$shoppingListNotifierHash() =>
-    r'19d1f4da92eae7db6148f1e3841acffccb60d090';
+    r'e27c192364949b067330f4c5bcd450966816f8d2';
 
 abstract class _$ShoppingListNotifier
     extends $AsyncNotifier<List<ShoppingItem>> {
