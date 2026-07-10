@@ -160,7 +160,7 @@ class _PeekAnimatedItemState extends State<_PeekAnimatedItem>
             child: Icon(
               Icons.delete_outline,
               color: cs.onErrorContainer,
-              size: 32,
+              size: 28,
             ),
           ),
         ),
