@@ -4,20 +4,12 @@ import '../../../models/item_model.dart';
 import '../../../providers/items_provider.dart';
 import '../add_edit_item_state.dart';
 import 'package:go_router/go_router.dart';
+import '../../../core/utils/context_extensions.dart';
 
 mixin SaveMixin on AddEditItemState {
   static const int _defaultSafeThreshold = 20;
   static const int _defaultWarningThreshold = 10;
   static const int _defaultUrgentThreshold = 3;
-
-  static const String _duplicateNameError = 'الاسم موجود مسبقاً';
-  static const String _invalidDaysError = 'يرجى إدخال عدد أيام صحيح';
-  static const String _thresholdOrderError =
-      'يجب أن تكون الحدود مرتبة: الآمن > الانتباه > العاجل';
-  static const String _negativeThresholdError =
-      'لا يمكن أن تكون الحدود قيمًا سالبة';
-  static const String _genericSaveError =
-      'حدث خطأ أثناء حفظ العنصر، حاول مرة أخرى';
 
   void Function(String message) get showError;
 
@@ -33,13 +25,13 @@ mixin SaveMixin on AddEditItemState {
     final notifier = ref.read(itemsProvider.notifier);
 
     if (_isDuplicateName(notifier, name)) {
-      setNameErrorText(_duplicateNameError);
+      setNameErrorText(context.loc.duplicateNameError);
       return;
     }
 
     final days = int.tryParse(daysCtrl.text.trim());
     if (days == null) {
-      showError(_invalidDaysError);
+      showError(context.loc.invalidDaysError);
       return;
     }
 
@@ -74,10 +66,10 @@ mixin SaveMixin on AddEditItemState {
 
   String? _validateThresholds(int safe, int warn, int urgent) {
     if (safe < 0 || warn < 0 || urgent < 0) {
-      return _negativeThresholdError;
+      return context.loc.negativeThresholdError;
     }
     if (safe <= warn || warn <= urgent) {
-      return _thresholdOrderError;
+      return context.loc.thresholdOrderError;
     }
     return null;
   }
@@ -124,10 +116,11 @@ mixin SaveMixin on AddEditItemState {
           lastRefreshedAt: lastRefreshedAt,
         );
       }
-
+      
       if (mounted) context.pop();
-    } catch (e) {
-      showError(_genericSaveError);
+    } catch (_) {
+      if (!mounted) return;
+      showError(context.loc.genericSaveError);
     } finally {
       if (mounted) setState(() => setSaving(false));
     }
