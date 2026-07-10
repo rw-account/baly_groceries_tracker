@@ -134,6 +134,7 @@ class _ShareOptionsDialogState extends State<ShareOptionsDialog> {
         ShareParams(text: buffer.toString()),
       );
     } catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('تعذر مشاركة التقرير: $e')),
       );
