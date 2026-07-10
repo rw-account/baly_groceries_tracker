@@ -129,8 +129,14 @@ class _ShareOptionsDialogState extends State<ShareOptionsDialog> {
 
     Navigator.pop(context);
     
-    SharePlus.instance.share(
-      ShareParams(text: buffer.toString()),
-    );
+    try {
+      SharePlus.instance.share(
+        ShareParams(text: buffer.toString()),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('تعذر مشاركة التقرير: $e')),
+      );
+    }
   }
 }
