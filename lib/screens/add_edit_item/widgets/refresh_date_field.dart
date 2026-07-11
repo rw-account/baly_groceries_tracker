@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'field_utils.dart';
+import '../../../core/utils/context_extensions.dart';
 
 class RefreshDateField extends StatelessWidget {
   const RefreshDateField({
@@ -26,13 +27,13 @@ class RefreshDateField extends StatelessWidget {
       controller: dateController,
       onTap: onPickDate,
       decoration: InputDecoration(
-        labelText: 'تاريخ التجديد',
+        labelText: context.loc.refreshDateLabel,
         labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
-        hintText: 'YYYY-MM-DD',
+        hintText: context.loc.refreshDateHint,
         prefixIcon: Icon(Icons.event_available_outlined, color: Theme.of(context).colorScheme.primary),
         suffixIcon: IconButton(
           onPressed: onPickDate,
-          tooltip: 'اختيار تاريخ التجديد',
+          tooltip: context.loc.pickRefreshDateTooltip,
           icon: Icon(Icons.calendar_month_outlined, color: Theme.of(context).colorScheme.primary),
         ),
         filled: true,
@@ -46,7 +47,7 @@ class RefreshDateField extends StatelessWidget {
     final resetButton = OutlinedButton.icon(
       onPressed: onResetToToday,
       icon: Icon(Icons.today_outlined, size: 18, color: Theme.of(context).colorScheme.primary),
-      label: const Text('إعادة تعيين إلى تاريخ اليوم'),
+      label: Text(context.loc.resetToTodayButton),
       style: OutlinedButton.styleFrom(
         minimumSize: const Size(0, 56),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
