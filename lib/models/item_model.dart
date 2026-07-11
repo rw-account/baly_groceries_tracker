@@ -80,13 +80,6 @@ class ItemModel extends Equatable {
     return expiry.difference(DateTime(now.year, now.month, now.day)).inDays;
   }
 
-  String get remainingDaysText {
-    final days = remainingDays;
-    if (days > 0) return 'يكفي $days يوم';
-    if (days == 0) return 'ينتهي اليوم';
-    return 'انتهى منذ ${-days} يوم';
-  }
-
   ItemStatus get status {
     final days = remainingDays;
     if (days <= urgentThresholdDays) return ItemStatus.urgent;
