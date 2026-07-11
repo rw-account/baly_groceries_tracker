@@ -1,5 +1,6 @@
 // lib/screens/home/widgets/summary_bar.dart
 import 'package:flutter/material.dart';
+import '../../../core/utils/context_extensions.dart';
 
 class SummaryBar extends StatelessWidget {
   final int safeCount;
@@ -30,11 +31,11 @@ class SummaryBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildStatusItem(context, 'آمن', safeCount, safeColor),
+          _buildStatusItem(context, context.loc.statusSafe, safeCount, safeColor),
           _divider(theme),
-          _buildStatusItem(context, 'انتبه', warningCount, warningColor),
+          _buildStatusItem(context, context.loc.statusWarning, warningCount, warningColor),
           _divider(theme),
-          _buildStatusItem(context, 'عاجل', urgentCount, urgentColor),
+          _buildStatusItem(context, context.loc.statusUrgent, urgentCount, urgentColor),
         ],
       ),
     );
