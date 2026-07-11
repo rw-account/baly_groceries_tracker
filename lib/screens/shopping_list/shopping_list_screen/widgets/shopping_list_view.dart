@@ -148,21 +148,31 @@ class _PeekAnimatedItemState extends State<_PeekAnimatedItem>
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        Padding(
-          padding: _cardMargin,
-          child: Container(
-            decoration: BoxDecoration(
-              color: cs.errorContainer,
-              borderRadius: BorderRadius.circular(4),
-            ),
-            alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-            child: Icon(
-              Icons.delete_outline,
-              color: cs.onErrorContainer,
-              size: 28,
-            ),
-          ),
+        // الخلفية الحمراء تظهر فقط أثناء الحركة (قيمة > 0)
+        AnimatedBuilder(
+          animation: _controller,
+          builder: (context, child) {
+            final showBackground = _controller.value > 0.0;
+            return Opacity(
+              opacity: showBackground ? 1.0 : 0.0,
+              child: Padding(
+                padding: _cardMargin,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: cs.errorContainer,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  child: Icon(
+                    Icons.delete_outline,
+                    color: cs.onErrorContainer,
+                    size: 28,
+                  ),
+                ),
+              ),
+            );
+          },
         ),
         AnimatedBuilder(
           animation: _controller,
