@@ -12,6 +12,7 @@ import '../../../models/shopping_item_model.dart';
 import '../../../providers/shopping_list_provider.dart';
 import '../../../providers/shopping_selection_provider.dart';
 import '../../../router/route_paths.dart';
+import '../../../core/utils/context_extensions.dart';
 import 'widgets/widgets.dart';
 
 // SharedPreferences key for the swipe-hint flag.
@@ -131,7 +132,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
             child: Padding(
               padding: const EdgeInsets.all(24),
               child: Text(
-                'حدث خطأ: $error',
+                context.loc.errorOccurredFormat(error.toString()),
                 textAlign: TextAlign.center,
                 style:
                     TextStyle(color: Theme.of(context).colorScheme.error),
@@ -157,7 +158,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
 
   AppBar _buildNormalAppBar(BuildContext context) {
     return AppBar(
-      title: const Text('قائمة الشراء'),
+      title: Text(context.loc.shoppingListTitle),
       centerTitle: false,
       elevation: 0,
       scrolledUnderElevation: 1,
@@ -184,7 +185,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
                       size: 20,
                       color: Theme.of(context).colorScheme.error),
                   const SizedBox(width: 8),
-                  const Text('حذف كل العناصر'),
+                  Text(context.loc.deleteAllItemsMenu),
                 ],
               ),
             ),
@@ -196,7 +197,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
                       size: 20,
                       color: Theme.of(context).colorScheme.primary),
                   const SizedBox(width: 8),
-                  const Text('مشاركة القائمة'),
+                  Text(context.loc.shareListMenu),
                 ],
               ),
             ),
@@ -217,14 +218,14 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
       backgroundColor: cs.surfaceContainerHighest,
       leading: IconButton(
         icon: const Icon(Icons.close),
-        tooltip: 'إلغاء التحديد',
+        tooltip: context.loc.clearSelectionTooltip,
         onPressed: () =>
             ref.read(shoppingSelectionProvider.notifier).clearSelection(),
       ),
       title: AnimatedSwitcher(
         duration: const Duration(milliseconds: 200),
         child: Text(
-          'تم تحديد $count عنصر',
+          context.loc.selectedCountFormat(count.toString()),
           key: ValueKey(count),
           style: TextStyle(color: cs.onSurface, fontWeight: FontWeight.w600),
         ),
@@ -232,7 +233,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
       actions: [
         IconButton(
           icon: Icon(Icons.delete_outline, color: cs.error),
-          tooltip: 'حذف المحدد',
+          tooltip: context.loc.deleteSelectedTooltip,
           onPressed:
               count == 0 ? null : () => _confirmBulkDelete(selection),
         ),
@@ -271,7 +272,8 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
     try {
       await ref.read(shoppingListProvider.notifier).deleteShoppingItem(id);
     } catch (e) {
-      _showSnackBar('تعذر حذف "${item.title}"');
+      if (!mounted) return;
+      _showSnackBar(context.loc.failedToDeleteFormat(item.title));
       return;
     }
 
@@ -286,7 +288,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
           children: [
             Expanded(
               child: Text(
-                'تم حذف "${item.title}"',
+                context.loc.deletedFormat(item.title),
                 style: TextStyle(color: theme.colorScheme.onSurface),
               ),
             ),
@@ -325,7 +327,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
         ),
         backgroundColor: theme.colorScheme.surfaceContainerHighest,
         action: SnackBarAction(
-          label: 'تراجع',
+          label: context.loc.undoLabel,
           textColor: theme.colorScheme.onSurface,
           onPressed: () {
             _snackBarTimer?.cancel();// ❌ Cancel the sleep timer immediately because the user tapped Undo.
@@ -350,7 +352,8 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
             createdAt: item.createdAt,
           );
     } catch (error) {
-      _showSnackBar('تعذر استعادة "${item.title}"');
+      if (!mounted) return;
+      _showSnackBar(context.loc.failedToRestoreFormat(item.title));
     }
   }
 
@@ -363,14 +366,14 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('حذف العناصر المحددة'),
+        title: Text(context.loc.deleteSelectedTitle),
         content: Text(
-          'هل تريد حذف ($count) عنصر؟',
+          context.loc.confirmDeleteSelectedFormat(count.toString()),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('إلغاء'),
+            child: Text(context.loc.cancelLabel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
@@ -378,7 +381,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
               backgroundColor: Theme.of(ctx).colorScheme.error,
               foregroundColor: Theme.of(ctx).colorScheme.onError,
             ),
-            child: const Text('حذف'),
+            child: Text(context.loc.deleteButtonLabel),
           ),
         ],
       ),
@@ -401,7 +404,8 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
           .read(shoppingListProvider.notifier)
           .deleteMultiple(selectedIds);
     } catch (_) {
-      _showSnackBar('تعذر حذف العناصر المحددة');
+      if (!mounted) return;
+      _showSnackBar(context.loc.failedToDeleteSelected);
       return;
     }
 
@@ -424,7 +428,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
           children: [
             Expanded(
               child: Text(
-                'تم حذف ($count) عنصر',
+                context.loc.deletedSelectedFormat(count.toString()),
                 style: TextStyle(color: theme.colorScheme.onSurface),
               ),
             ),
@@ -463,7 +467,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
         ),
         backgroundColor: theme.colorScheme.surfaceContainerHighest,
         action: SnackBarAction(
-          label: 'تراجع',
+          label: context.loc.undoLabel,
           textColor: theme.colorScheme.onSurface,
           onPressed: () async {
             _snackBarTimer?.cancel(); // ❌ Cancel the sleep timer immediately because the user tapped Undo.
@@ -472,7 +476,8 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
                   .read(shoppingListProvider.notifier)
                   .restoreMultiple(deletedItems);
             } catch (_) {
-              _showSnackBar('تعذر استعادة العناصر');
+              if (!mounted) return;
+              _showSnackBar(context.loc.failedToRestoreItems);
             }
           },
         ),
@@ -490,13 +495,13 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('حذف جميع العناصر'),
-        content: const Text(
-            'هل أنت متأكد من حذف كل عناصر قائمة الشراء؟ لا يمكن التراجع.'),
+        title: Text(context.loc.deleteAllTitle),
+        content: Text(
+            context.loc.confirmDeleteAllMessage),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('إلغاء'),
+            child: Text(context.loc.cancelLabel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
@@ -504,7 +509,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
               backgroundColor: Theme.of(ctx).colorScheme.error,
               foregroundColor: Theme.of(ctx).colorScheme.onError,
             ),
-            child: const Text('حذف الكل'),
+            child: Text(context.loc.deleteAllButton),
           ),
         ],
       ),
@@ -514,9 +519,11 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
 
     try {
       await ref.read(shoppingListProvider.notifier).clearAll();
-      _showSnackBar('تم حذف جميع عناصر قائمة الشراء');
+      if (!mounted) return;
+      _showSnackBar(context.loc.deletedAllItems);
     } catch (_) {
-      _showSnackBar('تعذر حذف جميع عناصر قائمة الشراء');
+      if (!mounted) return;
+      _showSnackBar(context.loc.failedToDeleteAllItems);
     }
   }
 
@@ -525,7 +532,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
   Future<void> _shareList() async {
     final items = ref.read(shoppingListProvider).value ?? [];
     if (items.isEmpty) {
-      _showSnackBar('القائمة فارغة');
+      _showSnackBar(context.loc.listIsEmpty);
       return;
     }
 
@@ -538,12 +545,12 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
         return StatefulBuilder(
           builder: (context, setDialogState) {
             return AlertDialog(
-              title: const Text('خيارات المشاركة'),
+              title: Text(context.loc.shareOptionsTitle),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   CheckboxListTile(
-                    title: const Text('تضمين السعر'),
+                    title: Text(context.loc.includePrice),
                     value: includePrice,
                     onChanged: (val) {
                       if (val != null) {
@@ -553,7 +560,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
                     contentPadding: EdgeInsets.zero,
                   ),
                   CheckboxListTile(
-                    title: const Text('تضمين حالة الشراء'),
+                    title: Text(context.loc.includePurchaseStatus),
                     value: includeChecked,
                     onChanged: (val) {
                       if (val != null) {
@@ -567,12 +574,12 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(ctx, null),
-                  child: const Text('إلغاء'),
+                  child: Text(context.loc.cancelLabel),
                 ),
                 FilledButton(
                   onPressed: () =>
                       Navigator.pop(ctx, [includePrice, includeChecked]),
-                  child: const Text('مشاركة'),
+                  child: Text(context.loc.shareLabel),
                 ),
               ],
             );
@@ -587,18 +594,21 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
     final shouldIncludeChecked = result[1];
 
     final buffer = StringBuffer();
-    buffer.writeln('🛒 قائمة الشراء:');
+    if (!mounted) return;
+    buffer.writeln(context.loc.shareListHeader);
 
     for (final item in items) {
       //TODO: ملاحظه مهمه لا تحذفها: عند تحويل لغة التطبيق الى الانجليزي يجب انك تغير اتجاه ايموجي اليد وتجيب ايموجي يشير للجهه الاخرى
       String line = '• ${item.title}';
 
       if (shouldIncludePrice && item.price != null) {
-        line += ' 👈 (السعر: ${item.price})';
+        if (!mounted) return;
+        line += context.loc.priceFormat(item.price.toString());
       }
 
       if (shouldIncludeChecked && item.isChecked) {
-        line += ' [مكتمل ✓]';
+        if (!mounted) return;
+        line += context.loc.checkedFormat;
       }
 
       buffer.writeln(line);
@@ -611,7 +621,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('تعذر مشاركة القائمة: $e')),
+        SnackBar(content: Text(context.loc.failedToShareList(e.toString()))),
       );
     }
   }
