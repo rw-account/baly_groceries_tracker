@@ -1,6 +1,7 @@
 // lib/screens/expiry/widgets/expiry_notice_card.dart
 
 import 'package:flutter/material.dart';
+import '../../../core/utils/context_extensions.dart';
 
 /// بطاقة ملاحظة أعلى شاشة العناصر على وشك النفاد، توضّح للمستخدم أن
 /// العناصر ذات الحالة الآمنة لا تظهر في هذه القائمة.
@@ -15,7 +16,7 @@ class ExpiryNoticeCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
+decoration: BoxDecoration(
         color: colorScheme.secondaryContainer,
         borderRadius: BorderRadius.circular(4),
         border: Border.all(color: colorScheme.outlineVariant),
@@ -27,7 +28,7 @@ class ExpiryNoticeCard extends StatelessWidget {
           const SizedBox(width: 10),
           Expanded(
             child: Text(
-              'ملاحظة: تُعرض فقط المواد ذات الحالة (انتباه) أو (عاجل). المواد الآمنة لا تظهر هنا.',
+              context.loc.expiryNoticeText,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: colorScheme.onSecondaryContainer,
                 height: 1.4,
