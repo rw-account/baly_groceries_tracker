@@ -35,7 +35,7 @@ import 'scaffold_with_nav_bar.dart';
 final GoRouter appRouter = GoRouter(
   navigatorKey: rootNavigatorKey,
   initialLocation: RoutePaths.home,
-  errorBuilder: (context, state) => ErrorScreen.unknownRoute(),
+  errorBuilder: (context, state) => ErrorScreen.unknownRoute(context),
   routes: [
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
@@ -67,7 +67,7 @@ final GoRouter appRouter = GoRouter(
                       return buildSlideFadeTransitionPage(
                         context: context,
                         state: state,
-                        child: ErrorScreen.itemNotFound(),
+                        child: ErrorScreen.itemNotFound(context),
                       );
                     }
 
