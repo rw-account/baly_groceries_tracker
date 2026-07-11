@@ -1,6 +1,7 @@
 // lib/screens/home/widgets/empty_state.dart
 
 import 'package:flutter/material.dart';
+import '../../../core/utils/context_extensions.dart';
 
 class EmptyState extends StatelessWidget {
   const EmptyState({super.key});
@@ -21,14 +22,14 @@ class EmptyState extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'لا توجد مواد بعد',
+            context.loc.emptyStateTitle,
             style: theme.textTheme.titleMedium?.copyWith(
               color: secondaryColor,
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            'اضغط زر اضافة مادة جديدة',
+            context.loc.emptyStateSubtitle,
             style: theme.textTheme.bodySmall?.copyWith(
               color: secondaryColor,
             ),
