@@ -3,17 +3,10 @@ import 'package:flutter/material.dart';
 import '../../../providers/items_provider.dart';
 import '../add_edit_item_state.dart';
 import 'package:go_router/go_router.dart';
+import '../../../core/utils/context_extensions.dart';
 
 mixin DeleteMixin on AddEditItemState {
   bool _deleting = false;
-
-  static const String _dialogTitle = 'حذف المادة';
-  static const String _dialogContentPrefix = 'هل أنت متأكد من حذف "';
-  static const String _dialogContentSuffix =
-      '"؟ سيتم حذفها أيضًا من قائمة الشراء إن كانت مضافة هناك. لا يمكن التراجع عن هذا الإجراء.';
-  static const String _cancelButtonLabel = 'إلغاء';
-  static const String _deleteButtonLabel = 'حذف';
-  static const String _deleteError = 'تعذّر حذف المادة، يرجى المحاولة مرة أخرى';
 
   Future<void> delete() async {
     if (_deleting) return;
@@ -25,12 +18,12 @@ mixin DeleteMixin on AddEditItemState {
       context: context,
       barrierDismissible: false,
       builder: (ctx) => AlertDialog(
-        title: const Text(_dialogTitle),
-        content: Text('$_dialogContentPrefix$itemName$_dialogContentSuffix'),
+        title: Text(context.loc.deleteItemDialogTitle),
+        content: Text(context.loc.deleteItemDialogContentFormat(itemName)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text(_cancelButtonLabel),
+            child: Text(context.loc.cancelLabel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
@@ -38,7 +31,7 @@ mixin DeleteMixin on AddEditItemState {
               backgroundColor: theme.colorScheme.error,
               foregroundColor: theme.colorScheme.onError,
             ),
-            child: const Text(_deleteButtonLabel),
+            child: Text(context.loc.deleteButtonLabel),
           ),
         ],
       ),
@@ -56,7 +49,7 @@ mixin DeleteMixin on AddEditItemState {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(_deleteError, style: TextStyle(color: theme.colorScheme.onError)),
+            content: Text(context.loc.deleteItemError, style: TextStyle(color: theme.colorScheme.onError)),
             backgroundColor: theme.colorScheme.error,
           ),
         );
