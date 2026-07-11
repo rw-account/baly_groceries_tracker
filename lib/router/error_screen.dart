@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../core/utils/context_extensions.dart';
 
 /// A friendly, unified error screen displayed for:
 /// - Unknown routes (incorrect or expired links).
@@ -24,17 +25,24 @@ class ErrorScreen extends StatelessWidget {
   });
 
   /// حالة جاهزة: مسار غير معروف.
-  factory ErrorScreen.unknownRoute() => const ErrorScreen(
-        title: 'الصفحة غير موجودة',
-        message: 'الرابط الذي حاولت فتحه غير صحيح أو لم يعد متوفرًا.',
+  factory ErrorScreen.unknownRoute(BuildContext context) => ErrorScreen(
+        title: context.loc.errorUnknownRouteTitle,
+        message: context.loc.errorUnknownRouteMessage,
         icon: Icons.signpost_outlined,
       );
 
   /// حالة جاهزة: العنصر المطلوب غير موجود.
-  factory ErrorScreen.itemNotFound() => const ErrorScreen(
-        title: 'العنصر غير موجود',
-        message: 'لم نعثر على هذا العنصر، قد يكون تم حذفه مسبقًا.',
+  factory ErrorScreen.itemNotFound(BuildContext context) => ErrorScreen(
+        title: context.loc.errorItemNotFoundTitle,
+        message: context.loc.errorItemNotFoundMessage,
         icon: Icons.search_off_rounded,
+      );
+
+  /// Global error handler factory
+  factory ErrorScreen.unexpectedError(BuildContext context) => ErrorScreen(
+        title: context.loc.errorUnexpectedTitle,
+        message: context.loc.errorUnexpectedMessage,
+        icon: Icons.bug_report_outlined,
       );
 
   @override
