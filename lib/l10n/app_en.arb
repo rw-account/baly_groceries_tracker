@@ -333,12 +333,12 @@
     "description": "Checkbox label to include purchase status in share"
   },
 
-  "shareListHeader": "🛒 Shopping list:",
+  "shareListHeader": "🛒 Shopping list",
   "@shareListHeader": {
     "description": "Header for the shared shopping list text"
   },
 
-  "priceFormat": " 👉 (Price: {price})",
+  "priceFormat": "   • Price: {price}",
   "@priceFormat": {
     "description": "Format for item price in shared text, including leading space",
     "placeholders": {
@@ -349,7 +349,7 @@
     }
   },
 
-  "checkedFormat": " [Completed ✓]",
+  "checkedFormat": "   • Completed ✓",
   "@checkedFormat": {
     "description": "Checked status indicator in shared text, including leading space and brackets"
   },

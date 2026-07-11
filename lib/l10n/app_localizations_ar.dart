@@ -53,7 +53,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get includeRemainingDays => 'تضمين عدد الأيام المتبقية';
 
   @override
-  String get includeRenewalDate => 'تحديد تاريخ التجديد';
+  String get includeRenewalDate => 'تضمين تاريخ التجديد';
 
   @override
   String get cancelLabel => 'إلغاء';
@@ -194,11 +194,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String priceFormat(String price) {
-    return ' 👈 (السعر: $price)';
+    return '   • السعر: $price';
   }
 
   @override
-  String get checkedFormat => ' [مكتمل ✓]';
+  String get checkedFormat => '   • مكتمل ✓';
 
   @override
   String failedToShareList(String error) {

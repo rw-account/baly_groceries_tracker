@@ -185,7 +185,7 @@ abstract class AppLocalizations {
   /// Checkbox label to include renewal date in share
   ///
   /// In ar, this message translates to:
-  /// **'تحديد تاريخ التجديد'**
+  /// **'تضمين تاريخ التجديد'**
   String get includeRenewalDate;
 
   /// Cancel button label
@@ -419,13 +419,13 @@ abstract class AppLocalizations {
   /// Format for item price in shared text, including leading space
   ///
   /// In ar, this message translates to:
-  /// **' 👈 (السعر: {price})'**
+  /// **'   • السعر: {price}'**
   String priceFormat(String price);
 
   /// Checked status indicator in shared text, including leading space and brackets
   ///
   /// In ar, this message translates to:
-  /// **' [مكتمل ✓]'**
+  /// **'   • مكتمل ✓'**
   String get checkedFormat;
 
   /// Error message when sharing the shopping list fails
