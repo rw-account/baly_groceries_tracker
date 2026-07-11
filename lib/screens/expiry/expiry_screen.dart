@@ -13,6 +13,7 @@ import 'utils/expiry_grouping.dart';
 import 'widgets/expiry_bucket_section.dart';
 import 'widgets/expiry_empty_state.dart';
 import 'widgets/expiry_notice_card.dart';
+import '../../core/utils/context_extensions.dart';
 
 /// Displays inventory items that are about to run out (warning/urgent
 /// status only), grouped into static remaining-days buckets.
@@ -33,8 +34,8 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
     final shoppingAsync = ref.watch(shoppingListProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('عناصر على وشك النفاد'),
+appBar: AppBar(
+        title: Text(context.loc.expiryScreenTitle),
         actions: [_buildAppBarAction(itemsAsync)],
       ),
       body: itemsAsync.when(
@@ -70,7 +71,7 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(child: Text('حدث خطأ: $error')),
+        error: (error, stack) => Center(child: Text(context.loc.errorOccurredFormat(error.toString()))),
       ),
     );
   }
@@ -99,13 +100,13 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
         _addAllToShoppingList(items.needingAttention);
       },
       itemBuilder: (context) => [
-        PopupMenuItem(
+PopupMenuItem(
           value: 'add_all',
           child: Row(
             children: [
               Icon(Icons.add_shopping_cart, size: 20, color: Theme.of(context).colorScheme.primary),
               const SizedBox(width: 8),
-              const Text('إضافة كل المواد إلى قائمة الشراء'),
+              Text(context.loc.addAllToShoppingListMenu),
             ],
           ),
         ),
@@ -127,7 +128,7 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              'جميع العناصر موجودة بالفعل في قائمة الشراء',
+              context.loc.allItemsAlreadyInShoppingList,
               style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
             ),
             backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
@@ -152,7 +153,7 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              'تمت إضافة جميع العناصر الى قائمة الشراء.',
+              context.loc.allItemsAddedToShoppingList,
               style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
             ),
             backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
@@ -164,7 +165,7 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              'حدث خطأ أثناء إضافة العناصر إلى قائمة الشراء: $e',
+              context.loc.failedToAddAllItemsFormat(e.toString()),
               style: TextStyle(color: Theme.of(context).colorScheme.onError),
             ),
             backgroundColor: Theme.of(context).colorScheme.error,
@@ -194,7 +195,7 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                'تمت إضافة "${item.name}" إلى قائمة الشراء',
+                context.loc.itemAddedToShoppingListFormat(item.name),
                 style: TextStyle(color: colorScheme.onSurface),
               ),
               backgroundColor: colorScheme.surfaceContainerHighest,
@@ -205,7 +206,7 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                '"${item.name}" موجود بالفعل في قائمة الشراء',
+                context.loc.itemAlreadyInShoppingListFormat(item.name),
                 style: TextStyle(color: colorScheme.onTertiary),
               ),
               duration: const Duration(seconds: 2),
@@ -219,7 +220,7 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              'فشل إضافة العنصر: $e',
+              context.loc.failedToAddItemFormat(e.toString()),
               style: TextStyle(color: Theme.of(context).colorScheme.onError),
             ),
             backgroundColor: Theme.of(context).colorScheme.error,
