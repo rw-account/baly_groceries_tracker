@@ -124,7 +124,7 @@ class AddItemCubit extends Cubit<AddItemState> {
       _emitResult(added);
     } catch (_) {
       if (isClosed) return;
-      _emitFailure('حدث خطأ أثناء الإضافة، حاول مرة أخرى');
+      _emitFailure('addErrorRetry');
     }
   }
 
@@ -165,10 +165,9 @@ class AddItemCubit extends Cubit<AddItemState> {
 
       // بناء الرسالة المناسبة
       if (isInShoppingList) {
-        duplicateMessage = 'هذا العنصر موجود بالفعل في قائمة الشراء.';
+        duplicateMessage = 'itemExistsInShoppingList';
       } else if (isInInventory) {
-        duplicateMessage =
-            'هذا العنصر مُتابع في التطبيق. يُرجى إضافته من شاشة البحث السابقة.';
+        duplicateMessage = 'itemTrackedInApp';
       }
     }
 
@@ -179,9 +178,9 @@ class AddItemCubit extends Cubit<AddItemState> {
     if (priceText.isNotEmpty) {
       final value = double.tryParse(priceText);
       if (value == null) {
-        priceError = 'صيغة السعر غير صحيحة';
+        priceError = 'invalidPriceFormatMessage';
       } else if (value < 0) {
-        priceError = 'السعر لا يمكن أن يكون سالبًا';
+        priceError = 'priceCannotBeNegative';
       }
     }
 
@@ -217,7 +216,7 @@ class AddItemCubit extends Cubit<AddItemState> {
       _emitResult(added);
     } catch (_) {
       if (isClosed) return;
-      _emitFailure('حدث خطأ أثناء الإضافة، حاول مرة أخرى');
+      _emitFailure('addErrorRetry');
     }
   }
 
@@ -230,7 +229,7 @@ class AddItemCubit extends Cubit<AddItemState> {
         eventId: state.eventId + 1,
       ));
     } else {
-      _emitFailure('لم تتم إضافة العنصر، حاول مرة أخرى');
+      _emitFailure('itemNotAddedRetry');
     }
   }
 
