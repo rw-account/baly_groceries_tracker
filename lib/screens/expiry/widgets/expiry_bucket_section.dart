@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../models/expiry_bucket.dart';
 import '../../../models/item_model.dart';
 import 'expiry_item_tile.dart';
+import '../../../core/utils/context_extensions.dart';
 
 class ExpiryBucketSection extends StatelessWidget {
   const ExpiryBucketSection({
@@ -56,7 +57,7 @@ class ExpiryBucketSection extends StatelessWidget {
           Icon(bucket.icon, size: 20, color: color),
           const SizedBox(width: 8),
           Text(
-            bucket.label,
+            _getBucketLabel(context),
             style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(width: 8),
@@ -77,5 +78,22 @@ class ExpiryBucketSection extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _getBucketLabel(BuildContext context) {
+    switch (bucket) {
+      case ExpiryBucket.expired:
+        return context.loc.expiryBucketExpiredLabel;
+      case ExpiryBucket.threeDays:
+        return context.loc.expiryBucketThreeDaysLabel;
+      case ExpiryBucket.week:
+        return context.loc.expiryBucketWeekLabel;
+      case ExpiryBucket.twoWeeks:
+        return context.loc.expiryBucketTwoWeeksLabel;
+      case ExpiryBucket.month:
+        return context.loc.expiryBucketMonthLabel;
+      case ExpiryBucket.moreThanMonth:
+        return context.loc.expiryBucketMoreThanMonthLabel;
+    }
   }
 }
