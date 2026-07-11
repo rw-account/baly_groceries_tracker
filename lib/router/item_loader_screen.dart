@@ -55,20 +55,12 @@ class ItemLoaderScreen extends ConsumerWidget {
         loading: () => const Scaffold(
           body: Center(child: CircularProgressIndicator()),
         ),
-        error: (error, stackTrace) => const ErrorScreen(
-          title: 'تعذّر تحميل العنصر',
-          message: 'حدث خطأ أثناء جلب بيانات العنصر، يرجى المحاولة مرة أخرى.',
-          icon: Icons.cloud_off_rounded,
-        ),
+        error: (error, stackTrace) => ErrorScreen.itemLoadFailed(context),
       );
     } catch (_) {
       // Last line of defense: any unexpected build error is shown as a friendly
       // screen instead of crashing the app.
-      return const ErrorScreen(
-        title: 'تعذّر تحميل العنصر',
-        message: 'حدث خطأ غير متوقع أثناء تحميل هذه الشاشة.',
-        icon: Icons.error_outline_rounded,
-      );
+      return ErrorScreen.itemLoadUnexpectedError(context);
     }
   }
 }
