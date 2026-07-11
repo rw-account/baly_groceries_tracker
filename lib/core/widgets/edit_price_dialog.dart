@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../core/utils/context_extensions.dart';
 
 /// نوع بيانات موحد لنجاح أو إلغاء الديالوج (أفضل للقراءة)
 typedef PriceDialogResult = ({bool confirmed, double? price});
@@ -69,8 +70,8 @@ class _EditPriceDialogState extends State<_EditPriceDialog> {
     
     // عنوان ذكي: يعرض اسم المنتج إذا تم تمريره، وإلا يعرض "تعديل السعر"
     final titleText = widget.itemName != null 
-        ? 'السعر لـ "${widget.itemName}"' 
-        : 'تعديل السعر';
+        ? context.loc.editPriceDialogTitleWithItem(widget.itemName!) 
+        : context.loc.editPriceDialogTitle;
 
     return AlertDialog(
       backgroundColor: cs.surface,
@@ -101,8 +102,8 @@ class _EditPriceDialogState extends State<_EditPriceDialog> {
           ],
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           decoration: InputDecoration(
-            labelText: 'السعر (اختياري)',
-            hintText: '0.00',
+            labelText: context.loc.priceFieldLabel,
+            hintText: context.loc.priceFieldHint,
             labelStyle: TextStyle(color: cs.outline),
             hintStyle: TextStyle(color: cs.outline),
             floatingLabelStyle: TextStyle(color: cs.primary),
@@ -126,8 +127,8 @@ class _EditPriceDialogState extends State<_EditPriceDialog> {
             if (value == null || value.trim().isEmpty) return null;
             final cleanValue = value.trim();
             final parsed = double.tryParse(cleanValue);
-            if (parsed == null) return 'صيغة السعر غير صحيحة';
-            if (parsed < 0) return 'لا يمكن أن يكون السعر سالباً';
+            if (parsed == null) return context.loc.invalidPriceFormat;
+            if (parsed < 0) return context.loc.priceCannotBeNegativeDialog;
             return null;
           },
         ),
@@ -138,11 +139,11 @@ class _EditPriceDialogState extends State<_EditPriceDialog> {
           style: TextButton.styleFrom(
             foregroundColor: cs.primary,
           ),
-          child: const Text('إلغاء'),
+          child: Text(context.loc.cancelLabel),
         ),
         ElevatedButton(
           onPressed: _submit,
-          child: const Text('حفظ'),
+          child: Text(context.loc.dialogSave),
         ),
       ],
     );
