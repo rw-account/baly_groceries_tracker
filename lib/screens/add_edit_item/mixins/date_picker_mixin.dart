@@ -2,19 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../add_edit_item_state.dart';
+import '../../../core/utils/context_extensions.dart';
 
 mixin DatePickerMixin on AddEditItemState {
   static final DateFormat _dateFormat = DateFormat('yyyy-MM-dd');
-
-  static const String _datePickerHelpText = 'اختر تاريخ التجديد';
-  static const String _datePickerCancelText = 'إلغاء';
-  static const String _datePickerConfirmText = 'تأكيد';
-  static const String _datePickerError = 'تعذّر فتح منتقي التاريخ، يرجى المحاولة مرة أخرى';
-
-  static const String _resetDialogTitle = 'إعادة تعيين تاريخ التجديد';
-  static const String _resetDialogContent = 'هل تريد تعيين تاريخ التجديد إلى تاريخ اليوم؟';
-  static const String _resetCancelLabel = 'إلغاء';
-  static const String _resetConfirmLabel = 'موافق';
 
   Future<void> pickLastRefreshedDate() async {
     if (isPickingDate) return;
@@ -30,9 +21,9 @@ mixin DatePickerMixin on AddEditItemState {
         firstDate: DateTime(now.year - 5),
         lastDate: now,
         locale: const Locale('ar'),
-        helpText: _datePickerHelpText,
-        cancelText: _datePickerCancelText,
-        confirmText: _datePickerConfirmText,
+        helpText: context.loc.datePickerHelpText,
+        cancelText: context.loc.cancelLabel,
+        confirmText: context.loc.datePickerConfirmText,
       );
 
       if (picked == null || !mounted) return;
@@ -43,7 +34,7 @@ mixin DatePickerMixin on AddEditItemState {
         final theme = Theme.of(context);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(_datePickerError, style: TextStyle(color: theme.colorScheme.onTertiary)),
+            content: Text(context.loc.datePickerError, style: TextStyle(color: theme.colorScheme.onTertiary)),
             backgroundColor: theme.colorScheme.tertiary,
           ),
         );
@@ -62,16 +53,16 @@ mixin DatePickerMixin on AddEditItemState {
       context: context,
       barrierDismissible: false,
       builder: (ctx) => AlertDialog(
-        title: const Text(_resetDialogTitle),
-        content: const Text(_resetDialogContent),
+        title: Text(context.loc.resetDateDialogTitle),
+        content: Text(context.loc.resetDateDialogContent),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text(_resetCancelLabel),
+            child: Text(context.loc.cancelLabel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text(_resetConfirmLabel),
+            child: Text(context.loc.resetDateConfirmLabel),
           ),
         ],
       ),
