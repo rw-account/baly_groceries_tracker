@@ -77,7 +77,7 @@
     "description": "Checkbox label to include remaining days count in share"
   },
 
-  "includeRenewalDate": "تحديد تاريخ التجديد",
+  "includeRenewalDate": "تضمين تاريخ التجديد",
   "@includeRenewalDate": {
     "description": "Checkbox label to include renewal date in share"
   },
@@ -103,12 +103,12 @@
     }
   },
 
-  "itemDetailsHeader": "📋 تفاصيل المواد:",
+  "itemDetailsHeader": "📋 تفاصيل المواد",
   "@itemDetailsHeader": {
     "description": "Header for the item details section in shared text"
   },
 
-  "remainingDaysFormat": " (متبقي: {days} يوم)",
+  "remainingDaysFormat": "   • المتبقي: {days} يوم",
   "@remainingDaysFormat": {
     "description": "Format for showing remaining days in shared text, including leading space and parentheses",
     "placeholders": {
@@ -119,7 +119,7 @@
     }
   },
 
-  "renewalDateFormat": " [التجديد: {date}]",
+  "renewalDateFormat": "   • تاريخ التجديد: {date}",
   "@renewalDateFormat": {
     "description": "Format for showing renewal date in shared text, including leading space and brackets",
     "placeholders": {
@@ -1169,5 +1169,30 @@
   "notificationWarningPrefix": "🟡 انتبه: ",
   "@notificationWarningPrefix": {
     "description": "Prefix for warning items in notification"
+  },
+
+  "settings": "الإعدادات",
+  "@settings": {
+    "description": "Settings menu item and screen title"
+  },
+
+  "arabic": "العربية",
+  "@arabic": {
+    "description": "Arabic language name"
+  },
+
+  "english": "English",
+  "@english": {
+    "description": "English language name"
+  },
+
+  "language": "اللغة",
+  "@language": {
+    "description": "Language selection label"
+  },
+
+  "selectLanguage": "اختر اللغة",
+  "@selectLanguage": {
+    "description": "Language selection prompt"
   }
 }

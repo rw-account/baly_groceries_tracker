@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_ar.dart';
+import 'app_localizations_en.dart';
 
 // ignore_for_file: type=lint
 
@@ -92,7 +93,10 @@ abstract class AppLocalizations {
   ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('ar')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('ar'),
+    Locale('en')
+  ];
 
   /// Placeholder text for the search field
   ///
@@ -205,19 +209,19 @@ abstract class AppLocalizations {
   /// Header for the item details section in shared text
   ///
   /// In ar, this message translates to:
-  /// **'📋 تفاصيل المواد:'**
+  /// **'📋 تفاصيل المواد'**
   String get itemDetailsHeader;
 
   /// Format for showing remaining days in shared text, including leading space and parentheses
   ///
   /// In ar, this message translates to:
-  /// **' (متبقي: {days} يوم)'**
+  /// **'   • المتبقي: {days} يوم'**
   String remainingDaysFormat(String days);
 
   /// Format for showing renewal date in shared text, including leading space and brackets
   ///
   /// In ar, this message translates to:
-  /// **' [التجديد: {date}]'**
+  /// **'   • تاريخ التجديد: {date}'**
   String renewalDateFormat(String date);
 
   /// Error message when sharing fails
@@ -1299,6 +1303,36 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'🟡 انتبه: '**
   String get notificationWarningPrefix;
+
+  /// Settings menu item and screen title
+  ///
+  /// In ar, this message translates to:
+  /// **'الإعدادات'**
+  String get settings;
+
+  /// Arabic language name
+  ///
+  /// In ar, this message translates to:
+  /// **'العربية'**
+  String get arabic;
+
+  /// English language name
+  ///
+  /// In ar, this message translates to:
+  /// **'English'**
+  String get english;
+
+  /// Language selection label
+  ///
+  /// In ar, this message translates to:
+  /// **'اللغة'**
+  String get language;
+
+  /// Language selection prompt
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر اللغة'**
+  String get selectLanguage;
 }
 
 class _AppLocalizationsDelegate
@@ -1312,7 +1346,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['ar'].contains(locale.languageCode);
+      <String>['ar', 'en'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -1323,6 +1357,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'ar':
       return AppLocalizationsAr();
+    case 'en':
+      return AppLocalizationsEn();
   }
 
   throw FlutterError(

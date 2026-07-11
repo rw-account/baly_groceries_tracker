@@ -67,16 +67,16 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get itemDetailsHeader => '📋 تفاصيل المواد:';
+  String get itemDetailsHeader => '📋 تفاصيل المواد';
 
   @override
   String remainingDaysFormat(String days) {
-    return ' (متبقي: $days يوم)';
+    return '   • المتبقي: $days يوم';
   }
 
   @override
   String renewalDateFormat(String date) {
-    return ' [التجديد: $date]';
+    return '   • تاريخ التجديد: $date';
   }
 
   @override
@@ -686,4 +686,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notificationWarningPrefix => '🟡 انتبه: ';
+
+  @override
+  String get settings => 'الإعدادات';
+
+  @override
+  String get arabic => 'العربية';
+
+  @override
+  String get english => 'English';
+
+  @override
+  String get language => 'اللغة';
+
+  @override
+  String get selectLanguage => 'اختر اللغة';
 }

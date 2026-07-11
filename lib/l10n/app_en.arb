@@ -103,12 +103,12 @@
     }
   },
 
-  "itemDetailsHeader": "📋 Item details:",
+  "itemDetailsHeader": "📋 Item details",
   "@itemDetailsHeader": {
     "description": "Header for the item details section in shared text"
   },
 
-  "remainingDaysFormat": " (Remaining: {days} days)",
+  "remainingDaysFormat": "   • Remaining: {days} days",
   "@remainingDaysFormat": {
     "description": "Format for showing remaining days in shared text, including leading space and parentheses",
     "placeholders": {
@@ -119,7 +119,7 @@
     }
   },
 
-  "renewalDateFormat": " [Renewal: {date}]",
+  "renewalDateFormat": "   • Renewal: {date}",
   "@renewalDateFormat": {
     "description": "Format for showing renewal date in shared text, including leading space and brackets",
     "placeholders": {
@@ -338,7 +338,7 @@
     "description": "Header for the shared shopping list text"
   },
 
-  "priceFormat": " 👈 (Price: {price})",
+  "priceFormat": " 👉 (Price: {price})",
   "@priceFormat": {
     "description": "Format for item price in shared text, including leading space",
     "placeholders": {
@@ -1169,5 +1169,30 @@
   "notificationWarningPrefix": "🟡 Warning: ",
   "@notificationWarningPrefix": {
     "description": "Prefix for warning items in notification"
+  },
+
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings menu item and screen title"
+  },
+
+  "arabic": "العربية",
+  "@arabic": {
+    "description": "Arabic language name"
+  },
+
+  "english": "English",
+  "@english": {
+    "description": "English language name"
+  },
+
+  "language": "Language",
+  "@language": {
+    "description": "Language selection label"
+  },
+
+  "selectLanguage": "Select language",
+  "@selectLanguage": {
+    "description": "Language selection prompt"
   }
 }
