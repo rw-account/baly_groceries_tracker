@@ -1,98 +1,98 @@
 {
-  "@@locale": "ar",
+  "@@locale": "en",
 
-  "searchHint": "ابحث عن مادة...",
+  "searchHint": "Search for an item...",
   "@searchHint": {
     "description": "Placeholder text for the search field"
   },
 
-  "noResultsFound": "لا توجد نتائج مطابقة",
+  "noResultsFound": "No matching results found",
   "@noResultsFound": {
     "description": "Message shown when search yields no items"
   },
 
-  "errorMessage": "خطأ: {error}",
+  "errorMessage": "Error: {error}",
   "@errorMessage": {
     "description": "Generic error message with the error details",
     "placeholders": {
       "error": {
         "type": "String",
-        "example": "تعذر الاتصال بالخادم"
+        "example": "Could not connect to the server"
       }
     }
   },
 
-  "addButtonLabel": "إضافة",
+  "addButtonLabel": "Add",
   "@addButtonLabel": {
     "description": "Label for the add item button"
   },
 
-  "emptyStateTitle": "لا توجد مواد بعد",
+  "emptyStateTitle": "No items yet",
   "@emptyStateTitle": {
     "description": "Title shown when the items list is empty"
   },
 
-  "emptyStateSubtitle": "اضغط زر اضافة مادة جديدة",
+  "emptyStateSubtitle": "Tap the button to add a new item",
   "@emptyStateSubtitle": {
     "description": "Subtitle prompting the user to add a new item when list is empty"
   },
 
-  "shareOptionsTitle": "خيارات المشاركة",
+  "shareOptionsTitle": "Sharing Options",
   "@shareOptionsTitle": {
     "description": "Title for the share options dialog"
   },
 
-  "includedStatusesLabel": "الحالات المضمنة:",
+  "includedStatusesLabel": "Included statuses:",
   "@includedStatusesLabel": {
     "description": "Label for the included statuses section in share dialog"
   },
 
-  "allStatusesOption": "كل الحالات",
+  "allStatusesOption": "All statuses",
   "@allStatusesOption": {
     "description": "Radio option text for including all statuses in share"
   },
 
-  "warningAndUrgentOption": "حالات التنبيه والعاجلة فقط",
+  "warningAndUrgentOption": "Warning and urgent statuses only",
   "@warningAndUrgentOption": {
     "description": "Radio option text for warning and urgent statuses only"
   },
 
-  "warningOnlyOption": "حالة التنبيه فقط",
+  "warningOnlyOption": "Warning status only",
   "@warningOnlyOption": {
     "description": "Radio option text for warning status only"
   },
 
-  "urgentOnlyOption": "الحالة العاجلة فقط",
+  "urgentOnlyOption": "Urgent status only",
   "@urgentOnlyOption": {
     "description": "Radio option text for urgent status only"
   },
 
-  "additionalOptionsLabel": "خيارات إضافية:",
+  "additionalOptionsLabel": "Additional options:",
   "@additionalOptionsLabel": {
     "description": "Label for the additional options section in share dialog"
   },
 
-  "includeRemainingDays": "تضمين عدد الأيام المتبقية",
+  "includeRemainingDays": "Include remaining days",
   "@includeRemainingDays": {
     "description": "Checkbox label to include remaining days count in share"
   },
 
-  "includeRenewalDate": "تحديد تاريخ التجديد",
+  "includeRenewalDate": "Include renewal date",
   "@includeRenewalDate": {
     "description": "Checkbox label to include renewal date in share"
   },
 
-  "cancelLabel": "إلغاء",
+  "cancelLabel": "Cancel",
   "@cancelLabel": {
     "description": "Cancel button label"
   },
 
-  "shareLabel": "مشاركة",
+  "shareLabel": "Share",
   "@shareLabel": {
     "description": "Share button label"
   },
 
-  "reportDateFormat": "📅 تاريخ التقرير: {date}",
+  "reportDateFormat": "📅 Report date: {date}",
   "@reportDateFormat": {
     "description": "Report date line format in shared text",
     "placeholders": {
@@ -103,12 +103,12 @@
     }
   },
 
-  "itemDetailsHeader": "📋 تفاصيل المواد:",
+  "itemDetailsHeader": "📋 Item details:",
   "@itemDetailsHeader": {
     "description": "Header for the item details section in shared text"
   },
 
-  "remainingDaysFormat": " (متبقي: {days} يوم)",
+  "remainingDaysFormat": " (Remaining: {days} days)",
   "@remainingDaysFormat": {
     "description": "Format for showing remaining days in shared text, including leading space and parentheses",
     "placeholders": {
@@ -119,7 +119,7 @@
     }
   },
 
-  "renewalDateFormat": " [التجديد: {date}]",
+  "renewalDateFormat": " [Renewal: {date}]",
   "@renewalDateFormat": {
     "description": "Format for showing renewal date in shared text, including leading space and brackets",
     "placeholders": {
@@ -130,63 +130,63 @@
     }
   },
 
-  "shareReportError": "تعذر مشاركة التقرير: {error}",
+  "shareReportError": "Could not share the report: {error}",
   "@shareReportError": {
     "description": "Error message when sharing fails",
     "placeholders": {
       "error": {
         "type": "String",
-        "example": "تعذر الاتصال بالإنترنت"
+        "example": "Could not connect to the internet"
       }
     }
   },
 
-  "statusSafe": "آمن",
+  "statusSafe": "Safe",
   "@statusSafe": {
     "description": "Status label for safe items in summary bar"
   },
 
-  "statusWarning": "انتبه",
+  "statusWarning": "Warning",
   "@statusWarning": {
     "description": "Status label for warning items in summary bar"
   },
 
-  "statusUrgent": "عاجل",
+  "statusUrgent": "Urgent",
   "@statusUrgent": {
     "description": "Status label for urgent items in summary bar"
   },
 
-  "appTitle": "متابعة طلبات البيت",
+  "appTitle": "Home Orders Tracker",
   "@appTitle": {
     "description": "App title shown in the home app bar"
   },
 
-  "shareItemDetails": "مشاركة تفاصيل المواد",
+  "shareItemDetails": "Share item details",
   "@shareItemDetails": {
     "description": "Menu item text for sharing item details"
   },
 
-  "shoppingListTitle": "قائمة الشراء",
+  "shoppingListTitle": "Shopping List",
   "@shoppingListTitle": {
     "description": "Title for the shopping list screen app bar"
   },
 
-  "deleteAllItemsMenu": "حذف كل العناصر",
+  "deleteAllItemsMenu": "Delete all items",
   "@deleteAllItemsMenu": {
     "description": "Menu item for deleting all shopping list items"
   },
 
-  "shareListMenu": "مشاركة القائمة",
+  "shareListMenu": "Share list",
   "@shareListMenu": {
     "description": "Menu item for sharing the shopping list"
   },
 
-  "clearSelectionTooltip": "إلغاء التحديد",
+  "clearSelectionTooltip": "Clear selection",
   "@clearSelectionTooltip": {
     "description": "Tooltip for the close button in selection mode app bar"
   },
 
-  "selectedCountFormat": "تم تحديد {count} عنصر",
+  "selectedCountFormat": "Selected items: {count}",
   "@selectedCountFormat": {
     "description": "Count of selected items shown in the selection mode app bar",
     "placeholders": {
@@ -197,66 +197,66 @@
     }
   },
 
-  "deleteSelectedTooltip": "حذف المحدد",
+  "deleteSelectedTooltip": "Delete selected",
   "@deleteSelectedTooltip": {
     "description": "Tooltip for the delete button in selection mode app bar"
   },
 
-  "errorOccurredFormat": "حدث خطأ: {error}",
+  "errorOccurredFormat": "An error occurred: {error}",
   "@errorOccurredFormat": {
     "description": "Generic error message shown when an error occurs",
     "placeholders": {
       "error": {
         "type": "String",
-        "example": "تعذر الاتصال بقاعدة البيانات"
+        "example": "Could not connect to the database"
       }
     }
   },
 
-  "failedToDeleteFormat": "تعذر حذف \"{itemTitle}\"",
+  "failedToDeleteFormat": "Could not delete \"{itemTitle}\"",
   "@failedToDeleteFormat": {
     "description": "Error message when deleting a single shopping item fails",
     "placeholders": {
       "itemTitle": {
         "type": "String",
-        "example": "حليب"
+        "example": "Milk"
       }
     }
   },
 
-  "deletedFormat": "تم حذف \"{itemTitle}\"",
+  "deletedFormat": "Deleted \"{itemTitle}\"",
   "@deletedFormat": {
     "description": "Success message when a single item is deleted, shown in undo snackbar",
     "placeholders": {
       "itemTitle": {
         "type": "String",
-        "example": "حليب"
+        "example": "Milk"
       }
     }
   },
 
-  "undoLabel": "تراجع",
+  "undoLabel": "Undo",
   "@undoLabel": {
     "description": "Label for the undo action button in snackbar"
   },
 
-  "failedToRestoreFormat": "تعذر استعادة \"{itemTitle}\"",
+  "failedToRestoreFormat": "Could not restore \"{itemTitle}\"",
   "@failedToRestoreFormat": {
     "description": "Error message when restoring a deleted single item fails",
     "placeholders": {
       "itemTitle": {
         "type": "String",
-        "example": "حليب"
+        "example": "Milk"
       }
     }
   },
 
-  "deleteSelectedTitle": "حذف العناصر المحددة",
+  "deleteSelectedTitle": "Delete Selected Items",
   "@deleteSelectedTitle": {
     "description": "Title for the bulk delete confirmation dialog"
   },
 
-  "confirmDeleteSelectedFormat": "هل تريد حذف ({count}) عنصر؟",
+  "confirmDeleteSelectedFormat": "Delete {count} items?",
   "@confirmDeleteSelectedFormat": {
     "description": "Confirmation message in the bulk delete dialog",
     "placeholders": {
@@ -267,17 +267,17 @@
     }
   },
 
-  "deleteButtonLabel": "حذف",
+  "deleteButtonLabel": "Delete",
   "@deleteButtonLabel": {
     "description": "Label for the delete button in dialogs"
   },
 
-  "failedToDeleteSelected": "تعذر حذف العناصر المحددة",
+  "failedToDeleteSelected": "Could not delete the selected items",
   "@failedToDeleteSelected": {
     "description": "Error message when bulk delete fails"
   },
 
-  "deletedSelectedFormat": "تم حذف ({count}) عنصر",
+  "deletedSelectedFormat": "Deleted {count} items",
   "@deletedSelectedFormat": {
     "description": "Success message when bulk delete succeeds, shown in undo snackbar",
     "placeholders": {
@@ -288,57 +288,57 @@
     }
   },
 
-  "failedToRestoreItems": "تعذر استعادة العناصر",
+  "failedToRestoreItems": "Could not restore the items",
   "@failedToRestoreItems": {
     "description": "Error message when restoring bulk deleted items fails"
   },
 
-  "deleteAllTitle": "حذف جميع العناصر",
+  "deleteAllTitle": "Delete All Items",
   "@deleteAllTitle": {
     "description": "Title for the delete all confirmation dialog"
   },
 
-  "confirmDeleteAllMessage": "هل أنت متأكد من حذف كل عناصر قائمة الشراء؟ لا يمكن التراجع.",
+  "confirmDeleteAllMessage": "Are you sure you want to delete all shopping list items? This cannot be undone.",
   "@confirmDeleteAllMessage": {
     "description": "Confirmation message in the delete all dialog"
   },
 
-  "deleteAllButton": "حذف الكل",
+  "deleteAllButton": "Delete All",
   "@deleteAllButton": {
     "description": "Label for the delete all button"
   },
 
-  "deletedAllItems": "تم حذف جميع عناصر قائمة الشراء",
+  "deletedAllItems": "All shopping list items were deleted",
   "@deletedAllItems": {
     "description": "Success message after deleting all items"
   },
 
-  "failedToDeleteAllItems": "تعذر حذف جميع عناصر قائمة الشراء",
+  "failedToDeleteAllItems": "Could not delete all shopping list items",
   "@failedToDeleteAllItems": {
     "description": "Error message when deleting all items fails"
   },
 
-  "listIsEmpty": "القائمة فارغة",
+  "listIsEmpty": "The list is empty",
   "@listIsEmpty": {
     "description": "Message shown when attempting to share an empty list"
   },
 
-  "includePrice": "تضمين السعر",
+  "includePrice": "Include price",
   "@includePrice": {
     "description": "Checkbox label to include price in share"
   },
 
-  "includePurchaseStatus": "تضمين حالة الشراء",
+  "includePurchaseStatus": "Include purchase status",
   "@includePurchaseStatus": {
     "description": "Checkbox label to include purchase status in share"
   },
 
-  "shareListHeader": "🛒 قائمة الشراء:",
+  "shareListHeader": "🛒 Shopping list:",
   "@shareListHeader": {
     "description": "Header for the shared shopping list text"
   },
 
-  "priceFormat": " 👈 (السعر: {price})",
+  "priceFormat": " 👈 (Price: {price})",
   "@priceFormat": {
     "description": "Format for item price in shared text, including leading space",
     "placeholders": {
@@ -349,129 +349,129 @@
     }
   },
 
-  "checkedFormat": " [مكتمل ✓]",
+  "checkedFormat": " [Completed ✓]",
   "@checkedFormat": {
     "description": "Checked status indicator in shared text, including leading space and brackets"
   },
 
-  "failedToShareList": "تعذر مشاركة القائمة: {error}",
+  "failedToShareList": "Could not share the list: {error}",
   "@failedToShareList": {
     "description": "Error message when sharing the shopping list fails",
     "placeholders": {
       "error": {
         "type": "String",
-        "example": "تعذر الاتصال بالإنترنت"
+        "example": "Could not connect to the internet"
       }
     }
   },
 
-  "totalLabel": "الإجمالي",
+  "totalLabel": "Total",
   "@totalLabel": {
     "description": "Label for the total amount in shopping list summary bar"
   },
 
-  "shoppingEmptyStateTitle": "لا توجد عناصر في قائمة الشراء",
+  "shoppingEmptyStateTitle": "No items in the shopping list",
   "@shoppingEmptyStateTitle": {
     "description": "Title shown when the shopping list is empty"
   },
 
-  "shoppingEmptyStateSubtitle": "اضغط على زر الإضافة لبدء التسوق",
+  "shoppingEmptyStateSubtitle": "Tap the add button to start shopping",
   "@shoppingEmptyStateSubtitle": {
     "description": "Subtitle shown when the shopping list is empty"
   },
 
-  "addItemButton": "إضافة عنصر",
+  "addItemButton": "Add Item",
   "@addItemButton": {
     "description": "Label for the add item button in empty state"
   },
 
-  "addNewItemTitle": "إضافة عنصر جديد",
+  "addNewItemTitle": "Add New Item",
   "@addNewItemTitle": {
     "description": "App bar title when adding a new item in manual mode"
   },
 
-  "addToShoppingListTitle": "إضافة إلى قائمة الشراء",
+  "addToShoppingListTitle": "Add to Shopping List",
   "@addToShoppingListTitle": {
     "description": "App bar title when adding an item to the shopping list, also used as tooltip for the add button"
   },
 
-  "addErrorRetry": "حدث خطأ أثناء الإضافة، حاول مرة أخرى",
+  "addErrorRetry": "An error occurred while adding. Please try again.",
   "@addErrorRetry": {
     "description": "Error message when adding an item to the shopping list fails"
   },
 
-  "itemExistsInShoppingList": "هذا العنصر موجود بالفعل في قائمة الشراء.",
+  "itemExistsInShoppingList": "This item is already in the shopping list.",
   "@itemExistsInShoppingList": {
     "description": "Validation message when the item already exists in the shopping list"
   },
 
-  "itemTrackedInApp": "هذا العنصر مُتابع في التطبيق. يُرجى إضافته من شاشة البحث السابقة.",
+  "itemTrackedInApp": "This item is already tracked in the app. Please add it from the previous search screen.",
   "@itemTrackedInApp": {
     "description": "Validation message when the item exists in the inventory but not in the shopping list"
   },
 
-  "invalidPriceFormatMessage": "صيغة السعر غير صحيحة",
+  "invalidPriceFormatMessage": "Invalid price format",
   "@invalidPriceFormatMessage": {
     "description": "Validation error for invalid price format"
   },
 
-  "priceCannotBeNegative": "السعر لا يمكن أن يكون سالبًا",
+  "priceCannotBeNegative": "Price cannot be negative",
   "@priceCannotBeNegative": {
     "description": "Validation error when price is negative"
   },
 
-  "itemNotAddedRetry": "لم تتم إضافة العنصر، حاول مرة أخرى",
+  "itemNotAddedRetry": "The item was not added. Please try again.",
   "@itemNotAddedRetry": {
     "description": "Failure message when item could not be added"
   },
 
-  "shoppingSearchHint": "ابحث أو أنشئ عنصرًا...",
+  "shoppingSearchHint": "Search or create an item...",
   "@shoppingSearchHint": {
     "description": "Placeholder text for the shopping list search field"
   },
 
-  "clearSearchTooltip": "مسح البحث",
+  "clearSearchTooltip": "Clear search",
   "@clearSearchTooltip": {
     "description": "Tooltip for the clear search button"
   },
 
-  "startTypingHint": "ابدأ بكتابة اسم العنصر للإضافة",
+  "startTypingHint": "Start typing the item name to add it",
   "@startTypingHint": {
     "description": "Hint shown when search field is empty"
   },
 
-  "searchResultsSection": "نتائج البحث",
+  "searchResultsSection": "Search Results",
   "@searchResultsSection": {
     "description": "Section header for search results"
   },
 
-  "addAsNewItemFormat": "إضافة \"{query}\" كعنصر جديد",
+  "addAsNewItemFormat": "Add \"{query}\" as a new item",
   "@addAsNewItemFormat": {
     "description": "Label for the quick add tile showing the current search query",
     "placeholders": {
       "query": {
         "type": "String",
-        "example": "حليب"
+        "example": "Milk"
       }
     }
   },
 
-  "alreadyInShoppingList": "موجود في قائمة الشراء",
+  "alreadyInShoppingList": "Already in the shopping list",
   "@alreadyInShoppingList": {
     "description": "Subtitle shown when an item is already in the shopping list"
   },
 
-  "itemNameHint": "مثال: حليب، بيض، أرز…",
+  "itemNameHint": "Example: milk, eggs, rice...",
   "@itemNameHint": {
     "description": "Hint text for the item name field"
   },
 
-  "itemNameLabel": "اسم العنصر",
+  "itemNameLabel": "Item name",
   "@itemNameLabel": {
     "description": "Label for the item name text field"
   },
 
-  "priceLabel": "السعر (اختياري)",
+  "priceLabel": "Price (optional)",
   "@priceLabel": {
     "description": "Label for the price text field"
   },
@@ -481,283 +481,283 @@
     "description": "Hint text for the price field"
   },
 
-  "addingLabel": "جارٍ الإضافة…",
+  "addingLabel": "Adding...",
   "@addingLabel": {
     "description": "Button label shown while submitting the form"
   },
 
-  "addToListButton": "إضافة للقائمة",
+  "addToListButton": "Add to List",
   "@addToListButton": {
     "description": "Label for the add to list submit button"
   },
 
-  "editItemTitle": "تعديل المادة",
+  "editItemTitle": "Edit Item",
   "@editItemTitle": {
     "description": "App bar title when editing an existing item"
   },
 
-  "addItemScreenTitle": "إضافة مادة جديدة",
+  "addItemScreenTitle": "Add New Item",
   "@addItemScreenTitle": {
     "description": "App bar title when adding a new item"
   },
 
-  "backTooltip": "رجوع",
+  "backTooltip": "Back",
   "@backTooltip": {
     "description": "Tooltip for the back button"
   },
 
-  "deleteTooltip": "حذف",
+  "deleteTooltip": "Delete",
   "@deleteTooltip": {
     "description": "Tooltip for the delete button"
   },
 
-  "notificationsSectionTitle": "الإشعارات",
+  "notificationsSectionTitle": "Notifications",
   "@notificationsSectionTitle": {
     "description": "Section title for notifications settings"
   },
 
-  "enableNotificationsTitle": "تفعيل الإشعارات",
+  "enableNotificationsTitle": "Enable notifications",
   "@enableNotificationsTitle": {
     "description": "Title for the enable notifications switch"
   },
 
-  "notificationsEnabledSubtitle": "ستصلك إشعارات عند الاقتراب من النفاد",
+  "notificationsEnabledSubtitle": "You will receive notifications when supplies are close to running out",
   "@notificationsEnabledSubtitle": {
     "description": "Subtitle when notifications are enabled"
   },
 
-  "notificationsDisabledSubtitle": "لن تصلك أي إشعارات لهذه المادة",
+  "notificationsDisabledSubtitle": "You will not receive notifications for this item",
   "@notificationsDisabledSubtitle": {
     "description": "Subtitle when notifications are disabled"
   },
 
-  "thresholdsSectionTitle": "حدود التنبيه",
+  "thresholdsSectionTitle": "Alert Thresholds",
   "@thresholdsSectionTitle": {
     "description": "Section title for alert thresholds"
   },
 
-  "thresholdsDescription": "يحدد التطبيق حالة كل مادة بناءً على هذه الحدود",
+  "thresholdsDescription": "The app determines each item's status based on these thresholds",
   "@thresholdsDescription": {
     "description": "Description text for thresholds section"
   },
 
-  "safeThresholdLabel": "🟢 الحد الآمن",
+  "safeThresholdLabel": "🟢 Safe threshold",
   "@safeThresholdLabel": {
     "description": "Label for the safe threshold field"
   },
 
-  "warningThresholdLabel": "🟡 حد الانتباه",
+  "warningThresholdLabel": "🟡 Warning threshold",
   "@warningThresholdLabel": {
     "description": "Label for the warning threshold field"
   },
 
-  "urgentThresholdLabel": "🔴 الحد العاجل",
+  "urgentThresholdLabel": "🔴 Urgent threshold",
   "@urgentThresholdLabel": {
     "description": "Label for the urgent threshold field"
   },
 
-  "itemInfoSectionTitle": "معلومات المادة",
+  "itemInfoSectionTitle": "Item Information",
   "@itemInfoSectionTitle": {
     "description": "Section title for item information"
   },
 
-  "itemNameFieldLabel": "اسم المادة",
+  "itemNameFieldLabel": "Item name",
   "@itemNameFieldLabel": {
     "description": "Label for the item name field"
   },
 
-  "itemNameFieldHint": "مثال: سكر، دقيق، زيت",
+  "itemNameFieldHint": "Example: sugar, flour, oil",
   "@itemNameFieldHint": {
     "description": "Hint text for the item name field in add/edit screen"
   },
 
-  "quantityDescriptionLabel": "وصف الكمية (اختياري)",
+  "quantityDescriptionLabel": "Quantity description (optional)",
   "@quantityDescriptionLabel": {
     "description": "Label for the quantity description field"
   },
 
-  "quantityDescriptionHint": "مثال: كيس 5 كيلو، عبوتان",
+  "quantityDescriptionHint": "Example: 5 kg bag, two packs",
   "@quantityDescriptionHint": {
     "description": "Hint text for the quantity description field"
   },
 
-  "expectedDaysLabel": "عدد الأيام المتوقعة للنفاد",
+  "expectedDaysLabel": "Expected days until depletion",
   "@expectedDaysLabel": {
     "description": "Label for the expected days field"
   },
 
-  "expectedDaysHint": "مثال: 30",
+  "expectedDaysHint": "Example: 30",
   "@expectedDaysHint": {
     "description": "Hint text for the expected days field"
   },
 
-  "daysSuffix": "يوم",
+  "daysSuffix": "days",
   "@daysSuffix": {
     "description": "Suffix for days field"
   },
 
-  "notesLabel": "ملاحظات (اختياري)",
+  "notesLabel": "Notes (optional)",
   "@notesLabel": {
     "description": "Label for the notes field"
   },
 
-  "notesHint": "اكتب أي ملاحظة إضافية",
+  "notesHint": "Write any additional note",
   "@notesHint": {
     "description": "Hint text for the notes field"
   },
 
-  "saveChangesButton": "حفظ التعديلات",
+  "saveChangesButton": "Save Changes",
   "@saveChangesButton": {
     "description": "Button label when saving changes in edit mode"
   },
 
-  "addItemSubmitButton": "إضافة المادة",
+  "addItemSubmitButton": "Add Item",
   "@addItemSubmitButton": {
     "description": "Button label when adding a new item"
   },
 
-  "nameRequiredError": "الاسم مطلوب",
+  "nameRequiredError": "Name is required",
   "@nameRequiredError": {
     "description": "Validation error when name is empty"
   },
 
-  "enterDaysError": "أدخل عدد الأيام",
+  "enterDaysError": "Enter the number of days",
   "@enterDaysError": {
     "description": "Validation error when days field is empty"
   },
 
-  "enterValidNumberError": "أدخل رقمًا صحيحًا",
+  "enterValidNumberError": "Enter a valid number",
   "@enterValidNumberError": {
     "description": "Validation error when days is not a valid number"
   },
 
-  "duplicateNameError": "الاسم موجود مسبقاً",
+  "duplicateNameError": "This name already exists",
   "@duplicateNameError": {
     "description": "Error message for duplicate item name"
   },
 
-  "invalidDaysError": "يرجى إدخال عدد أيام صحيح",
+  "invalidDaysError": "Please enter a valid number of days",
   "@invalidDaysError": {
     "description": "Error message for invalid days input"
   },
 
-  "thresholdOrderError": "يجب أن تكون الحدود مرتبة: الآمن > الانتباه > العاجل",
+  "thresholdOrderError": "Thresholds must be ordered: Safe > Warning > Urgent",
   "@thresholdOrderError": {
     "description": "Error message when thresholds are not in correct order"
   },
 
-  "negativeThresholdError": "لا يمكن أن تكون الحدود قيمًا سالبة",
+  "negativeThresholdError": "Threshold values cannot be negative",
   "@negativeThresholdError": {
     "description": "Error message when threshold is negative"
   },
 
-  "genericSaveError": "حدث خطأ أثناء حفظ العنصر، حاول مرة أخرى",
+  "genericSaveError": "An error occurred while saving the item. Please try again.",
   "@genericSaveError": {
     "description": "Generic error message when saving fails"
   },
 
-  "datePickerHelpText": "اختر تاريخ التجديد",
+  "datePickerHelpText": "Select renewal date",
   "@datePickerHelpText": {
     "description": "Help text for the date picker"
   },
 
-  "datePickerCancelText": "إلغاء",
+  "datePickerCancelText": "Cancel",
   "@datePickerCancelText": {
     "description": "Cancel text for the date picker"
   },
 
-  "datePickerConfirmText": "تأكيد",
+  "datePickerConfirmText": "Confirm",
   "@datePickerConfirmText": {
     "description": "Confirm text for the date picker"
   },
 
-  "datePickerError": "تعذّر فتح منتقي التاريخ، يرجى المحاولة مرة أخرى",
+  "datePickerError": "Could not open the date picker. Please try again.",
   "@datePickerError": {
     "description": "Error message when date picker fails to open"
   },
 
-  "resetDateDialogTitle": "إعادة تعيين تاريخ التجديد",
+  "resetDateDialogTitle": "Reset Renewal Date",
   "@resetDateDialogTitle": {
     "description": "Title for the reset date dialog"
   },
 
-  "resetDateDialogContent": "هل تريد تعيين تاريخ التجديد إلى تاريخ اليوم؟",
+  "resetDateDialogContent": "Do you want to set the renewal date to today's date?",
   "@resetDateDialogContent": {
     "description": "Content for the reset date dialog"
   },
 
-  "resetDateCancelLabel": "إلغاء",
+  "resetDateCancelLabel": "Cancel",
   "@resetDateCancelLabel": {
     "description": "Cancel label for the reset date dialog"
   },
 
-  "resetDateConfirmLabel": "موافق",
+  "resetDateConfirmLabel": "OK",
   "@resetDateConfirmLabel": {
     "description": "Confirm label for the reset date dialog"
   },
 
-  "discardDialogTitle": "تجاهل التغييرات؟",
+  "discardDialogTitle": "Discard changes?",
   "@discardDialogTitle": {
     "description": "Title for the discard changes dialog"
   },
 
-  "discardDialogContent": "لديك تغييرات غير محفوظة. هل تريد الخروج دون حفظ؟",
+  "discardDialogContent": "You have unsaved changes. Do you want to exit without saving?",
   "@discardDialogContent": {
     "description": "Content for the discard changes dialog"
   },
 
-  "discardCancelLabel": "إلغاء",
+  "discardCancelLabel": "Cancel",
   "@discardCancelLabel": {
     "description": "Cancel label for the discard dialog"
   },
 
-  "discardLabel": "تجاهل",
+  "discardLabel": "Discard",
   "@discardLabel": {
     "description": "Label for the discard action button"
   },
 
-  "deleteItemDialogTitle": "حذف المادة",
+  "deleteItemDialogTitle": "Delete Item",
   "@deleteItemDialogTitle": {
     "description": "Title for the delete item dialog"
   },
 
-  "deleteItemDialogContentFormat": "هل أنت متأكد من حذف \"{itemName}\"? سيتم حذفها أيضًا من قائمة الشراء إن كانت مضافة هناك. لا يمكن التراجع عن هذا الإجراء.",
+  "deleteItemDialogContentFormat": "Are you sure you want to delete \"{itemName}\"? It will also be removed from the shopping list if it was added there. This action cannot be undone.",
   "@deleteItemDialogContentFormat": {
     "description": "Content for the delete item dialog with item name placeholder",
     "placeholders": {
       "itemName": {
         "type": "String",
-        "example": "سكر"
+        "example": "Sugar"
       }
     }
   },
 
-  "deleteItemCancelLabel": "إلغاء",
+  "deleteItemCancelLabel": "Cancel",
   "@deleteItemCancelLabel": {
     "description": "Cancel label for the delete item dialog"
   },
 
-  "deleteItemButtonLabel": "حذف",
+  "deleteItemButtonLabel": "Delete",
   "@deleteItemButtonLabel": {
     "description": "Delete button label for the delete item dialog"
   },
 
-  "deleteItemError": "تعذّر حذف المادة، يرجى المحاولة مرة أخرى",
+  "deleteItemError": "Could not delete the item. Please try again.",
   "@deleteItemError": {
     "description": "Error message when deleting an item fails"
   },
 
-  "thresholdDaysSuffix": "بالأيام",
+  "thresholdDaysSuffix": "in days",
   "@thresholdDaysSuffix": {
     "description": "Suffix for threshold days in accessibility label"
   },
 
-  "thresholdFieldSuffix": "يوم",
+  "thresholdFieldSuffix": "days",
   "@thresholdFieldSuffix": {
     "description": "Suffix text for threshold field"
   },
 
-  "refreshDateLabel": "تاريخ التجديد",
+  "refreshDateLabel": "Renewal date",
   "@refreshDateLabel": {
     "description": "Label for the refresh date field"
   },
@@ -767,204 +767,204 @@
     "description": "Hint text for the refresh date field"
   },
 
-  "pickRefreshDateTooltip": "اختيار تاريخ التجديد",
+  "pickRefreshDateTooltip": "Select renewal date",
   "@pickRefreshDateTooltip": {
     "description": "Tooltip for the pick refresh date button"
   },
 
-  "resetToTodayButton": "إعادة تعيين إلى تاريخ اليوم",
+  "resetToTodayButton": "Reset to today's date",
   "@resetToTodayButton": {
     "description": "Label for the reset to today button"
   },
 
-  "expiryScreenTitle": "عناصر على وشك النفاد",
+  "expiryScreenTitle": "Items About to Run Out",
   "@expiryScreenTitle": {
     "description": "App bar title for the expiry screen"
   },
 
-  "addAllToShoppingListMenu": "إضافة كل المواد إلى قائمة الشراء",
+  "addAllToShoppingListMenu": "Add all items to the shopping list",
   "@addAllToShoppingListMenu": {
     "description": "Menu item for adding all items to shopping list"
   },
 
-  "allItemsAlreadyInShoppingList": "جميع العناصر موجودة بالفعل في قائمة الشراء",
+  "allItemsAlreadyInShoppingList": "All items are already in the shopping list",
   "@allItemsAlreadyInShoppingList": {
     "description": "Message when all items are already in shopping list"
   },
 
-  "allItemsAddedToShoppingList": "تمت إضافة جميع العناصر الى قائمة الشراء.",
+  "allItemsAddedToShoppingList": "All items were added to the shopping list.",
   "@allItemsAddedToShoppingList": {
     "description": "Success message when all items added to shopping list"
   },
 
-  "failedToAddAllItemsFormat": "حدث خطأ أثناء إضافة العناصر إلى قائمة الشراء: {error}",
+  "failedToAddAllItemsFormat": "An error occurred while adding items to the shopping list: {error}",
   "@failedToAddAllItemsFormat": {
     "description": "Error message when adding all items to shopping list fails",
     "placeholders": {
       "error": {
         "type": "String",
-        "example": "تعذر الاتصال بقاعدة البيانات"
+        "example": "Could not connect to the database"
       }
     }
   },
 
-  "itemAddedToShoppingListFormat": "تمت إضافة \"{itemName}\" إلى قائمة الشراء",
+  "itemAddedToShoppingListFormat": "\"{itemName}\" was added to the shopping list",
   "@itemAddedToShoppingListFormat": {
     "description": "Success message when single item added to shopping list",
     "placeholders": {
       "itemName": {
         "type": "String",
-        "example": "حليب"
+        "example": "Milk"
       }
     }
   },
 
-  "itemAlreadyInShoppingListFormat": "\"{itemName}\" موجود بالفعل في قائمة الشراء",
+  "itemAlreadyInShoppingListFormat": "\"{itemName}\" is already in the shopping list",
   "@itemAlreadyInShoppingListFormat": {
     "description": "Message when item already exists in shopping list",
     "placeholders": {
       "itemName": {
         "type": "String",
-        "example": "سكر"
+        "example": "Sugar"
       }
     }
   },
 
-  "failedToAddItemFormat": "فشل إضافة العنصر: {error}",
+  "failedToAddItemFormat": "Failed to add the item: {error}",
   "@failedToAddItemFormat": {
     "description": "Error message when adding single item fails",
     "placeholders": {
       "error": {
         "type": "String",
-        "example": "تعذر الاتصال بقاعدة البيانات"
+        "example": "Could not connect to the database"
       }
     }
   },
 
-  "expiryNoticeText": "ملاحظة: تُعرض فقط المواد ذات الحالة (انتباه) أو (عاجل). المواد الآمنة لا تظهر هنا.",
+  "expiryNoticeText": "Note: Only items with Warning or Urgent status are shown. Safe items do not appear here.",
   "@expiryNoticeText": {
     "description": "Notice text explaining which items are displayed"
   },
 
-  "inShoppingListChipLabel": "في القائمة",
+  "inShoppingListChipLabel": "In list",
   "@inShoppingListChipLabel": {
     "description": "Chip label showing item is already in shopping list"
   },
 
-  "expiresToday": "ينفد اليوم",
+  "expiresToday": "Runs out today",
   "@expiresToday": {
     "description": "Label when item expires today"
   },
 
-  "expiresInFormat": "ينفد {date}",
+  "expiresInFormat": "Runs out {date}",
   "@expiresInFormat": {
     "description": "Format for item expiring in future with relative date",
     "placeholders": {
       "date": {
         "type": "String",
-        "example": "غداً"
+        "example": "tomorrow"
       }
     }
   },
 
-  "expiredFormat": "نفد {date}",
+  "expiredFormat": "Ran out {date}",
   "@expiredFormat": {
     "description": "Format for expired item with relative date",
     "placeholders": {
       "date": {
         "type": "String",
-        "example": "أمس"
+        "example": "yesterday"
       }
     }
   },
 
-  "expiryEmptyStateTitle": "ممتاز! مخزونك في حالة آمنة",
+  "expiryEmptyStateTitle": "Great! Your inventory is in safe condition",
   "@expiryEmptyStateTitle": {
     "description": "Title for empty state in expiry screen"
   },
 
-  "expiryEmptyStateSubtitle": "لا توجد عناصر تحتاج إلى انتباه حالياً",
+  "expiryEmptyStateSubtitle": "No items need attention right now",
   "@expiryEmptyStateSubtitle": {
     "description": "Subtitle for empty state in expiry screen"
   },
 
-  "expiryBucketExpiredLabel": "❌ نفدت",
+  "expiryBucketExpiredLabel": "❌ Ran out",
   "@expiryBucketExpiredLabel": {
     "description": "Label for expired expiry bucket"
   },
 
-  "expiryBucketThreeDaysLabel": "ينتهي خلال 3 أيام",
+  "expiryBucketThreeDaysLabel": "Runs out within 3 days",
   "@expiryBucketThreeDaysLabel": {
     "description": "Label for three days expiry bucket"
   },
 
-  "expiryBucketWeekLabel": "ينتهي خلال أسبوع",
+  "expiryBucketWeekLabel": "Runs out within a week",
   "@expiryBucketWeekLabel": {
     "description": "Label for one week expiry bucket"
   },
 
-  "expiryBucketTwoWeeksLabel": "ينتهي خلال أسبوعين",
+  "expiryBucketTwoWeeksLabel": "Runs out within two weeks",
   "@expiryBucketTwoWeeksLabel": {
     "description": "Label for two weeks expiry bucket"
   },
 
-  "expiryBucketMonthLabel": "ينتهي خلال شهر",
+  "expiryBucketMonthLabel": "Runs out within a month",
   "@expiryBucketMonthLabel": {
     "description": "Label for one month expiry bucket"
   },
 
-  "expiryBucketMoreThanMonthLabel": "ينتهي بعد أكثر من شهر",
+  "expiryBucketMoreThanMonthLabel": "Runs out in more than a month",
   "@expiryBucketMoreThanMonthLabel": {
     "description": "Label for more than a month expiry bucket"
   },
 
-  "mainNavHomeLabel": "الرئيسية",
+  "mainNavHomeLabel": "Home",
   "@mainNavHomeLabel": {
     "description": "Bottom navigation label for home tab"
   },
 
-  "mainNavHomeTooltip": "الشاشة الرئيسية",
+  "mainNavHomeTooltip": "Home screen",
   "@mainNavHomeTooltip": {
     "description": "Tooltip for home tab"
   },
 
-  "mainNavExpiryLabel": "النفاد",
+  "mainNavExpiryLabel": "Expiry",
   "@mainNavExpiryLabel": {
     "description": "Bottom navigation label for expiry tab"
   },
 
-  "mainNavExpiryTooltip": "العناصر القريبة من النفاد",
+  "mainNavExpiryTooltip": "Items close to running out",
   "@mainNavExpiryTooltip": {
     "description": "Tooltip for expiry tab"
   },
 
-  "mainNavShoppingLabel": "الشراء",
+  "mainNavShoppingLabel": "Shopping",
   "@mainNavShoppingLabel": {
     "description": "Bottom navigation label for shopping tab"
   },
 
-  "mainNavShoppingTooltip": "قائمة التسوق",
+  "mainNavShoppingTooltip": "Shopping list",
   "@mainNavShoppingTooltip": {
     "description": "Tooltip for shopping tab"
   },
 
-  "editPriceDialogTitleWithItem": "السعر لـ \"{itemName}\"",
+  "editPriceDialogTitleWithItem": "Price for \"{itemName}\"",
   "@editPriceDialogTitleWithItem": {
     "description": "Dialog title when editing price with item name",
     "placeholders": {
       "itemName": {
         "type": "String",
-        "example": "حليب"
+        "example": "Milk"
       }
     }
   },
 
-  "editPriceDialogTitle": "تعديل السعر",
+  "editPriceDialogTitle": "Edit Price",
   "@editPriceDialogTitle": {
     "description": "Dialog title when editing price without item name"
   },
 
-  "priceFieldLabel": "السعر (اختياري)",
+  "priceFieldLabel": "Price (optional)",
   "@priceFieldLabel": {
     "description": "Label for price field in edit price dialog"
   },
@@ -974,59 +974,59 @@
     "description": "Hint text for price field"
   },
 
-  "invalidPriceFormat": "صيغة السعر غير صحيحة",
+  "invalidPriceFormat": "Invalid price format",
   "@invalidPriceFormat": {
     "description": "Validation error for invalid price format in edit price dialog"
   },
 
-  "priceCannotBeNegativeDialog": "لا يمكن أن يكون السعر سالباً",
+  "priceCannotBeNegativeDialog": "Price cannot be negative",
   "@priceCannotBeNegativeDialog": {
     "description": "Validation error for negative price in edit price dialog"
   },
 
-  "dialogCancel": "إلغاء",
+  "dialogCancel": "Cancel",
   "@dialogCancel": {
     "description": "Cancel button in dialogs"
   },
 
-  "dialogSave": "حفظ",
+  "dialogSave": "Save",
   "@dialogSave": {
     "description": "Save button in dialogs"
   },
 
-  "shoppingItemTrackedInApp": "مُتابع في التطبيق",
+  "shoppingItemTrackedInApp": "Tracked in the app",
   "@shoppingItemTrackedInApp": {
     "description": "Subtitle for shopping items linked to inventory"
   },
 
-  "shoppingItemManualEntry": "عنصر مُضاف يدوياً",
+  "shoppingItemManualEntry": "Manually added item",
   "@shoppingItemManualEntry": {
     "description": "Subtitle for manually added shopping items"
   },
 
-  "itemCardRefreshedText": "تم التجديد {relativeDate}",
+  "itemCardRefreshedText": "Renewed {relativeDate}",
   "@itemCardRefreshedText": {
     "description": "Text showing when item was last refreshed",
     "placeholders": {
       "relativeDate": {
         "type": "String",
-        "example": "أمس"
+        "example": "yesterday"
       }
     }
   },
 
-    "itemCardQuantityDescription": "تم التجديد {relativeDate}",
+    "itemCardQuantityDescription": "Renewed {relativeDate}",
     "@itemCardQuantityDescription": {
       "description": "Actually used for quantity description, but keeping key name for consistency",
       "placeholders": {
         "relativeDate": {
           "type": "String",
-          "example": "قبل يومين"
+          "example": "two days ago"
         }
       }
     },
 
-  "itemRemainingDaysPositiveFormat": "يكفي {days} يوم",
+  "itemRemainingDaysPositiveFormat": "Enough for {days} days",
   "@itemRemainingDaysPositiveFormat": {
     "description": "Format for remaining days when positive",
     "placeholders": {
@@ -1037,12 +1037,12 @@
     }
   },
 
-  "itemRemainingDaysZero": "ينتهي اليوم",
+  "itemRemainingDaysZero": "Runs out today",
   "@itemRemainingDaysZero": {
     "description": "Text when item expires today"
   },
 
-  "itemRemainingDaysNegativeFormat": "انتهى منذ {days} يوم",
+  "itemRemainingDaysNegativeFormat": "Ran out {days} days ago",
   "@itemRemainingDaysNegativeFormat": {
     "description": "Format for expired items with days since expiry",
     "placeholders": {
@@ -1053,17 +1053,17 @@
     }
   },
 
-  "expectedExpiryLabel": "النفاد المتوقع",
+  "expectedExpiryLabel": "Expected depletion",
   "@expectedExpiryLabel": {
     "description": "Label for expected expiry section in item card"
   },
 
-  "notificationsStopped": "الإشعارات متوقفة",
+  "notificationsStopped": "Notifications are off",
   "@notificationsStopped": {
     "description": "Text when notifications are disabled"
   },
 
-  "notificationStartsInFormat": "سيبدأ التنبيه بعد {days} يوم",
+  "notificationStartsInFormat": "Alerts will start in {days} days",
   "@notificationStartsInFormat": {
     "description": "Text showing when notification will start",
     "placeholders": {
@@ -1074,99 +1074,99 @@
     }
   },
 
-  "notificationActiveNow": "التنبيه نشط الآن",
+  "notificationActiveNow": "Alert is active now",
   "@notificationActiveNow": {
     "description": "Text when notification is currently active"
   },
 
-  "errorUnknownRouteTitle": "الصفحة غير موجودة",
+  "errorUnknownRouteTitle": "Page Not Found",
   "@errorUnknownRouteTitle": {
     "description": "Title for unknown route error screen"
   },
 
-  "errorUnknownRouteMessage": "الرابط الذي حاولت فتحه غير صحيح أو لم يعد متوفرًا.",
+  "errorUnknownRouteMessage": "The link you tried to open is invalid or no longer available.",
   "@errorUnknownRouteMessage": {
     "description": "Message for unknown route error screen"
   },
 
-  "errorItemNotFoundTitle": "العنصر غير موجود",
+  "errorItemNotFoundTitle": "Item Not Found",
   "@errorItemNotFoundTitle": {
     "description": "Title for item not found error screen"
   },
 
-  "errorItemNotFoundMessage": "لم نعثر على هذا العنصر، قد يكون تم حذفه مسبقًا.",
+  "errorItemNotFoundMessage": "We could not find this item. It may have already been deleted.",
   "@errorItemNotFoundMessage": {
     "description": "Message for item not found error screen"
   },
 
-  "errorItemLoadFailedTitle": "تعذّر تحميل العنصر",
+  "errorItemLoadFailedTitle": "Could not load item",
   "@errorItemLoadFailedTitle": {
     "description": "Title shown when fetching an item from the source fails"
   },
-  "errorItemLoadFailedMessage": "حدث خطأ أثناء جلب بيانات العنصر، يرجى المحاولة مرة أخرى.",
+  "errorItemLoadFailedMessage": "An error occurred while fetching the item data. Please try again.",
   "@errorItemLoadFailedMessage": {
     "description": "Message shown when fetching an item from the source fails"
   },
-  "errorItemLoadUnexpectedTitle": "تعذّر تحميل العنصر",
+  "errorItemLoadUnexpectedTitle": "Could not load item",
   "@errorItemLoadUnexpectedTitle": {
     "description": "Title shown when an unexpected error occurs while loading an item screen"
   },
-  "errorItemLoadUnexpectedMessage": "حدث خطأ غير متوقع أثناء تحميل هذه الشاشة.",
+  "errorItemLoadUnexpectedMessage": "An unexpected error occurred while loading this screen.",
   "@errorItemLoadUnexpectedMessage": {
     "description": "Message shown when an unexpected error occurs while loading an item screen"
   },
 
-  "errorRetryLabel": "العودة إلى الرئيسية",
+  "errorRetryLabel": "Back to Home",
   "@errorRetryLabel": {
     "description": "Retry button label on error screens"
   },
 
-  "batteryDialogTitle": "تفعيل الاشعارات في الخلفية",
+  "batteryDialogTitle": "Enable background notifications",
   "@batteryDialogTitle": {
     "description": "Title for battery optimization dialog"
   },
 
-  "batteryDialogContent": "نريد أن تصلك التنبيهات في الوقت الصحيح دائمًا، حتى لو كان التطبيق مغلقًا.\n\nبعض الأجهزة قد تقوم بتقييد التطبيقات لتوفير البطارية، وهذا قد يؤثر على ظهور الإشعارات.\n\nيمكنك السماح للتطبيق بالعمل بحرية من إعدادات الجهاز.",
+  "batteryDialogContent": "We want your alerts to arrive at the right time, even when the app is closed.\n\nSome devices may restrict apps to save battery, which can affect notification delivery.\n\nYou can allow the app to run freely from your device settings.",
   "@batteryDialogContent": {
     "description": "Content for battery optimization dialog"
   },
 
-  "batteryDialogNotNow": "ليس الآن",
+  "batteryDialogNotNow": "Not now",
   "@batteryDialogNotNow": {
     "description": "Not now button in battery dialog"
   },
 
-  "batteryDialogOpenSettings": "فتح الإعدادات",
+  "batteryDialogOpenSettings": "Open Settings",
   "@batteryDialogOpenSettings": {
     "description": "Open settings button in battery dialog"
   },
 
-  "batterySnackBarError": "تعذر فتح الإعدادات تلقائيًا. لضمان ظهور الاشعارات التذكيرية يرجى الذهاب إلى الإعدادات > التطبيقات > تطبيقنا > البطارية > السماح بالتشغيل في الخلفية",
+  "batterySnackBarError": "Could not open settings automatically. To ensure reminder notifications appear, go to Settings > Apps > Home Orders Tracker > Battery > Allow background activity",
   "@batterySnackBarError": {
     "description": "Error snackbar when battery settings can't be opened"
   },
 
-  "notificationChannelName": "الملخص اليومي",
+  "notificationChannelName": "Daily Summary",
   "@notificationChannelName": {
     "description": "Notification channel name"
   },
 
-  "notificationChannelDescription": "إشعار يومي يوضح العناصر التي تحتاج انتباه",
+  "notificationChannelDescription": "A daily notification showing items that need attention",
   "@notificationChannelDescription": {
     "description": "Notification channel description"
   },
 
-  "notificationTitle": "ملخص طلبات البيت",
+  "notificationTitle": "Home Orders Summary",
   "@notificationTitle": {
     "description": "Title for daily summary notification"
   },
 
-  "notificationUrgentPrefix": "🔴 عاجل: ",
+  "notificationUrgentPrefix": "🔴 Urgent: ",
   "@notificationUrgentPrefix": {
     "description": "Prefix for urgent items in notification"
   },
 
-  "notificationWarningPrefix": "🟡 انتبه: ",
+  "notificationWarningPrefix": "🟡 Warning: ",
   "@notificationWarningPrefix": {
     "description": "Prefix for warning items in notification"
   }
