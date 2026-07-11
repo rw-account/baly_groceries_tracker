@@ -1,5 +1,6 @@
 // lib/screens/home/widgets/home_app_bar.dart
 import 'package:flutter/material.dart';
+import '../../../core/utils/context_extensions.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   final int urgentCount;
@@ -16,7 +17,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Text('متابعة طلبات البيت'),
+      title: Text(context.loc.appTitle),
       centerTitle: false,
       actions: [
         PopupMenuButton<String>(
@@ -34,7 +35,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                 children: [
                   Icon(Icons.share_outlined, size: 20, color: Theme.of(context).colorScheme.primary),
                   const SizedBox(width: 8),
-                  const Text('مشاركة تفاصيل المواد'),
+                  Text(context.loc.shareItemDetails),
                 ],
               ),
             ),
