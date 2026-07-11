@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/widgets/edit_price_dialog.dart';
+import '../../../core/utils/context_extensions.dart';
 import '../../../models/item_model.dart';
 import 'cubit/add_item_cubit.dart';
 import 'cubit/add_item_state.dart';
@@ -67,6 +68,17 @@ class _AddShoppingItemViewState extends State<_AddShoppingItemView> {
     cubit.addInventoryItem(item, price: result.price);
   }
 
+  String _localizedError(BuildContext context, String errorCode) {
+    switch (errorCode) {
+      case 'addErrorRetry':
+        return context.loc.addErrorRetry;
+      case 'itemNotAddedRetry':
+        return context.loc.itemNotAddedRetry;
+      default:
+        return errorCode;
+    }
+  }
+
   void _enterManualMode(BuildContext context) {
     _manualNameController.text = _searchController.text.trim();
     // Avoid leaking a price typed during a previous, unrelated attempt.
@@ -89,7 +101,7 @@ class _AddShoppingItemViewState extends State<_AddShoppingItemView> {
             ..hideCurrentSnackBar()
             ..showSnackBar(
               SnackBar(
-                content: Text(state.errorMessage!),
+                content: Text(_localizedError(context, state.errorMessage!)),
                 backgroundColor: cs.error,
               ),
             );
@@ -102,7 +114,7 @@ class _AddShoppingItemViewState extends State<_AddShoppingItemView> {
           return Scaffold(
             appBar: AppBar(
               title: Text(
-                isManual ? 'إضافة عنصر جديد' : 'إضافة إلى قائمة الشراء',
+                isManual ? context.loc.addNewItemTitle : context.loc.addToShoppingListTitle,
               ),
               centerTitle: true,
               elevation: 0,
