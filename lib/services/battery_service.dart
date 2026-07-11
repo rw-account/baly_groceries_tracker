@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:android_intent_plus/android_intent.dart';
+import '../../../core/utils/context_extensions.dart';
 
 class BatteryService {
   BatteryService._(); // Prevents instantiation of this class.
@@ -83,13 +84,11 @@ class BatteryService {
           side: BorderSide(color: cs.outlineVariant, width: 1),
         ),
         title: Text(
-          'تفعيل الاشعارات في الخلفية',
+          context.loc.batteryDialogTitle,
           style: TextStyle(color: cs.onSurface, fontWeight: FontWeight.w600),
         ),
         content: Text(
-          'نريد أن تصلك التنبيهات في الوقت الصحيح دائمًا، حتى لو كان التطبيق مغلقًا.\n\n'
-          'بعض الأجهزة قد تقوم بتقييد التطبيقات لتوفير البطارية، وهذا قد يؤثر على ظهور الإشعارات.\n\n'
-          'يمكنك السماح للتطبيق بالعمل بحرية من إعدادات الجهاز.',
+          context.loc.batteryDialogContent,
           style: TextStyle(color: cs.onSurface, height: 1.5),
         ),
         actions: [
@@ -98,11 +97,11 @@ class BatteryService {
             style: TextButton.styleFrom(
               foregroundColor: cs.primary,
             ),
-            child: const Text('ليس الآن'),
+            child: Text(context.loc.batteryDialogNotNow),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('فتح الإعدادات'),
+            child: Text(context.loc.batteryDialogOpenSettings),
           ),
         ],
       ),
@@ -128,8 +127,8 @@ class BatteryService {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4),
               ),
-              content: const Text(
-                'تعذر فتح الإعدادات تلقائيًا. لضمان ظهور الاشعارات التذكيرية يرجى الذهاب إلى الإعدادات > التطبيقات > تطبيقنا > البطارية > السماح بالتشغيل في الخلفية',
+              content: Text(
+                context.loc.batterySnackBarError,
               ),
             ),
           );
