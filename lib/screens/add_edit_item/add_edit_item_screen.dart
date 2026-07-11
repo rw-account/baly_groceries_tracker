@@ -11,6 +11,7 @@ import 'mixins/date_picker_mixin.dart';
 import 'mixins/discard_mixin.dart';
 import 'widgets/widgets.dart';
 import 'package:go_router/go_router.dart';
+import '../../core/utils/context_extensions.dart';
 
 /// شاشة إضافة/تعديل مادة.
 class AddEditItemScreen extends ConsumerStatefulWidget {
@@ -83,20 +84,20 @@ class _AddEditItemScreenState extends AddEditItemState
     );
   }
 
-  AppBar _buildAppBar(ThemeData theme) {
+AppBar _buildAppBar(ThemeData theme) {
     return AppBar(
-      title: Text(isEditing ? 'تعديل المادة' : 'إضافة مادة جديدة'),
+      title: Text(isEditing ? context.loc.editItemTitle : context.loc.addItemScreenTitle),
       centerTitle: false,
       leading: IconButton(
         icon: const Icon(Icons.arrow_back),
-        tooltip: 'رجوع',
+        tooltip: context.loc.backTooltip,
         onPressed: saving ? null : _handleBack,
       ),
       actions: [
         if (isEditing)
           IconButton(
             icon: Icon(Icons.delete_outline, color: theme.colorScheme.error),
-            tooltip: 'حذف',
+            tooltip: context.loc.deleteTooltip,
             onPressed: saving ? null : delete,
           ),
       ],
@@ -128,8 +129,8 @@ class _AddEditItemScreenState extends AddEditItemState
 
   List<Widget> _buildNotificationsSection(ThemeData theme) {
     return [
-      const SectionTitle(
-        title: 'الإشعارات',
+      SectionTitle(
+        title: context.loc.notificationsSectionTitle,
         icon: Icons.notifications_outlined,
       ),
       const SizedBox(height: 8),
@@ -141,11 +142,11 @@ class _AddEditItemScreenState extends AddEditItemState
           side: BorderSide(color: theme.colorScheme.outlineVariant),
         ),
         child: SwitchListTile(
-          title: const Text('تفعيل الإشعارات'),
+          title: Text(context.loc.enableNotificationsTitle),
           subtitle: Text(
             notificationsEnabled
-                ? 'ستصلك إشعارات عند الاقتراب من النفاد'
-                : 'لن تصلك أي إشعارات لهذه المادة',
+                ? context.loc.notificationsEnabledSubtitle
+                : context.loc.notificationsDisabledSubtitle,
             style: theme.textTheme.bodySmall,
           ),
           value: notificationsEnabled,
@@ -164,13 +165,13 @@ class _AddEditItemScreenState extends AddEditItemState
 
   List<Widget> _buildThresholdsSection(ThemeData theme) {
     return [
-      const SectionTitle(
-        title: 'حدود التنبيه',
+      SectionTitle(
+        title: context.loc.thresholdsSectionTitle,
         icon: Icons.tune_outlined,
       ),
       const SizedBox(height: 4),
       Text(
-        'يحدد التطبيق حالة كل مادة بناءً على هذه الحدود',
+        context.loc.thresholdsDescription,
         style: theme.textTheme.bodySmall,
       ),
       const SizedBox(height: 12),
@@ -179,7 +180,7 @@ class _AddEditItemScreenState extends AddEditItemState
           Expanded(
             child: ThresholdField(
               controller: safeCtrl,
-              label: '🟢 الحد الآمن',
+              label: context.loc.safeThresholdLabel,
               color: const Color(0xFF00A884),
             ),
           ),
@@ -187,7 +188,7 @@ class _AddEditItemScreenState extends AddEditItemState
           Expanded(
             child: ThresholdField(
               controller: warningCtrl,
-              label: '🟡 حد الانتباه',
+              label: context.loc.warningThresholdLabel,
               color: const Color(0xFFF57F17),
             ),
           ),
@@ -195,7 +196,7 @@ class _AddEditItemScreenState extends AddEditItemState
           Expanded(
             child: ThresholdField(
               controller: urgentCtrl,
-              label: '🔴 الحد العاجل',
+              label: context.loc.urgentThresholdLabel,
               color: const Color(0xFFC62828),
             ),
           ),
@@ -207,16 +208,16 @@ class _AddEditItemScreenState extends AddEditItemState
 
   List<Widget> _buildItemInfoSection() {
     return [
-      const SectionTitle(
-        title: 'معلومات المادة',
+      SectionTitle(
+        title: context.loc.itemInfoSectionTitle,
         icon: Icons.inventory_2_outlined,
       ),
       const SizedBox(height: 12),
       AppTextField(
         controller: nameCtrl,
-        label: 'اسم المادة',
+        label: context.loc.itemNameFieldLabel,
         labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
-        hint: 'مثال: سكر، دقيق، زيت',
+        hint: context.loc.itemNameFieldHint,
         icon: Icon(Icons.label_outline, color: Theme.of(context).colorScheme.primary),
         errorText: nameErrorText,
         focusNode: _nameFocus,
@@ -227,14 +228,14 @@ class _AddEditItemScreenState extends AddEditItemState
         },
         onSubmitted: (_) => _descFocus.requestFocus(),
         validator: (v) =>
-            (v == null || v.trim().isEmpty) ? 'الاسم مطلوب' : null,
+            (v == null || v.trim().isEmpty) ? context.loc.nameRequiredError : null,
       ),
       const SizedBox(height: 12),
       AppTextField(
         controller: descCtrl,
-        label: 'وصف الكمية (اختياري)',
+        label: context.loc.quantityDescriptionLabel,
         labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
-        hint: 'مثال: كيس 5 كيلو، عبوتان',
+        hint: context.loc.quantityDescriptionHint,
         icon: Icon(Icons.notes_outlined, color: Theme.of(context).colorScheme.primary),
         focusNode: _descFocus,
         textInputAction: TextInputAction.next,
@@ -243,21 +244,21 @@ class _AddEditItemScreenState extends AddEditItemState
       const SizedBox(height: 12),
       AppTextField(
         controller: daysCtrl,
-        label: 'عدد الأيام المتوقعة للنفاد',
+        label: context.loc.expectedDaysLabel,
         labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
-        hint: 'مثال: 30',
+        hint: context.loc.expectedDaysHint,
         icon: Icon(Icons.calendar_today_outlined, color: Theme.of(context).colorScheme.primary),
         keyboardType: TextInputType.number,
-        suffix: 'يوم',
+        suffix: context.loc.daysSuffix,
         suffixStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
         focusNode: _daysFocus,
         textInputAction: TextInputAction.done,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         onSubmitted: (_) => _daysFocus.unfocus(),
         validator: (v) {
-          if (v == null || v.trim().isEmpty) return 'أدخل عدد الأيام';
+          if (v == null || v.trim().isEmpty) return context.loc.enterDaysError;
           final n = int.tryParse(v.trim());
-          if (n == null || n <= 0) return 'أدخل رقمًا صحيحًا';
+          if (n == null || n <= 0) return context.loc.enterValidNumberError;
           return null;
         },
       ),
@@ -271,8 +272,8 @@ class _AddEditItemScreenState extends AddEditItemState
       const SizedBox(height: 12),
       AppTextField(
         controller: notesCtrl,
-        label: 'ملاحظات (اختياري)',
-        hint: 'اكتب أي ملاحظة إضافية',
+        label: context.loc.notesLabel,
+        hint: context.loc.notesHint,
         icon: Icon(Icons.edit_note_outlined, color: Theme.of(context).colorScheme.primary),
         keyboardType: TextInputType.multiline,
         textInputAction: TextInputAction.newline,
@@ -298,7 +299,7 @@ class _AddEditItemScreenState extends AddEditItemState
                 ),
               )
             : Icon(isEditing ? Icons.save_outlined : Icons.add),
-        label: Text(isEditing ? 'حفظ التعديلات' : 'إضافة المادة'),
+        label: Text(isEditing ? context.loc.saveChangesButton : context.loc.addItemSubmitButton),
         style: FilledButton.styleFrom(
           minimumSize: const Size.fromHeight(52),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
