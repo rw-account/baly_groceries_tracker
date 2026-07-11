@@ -1,6 +1,7 @@
 // lib/screens/shopping_list/shopping_list_screen/widgets/shopping_list_empty_state.dart
 
 import 'package:flutter/material.dart';
+import '../../../../core/utils/context_extensions.dart';
 
 class ShoppingListEmptyState extends StatelessWidget {
   const ShoppingListEmptyState({
@@ -33,7 +34,7 @@ class ShoppingListEmptyState extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Text(
-              'لا توجد عناصر في قائمة الشراء',
+              context.loc.shoppingEmptyStateTitle,
               style: theme.textTheme.titleMedium?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
                 fontWeight: FontWeight.w600,
@@ -41,7 +42,7 @@ class ShoppingListEmptyState extends StatelessWidget {
             ),
             const SizedBox(height: 6),
             Text(
-              'اضغط على زر الإضافة لبدء التسوق',
+              context.loc.shoppingEmptyStateSubtitle,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.7),
               ),
@@ -50,7 +51,7 @@ class ShoppingListEmptyState extends StatelessWidget {
             FilledButton.icon(
               onPressed: onAddPressed,
               icon: const Icon(Icons.add),
-              label: const Text('إضافة عنصر'),
+              label: Text(context.loc.addItemButton),
             ),
           ],
         ),
