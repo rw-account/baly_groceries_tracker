@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../../../core/utils/context_extensions.dart';
 
 class ShoppingListTotalBar extends StatelessWidget {
   const ShoppingListTotalBar({
@@ -29,7 +30,7 @@ class ShoppingListTotalBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'الإجمالي',
+              context.loc.totalLabel,
               style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w600,
                 color: theme.colorScheme.onPrimaryContainer,
