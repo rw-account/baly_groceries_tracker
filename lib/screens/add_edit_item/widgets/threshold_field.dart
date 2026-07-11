@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'field_utils.dart';
+import '../../../core/utils/context_extensions.dart';
 
 /// حقل رقمي مختصر لعتبات (آمن / تحذير / عاجل).
 class ThresholdField extends StatefulWidget {
@@ -55,7 +56,7 @@ class _ThresholdFieldState extends State<ThresholdField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Semantics(
-          label: '${widget.label} بالأيام',
+          label: '${widget.label} ${context.loc.thresholdDaysSuffix}',
           child: ExcludeSemantics(
             child: Text(
               widget.label,
@@ -79,7 +80,7 @@ class _ThresholdFieldState extends State<ThresholdField> {
           ],
           onChanged: widget.onChanged,
           decoration: InputDecoration(
-            suffixText: 'يوم',
+            suffixText: context.loc.thresholdFieldSuffix,
             suffixStyle: const TextStyle(fontSize: 11),
             filled: true,
             errorText: widget.errorText,
