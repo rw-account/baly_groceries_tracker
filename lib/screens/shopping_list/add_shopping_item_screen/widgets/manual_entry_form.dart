@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../../core/utils/context_extensions.dart';
 
 class ManualEntryForm extends StatefulWidget {
   final TextEditingController nameController;
@@ -37,6 +38,29 @@ class _ManualEntryFormState extends State<ManualEntryForm> {
   late final FocusNode _nameFocus;
   late final FocusNode _priceFocus;
   static const int _maxLength = 60;
+
+  String _localizedDuplicateMessage(BuildContext context, String code) {
+    switch (code) {
+      case 'itemExistsInShoppingList':
+        return context.loc.itemExistsInShoppingList;
+      case 'itemTrackedInApp':
+        return context.loc.itemTrackedInApp;
+      default:
+        return code;
+    }
+  }
+
+  String? _localizedPriceError(BuildContext context, String? code) {
+    if (code == null) return null;
+    switch (code) {
+      case 'invalidPriceFormatMessage':
+        return context.loc.invalidPriceFormatMessage;
+      case 'priceCannotBeNegative':
+        return context.loc.priceCannotBeNegative;
+      default:
+        return code;
+    }
+  }
 
   @override
   void initState() {
@@ -79,8 +103,8 @@ class _ManualEntryFormState extends State<ManualEntryForm> {
             cursorColor: cs.primary,
             decoration: _inputDeco(
               cs: cs,
-              hint: 'مثال: حليب، بيض، أرز…',
-              label: 'اسم العنصر',
+              hint: context.loc.itemNameHint,
+              label: context.loc.itemNameLabel,
               hasError: widget.isDuplicate,
             ),
           ),
@@ -100,7 +124,7 @@ class _ManualEntryFormState extends State<ManualEntryForm> {
                         const SizedBox(width: 6),
                         Expanded(
                           child: Text(
-                            widget.duplicateMessage ?? '',
+                            _localizedDuplicateMessage(context, widget.duplicateMessage ?? ''),
                             style: TextStyle(fontSize: 12, color: cs.error),
                           ),
                         ),
@@ -132,10 +156,10 @@ class _ManualEntryFormState extends State<ManualEntryForm> {
             cursorColor: cs.primary,
             decoration: _inputDeco(
               cs: cs,
-              hint: '0.00',
-              label: 'السعر (اختياري)',
+              hint: context.loc.priceHint,
+              label: context.loc.priceLabel,
               hasError: widget.priceError != null,
-              errorText: widget.priceError,
+              errorText: _localizedPriceError(context, widget.priceError),
             ),
           ),
 
@@ -158,7 +182,7 @@ class _ManualEntryFormState extends State<ManualEntryForm> {
                     )
                   : const Icon(Icons.add_rounded, size: 20),
               label: Text(
-                widget.isSubmitting ? 'جارٍ الإضافة…' : 'إضافة للقائمة',
+                widget.isSubmitting ? context.loc.addingLabel : context.loc.addToListButton,
               ),
             ),
           ),
