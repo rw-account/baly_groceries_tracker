@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../models/item_model.dart';
 import '../../../../models/shopping_item_model.dart';
+import '../../../../core/utils/context_extensions.dart';
 import 'result_tile.dart';
 
 /// Search mode UI: a search field plus matching inventory/manual results.
@@ -61,12 +62,12 @@ class SearchView extends StatelessWidget {
             style: const TextStyle(color: Color(0xFFC7D5E0)),
             cursorColor: cs.primary,
             decoration: InputDecoration(
-              hintText: 'ابحث أو أنشئ عنصرًا...',
+              hintText: context.loc.shoppingSearchHint,
               hintStyle: TextStyle(color: cs.outline),
               prefixIcon: Icon(Icons.add_circle_outline, color: cs.outline),
               suffixIcon: query.isNotEmpty
                   ? IconButton(
-                      tooltip: 'مسح البحث',
+                      tooltip: context.loc.clearSearchTooltip,
                       icon: Icon(Icons.clear, color: cs.outline),
                       onPressed: onClearSearch,
                     )
@@ -92,20 +93,20 @@ class SearchView extends StatelessWidget {
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 220),
             child: query.isEmpty
-                ? _buildHint(theme, 'ابدأ بكتابة اسم العنصر للإضافة')
+                ? _buildHint(context, context.loc.startTypingHint)
                 : ListView(
                     key: const ValueKey('results'),
                     padding: const EdgeInsets.fromLTRB(12, 4, 12, 16),
                     children: [
                       // ── زر الإضافة السريع كأول عنصر في القائمة ──
-                      _buildQuickAddTile(theme),
+                      _buildQuickAddTile(context),
 
                       // ── فصل النتائج إذا وجدت ──
                       if (_hasResults) ...[
                         Padding(
                           padding: const EdgeInsets.only(top: 12, bottom: 6, right: 4),
                           child: Text(
-                            'نتائج البحث',
+                            context.loc.searchResultsSection,
                             style: theme.textTheme.labelSmall?.copyWith(
                               color: cs.outline,
                               fontWeight: FontWeight.bold,
@@ -116,12 +117,12 @@ class SearchView extends StatelessWidget {
                         for (final item in matchingInventoryItems)
                           Padding(
                             padding: const EdgeInsets.only(bottom: 8),
-                            child: _buildInventoryResultTile(theme, item),
+                            child: _buildInventoryResultTile(context, item),
                           ),
                         for (final shoppingItem in matchingManualShoppingItems)
                           Padding(
                             padding: const EdgeInsets.only(bottom: 8),
-                            child: _buildManualResultTile(theme, shoppingItem),
+                            child: _buildManualResultTile(context, shoppingItem),
                           ),
                       ],
                     ],
@@ -132,7 +133,8 @@ class SearchView extends StatelessWidget {
     );
   }
 
-  Widget _buildHint(ThemeData theme, String text) {
+  Widget _buildHint(BuildContext context, String text) {
+    final theme = Theme.of(context);
     return Center(
       key: const ValueKey('hint'),
       child: Text(
@@ -145,7 +147,8 @@ class SearchView extends StatelessWidget {
   }
 
   // ─── بطاقة الإضافة السريعة (التصميم المدمج) ───────────────────────────
-  Widget _buildQuickAddTile(ThemeData theme) {
+  Widget _buildQuickAddTile(BuildContext context) {
+    final theme = Theme.of(context);
     final cs = theme.colorScheme;
 
     return Material(
@@ -175,7 +178,7 @@ class SearchView extends StatelessWidget {
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
-                  'إضافة "$query" كعنصر جديد',
+                  context.loc.addAsNewItemFormat(query),
                   style: theme.textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: cs.onSurface,
@@ -196,7 +199,8 @@ class SearchView extends StatelessWidget {
     );
   }
 
-  Widget _buildInventoryResultTile(ThemeData theme, ItemModel item) {
+  Widget _buildInventoryResultTile(BuildContext context, ItemModel item) {
+    final theme = Theme.of(context);
     final cs = theme.colorScheme;
     final alreadyInList =
         shoppingItems.any((s) => s.inventoryItemId == item.id);
@@ -242,7 +246,7 @@ class SearchView extends StatelessWidget {
                   ),
                   if (alreadyInList)
                     Text(
-                      'موجود في قائمة الشراء',
+                      context.loc.alreadyInShoppingList,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: cs.outline,
                       ),
@@ -261,7 +265,7 @@ class SearchView extends StatelessWidget {
                   icon: const Icon(Icons.add_shopping_cart, size: 20),
                   color: cs.primary,
                   onPressed: enabled ? () => onSelectInventoryItem(item) : null,
-                  tooltip: 'إضافة إلى قائمة الشراء',
+                  tooltip: context.loc.addToShoppingListTitle,
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                 ),
@@ -272,12 +276,13 @@ class SearchView extends StatelessWidget {
     );
   }
 
-  Widget _buildManualResultTile(ThemeData theme, ShoppingItem item) {
+  Widget _buildManualResultTile(BuildContext context, ShoppingItem item) {
+    final theme = Theme.of(context);
     return ResultTile(
       icon: Icons.edit_note,
       color: theme.colorScheme.outline,
       title: item.title,
-      subtitle: 'موجود في قائمة الشراء',
+      subtitle: context.loc.alreadyInShoppingList,
       enabled: false,
       onTap: null,
     );
