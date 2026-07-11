@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../core/utils/context_extensions.dart';
 
 /// Main shell that hosts a [StatefulNavigationShell] and displays a bottom
 /// navigation bar using Material 3 [NavigationBar] with subtle haptic feedback
@@ -45,20 +46,20 @@ class ScaffoldWithNavBar extends StatelessWidget {
           NavigationDestination(
             icon: Icon(Icons.home_outlined, color: cs.outline),
             selectedIcon: Icon(Icons.home_rounded, color: cs.primary),
-            label: 'الرئيسية',
-            tooltip: 'الشاشة الرئيسية',
+            label: context.loc.mainNavHomeLabel,
+            tooltip: context.loc.mainNavHomeTooltip,
           ),
           NavigationDestination(
             icon: Icon(Icons.warning_amber_outlined, color: cs.outline),
             selectedIcon: Icon(Icons.warning, color: cs.primary),
-            label: 'النفاد',
-            tooltip: 'العناصر القريبة من النفاد',
+            label: context.loc.mainNavExpiryLabel,
+            tooltip: context.loc.mainNavExpiryTooltip,
           ),
           NavigationDestination(
             icon: Icon(Icons.shopping_cart_outlined, color: cs.outline),
             selectedIcon: Icon(Icons.shopping_cart_rounded, color: cs.primary),
-            label: 'الشراء',
-            tooltip: 'قائمة التسوق',
+            label: context.loc.mainNavShoppingLabel,
+            tooltip: context.loc.mainNavShoppingTooltip,
           ),
         ],
       ),
