@@ -1131,7 +1131,7 @@
     "description": "Title for battery optimization dialog"
   },
 
-  "batteryDialogContent": "نريد أن تصلك التنبيهات في الوقت الصحيح دائمًا، حتى لو كان التطبيق مغلقًا.\n\nبعض الأجهزة قد تقوم بتقييد التطبيقات لتوفير البطارية، وهذا قد يؤثر على ظهور الإشعارات.\n\nيمكنك السماح للتطبيق بالعمل بحرية من إعدادات الجهاز.",
+  "batteryDialogContent": "قد تؤخر إعدادات توفير البطارية التنبيهات.\n\nلضمان وصولها في الوقت المناسب، يُفضل استثناء التطبيق من قيود البطارية.",
   "@batteryDialogContent": {
     "description": "Content for battery optimization dialog"
   },

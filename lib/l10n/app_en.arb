@@ -1131,7 +1131,7 @@
     "description": "Title for battery optimization dialog"
   },
 
-  "batteryDialogContent": "We want your alerts to arrive at the right time, even when the app is closed.\n\nSome devices may restrict apps to save battery, which can affect notification delivery.\n\nYou can allow the app to run freely from your device settings.",
+  "batteryDialogContent": "Battery optimization settings may delay notifications.\n\nTo receive them on time, please exclude the app from battery restrictions.",
   "@batteryDialogContent": {
     "description": "Content for battery optimization dialog"
   },
