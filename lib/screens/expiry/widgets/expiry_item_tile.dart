@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../models/item_model.dart';
 import 'expiry_remaining_label.dart';
+import '../../../core/utils/context_extensions.dart';
 
 class ExpiryItemTile extends StatelessWidget {
   const ExpiryItemTile({
@@ -78,7 +79,7 @@ class ExpiryItemTile extends StatelessWidget {
 
     if (isInShoppingList) {
       return Chip(
-        label: const Text('في القائمة'),
+        label: Text(context.loc.inShoppingListChipLabel),
         avatar: Icon(Icons.check, size: 18, color: colorScheme.onSecondaryContainer),
         backgroundColor: colorScheme.secondaryContainer,
         labelStyle: TextStyle(color: colorScheme.onSecondaryContainer),
@@ -87,7 +88,7 @@ class ExpiryItemTile extends StatelessWidget {
 
     return IconButton(
       icon: const Icon(Icons.add_shopping_cart),
-      tooltip: 'إضافة إلى قائمة الشراء',
+      tooltip: context.loc.addToShoppingListTitle,
       color: colorScheme.primary,
       onPressed: isAddingAll ? null : onAddToShoppingList, 
     );
