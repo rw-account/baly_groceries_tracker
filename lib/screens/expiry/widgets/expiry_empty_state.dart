@@ -1,6 +1,7 @@
 // lib/screens/expiry/widgets/expiry_empty_state.dart
 
 import 'package:flutter/material.dart';
+import '../../../core/utils/context_extensions.dart';
 
 /// حالة الشاشة الفارغة عندما لا توجد أي عناصر تحتاج انتباه حالياً.
 class ExpiryEmptyState extends StatelessWidget {
@@ -31,13 +32,13 @@ class ExpiryEmptyState extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              'ممتاز! مخزونك في حالة آمنة',
+              context.loc.expiryEmptyStateTitle,
               style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),
             Text(
-              'لا توجد عناصر تحتاج إلى انتباه حالياً',
+              context.loc.expiryEmptyStateSubtitle,
               style: theme.textTheme.bodyMedium?.copyWith(color: theme.textTheme.bodySmall?.color),
               textAlign: TextAlign.center,
             ),
