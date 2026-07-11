@@ -6,6 +6,7 @@ import '../../models/shopping_item_model.dart';
 import '../../providers/shopping_list_provider.dart';
 import 'edit_price_dialog.dart';
 import 'package:intl/intl.dart';
+import '../../../core/utils/context_extensions.dart';
 
 class ShoppingItemCard extends ConsumerWidget {
   final ShoppingItem item;
@@ -150,8 +151,8 @@ class ShoppingItemCard extends ConsumerWidget {
                         const SizedBox(height: 2),
                         Text(
                           isLinked
-                              ? 'مُتابع في التطبيق'
-                              : 'عنصر مُضاف يدوياً',
+                              ? context.loc.shoppingItemTrackedInApp
+                              : context.loc.shoppingItemManualEntry,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: cs.outline
                                 .withValues(alpha: isChecked ? 0.5 : 1.0),
