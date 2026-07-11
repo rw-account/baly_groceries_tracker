@@ -349,9 +349,14 @@
     }
   },
 
-  "checkedFormat": "   • Completed ✓",
-  "@checkedFormat": {
-    "description": "Checked status indicator in shared text, including leading space and brackets"
+  "completedFormat": "   • ✅ Completed",
+  "@completedFormat": {
+    "description": "Completed status indicator in shared text, including leading space and brackets"
+  },
+
+  "notCompletedFormat": "   • ❌ Not completed",
+  "@notCompletedFormat": {
+    "description": "Not completed status indicator in shared text, including leading space and brackets"
   },
 
   "failedToShareList": "Could not share the list: {error}",

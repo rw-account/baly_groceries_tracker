@@ -349,9 +349,14 @@
     }
   },
 
-  "checkedFormat": "   • مكتمل ✓",
-  "@checkedFormat": {
-    "description": "Checked status indicator in shared text, including leading space and brackets"
+  "completedFormat": "   • مكتمل ✅",
+  "@completedFormat": {
+    "description": "Completed status indicator in shared text, including leading space and brackets"
+  },
+
+  "notCompletedFormat": "   • غير مكتمل ❌",
+  "@notCompletedFormat": {
+    "description": "Not completed status indicator in shared text, including leading space and brackets"
   },
 
   "failedToShareList": "تعذر مشاركة القائمة: {error}",

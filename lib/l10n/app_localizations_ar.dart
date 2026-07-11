@@ -190,7 +190,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get includePurchaseStatus => 'تضمين حالة الشراء';
 
   @override
-  String get shareListHeader => '🛒 قائمة الشراء:';
+  String get shareListHeader => '🛒 قائمة الشراء';
 
   @override
   String priceFormat(String price) {
@@ -198,7 +198,10 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get checkedFormat => '   • مكتمل ✓';
+  String get completedFormat => '   • مكتمل ✅';
+
+  @override
+  String get notCompletedFormat => '   • غير مكتمل ❌';
 
   @override
   String failedToShareList(String error) {

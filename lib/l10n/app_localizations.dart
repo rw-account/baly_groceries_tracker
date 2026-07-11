@@ -413,7 +413,7 @@ abstract class AppLocalizations {
   /// Header for the shared shopping list text
   ///
   /// In ar, this message translates to:
-  /// **'🛒 قائمة الشراء:'**
+  /// **'🛒 قائمة الشراء'**
   String get shareListHeader;
 
   /// Format for item price in shared text, including leading space
@@ -422,11 +422,17 @@ abstract class AppLocalizations {
   /// **'   • السعر: {price}'**
   String priceFormat(String price);
 
-  /// Checked status indicator in shared text, including leading space and brackets
+  /// Completed status indicator in shared text, including leading space and brackets
   ///
   /// In ar, this message translates to:
-  /// **'   • مكتمل ✓'**
-  String get checkedFormat;
+  /// **'   • مكتمل ✅'**
+  String get completedFormat;
+
+  /// Not completed status indicator in shared text, including leading space and brackets
+  ///
+  /// In ar, this message translates to:
+  /// **'   • غير مكتمل ❌'**
+  String get notCompletedFormat;
 
   /// Error message when sharing the shopping list fails
   ///
