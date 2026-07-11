@@ -28,23 +28,6 @@ enum ExpiryBucket {
     return ExpiryBucket.moreThanMonth;
   }
 
-  String get label {
-    switch (this) {
-      case ExpiryBucket.expired:
-        return '❌ نفدت';
-      case ExpiryBucket.threeDays:
-        return 'ينتهي خلال 3 أيام';
-      case ExpiryBucket.week:
-        return 'ينتهي خلال أسبوع';
-      case ExpiryBucket.twoWeeks:
-        return 'ينتهي خلال أسبوعين';
-      case ExpiryBucket.month:
-        return 'ينتهي خلال شهر';
-      case ExpiryBucket.moreThanMonth:
-        return 'ينتهي بعد أكثر من شهر';
-    }
-  }
-
   IconData get icon {
     switch (this) {
       case ExpiryBucket.expired:
