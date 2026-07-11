@@ -10,7 +10,6 @@ import 'package:home_orders_tracker/l10n/app_localizations.dart';
 import 'core/theme/app_theme.dart'; 
 import 'router/app_router.dart';
 import 'package:home_orders_tracker/router/error_screen.dart';
-import 'core/utils/context_extensions.dart';
 
 Future<void> main() async {
   installGlobalErrorHandling(); 
@@ -40,7 +39,7 @@ class HomeOrdersTrackerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: context.loc.appTitle,
+      title: 'Home Orders Tracker',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.dark,
       darkTheme: AppTheme.dark,
