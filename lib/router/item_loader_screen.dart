@@ -48,7 +48,7 @@ class ItemLoaderScreen extends ConsumerWidget {
       return itemAsync.when(
         data: (item) {
           if (item == null) {
-            return ErrorScreen.itemNotFound();
+            return ErrorScreen.itemNotFound(context);
           }
           return AddEditItemScreen(item: item);
         },
