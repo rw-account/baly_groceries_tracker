@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../../models/item_model.dart';
+import '../../../core/utils/context_extensions.dart';
 
 class ShareOptionsDialog extends StatefulWidget {
   final List<ItemModel> items;
@@ -23,13 +24,13 @@ class _ShareOptionsDialogState extends State<ShareOptionsDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-      title: const Text('خيارات المشاركة'),
+      title: Text(context.loc.shareOptionsTitle),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('الحالات المضمنة:', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(context.loc.includedStatusesLabel, style: const TextStyle(fontWeight: FontWeight.bold)),
             
             RadioGroup<String>(
               groupValue: _statusFilter,
@@ -42,25 +43,25 @@ class _ShareOptionsDialogState extends State<ShareOptionsDialog> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   RadioListTile<String>(
-                    title: const Text('كل الحالات'),
+                    title: Text(context.loc.allStatusesOption),
                     value: 'all',
                     dense: true,
                     contentPadding: EdgeInsets.zero,
                   ),
                   RadioListTile<String>(
-                    title: const Text('حالات التنبيه والعاجلة فقط'),
+                    title: Text(context.loc.warningAndUrgentOption),
                     value: 'warning_urgent',
                     dense: true,
                     contentPadding: EdgeInsets.zero,
                   ),
                   RadioListTile<String>(
-                    title: const Text('حالة التنبيه فقط'),
+                    title: Text(context.loc.warningOnlyOption),
                     value: 'warning',
                     dense: true,
                     contentPadding: EdgeInsets.zero,
                   ),
                   RadioListTile<String>(
-                    title: const Text('الحالة العاجلة فقط'),
+                    title: Text(context.loc.urgentOnlyOption),
                     value: 'urgent',
                     dense: true,
                     contentPadding: EdgeInsets.zero,
@@ -70,16 +71,16 @@ class _ShareOptionsDialogState extends State<ShareOptionsDialog> {
             ),
             
             const Divider(),
-            const Text('خيارات إضافية:', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(context.loc.additionalOptionsLabel, style: const TextStyle(fontWeight: FontWeight.bold)),
             CheckboxListTile(
-              title: const Text('تضمين عدد الأيام المتبقية'),
+              title: Text(context.loc.includeRemainingDays),
               value: _includeDays,
               onChanged: (value) => setState(() => _includeDays = value!),
               dense: true,
               contentPadding: EdgeInsets.zero,
             ),
             CheckboxListTile(
-              title: const Text('تحديد تاريخ التجديد'),
+              title: Text(context.loc.includeRenewalDate),
               value: _includeRenewal,
               onChanged: (value) => setState(() => _includeRenewal = value!),
               dense: true,
@@ -91,11 +92,11 @@ class _ShareOptionsDialogState extends State<ShareOptionsDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('إلغاء'),
+          child: Text(context.loc.cancelLabel),
         ),
         FilledButton(
           onPressed: _generateAndShare,
-          child: const Text('مشاركة'),
+          child: Text(context.loc.shareLabel),
         ),
       ],
     );
@@ -104,8 +105,8 @@ class _ShareOptionsDialogState extends State<ShareOptionsDialog> {
   void _generateAndShare() {
     final buffer = StringBuffer();
     final today = DateFormat('yyyy/MM/dd').format(DateTime.now());
-    buffer.writeln('📅 تاريخ التقرير: $today');
-    buffer.writeln('📋 تفاصيل المواد:');
+    buffer.writeln(context.loc.reportDateFormat(today));
+    buffer.writeln(context.loc.itemDetailsHeader);
     buffer.writeln('-------------------');
 
     for (final item in widget.items) {
@@ -116,12 +117,12 @@ class _ShareOptionsDialogState extends State<ShareOptionsDialog> {
       String line = '• ${item.name}';
 
       if (_includeDays) {
-        line += ' (متبقي: ${item.remainingDays} يوم)';
+        line += context.loc.remainingDaysFormat(item.remainingDays.toString());
       }
 
       if (_includeRenewal) {
         final dateStr = DateFormat('yyyy/MM/dd').format(item.expectedExpiryDate);
-        line += ' [التجديد: $dateStr]';
+        line += context.loc.renewalDateFormat(dateStr);
       }
 
       buffer.writeln(line);
@@ -136,7 +137,7 @@ class _ShareOptionsDialogState extends State<ShareOptionsDialog> {
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('تعذر مشاركة التقرير: $e')),
+        SnackBar(content: Text(context.loc.shareReportError(e.toString()))),
       );
     }
   }
