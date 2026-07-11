@@ -38,13 +38,6 @@ class ErrorScreen extends StatelessWidget {
         icon: Icons.search_off_rounded,
       );
 
-  /// Global error handler factory
-  factory ErrorScreen.unexpectedError(BuildContext context) => ErrorScreen(
-        title: context.loc.errorUnexpectedTitle,
-        message: context.loc.errorUnexpectedMessage,
-        icon: Icons.bug_report_outlined,
-      );
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
