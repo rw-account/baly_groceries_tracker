@@ -1,9 +1,10 @@
-// lib/widgets/item_card.dart
+// lib/core/widgets/item_card.dart
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../models/item_model.dart';
 import '../utils/relative_date_utils.dart';
+import '../../../core/utils/context_extensions.dart';
 
 class ItemCard extends StatelessWidget {
   final ItemModel item;
@@ -32,12 +33,16 @@ class ItemCard extends StatelessWidget {
     };
 
     final statusLabel = switch (status) {
-      ItemStatus.safe => 'آمن',
-      ItemStatus.warning => 'انتبه',
-      ItemStatus.urgent => 'عاجل',
+      ItemStatus.safe => context.loc.statusSafe,
+      ItemStatus.warning => context.loc.statusWarning,
+      ItemStatus.urgent => context.loc.statusUrgent,
     };
 
-    final remainingText = item.remainingDaysText;
+    final remainingText = item.remainingDays > 0
+        ? context.loc.itemRemainingDaysPositiveFormat(item.remainingDays.toString())
+        : item.remainingDays == 0
+            ? context.loc.itemRemainingDaysZero
+            : context.loc.itemRemainingDaysNegativeFormat((-item.remainingDays).toString());
     final expiryText = DateFormat('yyyy-MM-dd').format(item.expectedExpiryDate);
 
     final dateToShow = item.lastRefreshedAt ?? item.createdAt;
@@ -85,7 +90,7 @@ class ItemCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          'تم التجديد $relativeText',
+                          context.loc.itemCardRefreshedText(relativeText),
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: cs.outline,
                             fontWeight: FontWeight.w500,
@@ -137,7 +142,7 @@ class ItemCard extends StatelessWidget {
                   Icon(Icons.schedule_outlined, size: 16, color: statusColor),
                   const SizedBox(width: 6),
                   Text(
-                    'النفاد المتوقع',
+                    context.loc.expectedExpiryLabel,
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: cs.outline,
                       fontWeight: FontWeight.w500,
@@ -156,12 +161,12 @@ class ItemCard extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               // ── Bottom row: thresholds + notifications ────────────────────────
-              Row(
-                children: [
-                  const Spacer(),
-                  _buildAlertText(item, theme),
-                ],
-              ),
+Row(
+                  children: [
+                    const Spacer(),
+                    _buildAlertText(context, item, theme),
+                  ],
+                ),
             ],
           ),
         ),
@@ -170,11 +175,10 @@ class ItemCard extends StatelessWidget {
   }
 }
 
-Widget _buildAlertText(ItemModel item, ThemeData theme) {
+Widget _buildAlertText(BuildContext context, ItemModel item, ThemeData theme) {
   final cs = theme.colorScheme;
 
   if (!item.notificationsEnabled) {
-    // الإشعارات متوقفة
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
@@ -189,7 +193,7 @@ Widget _buildAlertText(ItemModel item, ThemeData theme) {
           Icon(Icons.notifications_off_outlined, size: 12, color: cs.error),
           const SizedBox(width: 4),
           Text(
-            'الإشعارات متوقفة',
+            context.loc.notificationsStopped,
             style: TextStyle(fontSize: 11, color: cs.error),
           ),
         ],
@@ -216,7 +220,7 @@ Widget _buildAlertText(ItemModel item, ThemeData theme) {
           Icon(Icons.notifications_active_outlined, size: 12, color: Colors.green),
           const SizedBox(width: 4),
           Text(
-            'سيبدأ التنبيه بعد $daysUntilWarning يوم',
+            context.loc.notificationStartsInFormat(daysUntilWarning.toString()),
             style: const TextStyle(fontSize: 11, color: Colors.green),
           ),
         ],
@@ -245,7 +249,7 @@ Widget _buildAlertText(ItemModel item, ThemeData theme) {
           ),
           const SizedBox(width: 4),
           Text(
-            'التنبيه نشط الآن',
+            context.loc.notificationActiveNow,
             style: TextStyle(
               fontSize: 11,
               color: alertColor,
