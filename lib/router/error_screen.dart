@@ -38,6 +38,20 @@ class ErrorScreen extends StatelessWidget {
         icon: Icons.search_off_rounded,
       );
 
+  /// حالة جاهزة: فشل جلب العنصر من المصدر (شبكة/قاعدة بيانات).
+  factory ErrorScreen.itemLoadFailed(BuildContext context) => ErrorScreen(
+        title: context.loc.errorItemLoadFailedTitle,
+        message: context.loc.errorItemLoadFailedMessage,
+        icon: Icons.cloud_off_rounded,
+      );
+
+  /// حالة جاهزة: خطأ غير متوقع أثناء بناء شاشة تحميل العنصر.
+  factory ErrorScreen.itemLoadUnexpectedError(BuildContext context) => ErrorScreen(
+        title: context.loc.errorItemLoadUnexpectedTitle,
+        message: context.loc.errorItemLoadUnexpectedMessage,
+        icon: Icons.error_outline_rounded,
+      );
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
