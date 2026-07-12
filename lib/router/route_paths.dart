@@ -9,6 +9,7 @@ abstract class RoutePaths {
   static const String home = '/home';
   static const String expiry = '/expiry';
   static const String shoppingList = '/shopping-list';
+  static const String settings = '/settings';
 
   // المسارات الفرعية (نسبية إلى الفرع الأب)
   static const String addItem = 'add-item';
