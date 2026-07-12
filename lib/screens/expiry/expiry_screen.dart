@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import 'utils/item_list_extensions.dart';
 import '../../models/expiry_bucket.dart';
@@ -14,6 +15,7 @@ import 'widgets/expiry_bucket_section.dart';
 import 'widgets/expiry_empty_state.dart';
 import 'widgets/expiry_notice_card.dart';
 import '../../core/utils/context_extensions.dart';
+import '../../router/route_paths.dart';
 
 /// Displays inventory items that are about to run out (warning/urgent
 /// status only), grouped into static remaining-days buckets.
@@ -76,7 +78,7 @@ appBar: AppBar(
     );
   }
 
-  Widget _buildAppBarAction(AsyncValue<List<ItemModel>> itemsAsync) {
+Widget _buildAppBarAction(AsyncValue<List<ItemModel>> itemsAsync) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -95,18 +97,34 @@ appBar: AppBar(
       icon: const Icon(Icons.more_vert),
       position: PopupMenuPosition.under,
       onSelected: (value) {
-        if (value != 'add_all') return;
-        final items = itemsAsync.value ?? const <ItemModel>[];
-        _addAllToShoppingList(items.needingAttention);
+        switch (value) {
+          case 'add_all':
+            final items = itemsAsync.value ?? const <ItemModel>[];
+            _addAllToShoppingList(items.needingAttention);
+            break;
+          case 'settings':
+            context.push(RoutePaths.settings);
+            break;
+        }
       },
       itemBuilder: (context) => [
-PopupMenuItem(
+        PopupMenuItem(
           value: 'add_all',
           child: Row(
             children: [
               Icon(Icons.add_shopping_cart, size: 20, color: Theme.of(context).colorScheme.primary),
               const SizedBox(width: 8),
               Text(context.loc.addAllToShoppingListMenu),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: 'settings',
+          child: Row(
+            children: [
+              Icon(Icons.settings_outlined, size: 20, color: Theme.of(context).colorScheme.primary),
+              const SizedBox(width: 8),
+              Text(context.loc.settings),
             ],
           ),
         ),
