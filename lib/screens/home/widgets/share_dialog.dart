@@ -107,25 +107,27 @@ class _ShareOptionsDialogState extends State<ShareOptionsDialog> {
     final today = DateFormat('yyyy/MM/dd').format(DateTime.now());
     buffer.writeln(context.loc.reportDateFormat(today));
     buffer.writeln(context.loc.itemDetailsHeader);
-    buffer.writeln('-------------------');
+    buffer.writeln('\n━━━━━━━━━━━━━━━━━━━━\n');
 
     for (final item in widget.items) {
       if (_statusFilter == 'warning' && item.status != ItemStatus.warning) continue;
       if (_statusFilter == 'urgent' && item.status != ItemStatus.urgent) continue;
       if (_statusFilter == 'warning_urgent' && item.status != ItemStatus.warning && item.status != ItemStatus.urgent) continue;
 
-      String line = '• ${item.name}';
+      buffer.writeln('• ${item.name}');
 
       if (_includeDays) {
-        line += context.loc.remainingDaysFormat(item.remainingDays.toString());
+          buffer.writeln(
+            context.loc.remainingDaysFormat(item.remainingDays.toString()),
+          );
       }
 
       if (_includeRenewal) {
         final dateStr = DateFormat('yyyy/MM/dd').format(item.expectedExpiryDate);
-        line += context.loc.renewalDateFormat(dateStr);
+        buffer.writeln(context.loc.renewalDateFormat(dateStr));
       }
 
-      buffer.writeln(line);
+      buffer.writeln();
     }
 
     Navigator.pop(context);
