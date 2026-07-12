@@ -7,6 +7,7 @@ import '../screens/expiry/expiry_screen.dart';
 import '../screens/shopping_list/shopping_list_screen/shopping_list_screen.dart';
 import '../screens/add_edit_item/add_edit_item_screen.dart';
 import '../screens/shopping_list/add_shopping_item_screen/add_shopping_item_screen.dart';
+import '../screens/settings/settings_screen.dart';
 import '../models/item_model.dart';
 
 import 'route_paths.dart';
@@ -124,6 +125,15 @@ final GoRouter appRouter = GoRouter(
           ],
         ),
       ],
+    ),
+    // ── مسار الإعدادات ────────────────────────────────────────────────
+    GoRoute(
+      path: RoutePaths.settings,
+      pageBuilder: (context, state) => buildSlideFadeTransitionPage(
+        context: context,
+        state: state,
+        child: const SettingsScreen(),
+      ),
     ),
   ],
 );
