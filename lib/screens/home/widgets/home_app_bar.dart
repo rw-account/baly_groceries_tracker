@@ -1,6 +1,8 @@
 // lib/screens/home/widgets/home_app_bar.dart
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/utils/context_extensions.dart';
+import '../../../router/route_paths.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   final int urgentCount;
@@ -24,8 +26,13 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
           icon: const Icon(Icons.more_vert),
           position: PopupMenuPosition.under,
           onSelected: (value) {
-            if (value == 'share') {
-              onSharePressed();
+            switch (value) {
+              case 'share':
+                onSharePressed();
+                break;
+              case 'settings':
+                context.push(RoutePaths.settings);
+                break;
             }
           },
           itemBuilder: (context) => [
@@ -36,6 +43,16 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                   Icon(Icons.share_outlined, size: 20, color: Theme.of(context).colorScheme.primary),
                   const SizedBox(width: 8),
                   Text(context.loc.shareItemDetails),
+                ],
+              ),
+            ),
+            PopupMenuItem(
+              value: 'settings',
+              child: Row(
+                children: [
+                  Icon(Icons.settings_outlined, size: 20, color: Theme.of(context).colorScheme.primary),
+                  const SizedBox(width: 8),
+                  Text(context.loc.settings),
                 ],
               ),
             ),
