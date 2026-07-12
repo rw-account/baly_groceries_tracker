@@ -4,3 +4,8 @@ output-localization-file: app_localizations.dart
 
 # Allows accessing localized strings directly without using the exclamation mark (!) for null-safety checks.
 nullable-getter: false
+
+# Supported locales
+supported-locales:
+  - ar
+  - en
