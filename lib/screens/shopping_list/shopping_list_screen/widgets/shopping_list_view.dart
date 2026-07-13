@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../models/shopping_item_model.dart';
 import '../../../../core/widgets/shopping_item_card.dart';
+import '../../../../core/widgets/delete_background.dart';
 import 'shopping_list_total_bar.dart';
 
 /// Renders the list of shopping items plus the running total bar.
@@ -60,29 +61,33 @@ class ShoppingListView extends StatelessWidget {
               final bool shouldPeek =
                   showPeekAnimation && index == 0 && !isInSelectionMode;
 
-              final card = Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: ShoppingItemCard(
-                  key: ValueKey('shopping_card_${item.id ?? item.title}'),
-                  item: item,
-                  onDelete: (deletedItem) {
-                    // Mark the hint as seen the first time any item is swiped.
-                    onSwipeCompleted?.call();
-                    onDelete(deletedItem);
-                  },
-                  isInSelectionMode: isInSelectionMode,
-                  isSelected: id != null && selectedIds.contains(id),
-                  onLongPress:
-                      id != null ? () => onItemLongPress(id) : null,
-                  onSelectionTap:
-                      id != null ? () => onItemTap(id) : null,
-                ),
+              final itemContent = ShoppingItemCard(
+                key: ValueKey('shopping_card_${item.id ?? item.title}'),
+                item: item,
+                onDelete: (deletedItem) {
+                  // Mark the hint as seen the first time any item is swiped.
+                  onSwipeCompleted?.call();
+                  onDelete(deletedItem);
+                },
+                isInSelectionMode: isInSelectionMode,
+                isSelected: id != null && selectedIds.contains(id),
+                onLongPress:
+                    id != null ? () => onItemLongPress(id) : null,
+                onSelectionTap:
+                    id != null ? () => onItemTap(id) : null,
               );
 
-              if (shouldPeek) {
-                return _PeekAnimatedItem(key: const ValueKey('peek_item'), child: card);
-              }
-              return card;
+              final wrapped = shouldPeek
+                  ? _PeekAnimatedItem(
+                      key: const ValueKey('peek_item'),
+                      child: itemContent,
+                    )
+                  : itemContent;
+
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: wrapped,
+              );
             },
           ),
         ),
@@ -109,9 +114,6 @@ class _PeekAnimatedItemState extends State<_PeekAnimatedItem>
   late final AnimationController _controller;
 
   static const double _peekFraction = 0.12;
-
-  // This margin MUST match the vertical margin used by ShoppingItemCard
-  static const _cardMargin = EdgeInsets.symmetric(vertical: 4);
 
   @override
   void initState() {
@@ -143,42 +145,28 @@ class _PeekAnimatedItemState extends State<_PeekAnimatedItem>
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.sizeOf(context).width;
     final peekOffset = screenWidth * _peekFraction;
-    final cs = Theme.of(context).colorScheme;
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
 
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        // الخلفية الحمراء تظهر فقط أثناء الحركة (قيمة > 0)
-        AnimatedBuilder(
-          animation: _controller,
-          builder: (context, child) {
-            final showBackground = _controller.value > 0.0;
-            return Opacity(
-              opacity: showBackground ? 1.0 : 0.0,
-              child: Padding(
-                padding: _cardMargin,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: cs.errorContainer,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                  child: Icon(
-                    Icons.delete_outline,
-                    color: cs.onErrorContainer,
-                    size: 28,
-                  ),
-                ),
-              ),
-            );
-          },
+        Positioned.fill(
+          child: AnimatedBuilder(
+            animation: _controller,
+            builder: (context, child) {
+              final showBackground = _controller.value > 0.0;
+              return Opacity(
+                opacity: showBackground ? 1.0 : 0.0,
+                child: DeleteBackground(alignment: AlignmentDirectional.centerStart),
+              );
+            },
+          ),
         ),
         AnimatedBuilder(
           animation: _controller,
           builder: (context, child) {
             return Transform.translate(
-              offset: Offset(_controller.value * peekOffset, 0),
+              offset: Offset(isRtl ? -_controller.value * peekOffset : _controller.value * peekOffset, 0),
               child: child,
             );
           },

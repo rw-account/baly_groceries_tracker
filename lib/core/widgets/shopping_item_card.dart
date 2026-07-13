@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/shopping_item_model.dart';
 import '../../providers/shopping_list_provider.dart';
 import 'edit_price_dialog.dart';
+import 'delete_background.dart';
 import 'package:intl/intl.dart';
 import '../../../core/utils/context_extensions.dart';
 
@@ -202,32 +203,8 @@ class ShoppingItemCard extends ConsumerWidget {
       key: ValueKey(item.id ?? item.title),
       direction: DismissDirection.horizontal,
       onDismissed: (_) => onDelete(item),
-      background: Container(
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        decoration: BoxDecoration(
-          color: cs.errorContainer,
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: Icon(
-          Icons.delete_outline,
-          color: cs.onErrorContainer,
-          size: 28,
-        ),
-      ),
-      secondaryBackground: Container(
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        decoration: BoxDecoration(
-          color: cs.errorContainer,
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: Icon(
-          Icons.delete_outline,
-          color: cs.onErrorContainer,
-          size: 28,
-        ),
-      ),
+      background: DeleteBackground(alignment: AlignmentDirectional.centerStart),
+      secondaryBackground: DeleteBackground(alignment: AlignmentDirectional.centerEnd),
       child: cardBody,
     );
   }
