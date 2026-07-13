@@ -178,6 +178,7 @@ Row(
 
 Widget _buildAlertText(BuildContext context, ItemModel item, ThemeData theme) {
   final cs = theme.colorScheme;
+  final Color safeColor = theme.extension<CustomColors>()?.safe ?? const Color(0xFF00A884);
 
   if (!item.notificationsEnabled) {
     return Container(
@@ -206,23 +207,22 @@ Widget _buildAlertText(BuildContext context, ItemModel item, ThemeData theme) {
   final daysUntilWarning = item.remainingDays - item.warningThresholdDays;
 
   if (item.status == ItemStatus.safe && daysUntilWarning > 0) {
-    // المادة آمنة وسيبدأ التنبيه بعد X أيام
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: Colors.green.withValues(alpha: 0.1),
+        color: safeColor.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: Colors.green.withValues(alpha: 0.2)),
+        border: Border.all(color: safeColor.withValues(alpha: 0.2)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(Icons.notifications_active_outlined, size: 12, color: Colors.green),
+          Icon(Icons.notifications_active_outlined, size: 12, color: safeColor),
           const SizedBox(width: 4),
           Text(
             context.loc.notificationStartsInFormat(daysUntilWarning.toString()),
-            style: const TextStyle(fontSize: 11, color: Colors.green),
+            style: TextStyle(fontSize: 11, color: safeColor),
           ),
         ],
       ),
@@ -230,7 +230,7 @@ Widget _buildAlertText(BuildContext context, ItemModel item, ThemeData theme) {
   } else {
     // المادة في حالة انتباه أو عاجل – التنبيه نشط
     final bool isUrgent = item.status == ItemStatus.urgent;
-    final Color alertColor = isUrgent ? cs.error : Colors.orange;
+    final Color alertColor = isUrgent ? cs.error : cs.tertiary;
     
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
