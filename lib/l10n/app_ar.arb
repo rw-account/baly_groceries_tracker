@@ -1151,6 +1151,11 @@
     "description": "Error snackbar when battery settings can't be opened"
   },
 
+  "batterySnackBarRetry": "إعادة المحاولة",
+  "@batterySnackBarRetry": {
+    "description": "Retry button in battery error snackbar to try opening settings again"
+  },
+
   "notificationChannelName": "الملخص اليومي",
   "@notificationChannelName": {
     "description": "Notification channel name"
