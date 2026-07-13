@@ -46,7 +46,7 @@ class ItemCard extends StatelessWidget {
     final expiryText = DateFormat('yyyy-MM-dd').format(item.expectedExpiryDate);
 
     final dateToShow = item.lastRefreshedAt ?? item.createdAt;
-    final relativeText = formatRelativeDate(dateToShow, locale: 'ar');
+    final relativeText = formatRelativeDate(dateToShow);
 
     // ─── Build ──────────────────────────────────────────────────────────────────
 
