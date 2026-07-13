@@ -8,7 +8,7 @@ class AppTheme {
   static const surface = Color(0xFF151E2B);
   static const card = Color(0xFF22394F);
   static const textPrimary = Color(0xFFC7D5E0);
-  static const textSecondary = Color(0xFF8B9BB4);
+  static const textSecondary = Color(0xFF94A3B8);
 
   static const _error = Color(0xFFFF6B6B);
   static const _warning = Color(0xFFFFB74D);
