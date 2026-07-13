@@ -10,13 +10,19 @@ class AppTheme {
   static const textPrimary = Color(0xFFC7D5E0);
   static const textSecondary = Color(0xFF8B9BB4);
 
-  static const _error = Color(0xFFE74C3C);
-  static const _warning = Color(0xFFE5A952);
+  static const _error = Color(0xFFFF6B6B);
+  static const _warning = Color(0xFFFFB74D);
+  static const _safe = Color(0xFF00A884);
 
   static final dark = ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
     scaffoldBackgroundColor: bg,
+
+    extensions: const <ThemeExtension<dynamic>>[
+      CustomColors(safe: _safe),
+    ],
+
     colorScheme: const ColorScheme.dark(
       primary: primaryBlue,
       onPrimary: Colors.black,
@@ -109,5 +115,22 @@ class AppTheme {
         systemNavigationBarIconBrightness: Brightness.light,
       ),
     );
+  }
+}
+
+class CustomColors extends ThemeExtension<CustomColors> {
+  final Color? safe;
+
+  const CustomColors({required this.safe});
+
+  @override
+  CustomColors copyWith({Color? safe}) {
+    return CustomColors(safe: safe ?? this.safe);
+  }
+
+  @override
+  CustomColors lerp(ThemeExtension<CustomColors>? other, double t) {
+    if (other is! CustomColors) return this;
+    return CustomColors(safe: Color.lerp(safe, other.safe, t));
   }
 }

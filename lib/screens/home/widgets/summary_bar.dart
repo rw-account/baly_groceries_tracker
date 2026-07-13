@@ -1,5 +1,6 @@
 // lib/screens/home/widgets/summary_bar.dart
 import 'package:flutter/material.dart';
+import 'package:home_orders_tracker/core/theme/app_theme.dart';
 import '../../../core/utils/context_extensions.dart';
 
 class SummaryBar extends StatelessWidget {
@@ -17,9 +18,10 @@ class SummaryBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final safeColor = Color(0xFF00A884);
-    final warningColor = Color(0xFFF57F17);
-    final urgentColor = Color(0xFFC62828);
+    final cs = theme.colorScheme;
+    final safeColor = theme.extension<CustomColors>()?.safe ?? const Color(0xFF00A884);
+    final warningColor = cs.tertiary;
+    final urgentColor = cs.error;
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

@@ -1,6 +1,7 @@
 // lib/core/widgets/item_card.dart
 
 import 'package:flutter/material.dart';
+import 'package:home_orders_tracker/core/theme/app_theme.dart';
 import 'package:intl/intl.dart';
 import '../../models/item_model.dart';
 import '../utils/relative_date_utils.dart';
@@ -19,9 +20,9 @@ class ItemCard extends StatelessWidget {
     final status = item.status;
 
     final statusColor = switch (status) {
-      ItemStatus.safe => const Color(0xFF00A884),
-      ItemStatus.warning => const Color(0xFFF57F17),
-      ItemStatus.urgent => const Color(0xFFC62828),
+      ItemStatus.safe => theme.extension<CustomColors>()?.safe ?? const Color(0xFF00A884),
+      ItemStatus.warning => cs.tertiary,
+      ItemStatus.urgent => cs.error,
     };
 
     final statusBgColor = statusColor.withValues(alpha: 0.12);

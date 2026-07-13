@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:home_orders_tracker/core/theme/app_theme.dart';
 import '../../models/item_model.dart';
 import 'add_edit_item_state.dart';
 import 'mixins/save_mixin.dart';
@@ -164,6 +165,7 @@ AppBar _buildAppBar(ThemeData theme) {
   }
 
   List<Widget> _buildThresholdsSection(ThemeData theme) {
+    final cs = theme.colorScheme;
     return [
       SectionTitle(
         title: context.loc.thresholdsSectionTitle,
@@ -181,7 +183,7 @@ AppBar _buildAppBar(ThemeData theme) {
             child: ThresholdField(
               controller: safeCtrl,
               label: context.loc.safeThresholdLabel,
-              color: const Color(0xFF00A884),
+              color: theme.extension<CustomColors>()?.safe ?? const Color(0xFF00A884),
             ),
           ),
           const SizedBox(width: 8),
@@ -189,7 +191,7 @@ AppBar _buildAppBar(ThemeData theme) {
             child: ThresholdField(
               controller: warningCtrl,
               label: context.loc.warningThresholdLabel,
-              color: const Color(0xFFF57F17),
+              color: cs.tertiary,
             ),
           ),
           const SizedBox(width: 8),
@@ -197,7 +199,7 @@ AppBar _buildAppBar(ThemeData theme) {
             child: ThresholdField(
               controller: urgentCtrl,
               label: context.loc.urgentThresholdLabel,
-              color: const Color(0xFFC62828),
+              color: cs.error,
             ),
           ),
         ],

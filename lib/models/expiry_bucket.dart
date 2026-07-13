@@ -48,17 +48,17 @@ enum ExpiryBucket {
   Color get color {
     switch (this) {
       case ExpiryBucket.expired:
-        return const Color(0xFFE53935); // أحمر
+        return const Color(0xFFFF6B6B); 
       case ExpiryBucket.threeDays:
-        return const Color(0xFFFB8C00); // برتقالي
+        return const Color(0xFFFFB74D); 
       case ExpiryBucket.week:
-        return const Color(0xFFF9A825); // أصفر
+        return const Color(0xFFFFE082); 
       case ExpiryBucket.twoWeeks:
-        return const Color(0xFF7CB342); // أخضر فاتح
+        return const Color(0xFF81C784); 
       case ExpiryBucket.month:
-        return const Color(0xFF42A5F5); // أزرق فاتح
+        return const Color(0xFF90CAF9); 
       case ExpiryBucket.moreThanMonth:
-        return const Color(0xFF78909C); // رمادي مزرق
+        return const Color(0xFFB0BEC5);
     }
   }
 }
