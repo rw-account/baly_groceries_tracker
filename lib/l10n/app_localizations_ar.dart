@@ -353,9 +353,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notesLabel => 'ملاحظات (اختياري)';
 
   @override
-  String get notesHint => 'اكتب أي ملاحظة إضافية';
-
-  @override
   String get saveChangesButton => 'حفظ التعديلات';
 
   @override

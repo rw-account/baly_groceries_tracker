@@ -117,9 +117,9 @@ AppBar _buildAppBar(ThemeData theme) {
             padding: const EdgeInsets.all(16),
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             children: [
-              ..._buildNotificationsSection(theme),
-              ..._buildThresholdsSection(theme),
               ..._buildItemInfoSection(),
+              ..._buildThresholdsSection(theme),
+              ..._buildNotificationsSection(theme),
               ..._buildSaveSection(),
             ],
           ),
@@ -275,13 +275,13 @@ AppBar _buildAppBar(ThemeData theme) {
       AppTextField(
         controller: notesCtrl,
         label: context.loc.notesLabel,
-        hint: context.loc.notesHint,
         icon: Icon(Icons.edit_note_outlined, color: Theme.of(context).colorScheme.primary),
         keyboardType: TextInputType.multiline,
         textInputAction: TextInputAction.newline,
         minLines: 3,
         maxLines: null,
       ),
+      const SizedBox(height: 24),
     ];
   }
 

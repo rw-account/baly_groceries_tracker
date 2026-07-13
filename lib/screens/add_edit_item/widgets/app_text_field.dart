@@ -10,8 +10,8 @@ class AppTextField extends StatefulWidget {
     super.key,
     required this.controller,
     required this.label,
-    required this.hint,
     required this.icon,
+    this.hint,
     this.keyboardType = TextInputType.text,
     this.suffix,
     this.suffixStyle,
@@ -32,7 +32,7 @@ class AppTextField extends StatefulWidget {
   final TextEditingController controller;
   final String label;
   final TextStyle? labelStyle;
-  final String hint;
+  final String? hint;
   final Icon icon;
   final TextInputType keyboardType;
   final String? suffix;

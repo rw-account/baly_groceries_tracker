@@ -606,11 +606,6 @@
     "description": "Label for the notes field"
   },
 
-  "notesHint": "اكتب أي ملاحظة إضافية",
-  "@notesHint": {
-    "description": "Hint text for the notes field"
-  },
-
   "saveChangesButton": "حفظ التعديلات",
   "@saveChangesButton": {
     "description": "Button label when saving changes in edit mode"

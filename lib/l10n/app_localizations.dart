@@ -716,12 +716,6 @@ abstract class AppLocalizations {
   /// **'ملاحظات (اختياري)'**
   String get notesLabel;
 
-  /// Hint text for the notes field
-  ///
-  /// In ar, this message translates to:
-  /// **'اكتب أي ملاحظة إضافية'**
-  String get notesHint;
-
   /// Button label when saving changes in edit mode
   ///
   /// In ar, this message translates to:

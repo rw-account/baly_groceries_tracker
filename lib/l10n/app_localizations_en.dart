@@ -357,9 +357,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notesLabel => 'Notes (optional)';
 
   @override
-  String get notesHint => 'Write any additional note';
-
-  @override
   String get saveChangesButton => 'Save Changes';
 
   @override
