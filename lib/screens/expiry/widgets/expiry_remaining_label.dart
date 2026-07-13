@@ -40,7 +40,7 @@ class ExpiryRemainingLabel extends StatelessWidget {
       );
     }
 
-    final relative = formatRelativeDate(item.expectedExpiryDate, locale: 'ar');
+    final relative = formatRelativeDate(item.expectedExpiryDate);
     return Text(
       context.loc.expiresInFormat(relative),
       style: theme.textTheme.bodyMedium,
