@@ -1,6 +1,7 @@
 // lib/main.dart
 
 import 'package:home_orders_tracker/providers/locale_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'providers/items_provider.dart';
 import 'services/storage_service.dart';
 import 'services/notification_service.dart';
@@ -13,6 +14,8 @@ import 'router/app_router.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
+  LocaleNotifier.currentLanguage = prefs.getString('language_code') ?? 'ar';
 
   final storage = StorageService();
   await storage.init();
