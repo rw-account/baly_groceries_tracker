@@ -32,6 +32,7 @@ dependencies:
   flutter_bloc: ^9.1.1
   share_plus: ^13.2.0
   flutter_timezone: ^5.1.0
+  cupertino_icons: ^1.0.9
 
 dev_dependencies:
   flutter_test:
