@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:android_intent_plus/android_intent.dart';
+import 'package:app_settings/app_settings.dart';
 import '../../../core/utils/context_extensions.dart';
 
 class BatteryService {
@@ -114,10 +114,7 @@ class BatteryService {
       if (!context.mounted) return;
 
       try {
-        const intent = AndroidIntent(
-          action: 'android.settings.IGNORE_BATTERY_OPTIMIZATION_SETTINGS',
-        );
-        await intent.launch();
+        await AppSettings.openAppSettings(type: AppSettingsType.batteryOptimization);
       } catch (_) {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
