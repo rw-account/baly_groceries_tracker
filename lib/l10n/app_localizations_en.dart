@@ -667,7 +667,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get batteryDialogContent =>
-      'We want your alerts to arrive at the right time, even when the app is closed.\n\nSome devices may restrict apps to save battery, which can affect notification delivery.\n\nYou can allow the app to run freely from your device settings.';
+      'Battery optimization settings may delay notifications.\n\nTo receive them on time, please exclude the app from battery restrictions.';
 
   @override
   String get batteryDialogNotNow => 'Not now';

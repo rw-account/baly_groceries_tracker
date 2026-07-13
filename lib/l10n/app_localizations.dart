@@ -1259,7 +1259,7 @@ abstract class AppLocalizations {
   /// Content for battery optimization dialog
   ///
   /// In ar, this message translates to:
-  /// **'نريد أن تصلك التنبيهات في الوقت الصحيح دائمًا، حتى لو كان التطبيق مغلقًا.\n\nبعض الأجهزة قد تقوم بتقييد التطبيقات لتوفير البطارية، وهذا قد يؤثر على ظهور الإشعارات.\n\nيمكنك السماح للتطبيق بالعمل بحرية من إعدادات الجهاز.'**
+  /// **'قد تؤخر إعدادات توفير البطارية التنبيهات.\n\nلضمان وصولها في الوقت المناسب، يُفضل استثناء التطبيق من قيود البطارية.'**
   String get batteryDialogContent;
 
   /// Not now button in battery dialog
