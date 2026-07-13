@@ -1,6 +1,7 @@
 // lib/main.dart
 
 import 'package:home_orders_tracker/providers/locale_provider.dart';
+import 'package:home_orders_tracker/services/battery_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'providers/items_provider.dart';
 import 'services/storage_service.dart';
@@ -16,6 +17,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
   LocaleNotifier.currentLanguage = prefs.getString('language_code') ?? 'ar';
+  await  BatteryService.initFirstLaunchDate();
 
   final storage = StorageService();
   await storage.init();

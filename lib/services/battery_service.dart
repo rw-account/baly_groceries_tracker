@@ -7,130 +7,152 @@ import 'package:app_settings/app_settings.dart';
 import '../../../core/utils/context_extensions.dart';
 
 class BatteryService {
-  BatteryService._(); // Prevents instantiation of this class.
+  BatteryService._();
 
   static const _batteryChannel =
       MethodChannel('com.home_orders_tracker.app/battery_optimization');
-      
-  // مفاتيح التخزين
+
   static const _lastPromptKey = 'battery_prompt_last_shown';
   static const _firstLaunchKey = 'app_first_launch_date';
-  
-  // فترات الانتظار بالأيام
-  static const _initialDelayDays = 3; // ننتظر 3 أيام قبل أول ظهور للحوار
-  static const _reminderDays = 7; // نذكره كل 7 أيام إذا رفض
 
-  static Future<bool> isIgnoringBatteryOptimizations() async {
-    try {
-      final bool? result =
-          await _batteryChannel.invokeMethod<bool>('isIgnoringBatteryOptimizations');
-      return result ?? false;
-    } catch (_) {
-      // On iOS or if the channel is unavailable, assume unrestricted.
-      return true;
+  static const _initialDelayDays = 3;
+  static const _reminderDays = 7;
+
+  /// يسجل تاريخ أول إطلاق للتطبيق (يجب استدعاؤها في main.dart)
+  static Future<void> initFirstLaunchDate() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.getInt(_firstLaunchKey) == null) {
+      await prefs.setInt(_firstLaunchKey, DateTime.now().millisecondsSinceEpoch);
     }
   }
 
-  static Future<void> requestBatteryOptimizationExemption(BuildContext context) async {
-    if (!context.mounted) return;
+  static Future<bool> isIgnoringBatteryOptimizations() async {
+    try {
+      final bool? result = await _batteryChannel
+          .invokeMethod<bool>('isIgnoringBatteryOptimizations');
+      return result ?? false;
+    } catch (_) {
+      return true; // iOS or unavailable
+    }
+  }
 
-    // 1. التحقق من الحالة الحقيقية للجهاز
-    if (await isIgnoringBatteryOptimizations()) return;
+  /// يقرر ما إذا كان يجب عرض الحوار أم لا
+  static Future<bool> shouldShowBatteryPrompt() async {
+    if (await isIgnoringBatteryOptimizations()) return false;
 
     final prefs = await SharedPreferences.getInstance();
+    final int? firstLaunchMillis = prefs.getInt(_firstLaunchKey);
+    if (firstLaunchMillis == null) return false; // لم يتم التهيئة بعد
 
-    // 2. تسجيل تاريخ أول إطلاق للتطبيق (إذا لم يكن مسجلاً)
-    int? firstLaunchMillis = prefs.getInt(_firstLaunchKey);
-    if (firstLaunchMillis == null) {
-      firstLaunchMillis = DateTime.now().millisecondsSinceEpoch;
-      await prefs.setInt(_firstLaunchKey, firstLaunchMillis);
-    }
+    final int daysSinceFirstLaunch = DateTime.now()
+        .difference(DateTime.fromMillisecondsSinceEpoch(firstLaunchMillis))
+        .inDays;
 
-    final DateTime firstLaunchDate = 
-        DateTime.fromMillisecondsSinceEpoch(firstLaunchMillis);
-    final int daysSinceFirstLaunch = DateTime.now().difference(firstLaunchDate).inDays;
+    if (daysSinceFirstLaunch < _initialDelayDays) return false;
 
-    // 3. إذا لم تمر 3 أيام على تثبيت التطبيق، لا تعرض الحوار إطلاقاً
-    if (daysSinceFirstLaunch < _initialDelayDays) {
-      return; 
-    }
-
-    // 4. التحقق من تاريخ آخر ظهور للحوار (نظام التذكير كل 7 أيام)
     final int? lastPromptMillis = prefs.getInt(_lastPromptKey);
-    
     if (lastPromptMillis != null) {
-      final DateTime lastPromptDate = 
-          DateTime.fromMillisecondsSinceEpoch(lastPromptMillis);
-      final int daysPassed = DateTime.now().difference(lastPromptDate).inDays;
-      
-      // إذا لم تمر 7 أيام منذ آخر تذكير، لا نعرض الحوار
-      if (daysPassed < _reminderDays) {
-        return; 
-      }
+      final int daysPassed = DateTime.now()
+          .difference(DateTime.fromMillisecondsSinceEpoch(lastPromptMillis))
+          .inDays;
+      if (daysPassed < _reminderDays) return false;
     }
 
-    // Guard after the async gap.
-    if (!context.mounted) return;
+    return true;
+  }
 
-    final cs = Theme.of(context).colorScheme;
-
-    // 5. نعرض الحوار
-    final shouldProceed = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: cs.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
-          side: BorderSide(color: cs.outlineVariant, width: 1),
-        ),
-        title: Text(
-          context.loc.batteryDialogTitle,
-          style: TextStyle(color: cs.onSurface, fontWeight: FontWeight.w600),
-        ),
-        content: Text(
-          context.loc.batteryDialogContent,
-          style: TextStyle(color: cs.onSurface, height: 1.5),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            style: TextButton.styleFrom(
-              foregroundColor: cs.primary,
-            ),
-            child: Text(context.loc.batteryDialogNotNow),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            child: Text(context.loc.batteryDialogOpenSettings),
-          ),
-        ],
-      ),
-    );
-
-    // 6. نسجل تاريخ اليوم لكي نعيد الكرة بعد 7 أيام
+  /// يسجل أن الحوار قد ظهر اليوم
+  static Future<void> markPromptAsShown() async {
+    final prefs = await SharedPreferences.getInstance();
     await prefs.setInt(_lastPromptKey, DateTime.now().millisecondsSinceEpoch);
+  }
 
-    if (shouldProceed == true) {
-      if (!context.mounted) return;
-
+  /// يحاول فتح إعدادات البطارية ويعيد true إذا نجح
+  static Future<bool> openBatterySettings() async {
+    try {
+      await AppSettings.openAppSettings(type: AppSettingsType.batteryOptimization);
+      return true;
+    } catch (e) {
       try {
-        await AppSettings.openAppSettings(type: AppSettingsType.batteryOptimization);
+        // خطة B
+        await AppSettings.openAppSettings();
+        return true;
       } catch (_) {
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              duration: const Duration(seconds: 15),
-              backgroundColor: cs.error,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
-              ),
-              content: Text(
-                context.loc.batterySnackBarError,
-              ),
-            ),
-          );
-        }
+        return false;
       }
     }
+  }
+}
+
+
+Future<void> checkAndShowBatteryDialog(BuildContext context) async {
+  // 1. نسأل الـ Service هل يجب عرض الحوار؟
+  final shouldShow = await BatteryService.shouldShowBatteryPrompt();
+  if (!shouldShow || !context.mounted) return;
+
+  final cs = Theme.of(context).colorScheme;
+
+  // 2. نعرض الحوار
+  final shouldProceed = await showDialog<bool>(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      backgroundColor: cs.surface,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4),
+        side: BorderSide(color: cs.outlineVariant, width: 1),
+      ),
+      title: Text(
+        ctx.loc.batteryDialogTitle, // تم استخدام ctx بدلاً من context
+        style: TextStyle(color: cs.onSurface, fontWeight: FontWeight.w600),
+      ),
+      content: Text(
+        ctx.loc.batteryDialogContent,
+        style: TextStyle(color: cs.onSurface, height: 1.5),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(ctx, false),
+          style: TextButton.styleFrom(foregroundColor: cs.primary),
+          child: Text(ctx.loc.batteryDialogNotNow),
+        ),
+        ElevatedButton(
+          onPressed: () => Navigator.pop(ctx, true),
+          child: Text(ctx.loc.batteryDialogOpenSettings),
+        ),
+      ],
+    ),
+  );
+
+  // 3. نسجل تاريخ اليوم (سواء وافق أو رفض)
+  await BatteryService.markPromptAsShown();
+
+  if (shouldProceed != true || !context.mounted) return;
+
+  // 4. نحاول فتح الإعدادات
+  final success = await BatteryService.openBatterySettings();
+  
+  if (!success && context.mounted) {
+    // 5. خطة C: إظهار خطأ إذا فشل فتح الإعدادات
+    ScaffoldMessenger.of(context)
+      ..clearSnackBars()
+      ..showSnackBar(
+        SnackBar(
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 10),
+          backgroundColor: cs.errorContainer,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+          content: Text(
+            context.loc.batterySnackBarError,
+            style: TextStyle(color: cs.onErrorContainer),
+          ),
+          action: SnackBarAction(
+            label: context.loc.batterySnackBarRetry,
+            textColor: cs.onErrorContainer,
+            onPressed: () async {
+              await BatteryService.openBatterySettings();
+            },
+          ),
+        ),
+      );
   }
 }

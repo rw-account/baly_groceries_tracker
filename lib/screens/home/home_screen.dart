@@ -27,7 +27,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) BatteryService.requestBatteryOptimizationExemption(context);
+      if (mounted) checkAndShowBatteryDialog(context);
     });
   }
 
