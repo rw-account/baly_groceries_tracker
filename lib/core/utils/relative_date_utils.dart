@@ -173,15 +173,7 @@ String _formatUnit(
   
   // 11 فأكثر: تمييز مفرد منصوب
   final word = accusativeAr ?? singularAr;
-  return '$value ${_addTanweenFatha(word)}';
-}
-
-/// تضيف تنوين فتح إذا لم يكن موجوداً
-String _addTanweenFatha(String word) {
-  if (word.endsWith('ً')) return word;
-  if (word.endsWith('ة')) return '${word.substring(0, word.length - 1)}ةً';
-  if (word.endsWith('اء')) return '$wordً';
-  return '$wordً';
+  return '$value $word';
 }
 
 String _joinParts(List<String> parts, String locale) {
