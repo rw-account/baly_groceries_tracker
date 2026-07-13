@@ -31,11 +31,6 @@ class RefreshDateField extends StatelessWidget {
         labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
         hintText: context.loc.refreshDateHint,
         prefixIcon: Icon(Icons.event_available_outlined, color: Theme.of(context).colorScheme.primary),
-        suffixIcon: IconButton(
-          onPressed: onPickDate,
-          tooltip: context.loc.pickRefreshDateTooltip,
-          icon: Icon(Icons.calendar_month_outlined, color: Theme.of(context).colorScheme.primary),
-        ),
         filled: true,
         border: appFieldBorder(context),
         enabledBorder: appFieldBorder(context),
