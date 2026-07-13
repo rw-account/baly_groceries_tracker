@@ -14,6 +14,7 @@ import '../../../providers/shopping_selection_provider.dart';
 import '../../../router/route_paths.dart';
 import '../../../core/utils/context_extensions.dart';
 import 'widgets/widgets.dart';
+import 'package:intl/intl.dart';
 
 // SharedPreferences key for the swipe-hint flag.
 const _kHasSeenSwipeHint = 'has_seen_swipe_hint';
@@ -174,6 +175,9 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
               case 'share_list':
                 _shareList();
                 break;
+              case 'settings':
+                context.push(RoutePaths.settings);
+                break;
             }
           },
           itemBuilder: (context) => [
@@ -198,6 +202,18 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
                       color: Theme.of(context).colorScheme.primary),
                   const SizedBox(width: 8),
                   Text(context.loc.shareListMenu),
+                ],
+              ),
+            ),
+            PopupMenuItem(
+              value: 'settings',
+              child: Row(
+                children: [
+                  Icon(Icons.settings_outlined,
+                      size: 20,
+                      color: Theme.of(context).colorScheme.primary),
+                  const SizedBox(width: 8),
+                  Text(context.loc.settings),
                 ],
               ),
             ),
@@ -596,22 +612,31 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
     final buffer = StringBuffer();
     if (!mounted) return;
     buffer.writeln(context.loc.shareListHeader);
+    buffer.writeln('\n━━━━━━━━━━━━━━━━━━━━\n');
 
     for (final item in items) {
-      //TODO: ملاحظه مهمه لا تحذفها: عند تحويل لغة التطبيق الى الانجليزي يجب انك تغير اتجاه ايموجي اليد وتجيب ايموجي يشير للجهه الاخرى
-      String line = '• ${item.title}';
+      buffer.writeln('• ${item.title}');
 
       if (shouldIncludePrice && item.price != null) {
         if (!mounted) return;
-        line += context.loc.priceFormat(item.price.toString());
+        buffer.writeln(
+          context.loc.priceFormat(NumberFormat('#,##0.###').format(item.price).toString()),
+        );
       }
 
       if (shouldIncludeChecked && item.isChecked) {
         if (!mounted) return;
-        line += context.loc.checkedFormat;
+        buffer.writeln(
+          context.loc.completedFormat,
+        );
+      }else if (shouldIncludeChecked && !item.isChecked) {
+        if (!mounted) return;
+        buffer.writeln(
+          context.loc.notCompletedFormat,
+        );
       }
 
-      buffer.writeln(line);
+      buffer.writeln();
     }
 
     try {
