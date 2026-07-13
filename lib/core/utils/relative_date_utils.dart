@@ -1,8 +1,10 @@
+import 'package:home_orders_tracker/providers/locale_provider.dart';
+
 String formatRelativeDate(
   DateTime date, {
   DateTime? now,
-  String locale = 'ar', // 'ar' أو 'en'
 }) {
+  final locale = LocaleNotifier.currentLanguage;
   now ??= DateTime.now();
 
   final isFuture = date.isAfter(now);
