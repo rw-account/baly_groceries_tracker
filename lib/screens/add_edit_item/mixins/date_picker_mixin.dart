@@ -52,7 +52,7 @@ mixin DatePickerMixin on AddEditItemState {
     final confirmed = await showDialog<bool>(
       context: context,
       barrierDismissible: false,
-      builder: (ctx) => AlertDialog(
+      builder: (ctx) => AlertDialog.adaptive(
         title: Text(context.loc.resetDateDialogTitle),
         content: Text(context.loc.resetDateDialogContent),
         actions: [
@@ -62,6 +62,10 @@ mixin DatePickerMixin on AddEditItemState {
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
+            style: FilledButton.styleFrom(
+              minimumSize: const Size(80, 40),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+            ),
             child: Text(context.loc.resetDateConfirmLabel),
           ),
         ],
