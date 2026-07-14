@@ -30,31 +30,27 @@ class ExpiryItemTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final cs = theme.colorScheme;
 
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
-      decoration: BoxDecoration(
-        color: colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(4),
-        boxShadow: [
-          BoxShadow(
-            color: colorScheme.shadow.withValues(alpha: 0.06),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
+    return Card(
+      margin: const EdgeInsetsDirectional.fromSTEB(16, 6, 16, 6),
+      elevation: 0,
+      color: cs.surfaceContainerLow,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(16),
         child: Row(
           children: [
             Container(width: _stripeWidth, height: _stripeHeight, color: color),
             Expanded(
               child: ListTile(
+                contentPadding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 8),
                 title: Text(
                   item.name,
-                  style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: cs.onSurface,
+                  ),
                 ),
                 subtitle: ExpiryRemainingLabel(item: item),
                 trailing: _buildTrailing(context),
@@ -67,30 +63,32 @@ class ExpiryItemTile extends StatelessWidget {
   }
 
   Widget _buildTrailing(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final cs = Theme.of(context).colorScheme;
 
     if (isAdding) {
       return SizedBox(
         width: 24,
         height: 24,
-        child: CircularProgressIndicator(strokeWidth: 2, color: colorScheme.primary),
+        child: CircularProgressIndicator(strokeWidth: 2, color: cs.primary),
       );
     }
 
     if (isInShoppingList) {
       return Chip(
         label: Text(context.loc.inShoppingListChipLabel),
-        avatar: Icon(Icons.check, size: 18, color: colorScheme.onSecondaryContainer),
-        backgroundColor: colorScheme.secondaryContainer,
-        labelStyle: TextStyle(color: colorScheme.onSecondaryContainer),
+        avatar: Icon(Icons.check, size: 18, color: cs.onSecondaryContainer),
+        backgroundColor: cs.secondaryContainer,
+        labelStyle: TextStyle(color: cs.onSecondaryContainer),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        side: BorderSide.none,
       );
     }
 
     return IconButton(
-      icon: const Icon(Icons.add_shopping_cart),
+      icon: const Icon(Icons.add_shopping_cart_outlined),
       tooltip: context.loc.addToShoppingListTitle,
-      color: colorScheme.primary,
-      onPressed: isAddingAll ? null : onAddToShoppingList, 
+      color: cs.primary,
+      onPressed: isAddingAll ? null : onAddToShoppingList,
     );
   }
 }
