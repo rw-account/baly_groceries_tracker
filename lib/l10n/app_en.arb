@@ -536,6 +536,16 @@
     "description": "Subtitle when notifications are disabled"
   },
 
+  "deleteItemSectionTitle": "Delete Item",
+  "@deleteItemSectionTitle": {
+    "description": "Section title for the delete item option"
+  },
+
+  "deleteItemTitle": "Delete Item",
+  "@deleteItemTitle": {
+    "description": "Title for the delete item confirmation dialog"
+  },
+  
   "thresholdsSectionTitle": "Alert Thresholds",
   "@thresholdsSectionTitle": {
     "description": "Section title for alert thresholds"

@@ -536,6 +536,16 @@
     "description": "Subtitle when notifications are disabled"
   },
 
+  "deleteItemSectionTitle": "حذف المادة",
+  "@deleteItemSectionTitle": {
+    "description": "Section title for the delete item option"
+  },
+
+  "deleteItemTitle": "حذف المادة",
+  "@deleteItemTitle": {
+    "description": "Title for the delete item confirmation dialog"
+  },
+
   "thresholdsSectionTitle": "حدود التنبيه",
   "@thresholdsSectionTitle": {
     "description": "Section title for alert thresholds"
@@ -721,7 +731,7 @@
     "description": "Title for the delete item dialog"
   },
 
-  "deleteItemDialogContentFormat": "هل أنت متأكد من حذف \"{itemName}\"? سيتم حذفها أيضًا من قائمة الشراء إن كانت مضافة هناك. لا يمكن التراجع عن هذا الإجراء.",
+  "deleteItemDialogContentFormat": "هل أنت متأكد من حذف \"{itemName}\"؟ سيتم حذفها أيضًا من قائمة الشراء إن كانت مضافة هناك. لا يمكن التراجع عن هذا الإجراء.",
   "@deleteItemDialogContentFormat": {
     "description": "Content for the delete item dialog with item name placeholder",
     "placeholders": {

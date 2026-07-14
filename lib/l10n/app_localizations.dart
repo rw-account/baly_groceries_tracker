@@ -632,6 +632,18 @@ abstract class AppLocalizations {
   /// **'لن تصلك أي إشعارات لهذه المادة'**
   String get notificationsDisabledSubtitle;
 
+  /// Section title for the delete item option
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف المادة'**
+  String get deleteItemSectionTitle;
+
+  /// Title for the delete item confirmation dialog
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف المادة'**
+  String get deleteItemTitle;
+
   /// Section title for alert thresholds
   ///
   /// In ar, this message translates to:
@@ -857,7 +869,7 @@ abstract class AppLocalizations {
   /// Content for the delete item dialog with item name placeholder
   ///
   /// In ar, this message translates to:
-  /// **'هل أنت متأكد من حذف \"{itemName}\"? سيتم حذفها أيضًا من قائمة الشراء إن كانت مضافة هناك. لا يمكن التراجع عن هذا الإجراء.'**
+  /// **'هل أنت متأكد من حذف \"{itemName}\"؟ سيتم حذفها أيضًا من قائمة الشراء إن كانت مضافة هناك. لا يمكن التراجع عن هذا الإجراء.'**
   String deleteItemDialogContentFormat(String itemName);
 
   /// Cancel label for the delete item dialog

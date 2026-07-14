@@ -314,6 +314,12 @@ class AppLocalizationsEn extends AppLocalizations {
       'You will not receive notifications for this item';
 
   @override
+  String get deleteItemSectionTitle => 'Delete Item';
+
+  @override
+  String get deleteItemTitle => 'Delete Item';
+
+  @override
   String get thresholdsSectionTitle => 'Alert Thresholds';
 
   @override

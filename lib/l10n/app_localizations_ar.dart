@@ -310,6 +310,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notificationsDisabledSubtitle => 'لن تصلك أي إشعارات لهذه المادة';
 
   @override
+  String get deleteItemSectionTitle => 'حذف المادة';
+
+  @override
+  String get deleteItemTitle => 'حذف المادة';
+
+  @override
   String get thresholdsSectionTitle => 'حدود التنبيه';
 
   @override
@@ -427,7 +433,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String deleteItemDialogContentFormat(String itemName) {
-    return 'هل أنت متأكد من حذف \"$itemName\"? سيتم حذفها أيضًا من قائمة الشراء إن كانت مضافة هناك. لا يمكن التراجع عن هذا الإجراء.';
+    return 'هل أنت متأكد من حذف \"$itemName\"؟ سيتم حذفها أيضًا من قائمة الشراء إن كانت مضافة هناك. لا يمكن التراجع عن هذا الإجراء.';
   }
 
   @override
