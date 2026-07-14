@@ -17,7 +17,7 @@ mixin DeleteMixin on AddEditItemState {
     final confirmed = await showDialog<bool>(
       context: context,
       barrierDismissible: false,
-      builder: (ctx) => AlertDialog(
+      builder: (ctx) => AlertDialog.adaptive(
         title: Text(context.loc.deleteItemDialogTitle),
         content: Text(context.loc.deleteItemDialogContentFormat(itemName)),
         actions: [
@@ -30,6 +30,8 @@ mixin DeleteMixin on AddEditItemState {
             style: FilledButton.styleFrom(
               backgroundColor: theme.colorScheme.error,
               foregroundColor: theme.colorScheme.onError,
+              minimumSize: const Size(80, 40),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
             ),
             child: Text(context.loc.deleteButtonLabel),
           ),
