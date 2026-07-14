@@ -39,7 +39,7 @@ class ShoppingItemCard extends ConsumerWidget {
 
     final accentColor = isLinked ? cs.primary : cs.tertiary;
 
-    // ── Card background: highlight when selected in selection mode ───────────
+    // Card background: highlight when selected in selection mode
     final cardColor = isSelected
         ? cs.primary.withValues(alpha: 0.18)
         : isChecked
@@ -50,36 +50,29 @@ class ShoppingItemCard extends ConsumerWidget {
         ? cs.primary.withValues(alpha: 0.7)
         : cs.outlineVariant.withValues(alpha: isChecked ? 0.3 : 0.6);
 
-    // ── Build the visual card body ──────────────────────────────────────────
+    // Build the visual card body
     final cardBody = AnimatedContainer(
       duration: const Duration(milliseconds: 180),
       decoration: BoxDecoration(
         color: cardColor,
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: cardBorderColor, width: isSelected ? 1.5 : 1),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: isChecked ? 0.05 : 0.15),
-            blurRadius: 6,
-            offset: const Offset(0, 2),
-          ),
-        ],
       ),
       child: Material(
         color: Colors.transparent,
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(16),
         child: InkWell(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(16),
           onTap: isInSelectionMode ? onSelectionTap : null,
           onLongPress: isInSelectionMode ? null : onLongPress,
           child: AnimatedOpacity(
             duration: const Duration(milliseconds: 200),
             opacity: (!isInSelectionMode && isChecked) ? 0.5 : 1.0,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(
                 children: [
-                  // ── Leading: selection checkbox OR shopping-done checkbox ──
+                  // Leading: selection checkbox OR shopping-done checkbox
                   if (isInSelectionMode)
                     AnimatedScale(
                       scale: isInSelectionMode ? 1.0 : 0.0,
@@ -107,11 +100,11 @@ class ShoppingItemCard extends ConsumerWidget {
                               .read(shoppingListProvider.notifier)
                               .toggleChecked(item.id!),
                     ),
-                  const SizedBox(width: 4),
-                  // ── Icon bubble ─────────────────────────────────────────
+                  const SizedBox(width: 12),
+                  // Icon bubble
                   Container(
-                    width: 36,
-                    height: 36,
+                    width: 40,
+                    height: 40,
                     decoration: BoxDecoration(
                       color: accentColor.withValues(
                         alpha: isChecked ? 0.04 : 0.15,
@@ -123,11 +116,11 @@ class ShoppingItemCard extends ConsumerWidget {
                       color: isChecked
                           ? cs.outline.withValues(alpha: 0.4)
                           : accentColor,
-                      size: 18,
+                      size: 20,
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  // ── Title + subtitle ─────────────────────────────────────
+                  const SizedBox(width: 16),
+                  // Title + subtitle
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -163,16 +156,16 @@ class ShoppingItemCard extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  // ── Price chip ───────────────────────────────────────────
+                  // Price chip
                   _PriceChip(
                     text: priceText,
                     hasPrice: hasPrice,
                     isChecked: isChecked,
                     cs: cs,
                   ),
-                  // ── Edit price button (hidden in selection mode) ─────────
+                  // Edit price button (hidden in selection mode)
                   if (!isInSelectionMode) ...[
-                    const SizedBox(width: 4),
+                    const SizedBox(width: 8),
                     IconButton(
                       icon: Icon(
                         Icons.edit_outlined,
@@ -194,7 +187,7 @@ class ShoppingItemCard extends ConsumerWidget {
       ),
     );
 
-    // ── Wrap with Dismissible only when NOT in selection mode ───────────────
+    // Wrap with Dismissible only when NOT in selection mode
     if (isInSelectionMode) {
       return cardBody;
     }
@@ -242,12 +235,12 @@ class _PriceChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
         color: isChecked
             ? cs.surfaceContainerHighest.withValues(alpha: 0.5)
             : (hasPrice ? cs.primaryContainer : cs.surfaceContainerHighest),
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Text(
         text,
