@@ -54,26 +54,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     return Scaffold(
       appBar: _isSearching
-          ? AppBar(
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: _toggleSearch,
-              ),
-              title: TextField(
-                controller: _searchController,
-                autofocus: true,
-                decoration: InputDecoration(
-                  hintText: context.loc.searchHint,
-                  border: InputBorder.none,
-                  filled: false,
-                ),
-                onChanged: (value) {
-                  setState(() {
-                    _searchQuery = value;
-                  });
-                },
-              ),
-            )
+          ? _buildSearchAppBar(context)
           : HomeAppBar(
               urgentCount: summary.urgentCount,
               warningCount: summary.warningCount,
@@ -89,15 +70,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             if (_searchQuery.isEmpty) {
               return const SizedBox.shrink();
             }
-            
+
             final searchResults = items
                 .where((item) => item.name.toLowerCase().contains(_searchQuery.toLowerCase()))
                 .toList();
 
             if (searchResults.isEmpty) {
-              return Center(child: Text(context.loc.noResultsFound));
+              return _buildEmptySearchState(context);
             }
-            return ItemsList(items: searchResults);
+            return ItemsList(
+              items: searchResults,
+              onItemTap: (item) {
+                if (_isSearching) _toggleSearch();
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  if (mounted) {
+                    context.push(RoutePaths.editItemPath(item.id), extra: item);
+                  }
+                });
+              },
+            );
           }
 
           return Column(
@@ -107,37 +98,172 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 warningCount: summary.warningCount,
                 urgentCount: summary.urgentCount,
               ),
-              Expanded(child: ItemsList(items: items)),
+              Expanded(
+                child: ItemsList(
+                  items: items,
+                  onItemTap: (item) {
+                  if (_isSearching) _toggleSearch();
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      if (mounted) {
+                        context.push(RoutePaths.editItemPath(item.id), extra: item);
+                      }
+                    });
+                  },
+                ),
+              ),
             ],
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, _) => Center(child: Text(context.loc.errorMessage(error.toString()))),
+        loading: () => _buildLoadingState(context),
+        error: (error, _) => _buildErrorState(context, error.toString()),
       ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
+      floatingActionButton: _buildFABs(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+    );
+  }
+
+  PreferredSizeWidget _buildSearchAppBar(BuildContext context) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+
+    return AppBar(
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back_outlined),
+        onPressed: _toggleSearch,
+      ),
+      title: TextField(
+        controller: _searchController,
+        autofocus: true,
+        style: theme.textTheme.bodyLarge?.copyWith(color: cs.onSurface),
+        decoration: InputDecoration(
+          hintText: context.loc.searchHint,
+          hintStyle: theme.textTheme.bodyLarge?.copyWith(color: cs.onSurfaceVariant),
+          border: InputBorder.none,
+          filled: false,
+          isDense: true,
+        ),
+        onChanged: (value) {
+          setState(() {
+            _searchQuery = value;
+          });
+        },
+      ),
+    );
+  }
+
+  Widget _buildFABs() {
+    return Padding(
+      padding: const EdgeInsetsDirectional.only(start: 16, bottom: 16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: FloatingActionButton(
-              heroTag: 'search_fab',
-              onPressed: _toggleSearch,
-              child: Icon(_isSearching ? Icons.close : Icons.search),
-            ),
+          FloatingActionButton(
+            heroTag: 'search_fab',
+            onPressed: _toggleSearch,
+            child: Icon(_isSearching ? Icons.close_outlined : Icons.search_outlined),
           ),
           const SizedBox(height: 12),
-          Padding(
-            padding: const EdgeInsets.only(left: 4.0),
-            child: FloatingActionButton.extended(
-              heroTag: 'add_fab',
-              onPressed: () => context.push(RoutePaths.addItemFull),
-              icon: const Icon(Icons.add),
-              label: Text(context.loc.addButtonLabel),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+          FloatingActionButton.extended(
+            heroTag: 'add_fab',
+            onPressed: () {
+            if (_isSearching) _toggleSearch();
+            context.push(RoutePaths.addItemFull);
+            },
+            icon: const Icon(Icons.add_outlined),
+            label: Text(context.loc.addButtonLabel),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmptySearchState(BuildContext context) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.search_off_outlined,
+              size: 64,
+              color: cs.onSurfaceVariant.withValues(alpha: 0.5),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              context.loc.noResultsFound,
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: cs.onSurfaceVariant,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoadingState(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CircularProgressIndicator(color: cs.primary),
+          const SizedBox(height: 16),
+          Text(
+            context.loc.errorOccurredFormat('Loading items...'),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildErrorState(BuildContext context, String error) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.error_outline_rounded,
+              size: 64,
+              color: cs.error,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              context.loc.errorOccurredFormat(error),
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: cs.onSurface,
+                fontWeight: FontWeight.w600,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              error,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: cs.onSurfaceVariant,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            FilledButton.icon(
+              onPressed: () => context.pop(),
+              icon: const Icon(Icons.refresh_outlined),
+              label: Text(context.loc.errorRetryLabel),
+            ),
+          ],
+        ),
       ),
     );
   }
