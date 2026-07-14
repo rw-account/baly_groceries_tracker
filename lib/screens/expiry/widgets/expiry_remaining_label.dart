@@ -17,14 +17,14 @@ class ExpiryRemainingLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     final days = item.remainingDays;
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final cs = theme.colorScheme;
 
     if (days < 0) {
       final relative = formatRelativeDate(item.expectedExpiryDate);
       return Text(
         context.loc.expiredFormat(relative),
         style: theme.textTheme.bodyMedium?.copyWith(
-          color: colorScheme.error, 
+          color: cs.error, 
           fontWeight: FontWeight.bold
         ),
       );
@@ -34,7 +34,7 @@ class ExpiryRemainingLabel extends StatelessWidget {
       return Text(
         context.loc.expiresToday,
         style: theme.textTheme.bodyMedium?.copyWith(
-          color: colorScheme.tertiary, 
+          color: cs.tertiary, 
           fontWeight: FontWeight.bold
         ),
       );
@@ -43,7 +43,9 @@ class ExpiryRemainingLabel extends StatelessWidget {
     final relative = formatRelativeDate(item.expectedExpiryDate);
     return Text(
       context.loc.expiresInFormat(relative),
-      style: theme.textTheme.bodyMedium,
+      style: theme.textTheme.bodyMedium?.copyWith(
+        color: cs.onSurfaceVariant,
+      ),
     );
   }
 }
