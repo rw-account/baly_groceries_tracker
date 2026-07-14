@@ -430,7 +430,7 @@
     "description": "Failure message when item could not be added"
   },
 
-  "shoppingSearchHint": "ابحث أو أنشئ عنصرًا...",
+  "shoppingSearchHint": "اكتب اسم عنصر...",
   "@shoppingSearchHint": {
     "description": "Placeholder text for the shopping list search field"
   },

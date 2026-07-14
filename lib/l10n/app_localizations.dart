@@ -515,7 +515,7 @@ abstract class AppLocalizations {
   /// Placeholder text for the shopping list search field
   ///
   /// In ar, this message translates to:
-  /// **'ابحث أو أنشئ عنصرًا...'**
+  /// **'اكتب اسم عنصر...'**
   String get shoppingSearchHint;
 
   /// Tooltip for the clear search button

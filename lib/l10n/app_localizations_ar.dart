@@ -247,7 +247,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get itemNotAddedRetry => 'لم تتم إضافة العنصر، حاول مرة أخرى';
 
   @override
-  String get shoppingSearchHint => 'ابحث أو أنشئ عنصرًا...';
+  String get shoppingSearchHint => 'اكتب اسم عنصر...';
 
   @override
   String get clearSearchTooltip => 'مسح البحث';

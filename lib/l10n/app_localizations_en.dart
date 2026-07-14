@@ -250,7 +250,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get itemNotAddedRetry => 'The item was not added. Please try again.';
 
   @override
-  String get shoppingSearchHint => 'Search or create an item...';
+  String get shoppingSearchHint => 'Enter an item name...';
 
   @override
   String get clearSearchTooltip => 'Clear search';
