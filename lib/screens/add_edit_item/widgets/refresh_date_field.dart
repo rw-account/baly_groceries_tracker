@@ -22,18 +22,29 @@ class RefreshDateField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+
     final dateField = TextFormField(
       readOnly: true,
       controller: dateController,
       onTap: onPickDate,
       decoration: InputDecoration(
         labelText: context.loc.refreshDateLabel,
-        labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
+        labelStyle: theme.textTheme.bodyMedium?.copyWith(color: cs.primary),
         hintText: context.loc.refreshDateHint,
-        prefixIcon: Icon(Icons.event_available_outlined, color: Theme.of(context).colorScheme.primary),
+        hintStyle: theme.textTheme.bodyMedium?.copyWith(
+          color: cs.onSurfaceVariant.withValues(alpha: 0.7),
+        ),
+        prefixIcon: Icon(Icons.event_available_outlined),
         filled: true,
+        fillColor: cs.surfaceContainerHighest.withValues(alpha: 0.5),
         border: appFieldBorder(context),
         enabledBorder: appFieldBorder(context),
+        focusedBorder: appFieldBorder(context, color: cs.primary),
+        errorBorder: appFieldBorder(context, color: cs.error),
+        focusedErrorBorder: appFieldBorder(context, color: cs.error),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       ),
     );
 
@@ -41,12 +52,13 @@ class RefreshDateField extends StatelessWidget {
 
     final resetButton = OutlinedButton.icon(
       onPressed: onResetToToday,
-      icon: Icon(Icons.today_outlined, size: 18, color: Theme.of(context).colorScheme.primary),
+      icon: Icon(Icons.today_outlined, size: 18, color: cs.primary),
       label: Text(context.loc.resetToTodayButton),
       style: OutlinedButton.styleFrom(
-        minimumSize: const Size(0, 56),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-        side: BorderSide(color: Theme.of(context).colorScheme.primary),
+        minimumSize: const Size(0, 52),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        side: BorderSide(color: cs.primary, width: 1.5),
+        foregroundColor: cs.primary,
       ),
     );
 
