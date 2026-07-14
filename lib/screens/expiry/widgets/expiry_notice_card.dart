@@ -10,32 +10,34 @@ class ExpiryNoticeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final cs = Theme.of(context).colorScheme;
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
-decoration: BoxDecoration(
-        color: colorScheme.secondaryContainer,
-        borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: colorScheme.outlineVariant),
+    return Card(
+      margin: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 12),
+      elevation: 0,
+      color: cs.secondaryContainer,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(color: cs.outlineVariant.withValues(alpha: 0.3)),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(Icons.info_outline_rounded, color: colorScheme.onSecondaryContainer),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              context.loc.expiryNoticeText,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: colorScheme.onSecondaryContainer,
-                height: 1.4,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(Icons.info_outline_rounded, color: cs.onSecondaryContainer, size: 20),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                context.loc.expiryNoticeText,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: cs.onSecondaryContainer,
+                  height: 1.4,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
