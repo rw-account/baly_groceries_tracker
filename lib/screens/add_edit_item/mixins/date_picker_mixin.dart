@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../add_edit_item_state.dart';
 import '../../../core/utils/context_extensions.dart';
+import '../../../providers/locale_provider.dart';
 
 mixin DatePickerMixin on AddEditItemState {
   static final DateFormat _dateFormat = DateFormat('yyyy-MM-dd');
@@ -14,13 +15,14 @@ mixin DatePickerMixin on AddEditItemState {
     try {
       final now = DateTime.now();
       final initialDate = lastRefreshedAt.isAfter(now) ? now : lastRefreshedAt;
+      final currentLocale = Locale(LocaleNotifier.currentLanguage);
 
       final picked = await showDatePicker(
         context: context,
         initialDate: initialDate,
         firstDate: DateTime(now.year - 5),
         lastDate: now,
-        locale: const Locale('ar'),
+        locale: currentLocale,
         helpText: context.loc.datePickerHelpText,
         cancelText: context.loc.cancelLabel,
         confirmText: context.loc.datePickerConfirmText,
