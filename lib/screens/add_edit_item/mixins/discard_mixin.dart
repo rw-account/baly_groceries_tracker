@@ -10,7 +10,7 @@ mixin DiscardMixin on AddEditItemState {
     final theme = Theme.of(context);
     final result = await showDialog<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
+      builder: (ctx) => AlertDialog.adaptive(
         title: Text(context.loc.discardDialogTitle),
         content: Text(context.loc.discardDialogContent),
         actions: [
@@ -23,6 +23,8 @@ mixin DiscardMixin on AddEditItemState {
             style: FilledButton.styleFrom(
               backgroundColor: theme.colorScheme.error,
               foregroundColor: theme.colorScheme.onError,
+              minimumSize: const Size(80, 40),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
             ),
             child: Text(context.loc.discardLabel),
           ),
