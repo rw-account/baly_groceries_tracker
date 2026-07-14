@@ -6,6 +6,7 @@ import '../models/item_model.dart';
 import '../screens/add_edit_item/add_edit_item_screen.dart';
 import 'error_screen.dart';
 import 'item_by_id_provider.dart';
+import '../../../core/utils/context_extensions.dart';
 
 /// Intermediate resolver screen that supplies an [ItemModel] to [AddEditItemScreen].
 ///
@@ -52,9 +53,7 @@ class ItemLoaderScreen extends ConsumerWidget {
           }
           return AddEditItemScreen(item: item);
         },
-        loading: () => const Scaffold(
-          body: Center(child: CircularProgressIndicator()),
-        ),
+        loading: () => _buildLoadingState(context),
         error: (error, stackTrace) => ErrorScreen.itemLoadFailed(context),
       );
     } catch (_) {
@@ -62,5 +61,26 @@ class ItemLoaderScreen extends ConsumerWidget {
       // screen instead of crashing the app.
       return ErrorScreen.itemLoadUnexpectedError(context);
     }
+  }
+
+  Widget _buildLoadingState(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CircularProgressIndicator(color: cs.primary),
+            const SizedBox(height: 16),
+            Text(
+              context.loc.errorOccurredFormat('Loading item...'),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
