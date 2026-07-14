@@ -102,12 +102,11 @@ class _AddEditItemScreenState extends AddEditItemState
         onPressed: saving ? null : _handleBack,
       ),
       actions: [
-        if (isEditing)
-          IconButton(
-            icon: Icon(Icons.delete_outline, color: cs.error),
-            tooltip: context.loc.deleteTooltip,
-            onPressed: saving ? null : delete,
-          ),
+        IconButton(
+          icon: Icon(Icons.check, color: cs.primary),
+          tooltip: isEditing ? context.loc.saveChangesButton : context.loc.addItemSubmitButton,
+          onPressed: saving ? null : save,
+        ),
       ],
     );
   }
@@ -130,7 +129,7 @@ class _AddEditItemScreenState extends AddEditItemState
               const SizedBox(height: 24),
               ..._buildNotificationsSection(),
               const SizedBox(height: 24),
-              ..._buildSaveSection(),
+              ..._buildDeleteSection(),
             ],
           ),
         ),
@@ -293,26 +292,27 @@ class _AddEditItemScreenState extends AddEditItemState
     ];
   }
 
-  List<Widget> _buildSaveSection() {
+  List<Widget> _buildDeleteSection() {
     final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+    if (!isEditing) {
+      return [const SizedBox(height: 8)];
+    }
     return [
       const SizedBox(height: 8),
+      SectionTitle(
+        title: context.loc.deleteItemSectionTitle,
+        icon: Icons.delete_outline,
+      ),
+      const SizedBox(height: 20),
       FilledButton.icon(
-        onPressed: saving ? null : save,
-        icon: saving
-            ? SizedBox(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  color: theme.colorScheme.onPrimary,
-                ),
-              )
-            : Icon(isEditing ? Icons.save_outlined : Icons.add_outlined),
-        label: Text(isEditing ? context.loc.saveChangesButton : context.loc.addItemSubmitButton),
+        onPressed: saving ? null : delete,
+        label: Text(context.loc.deleteItemTitle, style: theme.textTheme.titleMedium?.copyWith(color: cs.onError)),
         style: FilledButton.styleFrom(
-          minimumSize: const Size.fromHeight(52),
+          backgroundColor: cs.error,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          minimumSize: const Size(80, 40),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
         ),
       ),
       const SizedBox(height: 16),
