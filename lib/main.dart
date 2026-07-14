@@ -59,11 +59,68 @@ class HomeOrdersTrackerApp extends ConsumerWidget {
 
           routerConfig: appRouter,
         ),
-        loading: () => const MaterialApp(
-          home: Scaffold(body: Center(child: CircularProgressIndicator())),
+        loading: () => MaterialApp(
+          theme: AppTheme.dark,
+          home: Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircularProgressIndicator(color: AppTheme.dark.colorScheme.primary),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Loading...',
+                    style: AppTheme.dark.textTheme.bodyMedium?.copyWith(
+                      color: AppTheme.dark.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
         error: (error, stack) => MaterialApp(
-          home: Scaffold(body: Center(child: Text('Error loading locale: $error'))),
+          theme: AppTheme.dark,
+          home: Scaffold(
+            body: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(32),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.error_outline_rounded,
+                      size: 64,
+                      color: AppTheme.dark.colorScheme.error,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Error loading locale',
+                      style: AppTheme.dark.textTheme.titleMedium?.copyWith(
+                        color: AppTheme.dark.colorScheme.onSurface,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      error.toString(),
+                      style: AppTheme.dark.textTheme.bodyMedium?.copyWith(
+                        color: AppTheme.dark.colorScheme.onSurfaceVariant,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 24),
+                    FilledButton.icon(
+                      onPressed: () => runApp(const HomeOrdersTrackerApp()),
+                      icon: const Icon(Icons.refresh_outlined),
+                      label: const Text('Retry'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ),
       );
   }
