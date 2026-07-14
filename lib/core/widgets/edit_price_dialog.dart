@@ -73,16 +73,8 @@ class _EditPriceDialogState extends State<_EditPriceDialog> {
         ? context.loc.editPriceDialogTitleWithItem(widget.itemName!) 
         : context.loc.editPriceDialogTitle;
 
-    return AlertDialog(
-      backgroundColor: cs.surface,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4),
-        side: BorderSide(color: cs.outlineVariant, width: 1),
-      ),
-      title: Text(
-        titleText,
-        style: TextStyle(color: cs.onSurface, fontWeight: FontWeight.w600),
-      ),
+    return AlertDialog.adaptive(
+      title: Text(titleText),
       content: Form(
         key: _formKey,
         child: TextFormField(
@@ -104,23 +96,30 @@ class _EditPriceDialogState extends State<_EditPriceDialog> {
           decoration: InputDecoration(
             labelText: context.loc.priceFieldLabel,
             hintText: context.loc.priceFieldHint,
-            labelStyle: TextStyle(color: cs.outline),
-            hintStyle: TextStyle(color: cs.outline),
             floatingLabelStyle: TextStyle(color: cs.primary),
             filled: true,
             fillColor: cs.surfaceContainerHighest,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide.none,
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(color: cs.outlineVariant, width: 1),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4),
-              borderSide: BorderSide(color: cs.primary, width: 1.5),
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: cs.primary, width: 2),
             ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: cs.error, width: 1),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: cs.error, width: 2),
+            ),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           ),
           onFieldSubmitted: (_) => _submit(),
           validator: (value) {
@@ -136,13 +135,14 @@ class _EditPriceDialogState extends State<_EditPriceDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context, _cancelledResult),
-          style: TextButton.styleFrom(
-            foregroundColor: cs.primary,
-          ),
           child: Text(context.loc.cancelLabel),
         ),
-        ElevatedButton(
+        FilledButton(
           onPressed: _submit,
+          style: FilledButton.styleFrom(
+            minimumSize: const Size(80, 40),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+          ),
           child: Text(context.loc.dialogSave),
         ),
       ],
