@@ -49,23 +49,27 @@ class ExpiryBucketSection extends StatelessWidget {
 
   Widget _buildHeader(BuildContext context, Color color) {
     final theme = Theme.of(context);
+    final cs = theme.colorScheme;
     
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
+      padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 8),
       child: Row(
         children: [
           Icon(bucket.icon, size: 20, color: color),
           const SizedBox(width: 8),
           Text(
             _getBucketLabel(context),
-            style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+            style: theme.textTheme.titleSmall?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: cs.onSurface,
+            ),
           ),
           const SizedBox(width: 8),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
               color: color.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(2),
+              borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
               '${items.length}',
