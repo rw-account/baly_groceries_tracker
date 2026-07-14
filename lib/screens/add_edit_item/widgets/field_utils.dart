@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 InputBorder appFieldBorder(
   BuildContext context, {
   Color? color,
-  double radius = 4,
+  double radius = 12,
 }) {
   return OutlineInputBorder(
     borderRadius: BorderRadius.circular(radius),
