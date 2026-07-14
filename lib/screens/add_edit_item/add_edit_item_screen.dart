@@ -52,6 +52,9 @@ class _AddEditItemScreenState extends AddEditItemState
         SnackBar(
           content: Text(message, style: TextStyle(color: theme.colorScheme.onError)),
           backgroundColor: theme.colorScheme.error,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          margin: const EdgeInsets.all(16),
         ),
       );
   };
@@ -65,8 +68,6 @@ class _AddEditItemScreenState extends AddEditItemState
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return ScaffoldMessenger(
       key: _scaffoldMessengerKey,
       child: PopScope(
@@ -76,28 +77,34 @@ class _AddEditItemScreenState extends AddEditItemState
           await _handleBack();
         },
         child: Scaffold(
-          appBar: _buildAppBar(theme),
+          appBar: _buildAppBar(),
           body: SafeArea(
-            child: _buildForm(theme),
+            child: _buildForm(),
           ),
         ),
       ),
     );
   }
 
-AppBar _buildAppBar(ThemeData theme) {
+  AppBar _buildAppBar() {
+    final cs = Theme.of(context).colorScheme;
     return AppBar(
       title: Text(isEditing ? context.loc.editItemTitle : context.loc.addItemScreenTitle),
       centerTitle: false,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      surfaceTintColor: Colors.transparent,
+      backgroundColor: cs.surface,
+      foregroundColor: cs.onSurface,
       leading: IconButton(
-        icon: const Icon(Icons.arrow_back),
+        icon: const Icon(Icons.arrow_back_outlined),
         tooltip: context.loc.backTooltip,
         onPressed: saving ? null : _handleBack,
       ),
       actions: [
         if (isEditing)
           IconButton(
-            icon: Icon(Icons.delete_outline, color: theme.colorScheme.error),
+            icon: Icon(Icons.delete_outline, color: cs.error),
             tooltip: context.loc.deleteTooltip,
             onPressed: saving ? null : delete,
           ),
@@ -105,7 +112,7 @@ AppBar _buildAppBar(ThemeData theme) {
     );
   }
 
-  Widget _buildForm(ThemeData theme) {
+  Widget _buildForm() {
     return AbsorbPointer(
       absorbing: saving,
       child: AnimatedOpacity(
@@ -114,12 +121,15 @@ AppBar _buildAppBar(ThemeData theme) {
         child: Form(
           key: formKey,
           child: ListView(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 24),
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             children: [
               ..._buildItemInfoSection(),
-              ..._buildThresholdsSection(theme),
-              ..._buildNotificationsSection(theme),
+              const SizedBox(height: 24),
+              ..._buildThresholdsSection(),
+              const SizedBox(height: 24),
+              ..._buildNotificationsSection(),
+              const SizedBox(height: 24),
               ..._buildSaveSection(),
             ],
           ),
@@ -128,27 +138,29 @@ AppBar _buildAppBar(ThemeData theme) {
     );
   }
 
-  List<Widget> _buildNotificationsSection(ThemeData theme) {
+  List<Widget> _buildNotificationsSection() {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
     return [
       SectionTitle(
         title: context.loc.notificationsSectionTitle,
         icon: Icons.notifications_outlined,
       ),
-      const SizedBox(height: 8),
-      Material(
-        color: theme.colorScheme.surface,
-        clipBehavior: Clip.antiAlias,
+      const SizedBox(height: 12),
+      Card(
+        elevation: 0,
+        color: cs.surfaceContainerHighest.withValues(alpha: 0.5),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
-          side: BorderSide(color: theme.colorScheme.outlineVariant),
+          borderRadius: BorderRadius.circular(16),
+          side: BorderSide(color: cs.outlineVariant),
         ),
         child: SwitchListTile(
-          title: Text(context.loc.enableNotificationsTitle),
+          title: Text(context.loc.enableNotificationsTitle, style: theme.textTheme.titleMedium),
           subtitle: Text(
             notificationsEnabled
                 ? context.loc.notificationsEnabledSubtitle
                 : context.loc.notificationsDisabledSubtitle,
-            style: theme.textTheme.bodySmall,
+            style: theme.textTheme.bodySmall?.copyWith(color: cs.onSurfaceVariant),
           ),
           value: notificationsEnabled,
           onChanged: (v) => setState(() => notificationsEnabled = v),
@@ -156,16 +168,16 @@ AppBar _buildAppBar(ThemeData theme) {
             notificationsEnabled
                 ? Icons.notifications_active_outlined
                 : Icons.notifications_off_outlined,
-            color: notificationsEnabled ? theme.colorScheme.primary : theme.iconTheme.color,
+            color: notificationsEnabled ? cs.primary : cs.onSurfaceVariant,
           ),
+          contentPadding: const EdgeInsetsDirectional.symmetric(horizontal: 16, vertical: 8),
         ),
       ),
-      const SizedBox(height: 24),
     ];
   }
 
-  List<Widget> _buildThresholdsSection(ThemeData theme) {
-    final cs = theme.colorScheme;
+  List<Widget> _buildThresholdsSection() {
+    final cs = Theme.of(context).colorScheme;
     return [
       SectionTitle(
         title: context.loc.thresholdsSectionTitle,
@@ -174,7 +186,7 @@ AppBar _buildAppBar(ThemeData theme) {
       const SizedBox(height: 4),
       Text(
         context.loc.thresholdsDescription,
-        style: theme.textTheme.bodySmall,
+        style: Theme.of(context).textTheme.bodySmall?.copyWith(color: cs.onSurfaceVariant),
       ),
       const SizedBox(height: 12),
       Row(
@@ -183,10 +195,10 @@ AppBar _buildAppBar(ThemeData theme) {
             child: ThresholdField(
               controller: safeCtrl,
               label: context.loc.safeThresholdLabel,
-              color: theme.extension<CustomColors>()?.safe ?? const Color(0xFF34D399),
+              color: Theme.of(context).extension<CustomColors>()?.safe ?? const Color(0xFF34D399),
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 12),
           Expanded(
             child: ThresholdField(
               controller: warningCtrl,
@@ -194,7 +206,7 @@ AppBar _buildAppBar(ThemeData theme) {
               color: cs.tertiary,
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 12),
           Expanded(
             child: ThresholdField(
               controller: urgentCtrl,
@@ -214,13 +226,12 @@ AppBar _buildAppBar(ThemeData theme) {
         title: context.loc.itemInfoSectionTitle,
         icon: Icons.inventory_2_outlined,
       ),
-      const SizedBox(height: 12),
+      const SizedBox(height: 16),
       AppTextField(
         controller: nameCtrl,
         label: context.loc.itemNameFieldLabel,
-        labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
         hint: context.loc.itemNameFieldHint,
-        icon: Icon(Icons.label_outline, color: Theme.of(context).colorScheme.primary),
+        icon: const Icon(Icons.label_outline),
         errorText: nameErrorText,
         focusNode: _nameFocus,
         textInputAction: TextInputAction.next,
@@ -232,27 +243,24 @@ AppBar _buildAppBar(ThemeData theme) {
         validator: (v) =>
             (v == null || v.trim().isEmpty) ? context.loc.nameRequiredError : null,
       ),
-      const SizedBox(height: 12),
+      const SizedBox(height: 16),
       AppTextField(
         controller: descCtrl,
         label: context.loc.quantityDescriptionLabel,
-        labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
         hint: context.loc.quantityDescriptionHint,
-        icon: Icon(Icons.notes_outlined, color: Theme.of(context).colorScheme.primary),
+        icon: const Icon(Icons.notes_outlined),
         focusNode: _descFocus,
         textInputAction: TextInputAction.next,
         onSubmitted: (_) => _daysFocus.requestFocus(),
       ),
-      const SizedBox(height: 12),
+      const SizedBox(height: 16),
       AppTextField(
         controller: daysCtrl,
         label: context.loc.expectedDaysLabel,
-        labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
         hint: context.loc.expectedDaysHint,
-        icon: Icon(Icons.calendar_today_outlined, color: Theme.of(context).colorScheme.primary),
+        icon: const Icon(Icons.calendar_today_outlined),
         keyboardType: TextInputType.number,
         suffix: context.loc.daysSuffix,
-        suffixStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
         focusNode: _daysFocus,
         textInputAction: TextInputAction.done,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -264,18 +272,18 @@ AppBar _buildAppBar(ThemeData theme) {
           return null;
         },
       ),
-      const SizedBox(height: 12),
+      const SizedBox(height: 16),
       RefreshDateField(
         dateController: dateCtrl,
         isEditing: isEditing,
         onPickDate: pickLastRefreshedDate,
         onResetToToday: resetLastRefreshedToToday,
       ),
-      const SizedBox(height: 12),
+      const SizedBox(height: 16),
       AppTextField(
         controller: notesCtrl,
         label: context.loc.notesLabel,
-        icon: Icon(Icons.edit_note_outlined, color: Theme.of(context).colorScheme.primary),
+        icon: const Icon(Icons.edit_note_outlined),
         keyboardType: TextInputType.multiline,
         textInputAction: TextInputAction.newline,
         minLines: 3,
@@ -288,26 +296,26 @@ AppBar _buildAppBar(ThemeData theme) {
   List<Widget> _buildSaveSection() {
     final theme = Theme.of(context);
     return [
-      const SizedBox(height: 32),
+      const SizedBox(height: 8),
       FilledButton.icon(
         onPressed: saving ? null : save,
         icon: saving
             ? SizedBox(
-                width: 18,
-                height: 18,
+                width: 20,
+                height: 20,
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
                   color: theme.colorScheme.onPrimary,
                 ),
               )
-            : Icon(isEditing ? Icons.save_outlined : Icons.add),
+            : Icon(isEditing ? Icons.save_outlined : Icons.add_outlined),
         label: Text(isEditing ? context.loc.saveChangesButton : context.loc.addItemSubmitButton),
         style: FilledButton.styleFrom(
           minimumSize: const Size.fromHeight(52),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         ),
       ),
-      const SizedBox(height: 20),
+      const SizedBox(height: 16),
     ];
   }
 }
