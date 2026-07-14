@@ -36,8 +36,11 @@ class _ExpiryScreenState extends ConsumerState<ExpiryScreen> {
     final shoppingAsync = ref.watch(shoppingListProvider);
 
     return Scaffold(
-appBar: AppBar(
+      appBar: AppBar(
         title: Text(context.loc.expiryScreenTitle),
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
         actions: [_buildAppBarAction(itemsAsync)],
       ),
       body: itemsAsync.when(
@@ -56,7 +59,7 @@ appBar: AppBar(
               .toSet();
 
           return ListView(
-            padding: const EdgeInsets.fromLTRB(12, 12, 12, 24),
+            padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 24),
             children: [
               const ExpiryNoticeCard(),
               for (final bucket in ExpiryBucket.values)
@@ -72,13 +75,75 @@ appBar: AppBar(
             ],
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(child: Text(context.loc.errorOccurredFormat(error.toString()))),
+        loading: () => _buildLoadingState(context),
+        error: (error, stack) => _buildErrorState(context, error.toString()),
       ),
     );
   }
 
-Widget _buildAppBarAction(AsyncValue<List<ItemModel>> itemsAsync) {
+  Widget _buildLoadingState(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CircularProgressIndicator(color: cs.primary),
+          const SizedBox(height: 16),
+          Text(
+            context.loc.errorOccurredFormat('Loading items...'),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildErrorState(BuildContext context, String error) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.error_outline_rounded,
+              size: 64,
+              color: cs.error,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              context.loc.errorOccurredFormat(error),
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: cs.onSurface,
+                fontWeight: FontWeight.w600,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              error,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: cs.onSurfaceVariant,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            FilledButton.icon(
+              onPressed: () => context.pop(),
+              icon: const Icon(Icons.refresh_outlined),
+              label: Text(context.loc.errorRetryLabel),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAppBarAction(AsyncValue<List<ItemModel>> itemsAsync) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -94,7 +159,7 @@ Widget _buildAppBarAction(AsyncValue<List<ItemModel>> itemsAsync) {
     }
 
     return PopupMenuButton<String>(
-      icon: const Icon(Icons.more_vert),
+      icon: const Icon(Icons.more_vert_outlined),
       position: PopupMenuPosition.under,
       onSelected: (value) {
         switch (value) {
@@ -112,8 +177,8 @@ Widget _buildAppBarAction(AsyncValue<List<ItemModel>> itemsAsync) {
           value: 'add_all',
           child: Row(
             children: [
-              Icon(Icons.add_shopping_cart, size: 20, color: Theme.of(context).colorScheme.primary),
-              const SizedBox(width: 8),
+              Icon(Icons.add_shopping_cart_outlined, size: 20, color: Theme.of(context).colorScheme.primary),
+              const SizedBox(width: 12),
               Text(context.loc.addAllToShoppingListMenu),
             ],
           ),
@@ -123,7 +188,7 @@ Widget _buildAppBarAction(AsyncValue<List<ItemModel>> itemsAsync) {
           child: Row(
             children: [
               Icon(Icons.settings_outlined, size: 20, color: Theme.of(context).colorScheme.primary),
-              const SizedBox(width: 8),
+              const SizedBox(width: 12),
               Text(context.loc.settings),
             ],
           ),
