@@ -24,28 +24,28 @@ class ErrorScreen extends StatelessWidget {
     this.retryLabel = 'العودة إلى الرئيسية',
   });
 
-  /// حالة جاهزة: مسار غير معروف.
+  /// Ready-made case: unknown route.
   factory ErrorScreen.unknownRoute(BuildContext context) => ErrorScreen(
         title: context.loc.errorUnknownRouteTitle,
         message: context.loc.errorUnknownRouteMessage,
         icon: Icons.signpost_outlined,
       );
 
-  /// حالة جاهزة: العنصر المطلوب غير موجود.
+  /// Ready-made case: requested item does not exist.
   factory ErrorScreen.itemNotFound(BuildContext context) => ErrorScreen(
         title: context.loc.errorItemNotFoundTitle,
         message: context.loc.errorItemNotFoundMessage,
         icon: Icons.search_off_rounded,
       );
 
-  /// حالة جاهزة: فشل جلب العنصر من المصدر (شبكة/قاعدة بيانات).
+  /// Ready-made case: failed to fetch item from source (network/DB).
   factory ErrorScreen.itemLoadFailed(BuildContext context) => ErrorScreen(
         title: context.loc.errorItemLoadFailedTitle,
         message: context.loc.errorItemLoadFailedMessage,
         icon: Icons.cloud_off_rounded,
       );
 
-  /// حالة جاهزة: خطأ غير متوقع أثناء بناء شاشة تحميل العنصر.
+  /// Ready-made case: unexpected error during item load screen build.
   factory ErrorScreen.itemLoadUnexpectedError(BuildContext context) => ErrorScreen(
         title: context.loc.errorItemLoadUnexpectedTitle,
         message: context.loc.errorItemLoadUnexpectedMessage,
@@ -99,7 +99,7 @@ class ErrorScreen extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   height: 48,
-                  child: ElevatedButton.icon(
+                  child: FilledButton.icon(
                     onPressed: onRetry ?? () => context.go('/home'),
                     icon: const Icon(Icons.home_rounded),
                     label: Text(retryLabel),
