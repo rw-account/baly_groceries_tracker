@@ -12,7 +12,7 @@ class AppTheme {
 
   static const _error = Color(0xFFFF6B6B);
   static const _warning = Color(0xFFFFB74D);
-  static const _safe = Color(0xFF00A884);
+  static const _safe = Color(0xFF34D399);
 
   static final dark = ThemeData(
     useMaterial3: true,

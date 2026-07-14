@@ -183,7 +183,7 @@ AppBar _buildAppBar(ThemeData theme) {
             child: ThresholdField(
               controller: safeCtrl,
               label: context.loc.safeThresholdLabel,
-              color: theme.extension<CustomColors>()?.safe ?? const Color(0xFF00A884),
+              color: theme.extension<CustomColors>()?.safe ?? const Color(0xFF34D399),
             ),
           ),
           const SizedBox(width: 8),

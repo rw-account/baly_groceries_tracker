@@ -20,7 +20,7 @@ class ItemCard extends StatelessWidget {
     final status = item.status;
 
     final statusColor = switch (status) {
-      ItemStatus.safe => theme.extension<CustomColors>()?.safe ?? const Color(0xFF00A884),
+      ItemStatus.safe => theme.extension<CustomColors>()?.safe ?? const Color(0xFF34D399),
       ItemStatus.warning => cs.tertiary,
       ItemStatus.urgent => cs.error,
     };
@@ -178,7 +178,7 @@ Row(
 
 Widget _buildAlertText(BuildContext context, ItemModel item, ThemeData theme) {
   final cs = theme.colorScheme;
-  final Color safeColor = theme.extension<CustomColors>()?.safe ?? const Color(0xFF00A884);
+  final Color safeColor = theme.extension<CustomColors>()?.safe ?? const Color(0xFF34D399);
 
   if (!item.notificationsEnabled) {
     return Container(

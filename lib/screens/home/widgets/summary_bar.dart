@@ -19,7 +19,7 @@ class SummaryBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
-    final safeColor = theme.extension<CustomColors>()?.safe ?? const Color(0xFF00A884);
+    final safeColor = theme.extension<CustomColors>()?.safe ?? const Color(0xFF34D399);
     final warningColor = cs.tertiary;
     final urgentColor = cs.error;
 
