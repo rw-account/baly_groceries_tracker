@@ -78,6 +78,9 @@ class _AppTextFieldState extends State<AppTextField> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+
     return TextFormField(
       controller: widget.controller,
       focusNode: _focusNode,
@@ -91,17 +94,30 @@ class _AppTextFieldState extends State<AppTextField> {
       validator: widget.validator,
       onChanged: widget.onChanged,
       onFieldSubmitted: widget.onSubmitted,
+      style: theme.textTheme.bodyLarge?.copyWith(color: cs.onSurface),
       decoration: InputDecoration(
         labelText: widget.label,
-        labelStyle: widget.labelStyle,
+        labelStyle: widget.labelStyle ?? theme.textTheme.bodyMedium?.copyWith(
+          color: cs.onSurfaceVariant,
+        ),
         hintText: widget.hint,
+        hintStyle: theme.textTheme.bodyMedium?.copyWith(
+          color: cs.onSurfaceVariant.withValues(alpha: 0.7),
+        ),
         prefixIcon: widget.icon,
         suffixText: widget.suffix,
         suffixStyle: widget.suffixStyle,
         filled: true,
+        fillColor: cs.surfaceContainerHighest.withValues(alpha: 0.5),
         errorText: widget.errorText,
+        errorStyle: theme.textTheme.bodySmall?.copyWith(color: cs.error),
         border: appFieldBorder(context),
         enabledBorder: appFieldBorder(context),
+        focusedBorder: appFieldBorder(context, color: cs.primary),
+        errorBorder: appFieldBorder(context, color: cs.error),
+        focusedErrorBorder: appFieldBorder(context, color: cs.error),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        alignLabelWithHint: widget.maxLines != null && widget.maxLines! > 1,
       ),
     );
   }
