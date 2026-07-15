@@ -16,21 +16,88 @@ class SettingsScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(context.loc.settings),
+        centerTitle: false,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back_outlined),
           onPressed: () => context.pop(),
         ),
       ),
       body: localeAsync.when(
         data: (locale) => _buildSettingsList(context, ref, locale),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(child: Text('Error: $error')),
+        loading: () => _buildLoadingState(context),
+        error: (error, stack) => _buildErrorState(context, error.toString()),
+      ),
+    );
+  }
+
+  Widget _buildLoadingState(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CircularProgressIndicator(color: cs.primary),
+          const SizedBox(height: 16),
+          Text(
+            context.loc.errorOccurredFormat('Loading settings...'),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: cs.onSurfaceVariant,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildErrorState(BuildContext context, String error) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.error_outline_rounded,
+              size: 64,
+              color: cs.error,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              context.loc.errorOccurredFormat('Error loading settings'),
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: cs.onSurface,
+                fontWeight: FontWeight.w600,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              error,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: cs.onSurfaceVariant,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            FilledButton.icon(
+              onPressed: () => context.pop(),
+              icon: const Icon(Icons.refresh_outlined),
+              label: Text(context.loc.errorRetryLabel),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildSettingsList(BuildContext context, WidgetRef ref, Locale currentLocale) {
     final localeNotifier = ref.read(localeProvider.notifier);
+    
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
@@ -83,7 +150,7 @@ class _LanguageOption extends StatelessWidget {
           ? colorScheme.primaryContainer
           : colorScheme.surfaceContainerHighest,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         side: BorderSide(
           color: isSelected
               ? colorScheme.primary
@@ -92,9 +159,9 @@ class _LanguageOption extends StatelessWidget {
         ),
       ),
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        contentPadding: const EdgeInsetsDirectional.symmetric(horizontal: 16, vertical: 8),
         leading: Icon(
-          isSelected ? Icons.radio_button_checked : Icons.radio_button_unchecked,
+          isSelected ? Icons.radio_button_checked_outlined : Icons.radio_button_unchecked_outlined,
           color: isSelected ? colorScheme.primary : colorScheme.onSurfaceVariant,
         ),
         title: Text(
