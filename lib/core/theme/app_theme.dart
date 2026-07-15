@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 class AppTheme {
   static const primaryBlue = Color(0xFF66C0F4);
   static const bg = Color(0xFF171A21);
-  static const surface = Color(0xFF151E2B);
+  static const surface = Color(0xFF1E293B);
   static const card = Color(0xFF22394F);
   static const textPrimary = Color(0xFFC7D5E0);
   static const textSecondary = Color(0xFF94A3B8);
