@@ -1,6 +1,7 @@
 // lib/screens/home/widgets/empty_state.dart
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/utils/context_extensions.dart';
 
 class EmptyState extends StatelessWidget {
@@ -9,32 +10,45 @@ class EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final secondaryColor = theme.textTheme.bodySmall?.color;
+    final cs = theme.colorScheme;
 
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.inventory_2_outlined,
-            size: 64,
-            color: secondaryColor?.withValues(alpha: 0.4),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            context.loc.emptyStateTitle,
-            style: theme.textTheme.titleMedium?.copyWith(
-              color: secondaryColor,
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: cs.primaryContainer.withValues(alpha: 0.3),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.inventory_2_outlined,
+                size: 64,
+                color: cs.primary,
+              ),
             ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            context.loc.emptyStateSubtitle,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: secondaryColor,
+            const SizedBox(height: 24),
+            Text(
+              context.loc.emptyStateTitle,
+              style: theme.textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: cs.onSurface,
+              ),
+              textAlign: TextAlign.center,
             ),
-          ),
-        ],
+            const SizedBox(height: 12),
+            Text(
+              context.loc.emptyStateSubtitle,
+              style: theme.textTheme.bodyLarge?.copyWith(
+                color: cs.onSurfaceVariant,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
     );
   }
