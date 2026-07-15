@@ -16,22 +16,27 @@ class ShareOptionsDialog extends StatefulWidget {
 }
 
 class _ShareOptionsDialogState extends State<ShareOptionsDialog> {
-  String _statusFilter = 'all'; // all, warning, urgent
+  String _statusFilter = 'all';
   bool _includeDays = true;
   bool _includeRenewal = false;
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return AlertDialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
       title: Text(context.loc.shareOptionsTitle),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(context.loc.includedStatusesLabel, style: const TextStyle(fontWeight: FontWeight.bold)),
-            
+            Text(
+              context.loc.includedStatusesLabel,
+              style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
             RadioGroup<String>(
               groupValue: _statusFilter,
               onChanged: (String? value) {
@@ -69,9 +74,13 @@ class _ShareOptionsDialogState extends State<ShareOptionsDialog> {
                 ],
               ),
             ),
-            
+            SizedBox(height: 8),
             const Divider(),
-            Text(context.loc.additionalOptionsLabel, style: const TextStyle(fontWeight: FontWeight.bold)),
+            SizedBox(height: 10),
+            Text(
+              context.loc.additionalOptionsLabel,
+              style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+            ),
             CheckboxListTile(
               title: Text(context.loc.includeRemainingDays),
               value: _includeDays,
@@ -96,6 +105,10 @@ class _ShareOptionsDialogState extends State<ShareOptionsDialog> {
         ),
         FilledButton(
           onPressed: _generateAndShare,
+          style: FilledButton.styleFrom(
+            minimumSize: const Size(80, 40),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+          ),
           child: Text(context.loc.shareLabel),
         ),
       ],
@@ -131,7 +144,7 @@ class _ShareOptionsDialogState extends State<ShareOptionsDialog> {
     }
 
     Navigator.pop(context);
-    
+
     try {
       SharePlus.instance.share(
         ShareParams(text: buffer.toString()),
