@@ -90,33 +90,23 @@ Future<void> checkAndShowBatteryDialog(BuildContext context) async {
   final shouldShow = await BatteryService.shouldShowBatteryPrompt();
   if (!shouldShow || !context.mounted) return;
 
-  final cs = Theme.of(context).colorScheme;
-
   // 2. نعرض الحوار
   final shouldProceed = await showDialog<bool>(
     context: context,
-    builder: (ctx) => AlertDialog(
-      backgroundColor: cs.surface,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4),
-        side: BorderSide(color: cs.outlineVariant, width: 1),
-      ),
-      title: Text(
-        ctx.loc.batteryDialogTitle, // تم استخدام ctx بدلاً من context
-        style: TextStyle(color: cs.onSurface, fontWeight: FontWeight.w600),
-      ),
-      content: Text(
-        ctx.loc.batteryDialogContent,
-        style: TextStyle(color: cs.onSurface, height: 1.5),
-      ),
+    builder: (ctx) => AlertDialog.adaptive(
+      title: Text(ctx.loc.batteryDialogTitle),
+      content: Text(ctx.loc.batteryDialogContent),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(ctx, false),
-          style: TextButton.styleFrom(foregroundColor: cs.primary),
           child: Text(ctx.loc.batteryDialogNotNow),
         ),
-        ElevatedButton(
+        FilledButton(
           onPressed: () => Navigator.pop(ctx, true),
+          style: FilledButton.styleFrom(
+            minimumSize: const Size(80, 40),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+          ),
           child: Text(ctx.loc.batteryDialogOpenSettings),
         ),
       ],
@@ -139,15 +129,9 @@ Future<void> checkAndShowBatteryDialog(BuildContext context) async {
         SnackBar(
           behavior: SnackBarBehavior.floating,
           duration: const Duration(seconds: 10),
-          backgroundColor: cs.errorContainer,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-          content: Text(
-            context.loc.batterySnackBarError,
-            style: TextStyle(color: cs.onErrorContainer),
-          ),
+          content: Text(context.loc.batterySnackBarError),
           action: SnackBarAction(
             label: context.loc.batterySnackBarRetry,
-            textColor: cs.onErrorContainer,
             onPressed: () async {
               await BatteryService.openBatterySettings();
             },
