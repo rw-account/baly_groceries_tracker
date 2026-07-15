@@ -45,9 +45,9 @@ class _ResultTileState extends State<ResultTile> {
 
     return Material(
       color: Colors.transparent,
-      borderRadius: BorderRadius.circular(4),
+      borderRadius: BorderRadius.circular(12),
       child: InkWell(
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(12),
         onTap: widget.enabled ? widget.onTap : null,
         onHighlightChanged: _setPressed,
         splashColor: cs.primary.withValues(alpha: 0.12),
@@ -59,27 +59,29 @@ class _ResultTileState extends State<ResultTile> {
           child: Container(
             decoration: BoxDecoration(
               color: cs.surface,
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: cs.outlineVariant,
                 width: 1,
               ),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Row(
               children: [
                 Container(
-                  width: 36,
-                  height: 36,
+                  width: 40,
+                  height: 40,
                   decoration: BoxDecoration(
                     color: widget.color.withValues(alpha: 0.15),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(widget.color == cs.primary
-                      ? widget.icon
-                      : widget.icon, color: widget.color, size: 18),
+                  child: Icon(
+                    widget.icon,
+                    color: widget.color,
+                    size: 20,
+                  ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,8 +112,8 @@ class _ResultTileState extends State<ResultTile> {
                 ),
                 if (!widget.enabled)
                   Icon(
-                    Icons.check_circle,
-                    size: 18,
+                    Icons.check_circle_outlined,
+                    size: 20,
                     color: cs.onSurfaceVariant,
                   ),
               ],
