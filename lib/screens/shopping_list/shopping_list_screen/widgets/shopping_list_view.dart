@@ -51,7 +51,7 @@ class ShoppingListView extends StatelessWidget {
       children: [
         Expanded(
           child: ListView.builder(
-            padding: const EdgeInsets.fromLTRB(12, 12, 12, 80),
+            padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 100),
             itemCount: items.length,
             itemBuilder: (context, index) {
               final item = items[index];
