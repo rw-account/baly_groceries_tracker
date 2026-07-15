@@ -23,34 +23,37 @@ class SummaryBar extends StatelessWidget {
     final warningColor = cs.tertiary;
     final urgentColor = cs.error;
 
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _buildStatusItem(context, context.loc.statusSafe, safeCount, safeColor),
-          _divider(theme),
-          _buildStatusItem(context, context.loc.statusWarning, warningCount, warningColor),
-          _divider(theme),
-          _buildStatusItem(context, context.loc.statusUrgent, urgentCount, urgentColor),
-        ],
+    return Padding(
+      padding: const EdgeInsetsDirectional.symmetric(horizontal: 16, vertical: 8),
+      child: Card(
+        elevation: 0,
+        color: cs.surfaceContainerHighest,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildStatusItem(context, context.loc.statusSafe, safeCount, safeColor),
+              _divider(context),
+              _buildStatusItem(context, context.loc.statusWarning, warningCount, warningColor),
+              _divider(context),
+              _buildStatusItem(context, context.loc.statusUrgent, urgentCount, urgentColor),
+            ],
+          ),
+        ),
       ),
     );
   }
 
   Widget _buildStatusItem(BuildContext context, String label, int count, Color color) {
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
           '$count',
-          style: TextStyle(
-            fontSize: 20,
+          style: theme.textTheme.headlineSmall?.copyWith(
             fontWeight: FontWeight.bold,
             color: color,
           ),
@@ -58,17 +61,20 @@ class SummaryBar extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           label,
-          style: Theme.of(context).textTheme.bodySmall,
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
         ),
       ],
     );
   }
 
-  Widget _divider(ThemeData theme) {
+  Widget _divider(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
-      height: 30,
+      height: 32,
       width: 1,
-      color: theme.colorScheme.outlineVariant.withValues(alpha: 0.5),
+      color: theme.colorScheme.outlineVariant.withValues(alpha: 0.3),
     );
   }
 }
