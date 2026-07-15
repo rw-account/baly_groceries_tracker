@@ -124,7 +124,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           hintStyle: theme.textTheme.bodyLarge?.copyWith(color: cs.onSurfaceVariant),
           suffixIcon: _searchQuery.isNotEmpty
               ? IconButton(
-                  icon: Icon(Icons.clear, color: cs.onSurfaceVariant, size: 22),
+                  icon: Icon(Icons.clear, color: cs.onSurfaceVariant, size: 24),
                   onPressed: () {
                     _searchController.clear();
                     setState(() {
