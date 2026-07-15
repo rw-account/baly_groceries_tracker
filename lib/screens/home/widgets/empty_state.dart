@@ -1,7 +1,6 @@
 // lib/screens/home/widgets/empty_state.dart
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import '../../../core/utils/context_extensions.dart';
 
 class EmptyState extends StatelessWidget {
