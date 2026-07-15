@@ -80,14 +80,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             }
             return ItemsList(
               items: searchResults,
-              onItemTap: (item) {
-                if (_isSearching) _toggleSearch();
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  if (mounted) {
-                    context.push(RoutePaths.editItemPath(item.id), extra: item);
-                  }
-                });
-              },
             );
           }
 
@@ -101,14 +93,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               Expanded(
                 child: ItemsList(
                   items: items,
-                  onItemTap: (item) {
-                  if (_isSearching) _toggleSearch();
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      if (mounted) {
-                        context.push(RoutePaths.editItemPath(item.id), extra: item);
-                      }
-                    });
-                  },
                 ),
               ),
             ],
@@ -138,6 +122,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         decoration: InputDecoration(
           hintText: context.loc.searchHint,
           hintStyle: theme.textTheme.bodyLarge?.copyWith(color: cs.onSurfaceVariant),
+          suffixIcon: _searchQuery.isNotEmpty
+              ? IconButton(
+                  icon: const Icon(Icons.close, size: 22),
+                  onPressed: () {
+                    _searchController.clear();
+                    setState(() {
+                      _searchQuery = '';
+                    });
+                  },
+                )
+              : null,
           border: InputBorder.none,
           filled: false,
           isDense: true,
@@ -158,20 +153,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          FloatingActionButton(
-            heroTag: 'search_fab',
-            onPressed: _toggleSearch,
-            child: Icon(_isSearching ? Icons.close_outlined : Icons.search_outlined),
+          Padding(
+            padding: const EdgeInsets.only(right:5, left: 5),
+            child: SizedBox(
+              height: 50,
+              width: 50,
+              child: FloatingActionButton(
+                heroTag: 'add_fab',
+                onPressed: () {
+                if (_isSearching) _toggleSearch();
+                context.push(RoutePaths.addItemFull);
+                },
+                child:Icon(Icons.add_outlined),
+              ),
+            ),
           ),
-          const SizedBox(height: 12),
-          FloatingActionButton.extended(
-            heroTag: 'add_fab',
-            onPressed: () {
-            if (_isSearching) _toggleSearch();
-            context.push(RoutePaths.addItemFull);
-            },
-            icon: const Icon(Icons.add_outlined),
-            label: Text(context.loc.addButtonLabel),
+          const SizedBox(height: 16),
+          SizedBox(
+            height: 64,
+            width: 64,
+            child: FloatingActionButton(
+              heroTag: 'search_fab',
+              onPressed: _toggleSearch,
+              child: Icon(_isSearching ? Icons.close_outlined : Icons.search_outlined, size: 32),
+            ),
           ),
         ],
       ),
