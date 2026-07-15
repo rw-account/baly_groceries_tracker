@@ -1,6 +1,7 @@
 // lib/services/notification_service.dart
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/data/latest.dart' as tz_data;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_timezone/flutter_timezone.dart';
@@ -67,6 +68,9 @@ class NotificationService {
 
       if (alertItems.isEmpty) return;
 
+      final prefs = await SharedPreferences.getInstance();
+      final String langCode = prefs.getString('language_code') ?? 'ar';
+
       final urgentItems =
           alertItems.where((i) => i.status == ItemStatus.urgent).toList();
       final warningItems =
@@ -74,13 +78,18 @@ class NotificationService {
 
       final buffer = StringBuffer();
       if (urgentItems.isNotEmpty) {
-        buffer.writeln('🔴 عاجل: ${urgentItems.map((e) => e.name).join('، ')}');
+        final urgentPrefix = langCode == 'ar' ? '🔴 عاجل' : '🔴 Urgent';
+        buffer.writeln('$urgentPrefix: ${urgentItems.map((e) => e.name).join('، ')}');
       }
+      
       if (warningItems.isNotEmpty) {
-        buffer.writeln('🟡 انتبه: ${warningItems.map((e) => e.name).join('، ')}');
+        final warningPrefix = langCode == 'ar' ? '🟡 انتبه' : '🟡 Warning';
+        buffer.writeln('$warningPrefix: ${warningItems.map((e) => e.name).join('، ')}');
       }
 
       final body = buffer.toString().trim();
+
+      final title = langCode == 'ar' ? 'ملخص طلبات البيت' : 'Home Items Summary';
 
       final now = tz.TZDateTime.now(tz.local);
       var scheduledDate =
@@ -92,7 +101,7 @@ class NotificationService {
 
       await _plugin.zonedSchedule(
         id: _notificationId,
-        title: 'ملخص طلبات البيت',
+        title: title,
         body: body,
         scheduledDate: scheduledDate,
         notificationDetails: NotificationDetails(
@@ -103,12 +112,11 @@ class NotificationService {
             importance: Importance.high,
             priority: Priority.high,
             icon: 'ic_notification',
-            styleInformation:
-                BigTextStyleInformation(body), // ✅ يضمن عرض النص كاملاً عند التوسيع
+            styleInformation: BigTextStyleInformation(body),
           ),
         ),
         androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
-        matchDateTimeComponents: DateTimeComponents.time, // يجعل الإشعار يتكرر يومياً بنفسه
+        matchDateTimeComponents: DateTimeComponents.time, // Makes the notification repeat daily automatically
       );
     } catch (e) {
       // ignore: avoid_print
