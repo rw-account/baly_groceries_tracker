@@ -1,6 +1,10 @@
+// lib/providers/locale_provider.dart
+
 import 'package:flutter/material.dart';
+import 'package:home_orders_tracker/providers/items_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../services/notification_service.dart';
 
 part 'locale_provider.g.dart';
 
@@ -22,5 +26,13 @@ class LocaleNotifier extends _$LocaleNotifier {
     await prefs.setString('language_code', languageCode);   
     currentLanguage = languageCode;
     state = AsyncData(Locale(languageCode));
+
+    try {
+      final storage = ref.read(storageServiceProvider);
+      final items = await storage.getAllItems();
+
+      await NotificationService.scheduleDailySummary(items);
+    } catch (_) {
+    }
   }
 }
