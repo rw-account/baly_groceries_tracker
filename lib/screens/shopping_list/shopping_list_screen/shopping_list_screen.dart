@@ -27,10 +27,10 @@ class ShoppingListScreen extends ConsumerStatefulWidget {
 }
 
 class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
-  // ── Undo timer for single-item delete ──────────────────────────────────────
+  // Undo timer for single-item delete
   Timer? _snackBarTimer;
 
-  // ── Swipe-hint flag ────────────────────────────────────────────────────────
+  // Swipe-hint flag
   bool _hasSeenSwipeHint = true; // default to true → no flicker on load
 
   @override
@@ -65,16 +65,16 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
 
   void _showSnackBar(String message) {
     if (!mounted) return;
+    final cs = Theme.of(context).colorScheme;
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
-          content: Text(
-            message,
-            style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
-          ),
-          backgroundColor:
-              Theme.of(context).colorScheme.surfaceContainerHighest,
+          content: Text(message, style: TextStyle(color: cs.onSurface)),
+          backgroundColor: cs.surfaceContainerHighest,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          margin: const EdgeInsets.all(16),
         ),
       );
   }
@@ -94,7 +94,6 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
         );
 
     return PopScope(
-      // Intercept the back gesture while in selection mode.
       canPop: !isSelecting,
       onPopInvokedWithResult: (didPop, _) {
         if (!didPop && isSelecting) {
@@ -109,8 +108,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
           data: (items) {
             if (items.isEmpty) {
               return ShoppingListEmptyState(
-                onAddPressed: () =>
-                    context.push(RoutePaths.addShoppingItemFull),
+                onAddPressed: () => context.push(RoutePaths.addShoppingItemFull),
               );
             }
             return ShoppingListView(
@@ -128,26 +126,19 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
               onSwipeCompleted: _markSwipeHintSeen,
             );
           },
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, stack) => Center(
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Text(
-                context.loc.errorOccurredFormat(error.toString()),
-                textAlign: TextAlign.center,
-                style:
-                    TextStyle(color: Theme.of(context).colorScheme.error),
-              ),
-            ),
-          ),
+          loading: () => _buildLoadingState(context),
+          error: (error, stack) => _buildErrorState(context, error.toString()),
         ),
         floatingActionButton: showFab
             ? Padding(
-                padding: const EdgeInsets.only(bottom: 70, left: 3),
-                child: FloatingActionButton(
-                  onPressed: () =>
-                      context.push(RoutePaths.addShoppingItemFull),
-                  child: const Icon(Icons.add),
+                padding: const EdgeInsets.only(right: 15, left: 15, bottom: 90),
+                child: SizedBox(
+                  height: 62,
+                  width: 62,
+                  child: FloatingActionButton(
+                    onPressed: () => context.push(RoutePaths.addShoppingItemFull),
+                    child: const Icon(Icons.add_outlined, size: 31),
+                  ),
                 ),
               )
             : null,
@@ -155,17 +146,79 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
     );
   }
 
+  Widget _buildLoadingState(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CircularProgressIndicator(color: cs.primary),
+          const SizedBox(height: 16),
+          Text(
+            context.loc.errorOccurredFormat('Loading items...'),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: cs.onSurfaceVariant,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildErrorState(BuildContext context, String error) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.error_outline_rounded, size: 64, color: cs.error),
+            const SizedBox(height: 16),
+            Text(
+              context.loc.errorOccurredFormat(error),
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: cs.onSurface,
+                fontWeight: FontWeight.w600,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              error,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: cs.onSurfaceVariant,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            FilledButton.icon(
+              onPressed: () => context.pop(),
+              icon: const Icon(Icons.refresh_outlined),
+              label: Text(context.loc.errorRetryLabel),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   // ─── AppBars ───────────────────────────────────────────────────────────────
 
   AppBar _buildNormalAppBar(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return AppBar(
       title: Text(context.loc.shoppingListTitle),
       centerTitle: false,
       elevation: 0,
-      scrolledUnderElevation: 1,
+      scrolledUnderElevation: 0,
+      surfaceTintColor: Colors.transparent,
+      backgroundColor: cs.surface,
+      foregroundColor: cs.onSurface,
       actions: [
         PopupMenuButton<String>(
-          icon: const Icon(Icons.more_vert),
+          icon: const Icon(Icons.more_vert_outlined),
           position: PopupMenuPosition.under,
           onSelected: (value) {
             switch (value) {
@@ -185,10 +238,8 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
               value: 'delete_all',
               child: Row(
                 children: [
-                  Icon(Icons.delete_outline,
-                      size: 20,
-                      color: Theme.of(context).colorScheme.error),
-                  const SizedBox(width: 8),
+                  Icon(Icons.delete_outline, size: 20, color: cs.error),
+                  const SizedBox(width: 12),
                   Text(context.loc.deleteAllItemsMenu),
                 ],
               ),
@@ -197,10 +248,8 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
               value: 'share_list',
               child: Row(
                 children: [
-                  Icon(Icons.share_outlined,
-                      size: 20,
-                      color: Theme.of(context).colorScheme.primary),
-                  const SizedBox(width: 8),
+                  Icon(Icons.share_outlined, size: 20, color: cs.primary),
+                  const SizedBox(width: 12),
                   Text(context.loc.shareListMenu),
                 ],
               ),
@@ -209,10 +258,8 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
               value: 'settings',
               child: Row(
                 children: [
-                  Icon(Icons.settings_outlined,
-                      size: 20,
-                      color: Theme.of(context).colorScheme.primary),
-                  const SizedBox(width: 8),
+                  Icon(Icons.settings_outlined, size: 20, color: cs.primary),
+                  const SizedBox(width: 12),
                   Text(context.loc.settings),
                 ],
               ),
@@ -230,10 +277,11 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
 
     return AppBar(
       elevation: 0,
-      scrolledUnderElevation: 1,
+      scrolledUnderElevation: 0,
+      surfaceTintColor: Colors.transparent,
       backgroundColor: cs.surfaceContainerHighest,
       leading: IconButton(
-        icon: const Icon(Icons.close),
+        icon: const Icon(Icons.close_outlined),
         tooltip: context.loc.clearSelectionTooltip,
         onPressed: () =>
             ref.read(shoppingSelectionProvider.notifier).clearSelection(),
@@ -250,8 +298,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
         IconButton(
           icon: Icon(Icons.delete_outline, color: cs.error),
           tooltip: context.loc.deleteSelectedTooltip,
-          onPressed:
-              count == 0 ? null : () => _confirmBulkDelete(selection),
+          onPressed: count == 0 ? null : () => _confirmBulkDelete(selection),
         ),
         const SizedBox(width: 4),
       ],
@@ -273,7 +320,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
   // If the SnackBar behavior is improved in future Flutter releases,
   // this can be replaced with the standard approach (a regular SnackBar
   // using the action property).
-
+  
   Future<void> _deleteShoppingItem(ShoppingItem item) async {
     final id = item.id;
     if (id == null) return;
@@ -342,6 +389,9 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
           ],
         ),
         backgroundColor: theme.colorScheme.surfaceContainerHighest,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        margin: const EdgeInsets.all(16),
         action: SnackBarAction(
           label: context.loc.undoLabel,
           textColor: theme.colorScheme.onSurface,
@@ -381,7 +431,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
 
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
+      builder: (ctx) => AlertDialog.adaptive(
         title: Text(context.loc.deleteSelectedTitle),
         content: Text(
           context.loc.confirmDeleteSelectedFormat(count.toString()),
@@ -396,6 +446,8 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
             style: FilledButton.styleFrom(
               backgroundColor: Theme.of(ctx).colorScheme.error,
               foregroundColor: Theme.of(ctx).colorScheme.onError,
+              minimumSize: const Size(80, 40),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
             ),
             child: Text(context.loc.deleteButtonLabel),
           ),
@@ -427,12 +479,11 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
 
     if (!mounted) return;
 
-    // ── Same Undo Logic as _deleteShoppingItem ──────────────────────────────
+    // Same Undo Logic as _deleteShoppingItem
     const int durationSeconds = 5;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     final theme = Theme.of(context);
 
-    // Cancel any previous timer to prevent a stale timer from hiding the new SnackBar.
     _snackBarTimer?.cancel();
 
     scaffoldMessenger.hideCurrentSnackBar();
@@ -482,11 +533,14 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
           ],
         ),
         backgroundColor: theme.colorScheme.surfaceContainerHighest,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        margin: const EdgeInsets.all(16),
         action: SnackBarAction(
           label: context.loc.undoLabel,
           textColor: theme.colorScheme.onSurface,
           onPressed: () async {
-            _snackBarTimer?.cancel(); // ❌ Cancel the sleep timer immediately because the user tapped Undo.
+            _snackBarTimer?.cancel();
             try {
               await ref
                   .read(shoppingListProvider.notifier)
@@ -501,19 +555,18 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
     );
 
     _snackBarTimer = Timer(const Duration(seconds: durationSeconds), () {
-      if (mounted) scaffoldMessenger.hideCurrentSnackBar(); // 👈 Called immediately after the timer expires.
+      if (mounted) scaffoldMessenger.hideCurrentSnackBar();
     });
   }
 
-  // ─── Delete all ────────────────────────────────────────────────────────────
+  // ─── Delete all ──────────────────────────────────────────────────────────────
 
   Future<void> _confirmDeleteAll() async {
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
+      builder: (ctx) => AlertDialog.adaptive(
         title: Text(context.loc.deleteAllTitle),
-        content: Text(
-            context.loc.confirmDeleteAllMessage),
+        content: Text(context.loc.confirmDeleteAllMessage),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
@@ -524,6 +577,8 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
             style: FilledButton.styleFrom(
               backgroundColor: Theme.of(ctx).colorScheme.error,
               foregroundColor: Theme.of(ctx).colorScheme.onError,
+              minimumSize: const Size(80, 40),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
             ),
             child: Text(context.loc.deleteAllButton),
           ),
@@ -543,7 +598,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
     }
   }
 
-  // ─── Share list ────────────────────────────────────────────────────────────
+  // ─── Share list ──────────────────────────────────────────────────────────────
 
   Future<void> _shareList() async {
     final items = ref.read(shoppingListProvider).value ?? [];
@@ -560,7 +615,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
       builder: (ctx) {
         return StatefulBuilder(
           builder: (context, setDialogState) {
-            return AlertDialog(
+            return AlertDialog.adaptive(
               title: Text(context.loc.shareOptionsTitle),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -595,6 +650,10 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
                 FilledButton(
                   onPressed: () =>
                       Navigator.pop(ctx, [includePrice, includeChecked]),
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size(80, 40),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                  ),
                   child: Text(context.loc.shareLabel),
                 ),
               ],
@@ -626,23 +685,17 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
 
       if (shouldIncludeChecked && item.isChecked) {
         if (!mounted) return;
-        buffer.writeln(
-          context.loc.completedFormat,
-        );
-      }else if (shouldIncludeChecked && !item.isChecked) {
+        buffer.writeln(context.loc.completedFormat);
+      } else if (shouldIncludeChecked && !item.isChecked) {
         if (!mounted) return;
-        buffer.writeln(
-          context.loc.notCompletedFormat,
-        );
+        buffer.writeln(context.loc.notCompletedFormat);
       }
 
       buffer.writeln();
     }
 
     try {
-      SharePlus.instance.share(
-        ShareParams(text: buffer.toString()),
-      );
+      SharePlus.instance.share(ShareParams(text: buffer.toString()));
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
