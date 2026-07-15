@@ -18,12 +18,19 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
     return AppBar(
       title: Text(context.loc.appTitle),
       centerTitle: false,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      surfaceTintColor: Colors.transparent,
+      backgroundColor: cs.surface,
+      foregroundColor: cs.onSurface,
       actions: [
         PopupMenuButton<String>(
-          icon: const Icon(Icons.more_vert),
+          icon: const Icon(Icons.more_vert_outlined),
           position: PopupMenuPosition.under,
           onSelected: (value) {
             switch (value) {
@@ -40,8 +47,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
               value: 'share',
               child: Row(
                 children: [
-                  Icon(Icons.share_outlined, size: 20, color: Theme.of(context).colorScheme.primary),
-                  const SizedBox(width: 8),
+                  Icon(Icons.share_outlined, size: 20, color: cs.primary),
+                  const SizedBox(width: 12),
                   Text(context.loc.shareItemDetails),
                 ],
               ),
@@ -50,8 +57,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
               value: 'settings',
               child: Row(
                 children: [
-                  Icon(Icons.settings_outlined, size: 20, color: Theme.of(context).colorScheme.primary),
-                  const SizedBox(width: 8),
+                  Icon(Icons.settings_outlined, size: 20, color: cs.primary),
+                  const SizedBox(width: 12),
                   Text(context.loc.settings),
                 ],
               ),
