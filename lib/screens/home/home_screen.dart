@@ -80,6 +80,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             }
             return ItemsList(
               items: searchResults,
+              onItemTap: (item) {
+                if (_isSearching) _toggleSearch();
+                context.push(RoutePaths.editItemPath(item.id), extra: item);
+              },
             );
           }
 
@@ -93,6 +97,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               Expanded(
                 child: ItemsList(
                   items: items,
+                  onItemTap: (item) {
+                    if (_isSearching) _toggleSearch();
+                    context.push(RoutePaths.editItemPath(item.id), extra: item);
+                  },
                 ),
               ),
             ],
