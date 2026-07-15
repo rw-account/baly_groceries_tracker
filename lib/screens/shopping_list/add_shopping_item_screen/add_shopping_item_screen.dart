@@ -103,6 +103,9 @@ class _AddShoppingItemViewState extends State<_AddShoppingItemView> {
               SnackBar(
                 content: Text(_localizedError(context, state.errorMessage!)),
                 backgroundColor: cs.error,
+                behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                margin: const EdgeInsets.all(16),
               ),
             );
         }
@@ -116,12 +119,15 @@ class _AddShoppingItemViewState extends State<_AddShoppingItemView> {
               title: Text(
                 isManual ? context.loc.addNewItemTitle : context.loc.addToShoppingListTitle,
               ),
-              centerTitle: true,
+              centerTitle: false,
               elevation: 0,
               scrolledUnderElevation: 0,
+              surfaceTintColor: Colors.transparent,
+              backgroundColor: cs.surface,
+              foregroundColor: cs.onSurface,
               leading: isManual
                   ? IconButton(
-                      icon: const Icon(Icons.arrow_back),
+                      icon: const Icon(Icons.arrow_back_outlined),
                       onPressed: state.isSubmitting
                           ? null
                           : () => context.read<AddItemCubit>().exitManualMode(),
