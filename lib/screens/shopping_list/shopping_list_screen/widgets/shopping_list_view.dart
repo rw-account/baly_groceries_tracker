@@ -17,6 +17,7 @@ class ShoppingListView extends StatelessWidget {
     required this.onDelete,
     // Selection-mode params
     required this.isInSelectionMode,
+    required this.isSearching,
     required this.selectedIds,
     required this.onItemLongPress,
     required this.onItemTap,
@@ -29,6 +30,7 @@ class ShoppingListView extends StatelessWidget {
   final ValueChanged<ShoppingItem> onDelete;
 
   final bool isInSelectionMode;
+  final bool isSearching;
   final Set<int> selectedIds;
   final void Function(int id) onItemLongPress;
   final void Function(int id) onItemTap;
@@ -91,7 +93,7 @@ class ShoppingListView extends StatelessWidget {
             },
           ),
         ),
-        ShoppingListTotalBar(total: total),
+        if (!isSearching) ShoppingListTotalBar(total: total),
       ],
     );
   }

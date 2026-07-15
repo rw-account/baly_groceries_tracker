@@ -33,6 +33,11 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
   // Swipe-hint flag
   bool _hasSeenSwipeHint = true; // default to true → no flicker on load
 
+  // Search state
+  bool _isSearching = false;
+  String _searchQuery = '';
+  final TextEditingController _searchController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -57,6 +62,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
 
   @override
   void dispose() {
+    _searchController.dispose();
     _snackBarTimer?.cancel();
     super.dispose();
   }
@@ -79,6 +85,16 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
       );
   }
 
+  void _toggleSearch() {
+    setState(() {
+      _isSearching = !_isSearching;
+      if (!_isSearching) {
+        _searchController.clear();
+        _searchQuery = '';
+      }
+    });
+  }
+
   // ─── Build ─────────────────────────────────────────────────────────────────
 
   @override
@@ -88,22 +104,28 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
     final isSelecting = selection.isSelecting;
 
     final showFab = !isSelecting &&
+        !_isSearching && // Hide FAB while searching for a cleaner UI
         shoppingAsync.maybeWhen(
           data: (items) => items.isNotEmpty,
           orElse: () => false,
         );
 
     return PopScope(
-      canPop: !isSelecting,
+      canPop: !isSelecting && !_isSearching,
       onPopInvokedWithResult: (didPop, _) {
-        if (!didPop && isSelecting) {
+        if (didPop) return;
+        if (_isSearching) {
+          _toggleSearch();
+        } else if (isSelecting) {
           ref.read(shoppingSelectionProvider.notifier).clearSelection();
         }
       },
       child: Scaffold(
         appBar: isSelecting
             ? _buildSelectionAppBar(context, selection)
-            : _buildNormalAppBar(context),
+            : _isSearching
+                ? _buildSearchAppBar(context)
+                : _buildNormalAppBar(context),
         body: shoppingAsync.when(
           data: (items) {
             if (items.isEmpty) {
@@ -111,17 +133,44 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
                 onAddPressed: () => context.push(RoutePaths.addShoppingItemFull),
               );
             }
+
+            if (_isSearching) {
+              if (_searchQuery.isEmpty) {
+                return const SizedBox.shrink();
+              }
+
+              final searchResults = items
+                  .where((item) => item.title.toLowerCase().contains(_searchQuery.toLowerCase()))
+                  .toList();
+
+              if (searchResults.isEmpty) {
+                return _buildEmptySearchState(context);
+              }
+
+              return ShoppingListView(
+                items: searchResults,
+                onDelete: _deleteShoppingItem,
+                isInSelectionMode: isSelecting,
+                isSearching: _isSearching,
+                selectedIds: selection.selectedIds,
+                onItemLongPress: (id) {
+                  if (_isSearching) _toggleSearch(); // Exit search on long press
+                  ref.read(shoppingSelectionProvider.notifier).enterSelectionMode(id);
+                },
+                onItemTap: (id) => ref.read(shoppingSelectionProvider.notifier).toggleSelection(id),
+                showPeekAnimation: false, // Disable peek animation during search
+                onSwipeCompleted: _markSwipeHintSeen,
+              );
+            }
+
             return ShoppingListView(
               items: items,
               onDelete: _deleteShoppingItem,
               isInSelectionMode: isSelecting,
+              isSearching: _isSearching,
               selectedIds: selection.selectedIds,
-              onItemLongPress: (id) => ref
-                  .read(shoppingSelectionProvider.notifier)
-                  .enterSelectionMode(id),
-              onItemTap: (id) => ref
-                  .read(shoppingSelectionProvider.notifier)
-                  .toggleSelection(id),
+              onItemLongPress: (id) => ref.read(shoppingSelectionProvider.notifier).enterSelectionMode(id),
+              onItemTap: (id) => ref.read(shoppingSelectionProvider.notifier).toggleSelection(id),
               showPeekAnimation: !_hasSeenSwipeHint && items.isNotEmpty,
               onSwipeCompleted: _markSwipeHintSeen,
             );
@@ -136,7 +185,10 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
                   height: 62,
                   width: 62,
                   child: FloatingActionButton(
-                    onPressed: () => context.push(RoutePaths.addShoppingItemFull),
+                    onPressed: () {
+                      if (_isSearching) _toggleSearch(); // Exit search if adding new
+                      context.push(RoutePaths.addShoppingItemFull);
+                    },
                     child: const Icon(Icons.add_outlined, size: 31),
                   ),
                 ),
@@ -145,6 +197,83 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
       ),
     );
   }
+
+  // ─── Search UI ──────────────────────────────────────────────────────────────
+
+  PreferredSizeWidget _buildSearchAppBar(BuildContext context) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+
+    return AppBar(
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back_outlined),
+        onPressed: _toggleSearch,
+      ),
+      title: TextField(
+        controller: _searchController,
+        autofocus: true,
+        style: theme.textTheme.bodyLarge?.copyWith(color: cs.onSurface),
+        decoration: InputDecoration(
+          hintText: context.loc.searchHint,
+          hintStyle: theme.textTheme.bodyLarge?.copyWith(color: cs.onSurfaceVariant),
+          suffixIcon: _searchQuery.isNotEmpty
+              ? IconButton(
+                  icon: Icon(Icons.clear, color: cs.onSurfaceVariant, size: 24),
+                  onPressed: () {
+                    _searchController.clear();
+                    setState(() {
+                      _searchQuery = '';
+                    });
+                  },
+                )
+              : null,
+          border: InputBorder.none,
+          filled: false,
+          isDense: true,
+        ),
+        onChanged: (value) {
+          setState(() {
+            _searchQuery = value;
+          });
+        },
+      ),
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      surfaceTintColor: Colors.transparent,
+      backgroundColor: cs.surface,
+      foregroundColor: cs.onSurface,
+    );
+  }
+
+  Widget _buildEmptySearchState(BuildContext context) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.search_off_outlined,
+              size: 64,
+              color: cs.onSurfaceVariant.withValues(alpha: 0.5),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              context.loc.noResultsFound,
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: cs.onSurfaceVariant,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ─── Loading & Error States ────────────────────────────────────────────────
 
   Widget _buildLoadingState(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
@@ -217,6 +346,11 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
       backgroundColor: cs.surface,
       foregroundColor: cs.onSurface,
       actions: [
+        IconButton(
+          icon: Icon(Icons.search_outlined, color: cs.onSurface),
+          tooltip: context.loc.searchHint,
+          onPressed: _toggleSearch,
+        ),
         PopupMenuButton<String>(
           icon: const Icon(Icons.more_vert_outlined),
           position: PopupMenuPosition.under,
