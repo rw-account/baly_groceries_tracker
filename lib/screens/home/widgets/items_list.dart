@@ -13,13 +13,13 @@ class ItemsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-              padding: const EdgeInsets.only(top: 8, bottom: 145),
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                final item = items[index];
-                return ItemCard(
-                  item: item,
-                  onTap: () => context.push(RoutePaths.editItemPath(item.id), extra: item),
+      padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 172),
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        final item = items[index];
+        return ItemCard(
+          item: item,
+          onTap: () => context.push(RoutePaths.editItemPath(item.id), extra: item),
         );
       },
     );
