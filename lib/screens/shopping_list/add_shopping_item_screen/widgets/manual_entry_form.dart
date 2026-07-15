@@ -67,9 +67,8 @@ class _ManualEntryFormState extends State<ManualEntryForm> {
     super.initState();
     _nameFocus = FocusNode();
     _priceFocus = FocusNode();
-    // تركيز تلقائي عند فتح الشاشة
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _nameFocus.requestFocus());
+    // Auto-focus when screen opens
+    WidgetsBinding.instance.addPostFrameCallback((_) => _nameFocus.requestFocus());
   }
 
   @override
@@ -82,24 +81,25 @@ class _ManualEntryFormState extends State<ManualEntryForm> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
     final canSubmit =
         widget.canSubmit && !widget.isDuplicate && !widget.isSubmitting;
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
+      padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // ── حقل الاسم ────────────────────────────────────────
-          TextField(
+          // Name field
+          TextFormField(
             controller: widget.nameController,
             focusNode: _nameFocus,
             textInputAction: TextInputAction.next,
             textCapitalization: TextCapitalization.sentences,
             maxLength: _maxLength,
             onChanged: widget.onNameChanged,
-            onSubmitted: (_) => _priceFocus.requestFocus(),
-            style: const TextStyle(color: Color(0xFFC7D5E0)),
+            onFieldSubmitted: (_) => _priceFocus.requestFocus(),
+            style: theme.textTheme.bodyLarge?.copyWith(color: cs.onSurface),
             cursorColor: cs.primary,
             decoration: _inputDeco(
               cs: cs,
@@ -109,23 +109,24 @@ class _ManualEntryFormState extends State<ManualEntryForm> {
             ),
           ),
 
-          // رسالة التكرار
+          // Duplicate message
           AnimatedSize(
             duration: const Duration(milliseconds: 200),
             curve: Curves.easeOut,
             alignment: Alignment.topCenter,
             child: widget.isDuplicate
                 ? Padding(
-                    padding: const EdgeInsets.only(top: 6, right: 4),
+                    padding: const EdgeInsets.only(top: 8, right: 4),
                     child: Row(
                       children: [
-                        Icon(Icons.warning_amber_rounded,
-                            size: 14, color: cs.error),
-                        const SizedBox(width: 6),
+                        Icon(Icons.warning_amber_rounded, size: 14, color: cs.error),
+                        const SizedBox(width: 8),
                         Expanded(
                           child: Text(
                             _localizedDuplicateMessage(context, widget.duplicateMessage ?? ''),
-                            style: TextStyle(fontSize: 12, color: cs.error),
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: cs.error,
+                            ),
                           ),
                         ),
                       ],
@@ -134,10 +135,10 @@ class _ManualEntryFormState extends State<ManualEntryForm> {
                 : const SizedBox.shrink(),
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
 
-          // ── حقل السعر ────────────────────────────────────────
-          TextField(
+          // Price field
+          TextFormField(
             controller: widget.priceController,
             focusNode: _priceFocus,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -149,10 +150,10 @@ class _ManualEntryFormState extends State<ManualEntryForm> {
               }),
             ],
             onChanged: widget.onPriceChanged,
-            onSubmitted: (_) {
+            onFieldSubmitted: (_) {
               if (canSubmit) widget.onSubmit();
             },
-            style: const TextStyle(color: Color(0xFFC7D5E0)),
+            style: theme.textTheme.bodyLarge?.copyWith(color: cs.onSurface),
             cursorColor: cs.primary,
             decoration: _inputDeco(
               cs: cs,
@@ -163,24 +164,24 @@ class _ManualEntryFormState extends State<ManualEntryForm> {
             ),
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: 28),
 
-          // ── زر الإضافة ───────────────────────────────────────
+          // Add button
           SizedBox(
             width: double.infinity,
-            height: 48,
-            child: ElevatedButton.icon(
+            height: 52,
+            child: FilledButton.icon(
               onPressed: canSubmit ? widget.onSubmit : null,
               icon: widget.isSubmitting
                   ? SizedBox(
-                      width: 18,
-                      height: 18,
+                      width: 20,
+                      height: 20,
                       child: CircularProgressIndicator(
-                        strokeWidth: 2.2,
+                        strokeWidth: 2.5,
                         color: cs.onPrimary,
                       ),
                     )
-                  : const Icon(Icons.add_rounded, size: 20),
+                  : const Icon(Icons.add_outlined, size: 22),
               label: Text(
                 widget.isSubmitting ? context.loc.addingLabel : context.loc.addToListButton,
               ),
@@ -198,45 +199,45 @@ class _ManualEntryFormState extends State<ManualEntryForm> {
     required bool hasError,
     String? errorText,
   }) {
+    final theme = Theme.of(context);
+    final borderRadius = BorderRadius.circular(12);
+    final errorColor = hasError ? cs.error : null;
+    final effectiveBorderColor = errorColor ?? cs.outlineVariant;
+
     return InputDecoration(
       labelText: label,
       hintText: hint,
-      hintStyle: TextStyle(color: cs.outline),
-      labelStyle: TextStyle(color: cs.outline),
+      hintStyle: theme.textTheme.bodyMedium?.copyWith(color: cs.outline),
+      labelStyle: theme.textTheme.bodyMedium?.copyWith(color: cs.outline),
       floatingLabelStyle: TextStyle(color: cs.primary),
       errorText: errorText,
-      errorStyle: TextStyle(color: cs.error),
+      errorStyle: theme.textTheme.bodySmall?.copyWith(color: cs.error),
       filled: true,
-      fillColor: hasError
-          ? cs.error.withValues(alpha: 0.08)
-          : cs.surfaceContainerHighest,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-      counterStyle: TextStyle(color: cs.outline, fontSize: 12),
+      fillColor: hasError ? cs.error.withValues(alpha: 0.08) : cs.surfaceContainerHighest,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      counterStyle: theme.textTheme.bodySmall?.copyWith(color: cs.outline),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: borderRadius,
         borderSide: BorderSide.none,
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4),
-        borderSide: BorderSide(
-          color: hasError ? cs.error : cs.outlineVariant,
-          width: 1,
-        ),
+        borderRadius: borderRadius,
+        borderSide: BorderSide(color: effectiveBorderColor, width: 1),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide(
-          color: hasError ? cs.error : cs.primary,
-          width: 1.5,
+          color: errorColor ?? cs.primary,
+          width: 2,
         ),
       ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide(color: cs.error, width: 1),
       ),
       focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4),
-        borderSide: BorderSide(color: cs.error, width: 1.5),
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: cs.error, width: 2),
       ),
     );
   }
