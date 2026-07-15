@@ -7,8 +7,9 @@ import '../../../router/route_paths.dart';
 
 class ItemsList extends StatelessWidget {
   final List<ItemModel> items;
+  final void Function(ItemModel item)? onItemTap;
 
-  const ItemsList({super.key, required this.items});
+  const ItemsList({super.key, required this.items, this.onItemTap});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,13 @@ class ItemsList extends StatelessWidget {
         final item = items[index];
         return ItemCard(
           item: item,
-          onTap: () => context.push(RoutePaths.editItemPath(item.id), extra: item),
+          onTap: () {
+            if (onItemTap != null) {
+              onItemTap!(item);
+            } else {
+              context.push(RoutePaths.editItemPath(item.id), extra: item);
+            }
+          },
         );
       },
     );
