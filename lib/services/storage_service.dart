@@ -1,5 +1,6 @@
 // lib/services/storage_service.dart
 
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
 import '../models/item_model.dart';
@@ -69,16 +70,19 @@ class StorageService {
   // ─── Seed ────────────────────────────────────────────────────────────────────
 
   Future<void> _seedDefaultData() async {
-    final count = Sqflite.firstIntValue(
-      await _database.rawQuery('SELECT COUNT(*) FROM $_tableName'),
-    );
-    if ((count ?? 0) > 0) return;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.reload();
+
+    final bool hasSeeded = prefs.getBool('has_seeded_default_items') ?? false;
+    if (hasSeeded) return;
+
+    final String langCode = prefs.getString('language_code') ?? 'ar';
 
     final defaults = [
       ItemModel(
         id: 'default_sugar',
-        name: 'سكر',
-        quantityDescription: 'كيس 10 كيلو',
+        name: langCode == 'ar' ? 'سكر' : 'Sugar',
+        quantityDescription: langCode == 'ar' ? 'كيس 10 كيلو' : '10kg bag',
         expectedDays: 20,
         createdAt: DateTime.now(),
         safeThresholdDays: 15,
@@ -87,8 +91,8 @@ class StorageService {
       ),
       ItemModel(
         id: 'default_rice',
-        name: 'ارز',
-        quantityDescription: 'كيس 5 كيلو',
+        name: langCode == 'ar' ? 'ارز' : 'Rice',
+        quantityDescription: langCode == 'ar' ? 'كيس 5 كيلو' : '5kg bag',
         expectedDays: 6,
         createdAt: DateTime.now(),
         safeThresholdDays: 14,
@@ -97,8 +101,8 @@ class StorageService {
       ),
       ItemModel(
         id: 'default_eggs',
-        name: 'بيض',
-        quantityDescription: 'كرتونة 30 بيضة',
+        name: langCode == 'ar' ? 'بيض' : 'Eggs',
+        quantityDescription: langCode == 'ar' ? 'كرتونة 30 بيضة' : 'carton of 30 eggs',
         expectedDays: 2,
         createdAt: DateTime.now(),
         safeThresholdDays: 15,
@@ -113,6 +117,7 @@ class StorageService {
           conflictAlgorithm: ConflictAlgorithm.ignore);
     }
     await batch.commit(noResult: true);
+    await prefs.setBool('has_seeded_default_items', true);
   }
 
   // ─── CRUD: Items ─────────────────────────────────────────────────────────────
