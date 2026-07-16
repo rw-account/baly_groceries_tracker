@@ -3,7 +3,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../models/shopping_item_model.dart';
 import '../services/storage_service.dart';
-import 'items_provider.dart' show storageServiceProvider;
+import 'storage_service_provider.dart';
 
 part 'shopping_list_provider.g.dart';
 
