@@ -1,7 +1,7 @@
 // lib/providers/locale_provider.dart
 
 import 'package:flutter/material.dart';
-import 'package:home_orders_tracker/providers/items_provider.dart';
+import 'package:home_orders_tracker/providers/storage_service_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/notification_service.dart';
