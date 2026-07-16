@@ -1,18 +1,14 @@
 // lib/providers/items_provider.dart
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:home_orders_tracker/providers/shopping_list_provider.dart';
+import 'package:home_orders_tracker/providers/storage_service_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 import '../models/item_model.dart';
-import '../services/storage_service.dart';
 import '../services/notification_service.dart';
+import '../services/storage_service.dart';
 
 part 'items_provider.g.dart';
-
-final storageServiceProvider = Provider<StorageService>((ref) {
-  return StorageService();
-});
 
 @riverpod
 class ItemsNotifier extends _$ItemsNotifier {
