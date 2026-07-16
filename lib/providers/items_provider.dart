@@ -27,14 +27,10 @@ class ItemsNotifier extends _$ItemsNotifier {
 
   // ─── Helpers ────────────────────────────────────────────────────────────────
 
-  Future<void> _scheduleNotifications() async {
-    final currentItems = state.value ?? [];
-    await NotificationService.scheduleDailySummary(currentItems);
-  }
-
   Future<void> _refreshStateAndNotifications(StorageService storage) async {
-    state = AsyncData(await storage.getAllItems()); // Note: The state here is provided by the Riverpod package, not created by the user.
-    await _scheduleNotifications();
+    final latestItems = await storage.getAllItems();
+    state = AsyncData(latestItems); 
+    await NotificationService.scheduleDailySummary(latestItems);
   }
 
   bool isNameDuplicate(String name, {String? excludeId}) {

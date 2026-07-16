@@ -112,7 +112,7 @@ class HomeOrdersTrackerApp extends ConsumerWidget {
                     ),
                     const SizedBox(height: 24),
                     FilledButton.icon(
-                      onPressed: () => runApp(const HomeOrdersTrackerApp()),
+                      onPressed: () => ref.invalidate(localeProvider),
                       icon: const Icon(Icons.refresh_outlined),
                       label: const Text('Retry'),
                     ),

@@ -69,6 +69,7 @@ class NotificationService {
       if (alertItems.isEmpty) return;
 
       final prefs = await SharedPreferences.getInstance();
+      await prefs.reload();
       final String langCode = prefs.getString('language_code') ?? 'ar';
 
       final urgentItems =
