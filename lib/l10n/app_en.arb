@@ -1209,5 +1209,60 @@
   "selectLanguage": "Select language",
   "@selectLanguage": {
     "description": "Language selection prompt"
+  },
+
+  "backupAndRestore": "Backup & Restore",
+  "@backupAndRestore": {
+    "description": "Backup & Restore section title"
+  },
+
+  "createBackup": "Create Backup",
+  "@createBackup": {
+    "description": "Label for creating a backup"
+  },
+
+  "restoreBackup": "Restore Backup",
+  "@restoreBackup": {
+    "description": "Label for restoring a backup"
+  },
+
+  "backupSuccess": "Backup created successfully",
+  "@backupSuccess": {
+    "description": "Success message for backup creation"
+  },
+
+  "backupFailed": "Failed to create backup",
+  "@backupFailed": {
+    "description": "Error message when backup creation fails"
+  },
+
+  "restoreSuccess": "Backup restored successfully",
+  "@restoreSuccess": {
+    "description": "Success message for backup restore"
+  },
+
+  "restoreFailed": "Failed to restore backup",
+  "@restoreFailed": {
+    "description": "Error message when backup restore fails"
+  },
+
+  "backupFileNotFound": "Database file not found",
+  "@backupFileNotFound": {
+    "description": "Error when database file not found"
+  },
+
+  "restoreCancelled": "Operation cancelled",
+  "@restoreCancelled": {
+    "description": "Message when user cancels restore operation"
+  },
+
+  "processing": "Processing...",
+  "@processing": {
+    "description": "Processing indicator text"
+  },
+
+  "backupFileExtension": "Database files (*.db)",
+  "@backupFileExtension": {
+    "description": "File filter label for .db files"
   }
 }

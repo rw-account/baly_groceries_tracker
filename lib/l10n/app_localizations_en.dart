@@ -715,4 +715,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get selectLanguage => 'Select language';
+
+  @override
+  String get backupAndRestore => 'Backup & Restore';
+
+  @override
+  String get createBackup => 'Create Backup';
+
+  @override
+  String get restoreBackup => 'Restore Backup';
+
+  @override
+  String get backupSuccess => 'Backup created successfully';
+
+  @override
+  String get backupFailed => 'Failed to create backup';
+
+  @override
+  String get restoreSuccess => 'Backup restored successfully';
+
+  @override
+  String get restoreFailed => 'Failed to restore backup';
+
+  @override
+  String get backupFileNotFound => 'Database file not found';
+
+  @override
+  String get restoreCancelled => 'Operation cancelled';
+
+  @override
+  String get processing => 'Processing...';
+
+  @override
+  String get backupFileExtension => 'Database files (*.db)';
 }

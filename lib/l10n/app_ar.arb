@@ -1209,5 +1209,60 @@
   "selectLanguage": "اختر اللغة",
   "@selectLanguage": {
     "description": "Language selection prompt"
+  },
+
+  "backupAndRestore": "النسخ الاحتياطي والاستعادة",
+  "@backupAndRestore": {
+    "description": "Backup & Restore section title"
+  },
+
+  "createBackup": "إنشاء نسخة احتياطية",
+  "@createBackup": {
+    "description": "Label for creating a backup"
+  },
+
+  "restoreBackup": "استعادة نسخة احتياطية",
+  "@restoreBackup": {
+    "description": "Label for restoring a backup"
+  },
+
+  "backupSuccess": "تم إنشاء النسخة الاحتياطية بنجاح",
+  "@backupSuccess": {
+    "description": "Success message for backup creation"
+  },
+
+  "backupFailed": "فشل إنشاء النسخة الاحتياطية",
+  "@backupFailed": {
+    "description": "Error message when backup creation fails"
+  },
+
+  "restoreSuccess": "تم استعادة النسخة الاحتياطية بنجاح",
+  "@restoreSuccess": {
+    "description": "Success message for backup restore"
+  },
+
+  "restoreFailed": "فشل استعادة النسخة الاحتياطية",
+  "@restoreFailed": {
+    "description": "Error message when backup restore fails"
+  },
+
+  "backupFileNotFound": "ملف قاعدة البيانات غير موجود",
+  "@backupFileNotFound": {
+    "description": "Error when database file not found"
+  },
+
+  "restoreCancelled": "تم إلغاء العملية",
+  "@restoreCancelled": {
+    "description": "Message when user cancels restore operation"
+  },
+
+  "processing": "جاري المعالجة...",
+  "@processing": {
+    "description": "Processing indicator text"
+  },
+
+  "backupFileExtension": "ملفات قاعدة البيانات (*.db)",
+  "@backupFileExtension": {
+    "description": "File filter label for .db files"
   }
 }

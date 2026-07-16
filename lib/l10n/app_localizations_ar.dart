@@ -710,4 +710,37 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get selectLanguage => 'اختر اللغة';
+
+  @override
+  String get backupAndRestore => 'النسخ الاحتياطي والاستعادة';
+
+  @override
+  String get createBackup => 'إنشاء نسخة احتياطية';
+
+  @override
+  String get restoreBackup => 'استعادة نسخة احتياطية';
+
+  @override
+  String get backupSuccess => 'تم إنشاء النسخة الاحتياطية بنجاح';
+
+  @override
+  String get backupFailed => 'فشل إنشاء النسخة الاحتياطية';
+
+  @override
+  String get restoreSuccess => 'تم استعادة النسخة الاحتياطية بنجاح';
+
+  @override
+  String get restoreFailed => 'فشل استعادة النسخة الاحتياطية';
+
+  @override
+  String get backupFileNotFound => 'ملف قاعدة البيانات غير موجود';
+
+  @override
+  String get restoreCancelled => 'تم إلغاء العملية';
+
+  @override
+  String get processing => 'جاري المعالجة...';
+
+  @override
+  String get backupFileExtension => 'ملفات قاعدة البيانات (*.db)';
 }

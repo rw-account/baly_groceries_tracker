@@ -1351,6 +1351,72 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'اختر اللغة'**
   String get selectLanguage;
+
+  /// Backup & Restore section title
+  ///
+  /// In ar, this message translates to:
+  /// **'النسخ الاحتياطي والاستعادة'**
+  String get backupAndRestore;
+
+  /// Label for creating a backup
+  ///
+  /// In ar, this message translates to:
+  /// **'إنشاء نسخة احتياطية'**
+  String get createBackup;
+
+  /// Label for restoring a backup
+  ///
+  /// In ar, this message translates to:
+  /// **'استعادة نسخة احتياطية'**
+  String get restoreBackup;
+
+  /// Success message for backup creation
+  ///
+  /// In ar, this message translates to:
+  /// **'تم إنشاء النسخة الاحتياطية بنجاح'**
+  String get backupSuccess;
+
+  /// Error message when backup creation fails
+  ///
+  /// In ar, this message translates to:
+  /// **'فشل إنشاء النسخة الاحتياطية'**
+  String get backupFailed;
+
+  /// Success message for backup restore
+  ///
+  /// In ar, this message translates to:
+  /// **'تم استعادة النسخة الاحتياطية بنجاح'**
+  String get restoreSuccess;
+
+  /// Error message when backup restore fails
+  ///
+  /// In ar, this message translates to:
+  /// **'فشل استعادة النسخة الاحتياطية'**
+  String get restoreFailed;
+
+  /// Error when database file not found
+  ///
+  /// In ar, this message translates to:
+  /// **'ملف قاعدة البيانات غير موجود'**
+  String get backupFileNotFound;
+
+  /// Message when user cancels restore operation
+  ///
+  /// In ar, this message translates to:
+  /// **'تم إلغاء العملية'**
+  String get restoreCancelled;
+
+  /// Processing indicator text
+  ///
+  /// In ar, this message translates to:
+  /// **'جاري المعالجة...'**
+  String get processing;
+
+  /// File filter label for .db files
+  ///
+  /// In ar, this message translates to:
+  /// **'ملفات قاعدة البيانات (*.db)'**
+  String get backupFileExtension;
 }
 
 class _AppLocalizationsDelegate
