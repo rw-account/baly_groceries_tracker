@@ -73,7 +73,7 @@ class ItemLoaderScreen extends ConsumerWidget {
             CircularProgressIndicator(color: cs.primary),
             const SizedBox(height: 16),
             Text(
-              context.loc.errorOccurredFormat('Loading item...'),
+              context.loc.loading,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
