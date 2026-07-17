@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:home_orders_tracker/services/notification_service.dart';
 import 'package:restart_app/restart_app.dart';
 import 'widgets/widgets.dart';
 import '../../providers/items_provider.dart';
@@ -24,13 +25,32 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   String _searchQuery = '';
   final TextEditingController _searchController = TextEditingController();
 
+  Future<void> _updateDailyNotification() async {
+      try {
+        // نستخدم .future للانتظار حتى يكتمل جلب البيانات من القاعدة بنجاح
+        final items = await ref.read(itemsProvider.future);
+        
+        if (items.isNotEmpty && mounted) {
+          await NotificationService.scheduleDailySummary(items);
+          debugPrint('Daily notification scheduled successfully.');
+        }
+      } catch (e) {
+        // نتجاهل الخطأ بصمت حتى لا نؤثر على واجهة المستخدم
+        debugPrint('Failed to schedule daily notification: $e');
+      }
+    }
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) checkAndShowBatteryDialog(context);
+      if (mounted) {
+        checkAndShowBatteryDialog(context);
+        _updateDailyNotification();
+      }
     });
   }
+
 
   @override
   void dispose() {

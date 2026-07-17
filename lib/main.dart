@@ -6,7 +6,6 @@ import 'package:home_orders_tracker/services/battery_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'services/storage_service.dart';
 import 'services/notification_service.dart';
-import 'services/workmanager_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:home_orders_tracker/l10n/app_localizations.dart';
@@ -23,7 +22,6 @@ Future<void> main() async {
   await storage.init();
 
   await NotificationService.init();
-  await WorkmanagerService.init();
 
   AppTheme.applySystemUI(); 
   

@@ -77,15 +77,16 @@ class NotificationService {
       final warningItems =
           alertItems.where((i) => i.status == ItemStatus.warning).toList();
 
+      final separator = langCode == 'ar' ? '، ' : ', ';
       final buffer = StringBuffer();
       if (urgentItems.isNotEmpty) {
         final urgentPrefix = langCode == 'ar' ? '🔴 عاجل' : '🔴 Urgent';
-        buffer.writeln('$urgentPrefix: ${urgentItems.map((e) => e.name).join('، ')}');
+        buffer.writeln('$urgentPrefix: ${urgentItems.map((e) => e.name).join(separator)}');
       }
       
       if (warningItems.isNotEmpty) {
         final warningPrefix = langCode == 'ar' ? '🟡 انتبه' : '🟡 Warning';
-        buffer.writeln('$warningPrefix: ${warningItems.map((e) => e.name).join('، ')}');
+        buffer.writeln('$warningPrefix: ${warningItems.map((e) => e.name).join(separator)}');
       }
 
       final body = buffer.toString().trim();
