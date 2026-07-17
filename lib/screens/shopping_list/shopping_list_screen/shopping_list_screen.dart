@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:restart_app/restart_app.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -283,7 +284,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
           CircularProgressIndicator(color: cs.primary),
           const SizedBox(height: 16),
           Text(
-            context.loc.errorOccurredFormat('Loading items...'),
+            context.loc.loading,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: cs.onSurfaceVariant,
             ),
@@ -312,17 +313,9 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 8),
-            Text(
-              error,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: cs.onSurfaceVariant,
-              ),
-              textAlign: TextAlign.center,
-            ),
             const SizedBox(height: 24),
             FilledButton.icon(
-              onPressed: () => context.pop(),
+              onPressed: () => Restart.restartApp(),
               icon: const Icon(Icons.refresh_outlined),
               label: Text(context.loc.errorRetryLabel),
             ),

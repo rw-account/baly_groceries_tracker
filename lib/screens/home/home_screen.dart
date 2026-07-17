@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:restart_app/restart_app.dart';
 import 'widgets/widgets.dart';
 import '../../providers/items_provider.dart';
 import '../../services/battery_service.dart';
@@ -81,8 +82,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             return ItemsList(
               items: searchResults,
               onItemTap: (item) {
-                if (_isSearching) _toggleSearch();
-                context.push(RoutePaths.editItemPath(item.id), extra: item);
+                context.push(RoutePaths.editItemPath(item.id), extra: item).then((_) {
+                  if (_isSearching) _toggleSearch();
+                });
               },
             );
           }
@@ -98,8 +100,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 child: ItemsList(
                   items: items,
                   onItemTap: (item) {
-                    if (_isSearching) _toggleSearch();
-                    context.push(RoutePaths.editItemPath(item.id), extra: item);
+                    context.push(RoutePaths.editItemPath(item.id), extra: item).then((_) {
+                      if (_isSearching) _toggleSearch();
+                    });
                   },
                 ),
               ),
@@ -168,10 +171,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               width: 50,
               child: FloatingActionButton(
                 heroTag: 'add_fab',
-                onPressed: () {
-                if (_isSearching) _toggleSearch();
-                context.push(RoutePaths.addItemFull);
-                },
+              onPressed: () {
+                context.push(RoutePaths.addItemFull).then((_) {
+                  if (_isSearching) _toggleSearch();
+                });
+              },
                 child:Icon(Icons.add_outlined),
               ),
             ),
@@ -228,7 +232,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           CircularProgressIndicator(color: cs.primary),
           const SizedBox(height: 16),
           Text(
-            context.loc.errorOccurredFormat('Loading items...'),
+            context.loc.loading,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
@@ -261,17 +265,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 8),
-            Text(
-              error,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: cs.onSurfaceVariant,
-              ),
-              textAlign: TextAlign.center,
-            ),
             const SizedBox(height: 24),
             FilledButton.icon(
-              onPressed: () => context.pop(),
+              onPressed: () => Restart.restartApp(),
               icon: const Icon(Icons.refresh_outlined),
               label: Text(context.loc.errorRetryLabel),
             ),

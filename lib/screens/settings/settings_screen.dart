@@ -194,17 +194,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 8),
-            Text(
-              error,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: cs.onSurfaceVariant,
-              ),
-              textAlign: TextAlign.center,
-            ),
             const SizedBox(height: 24),
             FilledButton.icon(
-              onPressed: () => ref.invalidate(localeProvider),
+              onPressed: () => Restart.restartApp(),
               icon: const Icon(Icons.refresh_outlined),
               label: Text(context.loc.errorRetryLabel),
             ),
