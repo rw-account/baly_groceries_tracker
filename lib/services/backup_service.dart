@@ -6,13 +6,14 @@ import 'package:flutter_file_dialog/flutter_file_dialog.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 import 'package:home_orders_tracker/services/storage_service.dart';
+import 'package:home_orders_tracker/services/backup_exception.dart';
 
 class BackupService {
   static const String _dbName = 'home_orders.db';
 
   /// Creates a backup of the database file using the system file picker.
   /// Shows a Save dialog with a timestamped filename.
-  /// Throws [Exception] on failure.
+  /// Throws [BackupException] on failure.
   static Future<void> runBackup(StorageService storage) async {
     try {
       await storage.checkpointDatabase();
@@ -21,7 +22,7 @@ class BackupService {
       final dbFile = File(p.join(dbPath, _dbName));
 
       if (!await dbFile.exists()) {
-        throw Exception('backupFileNotFound');
+        throw const BackupException(BackupErrorType.backupFileNotFound);
       }
 
       final timestamp = DateTime.now()
@@ -40,19 +41,30 @@ class BackupService {
       final filePath = await FlutterFileDialog.saveFile(params: params);
 
       if (filePath == null) {
-        throw Exception('backupCancelled');
+        throw const BackupException(BackupErrorType.backupCancelled);
       }
+    } on BackupException {
+      rethrow;
     } on PlatformException catch (e) {
-      throw Exception('backupSaveError: ${e.message}');
+      throw BackupException(
+        BackupErrorType.backupSaveError,
+        details: e.message,
+        cause: e,
+      );
     } catch (e) {
-      throw Exception('backupFailed: $e');
+      throw BackupException(
+        BackupErrorType.backupSaveError,
+        details: e.toString(),
+        cause: e,
+      );
     }
   }
 
   /// Restores the database from a user-selected .db file.
   /// Closes the database before replacing the file, then reopens it.
-  /// Throws [Exception] on failure or cancellation.
+  /// Throws [BackupException] on failure or cancellation.
   static Future<void> runRestore(StorageService storage) async {
+    bool databaseWasClosed = false;
     try {
       final params = OpenFileDialogParams(
         fileExtensionsFilter: ['db'],
@@ -61,12 +73,12 @@ class BackupService {
       final filePath = await FlutterFileDialog.pickFile(params: params);
 
       if (filePath == null) {
-        throw Exception('restoreCancelled');
+        throw const BackupException(BackupErrorType.restoreCancelled);
       }
 
       final selectedFile = File(filePath);
       if (!await selectedFile.exists()) {
-        throw Exception('restoreFileNotFound');
+        throw const BackupException(BackupErrorType.restoreFileNotFound);
       }
 
       // التحقق من توقيع SQLite بشكل آمن للذاكرة
@@ -75,7 +87,7 @@ class BackupService {
         final bytes = await raf.read(16);
         final header = String.fromCharCodes(bytes);
         if (!header.startsWith('SQLite format 3')) {
-          throw Exception('restoreInvalidFile');
+          throw const BackupException(BackupErrorType.restoreInvalidFile);
         }
       } finally {
         await raf.close();
@@ -83,6 +95,7 @@ class BackupService {
 
       // إغلاق القاعدة قبل استبدال الملف
       await storage.closeDatabase();
+      databaseWasClosed = true;
 
       final dbPath = await getDatabasesPath();
       final targetPath = p.join(dbPath, _dbName);
@@ -98,12 +111,24 @@ class BackupService {
 
       // إعادة فتح القاعدة بعد الاستعادة
       await storage.reopenDatabase();
+      databaseWasClosed = false;
+
+    } on BackupException {
+      // ✅ نعيد الفتح فقط إذا كنا قد أغلقناه فعلاً
+      if (databaseWasClosed) {
+        try { await storage.reopenDatabase(); } catch (_) {}
+      }
+      rethrow;
     } catch (e) {
-      // محاولة إعادة فتح القاعدة حتى في حالة الخطأ
+      // خطأ غير متوقع أثناء الاستعادة: نغلفه كـ BackupException موحّد
       try {
         await storage.reopenDatabase();
       } catch (_) {}
-      rethrow; // يعيد رمي الخطأ للمستدعي
+      throw BackupException(
+        BackupErrorType.restoreFailed,
+        details: e.toString(),
+        cause: e,
+      );
     }
   }
 }
