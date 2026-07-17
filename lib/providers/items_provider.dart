@@ -106,34 +106,4 @@ class ItemsNotifier extends _$ItemsNotifier {
     return index == -1 ? null : items[index];
   }
 
-  // ─── Refresh lastRefreshedAt ─────────────────────────────────────────────────
-
-  /// Allows the user to renew an item without deleting and recreating it.
-  ///
-  /// Useful when the same product is purchased again, resetting the remaining
-  /// days to today or a custom date.
-
-  /// Sets [lastRefreshedAt] to a user-specified date chosen via the date picker.
-  Future<void> updateLastRefreshedAt(String id, DateTime newDate) async {
-    final items = state.value ?? [];
-    final index = items.indexWhere((item) => item.id == id); // If the item is not found, it will return -1
-    if (index == -1) return;
-
-    final updated = items[index].copyWith(lastRefreshedAt: newDate);
-    final storage = ref.read(storageServiceProvider);
-    await storage.saveItem(updated);
-    await _refreshStateAndNotifications(storage);
-  }
-
-  /// Quickly renews the item by setting [lastRefreshedAt] to today's date.
-  Future<void> refreshItem(String id) async {
-    final items = state.value ?? [];
-    final index = items.indexWhere((item) => item.id == id);
-    if (index == -1) return;
-
-    final updated = items[index].copyWith(lastRefreshedAt: DateTime.now());
-    final storage = ref.read(storageServiceProvider);
-    await storage.saveItem(updated);
-    await _refreshStateAndNotifications(storage);
-  }
 }
