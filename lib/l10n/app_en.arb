@@ -1251,8 +1251,8 @@
     "description": "Error when database file not found"
   },
 
-  "restoreCancelled": "Operation cancelled",
-  "@restoreCancelled": {
+  "operationCancelled": "Operation cancelled",
+  "@operationCancelled": {
     "description": "Message when user cancels restore operation"
   },
 
@@ -1264,5 +1264,41 @@
   "backupFileExtension": "Database files (*.db)",
   "@backupFileExtension": {
     "description": "File filter label for .db files"
+  },
+
+  "createBackupSubtitle": "Create a backup of the database",
+  "@createBackupSubtitle": {
+  "description": "Subtitle for the create backup action"
+  },
+
+  "restoreBackupSubtitle": "Restore data from a backup file",
+  "@restoreBackupSubtitle": {
+  "description": "Subtitle for the restore backup action"
+  },
+
+  "loadingSettingsMessage": "Loading settings...",
+  "@loadingSettingsMessage": {
+  "description": "Message shown while settings are loading"
+  },
+
+  "errorLoadingSettingsMessage": "Error loading settings",
+  "@errorLoadingSettingsMessage": {
+  "description": "Message shown when settings fail to load"
+  },
+
+  "restoreInvalidFile": "The backup file is invalid",
+  "@restoreInvalidFile": {
+    "description": "Error when the selected backup file is invalid or corrupted"
+  },
+
+  "restoreFileNotFound": "Backup file not found",
+  "@restoreFileNotFound": {
+    "description": "Error when the selected restore file is not found"
+  },
+  
+  "unknownError": "An unknown error occurred",
+  "@unknownError": {
+    "description": "Generic unknown error message"
   }
+
 }

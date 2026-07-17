@@ -253,4 +253,26 @@ class StorageService {
       await db.close();
     }
   }
+
+  /// Closes the current database connection.
+  /// Must be called before replacing the database file during restore.
+  Future<void> closeDatabase() async {
+    await _db?.close();
+    _db = null;
+  }
+
+  /// Reopens the database connection after it was closed.
+  /// Called after a successful restore operation.
+  Future<void> reopenDatabase() async {
+    _db = await _openDatabase();
+  }
+
+  /// Forces all WAL (Write-Ahead Log) changes to be merged into the main
+  /// database file. This ensures that a backup taken immediately afterwards
+  /// contains the latest data, without opening a second connection.
+  Future<void> checkpointDatabase() async {
+    if (_db != null && _db!.isOpen) {
+      await _db!.rawQuery('PRAGMA wal_checkpoint(TRUNCATE)');
+    }
+  }
 }

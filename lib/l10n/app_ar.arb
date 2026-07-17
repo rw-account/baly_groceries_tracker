@@ -1251,8 +1251,8 @@
     "description": "Error when database file not found"
   },
 
-  "restoreCancelled": "تم إلغاء العملية",
-  "@restoreCancelled": {
+  "operationCancelled": "تم إلغاء العملية",
+  "@operationCancelled": {
     "description": "Message when user cancels restore operation"
   },
 
@@ -1264,5 +1264,41 @@
   "backupFileExtension": "ملفات قاعدة البيانات (*.db)",
   "@backupFileExtension": {
     "description": "File filter label for .db files"
+  },
+
+  "createBackupSubtitle": "إنشاء نسخة احتياطية من قاعدة البيانات",
+  "@createBackupSubtitle": {
+  "description": "Subtitle for the create backup action"
+  },
+
+  "restoreBackupSubtitle": "استعادة البيانات من ملف نسخة احتياطية",
+  "@restoreBackupSubtitle": {
+  "description": "Subtitle for the restore backup action"
+  },
+
+  "loadingSettingsMessage": "جارٍ تحميل الإعدادات...",
+  "@loadingSettingsMessage": {
+  "description": "Message shown while settings are loading"
+  },
+
+  "errorLoadingSettingsMessage": "حدث خطأ أثناء تحميل الإعدادات",
+  "@errorLoadingSettingsMessage": {
+  "description": "Message shown when settings fail to load"
+  },
+
+  "restoreInvalidFile": "ملف النسخة الاحتياطية غير صالح",
+  "@restoreInvalidFile": {
+    "description": "Error when the selected backup file is invalid or corrupted"
+  },
+
+  "restoreFileNotFound": "لم يتم العثور على ملف النسخة الاحتياطية",
+  "@restoreFileNotFound": {
+    "description": "Error when the selected restore file is not found"
+  },
+  
+  "unknownError": "حدث خطأ غير معروف",
+  "@unknownError": {
+    "description": "Generic unknown error message"
   }
+
 }

@@ -1404,7 +1404,7 @@ abstract class AppLocalizations {
   ///
   /// In ar, this message translates to:
   /// **'تم إلغاء العملية'**
-  String get restoreCancelled;
+  String get operationCancelled;
 
   /// Processing indicator text
   ///
@@ -1417,6 +1417,48 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'ملفات قاعدة البيانات (*.db)'**
   String get backupFileExtension;
+
+  /// Subtitle for the create backup action
+  ///
+  /// In ar, this message translates to:
+  /// **'إنشاء نسخة احتياطية من قاعدة البيانات'**
+  String get createBackupSubtitle;
+
+  /// Subtitle for the restore backup action
+  ///
+  /// In ar, this message translates to:
+  /// **'استعادة البيانات من ملف نسخة احتياطية'**
+  String get restoreBackupSubtitle;
+
+  /// Message shown while settings are loading
+  ///
+  /// In ar, this message translates to:
+  /// **'جارٍ تحميل الإعدادات...'**
+  String get loadingSettingsMessage;
+
+  /// Message shown when settings fail to load
+  ///
+  /// In ar, this message translates to:
+  /// **'حدث خطأ أثناء تحميل الإعدادات'**
+  String get errorLoadingSettingsMessage;
+
+  /// Error when the selected backup file is invalid or corrupted
+  ///
+  /// In ar, this message translates to:
+  /// **'ملف النسخة الاحتياطية غير صالح'**
+  String get restoreInvalidFile;
+
+  /// Error when the selected restore file is not found
+  ///
+  /// In ar, this message translates to:
+  /// **'لم يتم العثور على ملف النسخة الاحتياطية'**
+  String get restoreFileNotFound;
+
+  /// Generic unknown error message
+  ///
+  /// In ar, this message translates to:
+  /// **'حدث خطأ غير معروف'**
+  String get unknownError;
 }
 
 class _AppLocalizationsDelegate

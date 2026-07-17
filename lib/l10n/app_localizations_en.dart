@@ -741,11 +741,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get backupFileNotFound => 'Database file not found';
 
   @override
-  String get restoreCancelled => 'Operation cancelled';
+  String get operationCancelled => 'Operation cancelled';
 
   @override
   String get processing => 'Processing...';
 
   @override
   String get backupFileExtension => 'Database files (*.db)';
+
+  @override
+  String get createBackupSubtitle => 'Create a backup of the database';
+
+  @override
+  String get restoreBackupSubtitle => 'Restore data from a backup file';
+
+  @override
+  String get loadingSettingsMessage => 'Loading settings...';
+
+  @override
+  String get errorLoadingSettingsMessage => 'Error loading settings';
+
+  @override
+  String get restoreInvalidFile => 'The backup file is invalid';
+
+  @override
+  String get restoreFileNotFound => 'Backup file not found';
+
+  @override
+  String get unknownError => 'An unknown error occurred';
 }

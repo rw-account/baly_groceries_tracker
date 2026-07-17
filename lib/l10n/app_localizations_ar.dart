@@ -736,11 +736,32 @@ class AppLocalizationsAr extends AppLocalizations {
   String get backupFileNotFound => 'ملف قاعدة البيانات غير موجود';
 
   @override
-  String get restoreCancelled => 'تم إلغاء العملية';
+  String get operationCancelled => 'تم إلغاء العملية';
 
   @override
   String get processing => 'جاري المعالجة...';
 
   @override
   String get backupFileExtension => 'ملفات قاعدة البيانات (*.db)';
+
+  @override
+  String get createBackupSubtitle => 'إنشاء نسخة احتياطية من قاعدة البيانات';
+
+  @override
+  String get restoreBackupSubtitle => 'استعادة البيانات من ملف نسخة احتياطية';
+
+  @override
+  String get loadingSettingsMessage => 'جارٍ تحميل الإعدادات...';
+
+  @override
+  String get errorLoadingSettingsMessage => 'حدث خطأ أثناء تحميل الإعدادات';
+
+  @override
+  String get restoreInvalidFile => 'ملف النسخة الاحتياطية غير صالح';
+
+  @override
+  String get restoreFileNotFound => 'لم يتم العثور على ملف النسخة الاحتياطية';
+
+  @override
+  String get unknownError => 'حدث خطأ غير معروف';
 }
