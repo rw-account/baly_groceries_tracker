@@ -779,4 +779,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get restoreConfirmLabel => 'Restore';
+
+  @override
+  String get loading => 'Loading...';
 }

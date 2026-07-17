@@ -1314,6 +1314,11 @@
   "restoreConfirmLabel": "استعادة",
   "@restoreConfirmLabel": {
     "description": "Button label to confirm restore"
+  },
+
+  "loading": "جارٍ التحميل...",
+  "@loading": {
+    "description": "Text displayed while loading"
   }
 
 }

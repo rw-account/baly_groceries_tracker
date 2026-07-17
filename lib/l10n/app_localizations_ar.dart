@@ -774,4 +774,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get restoreConfirmLabel => 'استعادة';
+
+  @override
+  String get loading => 'جارٍ التحميل...';
 }

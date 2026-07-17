@@ -1477,6 +1477,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'استعادة'**
   String get restoreConfirmLabel;
+
+  /// Text displayed while loading
+  ///
+  /// In ar, this message translates to:
+  /// **'جارٍ التحميل...'**
+  String get loading;
 }
 
 class _AppLocalizationsDelegate

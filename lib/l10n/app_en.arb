@@ -1314,6 +1314,11 @@
   "restoreConfirmLabel": "Restore",
   "@restoreConfirmLabel": {
     "description": "Button label to confirm restore"
+  },
+
+  "loading": "Loading...",
+  "@loading": {
+    "description": "Text displayed while loading"
   }
 
 }
