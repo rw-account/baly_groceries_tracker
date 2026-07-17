@@ -769,4 +769,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get unknownError => 'An unknown error occurred';
+
+  @override
+  String get restoreConfirmationTitle => 'Confirm Backup Restore';
+
+  @override
+  String get restoreConfirmationContent =>
+      'All current data will be replaced with the data from the backup file.\n\nAfter a successful restore, the app will restart to refresh the data.\n\nDo you want to continue?';
+
+  @override
+  String get restoreConfirmLabel => 'Restore';
 }

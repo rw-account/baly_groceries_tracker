@@ -1299,6 +1299,21 @@
   "unknownError": "حدث خطأ غير معروف",
   "@unknownError": {
     "description": "Generic unknown error message"
+  },
+
+  "restoreConfirmationTitle": "تأكيد استعادة النسخة الاحتياطية",
+  "@restoreConfirmationTitle": {
+    "description": "Dialog title when restoring backup"
+  },
+
+  "restoreConfirmationContent": "سيتم استبدال جميع البيانات الحالية بالبيانات الموجودة في النسخة الاحتياطية.\n\nبعد نجاح الاستعادة، سيتم إعادة تشغيل التطبيق لتحديث البيانات.\n\nهل تريد المتابعة؟",
+  "@restoreConfirmationContent": {
+    "description": "Dialog content explaining that current data will be replaced and the app will restart after a successful restore"
+  },
+
+  "restoreConfirmLabel": "استعادة",
+  "@restoreConfirmLabel": {
+    "description": "Button label to confirm restore"
   }
 
 }

@@ -764,4 +764,14 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get unknownError => 'حدث خطأ غير معروف';
+
+  @override
+  String get restoreConfirmationTitle => 'تأكيد استعادة النسخة الاحتياطية';
+
+  @override
+  String get restoreConfirmationContent =>
+      'سيتم استبدال جميع البيانات الحالية بالبيانات الموجودة في النسخة الاحتياطية.\n\nبعد نجاح الاستعادة، سيتم إعادة تشغيل التطبيق لتحديث البيانات.\n\nهل تريد المتابعة؟';
+
+  @override
+  String get restoreConfirmLabel => 'استعادة';
 }

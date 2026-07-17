@@ -1299,6 +1299,21 @@
   "unknownError": "An unknown error occurred",
   "@unknownError": {
     "description": "Generic unknown error message"
+  },
+
+  "restoreConfirmationTitle": "Confirm Backup Restore",
+  "@restoreConfirmationTitle": {
+    "description": "Dialog title when restoring backup"
+  },
+
+  "restoreConfirmationContent": "All current data will be replaced with the data from the backup file.\n\nAfter a successful restore, the app will restart to refresh the data.\n\nDo you want to continue?",
+  "@restoreConfirmationContent": {
+    "description": "Dialog content explaining that current data will be replaced and the app will restart after a successful restore"
+  },
+
+  "restoreConfirmLabel": "Restore",
+  "@restoreConfirmLabel": {
+    "description": "Button label to confirm restore"
   }
 
 }

@@ -48,6 +48,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   Future<void> _handleRestore() async {
     setState(() => _isProcessing = true);
     try {
+      final confirmed = await _confirmRestore();
+      if (!confirmed) return;
       final storage = ref.read(storageServiceProvider);
       await BackupService.runRestore(storage); // الآن ترمي استثناء عند الفشل
       if (!mounted) return;
@@ -73,6 +75,33 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     } finally {
       if (mounted) setState(() => _isProcessing = false);
     }
+  }
+
+  Future<bool> _confirmRestore() async {
+    final theme = Theme.of(context);
+    return await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(context.loc.restoreConfirmationTitle),   // تحتاج إلى إضافة هذا المفتاح للترجمة
+        content: Text(context.loc.restoreConfirmationContent),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text(context.loc.cancelLabel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            style: FilledButton.styleFrom(
+              backgroundColor: theme.colorScheme.error,
+              foregroundColor: theme.colorScheme.onError,
+              minimumSize: const Size(80, 40),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+            ),
+            child: Text(context.loc.restoreConfirmLabel),
+          ),
+        ],
+      ),
+    ) ?? false;
   }
 
   /// يحول [BackupException] إلى رسالة مترجمة، بالاعتماد على enum
