@@ -186,7 +186,6 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
                   width: 62,
                   child: FloatingActionButton(
                     onPressed: () {
-                      if (_isSearching) _toggleSearch(); // Exit search if adding new
                       context.push(RoutePaths.addShoppingItemFull);
                     },
                     child: const Icon(Icons.add_outlined, size: 31),
