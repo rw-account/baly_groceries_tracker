@@ -66,9 +66,7 @@ class BackupService {
   static Future<void> runRestore(StorageService storage) async {
     bool databaseWasClosed = false;
     try {
-      final params = OpenFileDialogParams(
-        fileExtensionsFilter: ['db'],
-      );
+      final params = OpenFileDialogParams();
 
       final filePath = await FlutterFileDialog.pickFile(params: params);
 
