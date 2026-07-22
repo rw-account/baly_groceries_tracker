@@ -129,7 +129,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final localeAsync = ref.watch(localeProvider);
+    final locale = ref.watch(localeProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -143,70 +143,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           onPressed: () => context.pop(),
         ),
       ),
-      body: localeAsync.when(
-        data: (locale) => _buildSettingsList(context, ref),
-        loading: () => _buildLoadingState(context),
-        error: (error, stack) => _buildErrorState(context, error.toString()),
-      ),
+      body: _buildSettingsList(context, ref, locale),
     );
   }
 
-  Widget _buildLoadingState(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          CircularProgressIndicator(color: cs.primary),
-          const SizedBox(height: 16),
-          Text(
-            context.loc.errorOccurredFormat(context.loc.loadingSettingsMessage),
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: cs.onSurfaceVariant,
-                ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildErrorState(BuildContext context, String error) {
-    final theme = Theme.of(context);
-    final cs = theme.colorScheme;
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.error_outline_rounded,
-              size: 64,
-              color: cs.error,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              context.loc
-                  .errorOccurredFormat(context.loc.errorLoadingSettingsMessage),
-              style: theme.textTheme.titleMedium?.copyWith(
-                color: cs.onSurface,
-                fontWeight: FontWeight.w600,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 24),
-            FilledButton.icon(
-              onPressed: () => Restart.restartApp(),
-              icon: const Icon(Icons.refresh_outlined),
-              label: Text(context.loc.errorRetryLabel),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSettingsList(BuildContext context, WidgetRef ref) {
+  Widget _buildSettingsList(BuildContext context, WidgetRef ref, Locale currentLocale) {
     final localeNotifier = ref.read(localeProvider.notifier);
 
     return ListView(
@@ -221,16 +162,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         ),
         const SizedBox(height: 16),
         _LanguageOption(
-          locale: const Locale('ar'),
           label: context.loc.arabic,
-          isSelected: ref.watch(localeProvider).value?.languageCode == 'ar',
+          isSelected: currentLocale.languageCode == 'ar',
           onTap: () => localeNotifier.changeLocale('ar'),
         ),
         const SizedBox(height: 8),
         _LanguageOption(
-          locale: const Locale('en'),
           label: context.loc.english,
-          isSelected: ref.watch(localeProvider).value?.languageCode == 'en',
+          isSelected: currentLocale.languageCode == 'en',
           onTap: () => localeNotifier.changeLocale('en'),
         ),
 
@@ -271,13 +210,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
 class _LanguageOption extends StatelessWidget {
   const _LanguageOption({
-    required this.locale,
     required this.label,
     required this.isSelected,
     required this.onTap,
   });
 
-  final Locale locale;
   final String label;
   final bool isSelected;
   final VoidCallback onTap;
