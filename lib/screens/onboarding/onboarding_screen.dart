@@ -55,8 +55,7 @@ PageDecoration _buildPageDecoration(BuildContext context) {
   final colorScheme = theme.colorScheme;
 
   return PageDecoration(
-    // ✅ تم التعديل هنا: جعل لون خلفية الصفحة شفافاً لتتحد مع خلفية التطبيق الموحدة ويختفي المربع السفلي
-    pageColor: Colors.transparent,
+    pageColor: colorScheme.surface,
     titleTextStyle: textTheme.headlineSmall!.copyWith(
       fontWeight: FontWeight.bold,
       color: colorScheme.onSurface,
@@ -124,7 +123,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
-    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    
+    // ✅ تم التعديل هنا: جعل خلفية الـ Scaffold متطابقة مع colorScheme.surface
+    final Color backgroundColor = colorScheme.surface;
 
     return Directionality(
       textDirection: isRTL ? TextDirection.rtl : TextDirection.ltr,
@@ -132,14 +133,15 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
         backgroundColor: backgroundColor,
         extendBody: true,
         extendBodyBehindAppBar: true,
-        // ✅ تم تنظيف وتعديل الـ body لضمان تمدد الخلفية بالكامل حتى أسفل الشاشة الشفافة
+        // ✅ تم التعديل هنا: إضافة bottom: false لجعل لون الخلفية يمتد لآخر الشاشة من الأسفل تماماً بدون قطع بVisual
         body: SafeArea(
+          bottom: false,
           child: IntroductionScreen(
             key: _introKey,
             globalBackgroundColor: backgroundColor,
             pages: _buildPages(context, l10n),
             dotsContainerDecorator: BoxDecoration(
-              color: backgroundColor,
+              color: colorScheme.surface,
             ),
             showSkipButton: true,
             showBackButton: false,
@@ -161,7 +163,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               ),
             ),
 
-            // 3. زر البدء/الإنهاء الفاخر (Done) تجميله داخل حاوية مخصصة لتجنب المشاكل البصرية
+            // 3. زر البدء/الإنهاء الفاخر (Done)
             done: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
               decoration: BoxDecoration(
