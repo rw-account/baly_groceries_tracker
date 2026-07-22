@@ -777,4 +777,50 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get loading => 'جارٍ التحميل...';
+
+  @override
+  String get onboardingTitle1 => 'مخزون ذكي، لراحة بالك';
+
+  @override
+  String get onboardingBody1 =>
+      'انقل عناء تذكر متطلبات البيت بالكامل إلى تطبيقك. تتبع النواقص بذكاء ووفر طاقتك الذهنية لما هو أهم.';
+
+  @override
+  String get onboardingTitle2 => 'تنبيهات في وقتها، وبدون مفاجآت';
+
+  @override
+  String get onboardingBody2 =>
+      'تطبيقك ينبهك عندما تقترب المتطلبات من النفاد، لتبقى دائمًا مستعدًا وتتجنب أزمات النقص المفاجئ.';
+
+  @override
+  String get onboardingTitle3 => 'تسوق سهل';
+
+  @override
+  String get onboardingBody3 =>
+      'بنقرة زر واحدة، تتحول نواقصك إلى قائمة شراء منظمة بدقة؛ لتسوق أسرع، مع إمكانية مشاركتها بسهولة عبر واتساب.';
+
+  @override
+  String get onboardingTitle4 => 'بياناتك في أمان';
+
+  @override
+  String get onboardingBody4 =>
+      'بدون إنترنت أو حسابات؛ بيانات منزلك محفوظة داخل هاتفك فقط لخصوصية تامة، مع ميزة النسخ الاحتياطي الآمن وقتما تشاء.';
+
+  @override
+  String get onboardingSkip => 'تخطي';
+
+  @override
+  String get onboardingNext => 'التالي';
+
+  @override
+  String get onboardingDone => 'ابدأ';
+
+  @override
+  String get languageSelectionTitle => 'اختر اللغة';
+
+  @override
+  String get languageSelectionSubtitle => 'اختر لغتك المفضلة';
+
+  @override
+  String get languageChangeFailed => 'فشل تغيير اللغة. حاول مجدداً';
 }

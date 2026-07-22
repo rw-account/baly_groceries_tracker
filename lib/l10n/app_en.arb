@@ -1319,6 +1319,75 @@
   "loading": "Loading...",
   "@loading": {
     "description": "Text displayed while loading"
-  }
+  },
 
+  "onboardingTitle1": "Smart Inventory, Peace of Mind",
+  "@onboardingTitle1": {
+    "description": "Title for first onboarding page"
+  },
+  "onboardingBody1": "Transfer the burden of remembering home essentials entirely to your app. Track shortages smartly and save your mental energy for what matters most.",
+  "@onboardingBody1": {
+    "description": "Body text for first onboarding page"
+  },
+
+  "onboardingTitle2": "Timely Alerts, Zero Surprises",
+  "@onboardingTitle2": {
+    "description": "Title for second onboarding page"
+  },
+
+  "onboardingBody2": "Your app alerts you when essentials are running low, so you can always stay prepared and avoid sudden shortages.",
+  "@onboardingBody2": {
+    "description": "Body text for second onboarding page"
+  },
+
+  "onboardingTitle3": "Simple Shopping",
+  "@onboardingTitle3": {
+    "description": "Title for third onboarding page"
+  },
+
+  "onboardingBody3": "With a single tap, turn your low-stock items into a precisely organized shopping list, and easily share it via WhatsApp for faster shopping.",
+  "@onboardingBody3": {
+    "description": "Body text for third onboarding page"
+  },
+
+  "onboardingTitle4": "Your Data is Safe",
+  "@onboardingTitle4": {
+    "description": "Title for fourth onboarding page"
+  },
+
+  "onboardingBody4": "No internet, no accounts. Your home data belongs to you alone, stored safely on your device with secure backups anytime.",
+  "@onboardingBody4": {
+    "description": "Body text for fourth onboarding page"
+  },
+
+  "onboardingSkip": "Skip",
+  "@onboardingSkip": {
+    "description": "Skip button text on onboarding"
+  },
+
+  "onboardingNext": "Next",
+  "@onboardingNext": {
+    "description": "Next button text on onboarding"
+  },
+
+  "onboardingDone": "Start",
+  "@onboardingDone": {
+    "description": "Done button text on onboarding"
+  },
+
+  "languageSelectionTitle": "Select Language",
+  "@languageSelectionTitle": {
+    "description": "Title for language selection screen"
+  },
+
+  "languageSelectionSubtitle": "Choose your preferred language",
+  "@languageSelectionSubtitle": {
+    "description": "Subtitle for language selection screen"
+  },
+
+  "languageChangeFailed": "Failed to change language. Please try again.",
+  "@languageChangeFailed": {
+    "description": "Error message when changing language fails"
+  }
 }
+

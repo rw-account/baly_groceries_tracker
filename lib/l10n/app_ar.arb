@@ -1319,6 +1319,72 @@
   "loading": "جارٍ التحميل...",
   "@loading": {
     "description": "Text displayed while loading"
-  }
+  },
 
+  "onboardingTitle1": "مخزون ذكي، لراحة بالك",
+  "@onboardingTitle1": {
+    "description": "Title for first onboarding page"
+  },
+  "onboardingBody1": "انقل عناء تذكر متطلبات البيت بالكامل إلى تطبيقك. تتبع النواقص بذكاء ووفر طاقتك الذهنية لما هو أهم.",
+  "@onboardingBody1": {
+    "description": "Body text for first onboarding page"
+  },
+
+  "onboardingTitle2": "تنبيهات في وقتها، وبدون مفاجآت",
+  "@onboardingTitle2": {
+    "description": "Title for second onboarding page"
+  },
+  "onboardingBody2": "تطبيقك ينبهك عندما تقترب المتطلبات من النفاد، لتبقى دائمًا مستعدًا وتتجنب أزمات النقص المفاجئ.",
+  "@onboardingBody2": {
+    "description": "Body text for second onboarding page"
+  },
+
+  "onboardingTitle3": "تسوق سهل",
+  "@onboardingTitle3": {
+    "description": "Title for third onboarding page"
+  },
+  "onboardingBody3": "بنقرة زر واحدة، تتحول نواقصك إلى قائمة شراء منظمة بدقة؛ لتسوق أسرع، مع إمكانية مشاركتها بسهولة عبر واتساب.",
+  "@onboardingBody3": {
+    "description": "Body text for third onboarding page"
+  },
+
+  "onboardingTitle4": "بياناتك في أمان",
+  "@onboardingTitle4": {
+    "description": "Title for fourth onboarding page"
+  },
+
+  "onboardingBody4": "بدون إنترنت أو حسابات؛ بيانات منزلك محفوظة داخل هاتفك فقط لخصوصية تامة، مع ميزة النسخ الاحتياطي الآمن وقتما تشاء.",
+  "@onboardingBody4": {
+    "description": "Body text for fourth onboarding page"
+  },
+
+  "onboardingSkip": "تخطي",
+  "@onboardingSkip": {
+    "description": "Skip button text on onboarding"
+  },
+
+  "onboardingNext": "التالي",
+  "@onboardingNext": {
+    "description": "Next button text on onboarding"
+  },
+
+  "onboardingDone": "ابدأ",
+  "@onboardingDone": {
+    "description": "Done button text on onboarding"
+  },
+
+  "languageSelectionTitle": "اختر اللغة",
+  "@languageSelectionTitle": {
+    "description": "Title for language selection screen"
+  },
+
+  "languageSelectionSubtitle": "اختر لغتك المفضلة",
+  "@languageSelectionSubtitle": {
+    "description": "Subtitle for language selection screen"
+  },
+
+  "languageChangeFailed": "فشل تغيير اللغة. حاول مجدداً",
+  "@languageChangeFailed": {
+    "description": "Error message when changing language fails"
+  }
 }

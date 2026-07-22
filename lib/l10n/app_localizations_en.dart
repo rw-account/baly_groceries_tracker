@@ -782,4 +782,51 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loading => 'Loading...';
+
+  @override
+  String get onboardingTitle1 => 'Smart Inventory, Peace of Mind';
+
+  @override
+  String get onboardingBody1 =>
+      'Transfer the burden of remembering home essentials entirely to your app. Track shortages smartly and save your mental energy for what matters most.';
+
+  @override
+  String get onboardingTitle2 => 'Timely Alerts, Zero Surprises';
+
+  @override
+  String get onboardingBody2 =>
+      'Your app alerts you when essentials are running low, so you can always stay prepared and avoid sudden shortages.';
+
+  @override
+  String get onboardingTitle3 => 'Simple Shopping';
+
+  @override
+  String get onboardingBody3 =>
+      'With a single tap, turn your low-stock items into a precisely organized shopping list, and easily share it via WhatsApp for faster shopping.';
+
+  @override
+  String get onboardingTitle4 => 'Your Data is Safe';
+
+  @override
+  String get onboardingBody4 =>
+      'No internet, no accounts. Your home data belongs to you alone, stored safely on your device with secure backups anytime.';
+
+  @override
+  String get onboardingSkip => 'Skip';
+
+  @override
+  String get onboardingNext => 'Next';
+
+  @override
+  String get onboardingDone => 'Start';
+
+  @override
+  String get languageSelectionTitle => 'Select Language';
+
+  @override
+  String get languageSelectionSubtitle => 'Choose your preferred language';
+
+  @override
+  String get languageChangeFailed =>
+      'Failed to change language. Please try again.';
 }

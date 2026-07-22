@@ -1483,6 +1483,90 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'جارٍ التحميل...'**
   String get loading;
+
+  /// Title for first onboarding page
+  ///
+  /// In ar, this message translates to:
+  /// **'مخزون ذكي، لراحة بالك'**
+  String get onboardingTitle1;
+
+  /// Body text for first onboarding page
+  ///
+  /// In ar, this message translates to:
+  /// **'انقل عناء تذكر متطلبات البيت بالكامل إلى تطبيقك. تتبع النواقص بذكاء ووفر طاقتك الذهنية لما هو أهم.'**
+  String get onboardingBody1;
+
+  /// Title for second onboarding page
+  ///
+  /// In ar, this message translates to:
+  /// **'تنبيهات في وقتها، وبدون مفاجآت'**
+  String get onboardingTitle2;
+
+  /// Body text for second onboarding page
+  ///
+  /// In ar, this message translates to:
+  /// **'تطبيقك ينبهك عندما تقترب المتطلبات من النفاد، لتبقى دائمًا مستعدًا وتتجنب أزمات النقص المفاجئ.'**
+  String get onboardingBody2;
+
+  /// Title for third onboarding page
+  ///
+  /// In ar, this message translates to:
+  /// **'تسوق سهل'**
+  String get onboardingTitle3;
+
+  /// Body text for third onboarding page
+  ///
+  /// In ar, this message translates to:
+  /// **'بنقرة زر واحدة، تتحول نواقصك إلى قائمة شراء منظمة بدقة؛ لتسوق أسرع، مع إمكانية مشاركتها بسهولة عبر واتساب.'**
+  String get onboardingBody3;
+
+  /// Title for fourth onboarding page
+  ///
+  /// In ar, this message translates to:
+  /// **'بياناتك في أمان'**
+  String get onboardingTitle4;
+
+  /// Body text for fourth onboarding page
+  ///
+  /// In ar, this message translates to:
+  /// **'بدون إنترنت أو حسابات؛ بيانات منزلك محفوظة داخل هاتفك فقط لخصوصية تامة، مع ميزة النسخ الاحتياطي الآمن وقتما تشاء.'**
+  String get onboardingBody4;
+
+  /// Skip button text on onboarding
+  ///
+  /// In ar, this message translates to:
+  /// **'تخطي'**
+  String get onboardingSkip;
+
+  /// Next button text on onboarding
+  ///
+  /// In ar, this message translates to:
+  /// **'التالي'**
+  String get onboardingNext;
+
+  /// Done button text on onboarding
+  ///
+  /// In ar, this message translates to:
+  /// **'ابدأ'**
+  String get onboardingDone;
+
+  /// Title for language selection screen
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر اللغة'**
+  String get languageSelectionTitle;
+
+  /// Subtitle for language selection screen
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر لغتك المفضلة'**
+  String get languageSelectionSubtitle;
+
+  /// Error message when changing language fails
+  ///
+  /// In ar, this message translates to:
+  /// **'فشل تغيير اللغة. حاول مجدداً'**
+  String get languageChangeFailed;
 }
 
 class _AppLocalizationsDelegate
