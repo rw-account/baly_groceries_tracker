@@ -1,26 +1,30 @@
 // lib/router/route_paths.dart
 
-/// مسارات التطبيق المركزية، لتسهيل الصيانة وتفادي الأخطاء الإملائية
-/// عند الإشارة إلى نفس المسار من أكثر من مكان.
+/// Centralized app routes for easy maintenance and avoiding typos
+/// when referencing the same route from multiple places.
 abstract class RoutePaths {
   RoutePaths._();
 
-  // الفروع الرئيسية (تبويبات الشريط السفلي)
+  // Main branch routes (bottom navigation tabs)
   static const String home = '/home';
   static const String expiry = '/expiry';
   static const String shoppingList = '/shopping-list';
   static const String settings = '/settings';
 
-  // المسارات الفرعية (نسبية إلى الفرع الأب)
+  // Onboarding & Language Selection
+  static const String languageSelection = '/language-selection';
+  static const String onboarding = '/onboarding';
+
+  // Sub-routes (relative to parent branch)
   static const String addItem = 'add-item';
   static const String editItem = 'edit-item/:itemId';
   static const String addShoppingItem = 'add-item';
 
-  // المسارات الكاملة (مفيدة عند استدعاء context.go / context.push)
+  // Full paths (useful when calling context.go / context.push)
   static const String addItemFull = '/home/add-item';
   static const String addShoppingItemFull = '/shopping-list/add-item';
 
-  /// يبني المسار الكامل لتعديل عنصر معيّن انطلاقًا من معرفه،
-  /// ويُستخدم في الروابط العميقة (deep links) والتنقّل الداخلي.
+  /// Builds the full path for editing a specific item by its ID,
+  /// used for deep links and internal navigation.
   static String editItemPath(String itemId) => '/home/edit-item/$itemId';
 }
