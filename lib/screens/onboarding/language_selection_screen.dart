@@ -28,11 +28,29 @@ class _LanguageSelectionScreenState
       _isLoading = true;
     });
 
-    // تحديث اللغة فوراً
-    await ref.read(localeProvider.notifier).changeLocale(languageCode);
-
-    if (mounted) {
-      setState(() => _isLoading = false);
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    try {
+      // تحديث اللغة فوراً
+      await ref.read(localeProvider.notifier).changeLocale(languageCode);
+    } catch (e) {
+      // معالجة الخطأ: عرض رسالة للمستخدم وإعادة تعيين الاختيار
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.languageChangeFailed, style: TextStyle(color: theme.colorScheme.onError)),
+            backgroundColor: theme.colorScheme.error,
+          ),
+        );
+        setState(() {
+          _selectedLanguage = null; // السماح للمستخدم بالمحاولة مرة أخرى
+        });
+      }
+    } finally {
+      // ضمان إعادة تعيين حالة التحميل دائماً
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
@@ -49,7 +67,6 @@ class _LanguageSelectionScreenState
     final locale = ref.watch(localeProvider);
     final isRTL = locale.languageCode == 'ar';
 
-
     return Directionality(
       textDirection: isRTL ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
@@ -57,63 +74,63 @@ class _LanguageSelectionScreenState
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(24.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // App icon/logo
-                    Container(
-                      width: 120,
-                      height: 120,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(24),
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            theme.colorScheme.primaryContainer,
-                            theme.colorScheme.secondaryContainer,
-                          ],
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: theme.colorScheme.primary
-                                .withValues(alpha: 0.3),
-                            blurRadius: 20,
-                            spreadRadius: 2,
-                            offset: const Offset(0, 8),
-                          ),
-                        ],
-                      ),
-                      child: Icon(
-                        Icons.shopping_basket_outlined,
-                        size: 60,
-                        color: theme.colorScheme.primary,
-                      ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // App icon/logo
+                Container(
+                  width: 120,
+                  height: 120,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24),
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        theme.colorScheme.primaryContainer,
+                        theme.colorScheme.secondaryContainer,
+                      ],
                     ),
-                    const SizedBox(height: 32),
-
-                    // Title
-                    Text(
-                      l10n.languageSelectionTitle,
-                      style: theme.textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.onSurface,
+                    boxShadow: [
+                      BoxShadow(
+                        color: theme.colorScheme.primary
+                          .withValues(alpha: 0.3),
+                        blurRadius: 20,
+                        spreadRadius: 2,
+                        offset: const Offset(0, 8),
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 12),
+                    ],
+                  ),
+                  child: Icon(
+                    Icons.shopping_basket_outlined,
+                    size: 60,
+                    color: theme.colorScheme.primary,
+                  ),
+                ),
+                const SizedBox(height: 32),
 
-                    // Subtitle
-                    Text(
-                      l10n.languageSelectionSubtitle,
-                      style: theme.textTheme.bodyLarge?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 48),
+                // Title
+                Text(
+                  l10n.languageSelectionTitle,
+                  style: theme.textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: theme.colorScheme.onSurface,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 12),
 
-                    // Language options
+                // Subtitle
+                Text(
+                  l10n.languageSelectionSubtitle,
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 48),
+
+                // Language options
                 _buildLanguageOption(
                   context,
                   languageName: l10n.arabic,
@@ -127,48 +144,50 @@ class _LanguageSelectionScreenState
                   isSelected: _selectedLanguage == 'en',
                   onTap: () => _selectLanguage('en'),
                 ),
-                const SizedBox(height: 48), // لدفع الزر للأسفل إذا كان هناك مساحة
+                const SizedBox(height: 48),
 
-                    // Continue button
-                    SizedBox(
-                      width: double.infinity,
-                      height: 56,
-                      child: FilledButton(
-                        onPressed: (_isLoading || _selectedLanguage == null) ? null : _navigateToOnboarding,
-                        style: FilledButton.styleFrom(
-                          backgroundColor: theme.colorScheme.primary,
-                          foregroundColor: theme.colorScheme.onPrimary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          elevation: 2,
-                        ),
-                        child: _isLoading
-                            ? SizedBox(
-                                width: 24,
-                                height: 24,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                    theme.colorScheme.onPrimary,
-                                  ),
-                                ),
-                              )
-                            : Text(
-                                l10n.onboardingNext,
-                                style: theme.textTheme.titleMedium?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  color: theme.colorScheme.onPrimary,
-                                ),
-                              ),
+                // Continue button
+                SizedBox(
+                  width: double.infinity,
+                  height: 56,
+                  child: FilledButton(
+                    onPressed: (_isLoading || _selectedLanguage == null)
+                        ? null
+                        : _navigateToOnboarding,
+                    style: FilledButton.styleFrom(
+                      backgroundColor: theme.colorScheme.primary,
+                      foregroundColor: theme.colorScheme.onPrimary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
                       ),
+                      elevation: 2,
                     ),
-                  ],
+                    child: _isLoading
+                        ? SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                theme.colorScheme.onPrimary,
+                              ),
+                            ),
+                          )
+                        : Text(
+                            l10n.onboardingNext,
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: theme.colorScheme.onPrimary,
+                            ),
+                          ),
+                  ),
                 ),
-              ),
+              ],
             ),
-          )
-        );
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _buildLanguageOption(
