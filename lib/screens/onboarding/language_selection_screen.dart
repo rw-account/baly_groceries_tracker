@@ -116,7 +116,6 @@ class _LanguageSelectionScreenState
                     // Language options
                 _buildLanguageOption(
                   context,
-                  languageCode: 'ar',
                   languageName: l10n.arabic,
                   isSelected: _selectedLanguage == 'ar',
                   onTap: () => _selectLanguage('ar'),
@@ -124,7 +123,6 @@ class _LanguageSelectionScreenState
                 const SizedBox(height: 16),
                 _buildLanguageOption(
                   context,
-                  languageCode: 'en',
                   languageName: l10n.english,
                   isSelected: _selectedLanguage == 'en',
                   onTap: () => _selectLanguage('en'),
@@ -175,7 +173,6 @@ class _LanguageSelectionScreenState
 
   Widget _buildLanguageOption(
     BuildContext context, {
-    required String languageCode,
     required String languageName,
     required bool isSelected,
     required VoidCallback onTap,
