@@ -1330,11 +1330,11 @@
     "description": "Body text for first onboarding page"
   },
 
-  "onboardingTitle2": "تنبيهات في وقتها، وبدون مفاجآت",
+  "onboardingTitle2": "تنبيهات في وقتها، بلا مفاجآت",
   "@onboardingTitle2": {
     "description": "Title for second onboarding page"
   },
-  "onboardingBody2": "تطبيقك ينبهك عندما تقترب المتطلبات من النفاد، لتبقى دائمًا مستعدًا وتتجنب أزمات النقص المفاجئ.",
+  "onboardingBody2": "تصلك تنبيهات عند اقتراب النواقص من النفاد، لتبقى مستعداً دائماً وتتجنب النقص المفاجئ.",
   "@onboardingBody2": {
     "description": "Body text for second onboarding page"
   },
@@ -1343,7 +1343,8 @@
   "@onboardingTitle3": {
     "description": "Title for third onboarding page"
   },
-  "onboardingBody3": "بنقرة زر واحدة، تتحول نواقصك إلى قائمة شراء منظمة بدقة؛ لتسوق أسرع، مع إمكانية مشاركتها بسهولة عبر واتساب.",
+
+  "onboardingBody3": "بنقرة زر، حوّل نواقصك إلى قائمة تسوق منظمة بدقة، وشاركها بسهولة عبر واتساب.",
   "@onboardingBody3": {
     "description": "Body text for third onboarding page"
   },
@@ -1353,7 +1354,7 @@
     "description": "Title for fourth onboarding page"
   },
 
-  "onboardingBody4": "بدون إنترنت أو حسابات؛ بيانات منزلك محفوظة داخل هاتفك فقط لخصوصية تامة، مع ميزة النسخ الاحتياطي الآمن وقتما تشاء.",
+  "onboardingBody4": "بلا إنترنت. بلا حسابات. بياناتك ملكك وحدك وعلى جهازك، مع إمكانية النسخ الاحتياطي المحلي متى أردت.",
   "@onboardingBody4": {
     "description": "Body text for fourth onboarding page"
   },

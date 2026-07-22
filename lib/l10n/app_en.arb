@@ -1325,7 +1325,7 @@
   "@onboardingTitle1": {
     "description": "Title for first onboarding page"
   },
-  "onboardingBody1": "Transfer the burden of remembering home essentials entirely to your app. Track shortages smartly and save your mental energy for what matters most.",
+  "onboardingBody1": "Let the app remember your home essentials. Track shortages smartly and save your mental energy for what matters most.",
   "@onboardingBody1": {
     "description": "Body text for first onboarding page"
   },
@@ -1335,7 +1335,7 @@
     "description": "Title for second onboarding page"
   },
 
-  "onboardingBody2": "Your app alerts you when essentials are running low, so you can always stay prepared and avoid sudden shortages.",
+  "onboardingBody2": "Get notified when items run low, so you're always prepared and never caught off guard.",
   "@onboardingBody2": {
     "description": "Body text for second onboarding page"
   },
@@ -1345,7 +1345,7 @@
     "description": "Title for third onboarding page"
   },
 
-  "onboardingBody3": "With a single tap, turn your low-stock items into a precisely organized shopping list, and easily share it via WhatsApp for faster shopping.",
+  "onboardingBody3": "With a single tap, turn low-stock items into an organized shopping list and share it easily via WhatsApp.",
   "@onboardingBody3": {
     "description": "Body text for third onboarding page"
   },
@@ -1355,7 +1355,7 @@
     "description": "Title for fourth onboarding page"
   },
 
-  "onboardingBody4": "No internet, no accounts. Your home data belongs to you alone, stored safely on your device with secure backups anytime.",
+  "onboardingBody4": "No internet. No accounts. Your data stays yours, right on your device, with local backups whenever you need them.",
   "@onboardingBody4": {
     "description": "Body text for fourth onboarding page"
   },
