@@ -10,44 +10,45 @@ class LanguageSelectionScreen extends ConsumerStatefulWidget {
   const LanguageSelectionScreen({super.key});
 
   @override
-  ConsumerState<LanguageSelectionScreen> createState() => _LanguageSelectionScreenState();
+  ConsumerState<LanguageSelectionScreen> createState() =>
+      _LanguageSelectionScreenState();
 }
 
-class _LanguageSelectionScreenState extends ConsumerState<LanguageSelectionScreen> {
-  String? _selectedLanguage;
+class _LanguageSelectionScreenState
+    extends ConsumerState<LanguageSelectionScreen> {
+  String _selectedLanguage = 'ar'; // افتراضياً العربية
   bool _isLoading = false;
 
-  @override
-  void initState() {
-    super.initState();
-    // Default to Arabic if no language selected yet
-    _selectedLanguage = 'ar';
-  }
+  Future<void> _selectLanguage(String languageCode) async {
+    // منع اختيار نفس اللغة مرة أخرى أو أثناء التحميل
+    if (_isLoading || _selectedLanguage == languageCode) return;
 
-  Future<void> _saveLanguage(String languageCode) async {
-    if (_isLoading) return;
-    setState(() => _isLoading = true);
+    setState(() {
+      _selectedLanguage = languageCode;
+      _isLoading = true;
+    });
 
+    // تحديث اللغة فوراً
     await ref.read(localeProvider.notifier).changeLocale(languageCode);
 
-    if (!mounted) return;
-    setState(() => _isLoading = false);
+    if (mounted) {
+      setState(() => _isLoading = false);
+    }
   }
 
-  Future<void> _continue() async {
-    if (_selectedLanguage != null) {
-      // If the user clicks Next directly and relies on the default option.
-      await _saveLanguage(_selectedLanguage!); 
-      if (!mounted) return;
-      context.go(RoutePaths.onboarding);
-    }
+  void _navigateToOnboarding() {
+    context.go(RoutePaths.onboarding);
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final isRTL = l10n.localeName == 'ar';
+    
+    // مراقبة تغييرات اللغة لتحديث الواجهة واتجاه النص فوراً
+    final locale = ref.watch(localeProvider);
+    final isRTL = locale.languageCode == 'ar';
+
 
     return Directionality(
       textDirection: isRTL ? TextDirection.rtl : TextDirection.ltr,
@@ -56,71 +57,69 @@ class _LanguageSelectionScreenState extends ConsumerState<LanguageSelectionScree
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(24.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // App icon/logo
-                Container(
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(24),
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        theme.colorScheme.primaryContainer,
-                        theme.colorScheme.secondaryContainer,
-                      ],
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: theme.colorScheme.primary.withValues(alpha: 0.3),
-                        blurRadius: 20,
-                        spreadRadius: 2,
-                        offset: const Offset(0, 8),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // App icon/logo
+                    Container(
+                      width: 120,
+                      height: 120,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(24),
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            theme.colorScheme.primaryContainer,
+                            theme.colorScheme.secondaryContainer,
+                          ],
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: theme.colorScheme.primary
+                                .withValues(alpha: 0.3),
+                            blurRadius: 20,
+                            spreadRadius: 2,
+                            offset: const Offset(0, 8),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  child: Icon(
-                    Icons.shopping_basket_outlined,
-                    size: 60,
-                    color: theme.colorScheme.primary,
-                  ),
-                ),
-                const SizedBox(height: 32),
+                      child: Icon(
+                        Icons.shopping_basket_outlined,
+                        size: 60,
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
+                    const SizedBox(height: 32),
 
-                // Title
-                Text(
-                  l10n.languageSelectionTitle,
-                  style: theme.textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: theme.colorScheme.onSurface,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 12),
+                    // Title
+                    Text(
+                      l10n.languageSelectionTitle,
+                      style: theme.textTheme.headlineMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: theme.colorScheme.onSurface,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 12),
 
-                // Subtitle
-                Text(
-                  l10n.languageSelectionSubtitle,
-                  style: theme.textTheme.bodyLarge?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 48),
+                    // Subtitle
+                    Text(
+                      l10n.languageSelectionSubtitle,
+                      style: theme.textTheme.bodyLarge?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 48),
 
-                // Language options
+                    // Language options
                 _buildLanguageOption(
                   context,
                   languageCode: 'ar',
                   languageName: l10n.arabic,
                   isSelected: _selectedLanguage == 'ar',
-                  onTap: () async {
-                    setState(() => _selectedLanguage = 'ar');
-                    await _saveLanguage('ar');
-                  }
+                  onTap: () => _selectLanguage('ar'),
                 ),
                 const SizedBox(height: 16),
                 _buildLanguageOption(
@@ -128,53 +127,50 @@ class _LanguageSelectionScreenState extends ConsumerState<LanguageSelectionScree
                   languageCode: 'en',
                   languageName: l10n.english,
                   isSelected: _selectedLanguage == 'en',
-                  onTap: () async {
-                    setState(() => _selectedLanguage = 'en');
-                    await _saveLanguage('en');
-                  }
+                  onTap: () => _selectLanguage('en'),
                 ),
-                const SizedBox(height: 48),
+                const SizedBox(height: 48), // لدفع الزر للأسفل إذا كان هناك مساحة
 
-                // Continue button
-                SizedBox(
-                  width: double.infinity,
-                  height: 56,
-                  child: FilledButton(
-                    onPressed: _isLoading ? null : _continue,
-                    style: FilledButton.styleFrom(
-                      backgroundColor: theme.colorScheme.primary,
-                      foregroundColor: theme.colorScheme.onPrimary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      elevation: 2,
-                    ),
-                    child: _isLoading
-                        ? SizedBox(
-                            width: 24,
-                            height: 24,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                theme.colorScheme.onPrimary,
-                              ),
-                            ),
-                          )
-                        : Text(
-                            l10n.onboardingNext,
-                            style: theme.textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.w600,
-                              color: theme.colorScheme.onPrimary,
-                            ),
+                    // Continue button
+                    SizedBox(
+                      width: double.infinity,
+                      height: 56,
+                      child: FilledButton(
+                        onPressed: _isLoading ? null : _navigateToOnboarding,
+                        style: FilledButton.styleFrom(
+                          backgroundColor: theme.colorScheme.primary,
+                          foregroundColor: theme.colorScheme.onPrimary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
                           ),
-                  ),
+                          elevation: 2,
+                        ),
+                        child: _isLoading
+                            ? SizedBox(
+                                width: 24,
+                                height: 24,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    theme.colorScheme.onPrimary,
+                                  ),
+                                ),
+                              )
+                            : Text(
+                                l10n.onboardingNext,
+                                style: theme.textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: theme.colorScheme.onPrimary,
+                                ),
+                              ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
-    );
+          )
+        );
   }
 
   Widget _buildLanguageOption(
@@ -202,12 +198,12 @@ class _LanguageSelectionScreenState extends ConsumerState<LanguageSelectionScree
           ),
           color: isSelected
               ? theme.colorScheme.primaryContainer.withValues(alpha: 0.3)
-              : theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+              : theme.colorScheme.surfaceContainerHighest
+                  .withValues(alpha: 0.5),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Language name
             Text(
               languageName,
               style: theme.textTheme.titleLarge?.copyWith(
@@ -218,7 +214,6 @@ class _LanguageSelectionScreenState extends ConsumerState<LanguageSelectionScree
               ),
             ),
             const SizedBox(width: 16),
-            // Selection indicator
             AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               width: 24,
@@ -231,7 +226,8 @@ class _LanguageSelectionScreenState extends ConsumerState<LanguageSelectionScree
                       : theme.colorScheme.outline,
                   width: 2,
                 ),
-                color: isSelected ? theme.colorScheme.primary : Colors.transparent,
+                color:
+                    isSelected ? theme.colorScheme.primary : Colors.transparent,
               ),
               child: isSelected
                   ? Icon(
