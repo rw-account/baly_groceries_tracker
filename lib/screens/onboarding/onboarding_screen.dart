@@ -1,165 +1,214 @@
+// lib/screens/onboarding/onboarding_screen.dart
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:home_orders_tracker/providers/app_state_provider.dart';
+import 'package:home_orders_tracker/router/route_paths.dart';
+import 'package:home_orders_tracker/core/theme/app_theme.dart';
+import 'package:home_orders_tracker/l10n/app_localizations.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
-// ============================================================
-// Steam-Inspired Dark Theme Colors
-// ============================================================
-const Color _kPrimaryBlue = Color(0xFF66C0F4);
-const Color _kBgColor = Color(0xFF171A21);
-const Color _kSurfaceColor = Color(0xFF1E293B);
-const Color _kCardColor = Color(0xFF22394F);
-const Color _kTextPrimary = Color(0xFFC7D5E0);
-const Color _kTextSecondary = Color(0xFF94A3B8);
-const Color _kBorderColor = Color(0xFF3D5A73);
+/// Builds a luxurious, glowing icon container
+Widget _buildLuxuryIcon(BuildContext context, IconData icon) {
+  final theme = Theme.of(context);
+  final colorScheme = theme.colorScheme;
 
-/// Builds a luxurious, glowing icon container that matches
-/// the Steam dark theme aesthetic.
-///
-/// - Rounded corners (BorderRadius.circular(24))
-/// - Subtle dark-blue gradient (Card -> Surface)
-/// - Glowing BoxShadow using the Primary Blue
-/// - Thin border (0xFF3D5A73)
-/// - Centered Material Icon (size 40, Primary Blue)
-Widget _buildLuxuryIcon(IconData icon) {
   return Container(
-    width: 130,
-    height: 130,
+    width: 140,
+    height: 140,
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(24),
-      gradient: const LinearGradient(
+      shape: BoxShape.circle,
+      gradient: LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [
-          _kCardColor,
-          _kSurfaceColor,
+          colorScheme.surfaceContainerHighest,
+          colorScheme.surface,
         ],
       ),
       border: Border.all(
-        color: _kBorderColor,
-        width: 1.2,
+        color: colorScheme.outlineVariant,
+        width: 1.5,
       ),
       boxShadow: [
         BoxShadow(
-          color: _kPrimaryBlue.withValues(alpha: 0.25),
-          blurRadius: 20,
-          spreadRadius: 2,
-          offset: const Offset(0, 6),
+          color: colorScheme.primary.withValues(alpha: 0.25),
+          blurRadius: 30,
+          spreadRadius: 4,
+          offset: const Offset(0, 8),
         ),
       ],
     ),
     child: Icon(
       icon,
-      size: 40.0,
-      color: _kPrimaryBlue,
+      size: 48.0,
+      color: colorScheme.primary,
     ),
   );
 }
 
-/// Builds the shared [PageDecoration] used across all onboarding pages.
-PageDecoration _buildPageDecoration() {
-  return const PageDecoration(
-    pageColor: _kBgColor,
-    titleTextStyle: TextStyle(
-      fontSize: 24,
+/// Builds the shared [PageDecoration]
+PageDecoration _buildPageDecoration(BuildContext context) {
+  final theme = Theme.of(context);
+  final textTheme = theme.textTheme;
+  final colorScheme = theme.colorScheme;
+
+  return PageDecoration(
+    // ✅ تم التعديل هنا: جعل لون خلفية الصفحة شفافاً لتتحد مع خلفية التطبيق الموحدة ويختفي المربع السفلي
+    pageColor: Colors.transparent,
+    titleTextStyle: textTheme.headlineSmall!.copyWith(
       fontWeight: FontWeight.bold,
-      color: _kTextPrimary,
+      color: colorScheme.onSurface,
     ),
-    bodyTextStyle: TextStyle(
-      fontSize: 16,
+    bodyTextStyle: textTheme.bodyLarge!.copyWith(
       height: 1.5,
-      color: _kTextSecondary,
+      color: AppTheme.textSecondary,
     ),
-    imagePadding: EdgeInsets.only(bottom: 40),
-    contentMargin: EdgeInsets.symmetric(horizontal: 16),
+    imagePadding: const EdgeInsets.only(bottom: 60.0),
+    contentMargin: const EdgeInsets.symmetric(horizontal: 30.0),
+    bodyAlignment: Alignment.topCenter,
   );
 }
 
-/// Onboarding screen with a Steam-inspired dark theme.
-class OnboardingScreen extends StatelessWidget {
+class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
 
-  /// Builds the list of onboarding pages.
-  List<PageViewModel> _buildPages() {
+  @override
+  ConsumerState<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
+  final _introKey = GlobalKey<IntroductionScreenState>();
+
+  List<PageViewModel> _buildPages(BuildContext context, AppLocalizations l10n) {
     return [
       PageViewModel(
-        title: "وداعاً لحيرة النواقص",
-        body:
-            "توقف عن التخمين اليومي: 'هل يكفي الدقيق؟ متى ينتهي السكر؟'. "
-            "انقل عناء التذكر بالكامل إلى تطبيقك، ووفر طاقتك الذهنية لما هو أهم.",
-        image: _buildLuxuryIcon(Icons.lightbulb_outline),
-        decoration: _buildPageDecoration(),
+        title: l10n.onboardingTitle1,
+        body: l10n.onboardingBody1,
+        image: _buildLuxuryIcon(context, Icons.lightbulb_outline_rounded),
+        decoration: _buildPageDecoration(context),
       ),
       PageViewModel(
-        title: "تنبيه ذكي.. وقت الحاجة فقط",
-        body:
-            "عند اقتراب النفاد، إشعار استباقي واحد يمنحك رؤية كاملة للمستقبل. "
-            "اعرف ما يوشك على الانتهاء، واقضِ على أزمات النقص المفاجئ تماماً.",
-        image: _buildLuxuryIcon(Icons.notifications_none),
-        decoration: _buildPageDecoration(),
+        title: l10n.onboardingTitle2,
+        body: l10n.onboardingBody2,
+        image: _buildLuxuryIcon(context, Icons.notifications_none_rounded),
+        decoration: _buildPageDecoration(context),
       ),
       PageViewModel(
-        title: "قائمة مشترياتك بضغطة واحدة",
-        body:
-            "بنقرة زر، تتحول المواد الناقصة تلقائياً إلى قائمة شراء منظمة. "
-            "تدخل السوق وأنت تعرف احتياجاتك بدقة، دون هدر للوقت أو الميزانية.",
-        image: _buildLuxuryIcon(Icons.shopping_bag_outlined),
-        decoration: _buildPageDecoration(),
+        title: l10n.onboardingTitle3,
+        body: l10n.onboardingBody3,
+        image: _buildLuxuryIcon(context, Icons.shopping_bag_outlined),
+        decoration: _buildPageDecoration(context),
       ),
       PageViewModel(
-        title: "أمان كامل.. وبيانات مضمونة",
-        body:
-            "لا إنترنت ولا حسابات. معلومات منزلك محفوظة داخل هاتفك فقط لضمان خصوصيتك، "
-            "مع توفر ميزة (النسخ الاحتياطي) لحفظ بياناتك ونقلها متى أردت.",
-        image: _buildLuxuryIcon(Icons.shield_outlined),
-        decoration: _buildPageDecoration(),
+        title: l10n.onboardingTitle4,
+        body: l10n.onboardingBody4,
+        image: _buildLuxuryIcon(context, Icons.shield_outlined),
+        decoration: _buildPageDecoration(context),
       ),
     ];
   }
 
+  Future<void> _completeOnboarding() async {
+    await ref.read(appStateNotifierProvider).completeOnboarding();
+    if (mounted) {
+      context.go(RoutePaths.home);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final isRTL = l10n.localeName == 'ar';
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: isRTL ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
-        backgroundColor: _kBgColor,
+        backgroundColor: backgroundColor,
+        extendBody: true,
+        extendBodyBehindAppBar: true,
+        // ✅ تم تنظيف وتعديل الـ body لضمان تمدد الخلفية بالكامل حتى أسفل الشاشة الشفافة
         body: SafeArea(
           child: IntroductionScreen(
-            globalBackgroundColor: _kBgColor,
-            pages: _buildPages(),
+            key: _introKey,
+            globalBackgroundColor: backgroundColor,
+            pages: _buildPages(context, l10n),
+            dotsContainerDecorator: BoxDecoration(
+              color: backgroundColor,
+            ),
             showSkipButton: true,
             showBackButton: false,
-            skip: const Text(
-              "تخطي",
-              style: TextStyle(color: _kTextSecondary),
+
+            // 1. زر التخطي (Skip)
+            skip: Text(
+              l10n.onboardingSkip,
+              style: textTheme.labelLarge?.copyWith(
+                color: AppTheme.textSecondary,
+              ),
             ),
-            next: const Icon(
-              Icons.arrow_forward,
-              color: _kPrimaryBlue,
-            ),
-            done: const Text(
-              "ابدأ الآن",
+
+            // 2. زر التالي (Next)
+            next: Text(
+              l10n.onboardingNext,
               style: TextStyle(
-                color: _kPrimaryBlue,
+                color: colorScheme.primary,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            onDone: () {
-              debugPrint("OnboardingScreen: user pressed 'ابدأ الآن' (Done)");
-            },
-            onSkip: () {
-              debugPrint("OnboardingScreen: user pressed 'تخطي' (Skip)");
-            },
-            dotsDecorator: DotsDecorator(
-              activeColor: _kPrimaryBlue,
-              color: _kTextSecondary.withValues(alpha: 0.3),
-              size: const Size.square(8.0),
-              activeSize: const Size(22.0, 8.0),
-              activeShape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
+
+            // 3. زر البدء/الإنهاء الفاخر (Done) تجميله داخل حاوية مخصصة لتجنب المشاكل البصرية
+            done: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              decoration: BoxDecoration(
+                color: colorScheme.primary,
+                borderRadius: BorderRadius.circular(30.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: colorScheme.primary.withValues(alpha: 0.3),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Text(
+                l10n.onboardingDone,
+                style: textTheme.labelLarge?.copyWith(
+                  color: colorScheme.onPrimary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
               ),
             ),
-            controlsPadding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-            controlsMargin: const EdgeInsets.all(16),
+
+            // 4. تصفير الحواشي الداخلية ومنع الوميض المربع عند الضغط
+            skipStyle: TextButton.styleFrom(padding: EdgeInsets.zero, overlayColor: Colors.transparent,),
+            nextStyle: TextButton.styleFrom(padding: EdgeInsets.zero, overlayColor: Colors.transparent,),
+            doneStyle: TextButton.styleFrom(padding: EdgeInsets.zero, overlayColor: Colors.transparent,),
+
+            onDone: _completeOnboarding,
+            onSkip: _completeOnboarding,
+
+            dotsDecorator: DotsDecorator(
+              activeColor: colorScheme.primary,
+              color: AppTheme.textSecondary.withValues(alpha: 0.3),
+              size: const Size.square(8.0),
+              activeSize: const Size(24.0, 8.0),
+              activeShape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+            ),
+
+            // 5. ضبط الهوامش السفلية المخصصة لعناصر التحكم لتعطي مساحة تنفس مريحة للأزرار والنقاط
+            controlsPadding: const EdgeInsets.symmetric(
+              horizontal: 20.0,
+              vertical: 12.0,
+            ),
+            controlsMargin: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
           ),
         ),
       ),
