@@ -102,7 +102,7 @@ class _LanguageSelectionScreenState
                     ],
                   ),
                   child: Icon(
-                    Icons.shopping_basket_outlined,
+                    Icons.chat_outlined,
                     size: 60,
                     color: theme.colorScheme.primary,
                   ),
