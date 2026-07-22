@@ -1,7 +1,7 @@
 // lib/providers/locale_provider.dart
 
 import 'package:flutter/material.dart';
-import 'package:home_orders_tracker/providers/app_state.dart';
+import 'package:home_orders_tracker/providers/app_state_provider.dart';
 import 'package:home_orders_tracker/providers/storage_service_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../services/notification_service.dart';
@@ -22,7 +22,7 @@ class LocaleNotifier extends _$LocaleNotifier {
 
   Future<void> changeLocale(String languageCode) async {
     final appState = ref.read(appStateNotifierProvider);
-    await appState.prefs.setString('language_code', languageCode);
+    await appState.setLanguage(languageCode);
 
     currentLanguage = languageCode;
     state = Locale(languageCode);
