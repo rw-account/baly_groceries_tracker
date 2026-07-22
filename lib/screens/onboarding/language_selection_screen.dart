@@ -102,7 +102,7 @@ class _LanguageSelectionScreenState
                     ],
                   ),
                   child: Icon(
-                    Icons.chat_outlined,
+                    Icons.translate,
                     size: 60,
                     color: theme.colorScheme.primary,
                   ),
