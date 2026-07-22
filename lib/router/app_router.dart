@@ -1,6 +1,8 @@
 // lib/router/app_router.dart
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:home_orders_tracker/providers/app_state_provider.dart';
 
 import '../screens/home/home_screen.dart';
 import '../screens/expiry/expiry_screen.dart';
@@ -8,6 +10,8 @@ import '../screens/shopping_list/shopping_list_screen/shopping_list_screen.dart'
 import '../screens/add_edit_item/add_edit_item_screen.dart';
 import '../screens/shopping_list/add_shopping_item_screen/add_shopping_item_screen.dart';
 import '../screens/settings/settings_screen.dart';
+import '../screens/onboarding/onboarding_screen.dart';
+import '../screens/onboarding/language_selection_screen.dart';
 import '../models/item_model.dart';
 
 import 'route_paths.dart';
@@ -17,33 +21,62 @@ import 'error_screen.dart';
 import 'item_loader_screen.dart';
 import 'scaffold_with_nav_bar.dart';
 
-/// Central routing configuration for the application.
-///
-/// Key design decisions:
-///
-/// - Each StatefulShellBranch uses its own GlobalKey`<NavigatorState>`
-///   (see router_keys.dart) to ensure independent navigation stacks.
-///   This prevents state loss when switching between tabs.
-///
-/// - Item editing flow supports deep linking:
-///   when navigating via a route containing `itemId`, the item is loaded
-///   using Riverpod inside item_loader_screen.dart instead of relying only
-///   on `extra` (which is available only during in-app navigation).
-///
-/// - Unknown or invalid routes are gracefully handled by displaying
-///   ErrorScreen.unknownRoute() instead of allowing the app to crash or
-///   fall back to a blank/default screen.
-final GoRouter appRouter = GoRouter(
-  navigatorKey: rootNavigatorKey,
-  initialLocation: RoutePaths.home,
-  errorBuilder: (context, state) => ErrorScreen.unknownRoute(context),
+final goRouterProvider = Provider<GoRouter>((ref) {
+  final appState = ref.read(appStateNotifierProvider);
+
+  return GoRouter(
+    navigatorKey: rootNavigatorKey,
+    initialLocation: RoutePaths.home,
+    errorBuilder: (context, state) => ErrorScreen.unknownRoute(context),
+
+    // Automatically re-runs redirect when AppStateNotifier changes.
+    refreshListenable: appState,
+    redirect: (context, state) {
+      final isOnboardingCompleted = appState.onboardingCompleted;
+      final hasLanguageSelected = appState.hasLanguageSelected;
+      
+      final isOnboardingRoute = state.matchedLocation == RoutePaths.onboarding;
+      final isLanguageSelectionRoute = state.matchedLocation == RoutePaths.languageSelection;
+      
+      if (!hasLanguageSelected && !isLanguageSelectionRoute) {
+        return RoutePaths.languageSelection;
+      }
+      
+      if (hasLanguageSelected && !isOnboardingCompleted && !isOnboardingRoute && !isLanguageSelectionRoute) {
+        return RoutePaths.onboarding;
+      }
+      
+      if (isOnboardingCompleted && (isOnboardingRoute || isLanguageSelectionRoute)) {
+        return RoutePaths.home;
+      }
+      
+      return null;
+    },
   routes: [
+    // Language Selection & Onboarding (shown before main app)
+    GoRoute(
+      path: RoutePaths.languageSelection,
+      pageBuilder: (context, state) => buildSlideFadeTransitionPage(
+        context: context,
+        state: state,
+        child: const LanguageSelectionScreen(),
+      ),
+    ),
+    GoRoute(
+      path: RoutePaths.onboarding,
+      pageBuilder: (context, state) => buildSlideFadeTransitionPage(
+        context: context,
+        state: state,
+        child: const OnboardingScreen(),
+      ),
+    ),
+    // Main App with Bottom Navigation
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScaffoldWithNavBar(navigationShell: navigationShell);
       },
       branches: [
-        // ── فرع الرئيسية ─────────────────────────────────────────────
+        // Home branch
         StatefulShellBranch(
           navigatorKey: homeBranchNavigatorKey,
           routes: [
@@ -72,9 +105,6 @@ final GoRouter appRouter = GoRouter(
                       );
                     }
 
-                    // إن جاء extra من تنقّل داخلي عادي يُستخدم مباشرة
-                    // (أسرع، بلا أي حالة تحميل)، وإلا فهذا رابط عميق
-                    // ويتم جلب العنصر داخل ItemLoaderScreen عبر itemId.
                     final extraItem =
                         state.extra is ItemModel ? state.extra as ItemModel : null;
 
@@ -93,7 +123,7 @@ final GoRouter appRouter = GoRouter(
           ],
         ),
 
-        // ── فرع النفاد ───────────────────────────────────────────────
+        // Expiry branch
         StatefulShellBranch(
           navigatorKey: expiryBranchNavigatorKey,
           routes: [
@@ -104,7 +134,7 @@ final GoRouter appRouter = GoRouter(
           ],
         ),
 
-        // ── فرع قائمة التسوق ─────────────────────────────────────────
+        // Shopping List branch
         StatefulShellBranch(
           navigatorKey: shoppingListBranchNavigatorKey,
           routes: [
@@ -126,7 +156,7 @@ final GoRouter appRouter = GoRouter(
         ),
       ],
     ),
-    // ── مسار الإعدادات ────────────────────────────────────────────────
+    // Settings route
     GoRoute(
       path: RoutePaths.settings,
       pageBuilder: (context, state) => buildSlideFadeTransitionPage(
@@ -137,3 +167,4 @@ final GoRouter appRouter = GoRouter(
     ),
   ],
 );
+});
