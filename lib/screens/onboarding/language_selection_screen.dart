@@ -16,7 +16,7 @@ class LanguageSelectionScreen extends ConsumerStatefulWidget {
 
 class _LanguageSelectionScreenState
     extends ConsumerState<LanguageSelectionScreen> {
-  String _selectedLanguage = 'ar'; // افتراضياً العربية
+  String? _selectedLanguage;
   bool _isLoading = false;
 
   Future<void> _selectLanguage(String languageCode) async {
@@ -134,7 +134,7 @@ class _LanguageSelectionScreenState
                       width: double.infinity,
                       height: 56,
                       child: FilledButton(
-                        onPressed: _isLoading ? null : _navigateToOnboarding,
+                        onPressed: (_isLoading || _selectedLanguage == null) ? null : _navigateToOnboarding,
                         style: FilledButton.styleFrom(
                           backgroundColor: theme.colorScheme.primary,
                           foregroundColor: theme.colorScheme.onPrimary,
