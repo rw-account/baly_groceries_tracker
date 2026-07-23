@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:home_orders_tracker/providers/app_state_provider.dart';
+import 'package:home_orders_tracker/providers/storage_service_provider.dart';
 import 'package:home_orders_tracker/router/route_paths.dart';
 import 'package:home_orders_tracker/core/theme/app_theme.dart';
 import 'package:home_orders_tracker/l10n/app_localizations.dart';
@@ -111,6 +112,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   Future<void> _completeOnboarding() async {
     await ref.read(appStateNotifierProvider).completeOnboarding();
+
+    final storage = ref.read(storageServiceProvider);
+    await storage.seedDefaultData();
     if (mounted) {
       context.go(RoutePaths.home);
     }
