@@ -11,7 +11,6 @@ class ItemModel extends Equatable {
   final int expectedDays;
   final DateTime createdAt;
   final bool notificationsEnabled;
-  final int safeThresholdDays;
   final int warningThresholdDays;
   final int urgentThresholdDays;
   final DateTime? lastRefreshedAt;
@@ -24,7 +23,6 @@ class ItemModel extends Equatable {
     required this.expectedDays,
     required this.createdAt,
     this.notificationsEnabled = true,
-    this.safeThresholdDays = 20,
     this.warningThresholdDays = 10,
     this.urgentThresholdDays = 3,
     this.lastRefreshedAt,
@@ -41,7 +39,6 @@ class ItemModel extends Equatable {
       'expectedDays': expectedDays,
       'createdAt': createdAt.toIso8601String(),
       'notificationsEnabled': notificationsEnabled ? 1 : 0,
-      'safeThresholdDays': safeThresholdDays,
       'warningThresholdDays': warningThresholdDays,
       'urgentThresholdDays': urgentThresholdDays,
       'lastRefreshedAt': lastRefreshedAt?.toIso8601String(),
@@ -57,7 +54,6 @@ class ItemModel extends Equatable {
       expectedDays: map['expectedDays'] as int,
       createdAt: DateTime.parse(map['createdAt'] as String),
       notificationsEnabled: (map['notificationsEnabled'] as int? ?? 1) == 1,
-      safeThresholdDays: map['safeThresholdDays'] as int? ?? 20,
       warningThresholdDays: map['warningThresholdDays'] as int? ?? 10,
       urgentThresholdDays: map['urgentThresholdDays'] as int? ?? 3,
       lastRefreshedAt: map['lastRefreshedAt'] != null
@@ -94,7 +90,6 @@ class ItemModel extends Equatable {
     int? expectedDays,
     DateTime? createdAt,
     bool? notificationsEnabled,
-    int? safeThresholdDays,
     int? warningThresholdDays,
     int? urgentThresholdDays,
     DateTime? lastRefreshedAt,
@@ -109,7 +104,6 @@ class ItemModel extends Equatable {
       expectedDays: expectedDays ?? this.expectedDays,
       createdAt: createdAt ?? this.createdAt,
       notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
-      safeThresholdDays: safeThresholdDays ?? this.safeThresholdDays,
       warningThresholdDays: warningThresholdDays ?? this.warningThresholdDays,
       urgentThresholdDays: urgentThresholdDays ?? this.urgentThresholdDays,
       lastRefreshedAt: clearLastRefreshedAt
@@ -127,7 +121,6 @@ class ItemModel extends Equatable {
         expectedDays,
         createdAt,
         notificationsEnabled,
-        safeThresholdDays,
         warningThresholdDays,
         urgentThresholdDays,
         lastRefreshedAt,
