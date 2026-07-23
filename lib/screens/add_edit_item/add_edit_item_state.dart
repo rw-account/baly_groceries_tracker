@@ -14,7 +14,6 @@ abstract class AddEditItemState extends ConsumerState<AddEditItemScreen> {
   late TextEditingController nameCtrl;
   late TextEditingController descCtrl;
   late TextEditingController daysCtrl;
-  late TextEditingController safeCtrl;
   late TextEditingController warningCtrl;
   late TextEditingController urgentCtrl;
   late TextEditingController notesCtrl;
@@ -40,7 +39,6 @@ abstract class AddEditItemState extends ConsumerState<AddEditItemScreen> {
   late String _initialName;
   late String _initialDesc;
   late String _initialDays;
-  late String _initialSafe;
   late String _initialWarning;
   late String _initialUrgent;
   late String _initialNotes;
@@ -53,7 +51,6 @@ abstract class AddEditItemState extends ConsumerState<AddEditItemScreen> {
       nameCtrl.text != _initialName ||
       descCtrl.text != _initialDesc ||
       daysCtrl.text != _initialDays ||
-      safeCtrl.text != _initialSafe ||
       warningCtrl.text != _initialWarning ||
       urgentCtrl.text != _initialUrgent ||
       notesCtrl.text != _initialNotes ||
@@ -68,7 +65,6 @@ abstract class AddEditItemState extends ConsumerState<AddEditItemScreen> {
     nameCtrl = TextEditingController(text: i?.name ?? '');
     descCtrl = TextEditingController(text: i?.quantityDescription ?? '');
     daysCtrl = TextEditingController(text: i?.expectedDays.toString() ?? '');
-    safeCtrl = TextEditingController(text: (i?.safeThresholdDays ?? 20).toString());
     warningCtrl = TextEditingController(text: (i?.warningThresholdDays ?? 10).toString());
     urgentCtrl = TextEditingController(text: (i?.urgentThresholdDays ?? 3).toString());
     notesCtrl = TextEditingController(text: i?.notes ?? '');
@@ -79,7 +75,6 @@ abstract class AddEditItemState extends ConsumerState<AddEditItemScreen> {
     _initialName = nameCtrl.text;
     _initialDesc = descCtrl.text;
     _initialDays = daysCtrl.text;
-    _initialSafe = safeCtrl.text;
     _initialWarning = warningCtrl.text;
     _initialUrgent = urgentCtrl.text;
     _initialNotes = notesCtrl.text;
@@ -92,7 +87,6 @@ abstract class AddEditItemState extends ConsumerState<AddEditItemScreen> {
     nameCtrl.dispose();
     descCtrl.dispose();
     daysCtrl.dispose();
-    safeCtrl.dispose();
     warningCtrl.dispose();
     urgentCtrl.dispose();
     notesCtrl.dispose();
