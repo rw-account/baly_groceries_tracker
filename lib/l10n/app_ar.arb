@@ -556,11 +556,6 @@
     "description": "Description text for thresholds section"
   },
 
-  "safeThresholdLabel": "🟢 الحد الآمن",
-  "@safeThresholdLabel": {
-    "description": "Label for the safe threshold field"
-  },
-
   "warningThresholdLabel": "🟡 حد الانتباه",
   "@warningThresholdLabel": {
     "description": "Label for the warning threshold field"

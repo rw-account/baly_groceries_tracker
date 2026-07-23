@@ -327,9 +327,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'The app determines each item\'s status based on these thresholds';
 
   @override
-  String get safeThresholdLabel => '🟢 Safe threshold';
-
-  @override
   String get warningThresholdLabel => '🟡 Warning threshold';
 
   @override

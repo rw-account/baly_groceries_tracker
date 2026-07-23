@@ -656,12 +656,6 @@ abstract class AppLocalizations {
   /// **'يحدد التطبيق حالة كل مادة بناءً على هذه الحدود'**
   String get thresholdsDescription;
 
-  /// Label for the safe threshold field
-  ///
-  /// In ar, this message translates to:
-  /// **'🟢 الحد الآمن'**
-  String get safeThresholdLabel;
-
   /// Label for the warning threshold field
   ///
   /// In ar, this message translates to:

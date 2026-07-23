@@ -323,9 +323,6 @@ class AppLocalizationsAr extends AppLocalizations {
       'يحدد التطبيق حالة كل مادة بناءً على هذه الحدود';
 
   @override
-  String get safeThresholdLabel => '🟢 الحد الآمن';
-
-  @override
   String get warningThresholdLabel => '🟡 حد الانتباه';
 
   @override

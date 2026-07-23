@@ -556,11 +556,6 @@
     "description": "Description text for thresholds section"
   },
 
-  "safeThresholdLabel": "🟢 Safe threshold",
-  "@safeThresholdLabel": {
-    "description": "Label for the safe threshold field"
-  },
-
   "warningThresholdLabel": "🟡 Warning threshold",
   "@warningThresholdLabel": {
     "description": "Label for the warning threshold field"
