@@ -78,16 +78,6 @@ class StorageService {
 
     final defaults = [
       ItemModel(
-        id: 'default_sugar',
-        name: langCode == 'ar' ? 'سكر' : 'Sugar',
-        quantityDescription: langCode == 'ar' ? 'كيس 5 كيلو' : '5kg bag',
-        expectedDays: 16,
-        createdAt: DateTime.now().subtract(const Duration(days: 4)),
-        lastRefreshedAt: DateTime.now().subtract(const Duration(days: 4)),
-        warningThresholdDays: 7,
-        urgentThresholdDays: 2,
-      ),
-      ItemModel(
         id: 'default_rice',
         name: langCode == 'ar' ? 'ارز' : 'Rice',
         quantityDescription: langCode == 'ar' ? 'كيس 10 كيلو' : '10kg bag',
@@ -105,6 +95,16 @@ class StorageService {
         createdAt: DateTime.now().subtract(const Duration(days: 10)),
         lastRefreshedAt: DateTime.now().subtract(const Duration(days: 10)),
         warningThresholdDays: 4,
+        urgentThresholdDays: 2,
+      ),
+      ItemModel(
+        id: 'default_sugar',
+        name: langCode == 'ar' ? 'سكر' : 'Sugar',
+        quantityDescription: langCode == 'ar' ? 'كيس 5 كيلو' : '5kg bag',
+        expectedDays: 16,
+        createdAt: DateTime.now().subtract(const Duration(days: 4)),
+        lastRefreshedAt: DateTime.now().subtract(const Duration(days: 4)),
+        warningThresholdDays: 7,
         urgentThresholdDays: 2,
       ),
     ];
