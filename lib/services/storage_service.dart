@@ -18,7 +18,6 @@ class StorageService {
 
   Future<void> init() async {
     _db = await _openDatabase();
-    await _seedDefaultData();
   }
 
   /// Opens (or re-uses) the database. Safe to call multiple times.
@@ -69,7 +68,7 @@ class StorageService {
 
   // ─── Seed ────────────────────────────────────────────────────────────────────
 
-  Future<void> _seedDefaultData() async {
+  Future<void> seedDefaultData() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.reload();
 
