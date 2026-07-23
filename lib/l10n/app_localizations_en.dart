@@ -788,28 +788,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingBody1 =>
-      'Transfer the burden of remembering home essentials entirely to your app. Track shortages smartly and save your mental energy for what matters most.';
+      'Let the app remember your home essentials. Track shortages smartly and save your mental energy for what matters most.';
 
   @override
   String get onboardingTitle2 => 'Timely Alerts, Zero Surprises';
 
   @override
   String get onboardingBody2 =>
-      'Your app alerts you when essentials are running low, so you can always stay prepared and avoid sudden shortages.';
+      'Get notified when items run low, so you\'re always prepared and never caught off guard.';
 
   @override
   String get onboardingTitle3 => 'Simple Shopping';
 
   @override
   String get onboardingBody3 =>
-      'With a single tap, turn your low-stock items into a precisely organized shopping list, and easily share it via WhatsApp for faster shopping.';
+      'With a single tap, turn low-stock items into an organized shopping list and share it easily via WhatsApp.';
 
   @override
   String get onboardingTitle4 => 'Your Data is Safe';
 
   @override
   String get onboardingBody4 =>
-      'No internet, no accounts. Your home data belongs to you alone, stored safely on your device with secure backups anytime.';
+      'No internet. No accounts. Your data stays yours, right on your device, with local backups whenever you need them.';
 
   @override
   String get onboardingSkip => 'Skip';

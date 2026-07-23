@@ -1499,13 +1499,13 @@ abstract class AppLocalizations {
   /// Title for second onboarding page
   ///
   /// In ar, this message translates to:
-  /// **'تنبيهات في وقتها، وبدون مفاجآت'**
+  /// **'تنبيهات في وقتها، بلا مفاجآت'**
   String get onboardingTitle2;
 
   /// Body text for second onboarding page
   ///
   /// In ar, this message translates to:
-  /// **'تطبيقك ينبهك عندما تقترب المتطلبات من النفاد، لتبقى دائمًا مستعدًا وتتجنب أزمات النقص المفاجئ.'**
+  /// **'تصلك تنبيهات عند اقتراب النواقص من النفاد، لتبقى مستعداً دائماً وتتجنب النقص المفاجئ.'**
   String get onboardingBody2;
 
   /// Title for third onboarding page
@@ -1517,7 +1517,7 @@ abstract class AppLocalizations {
   /// Body text for third onboarding page
   ///
   /// In ar, this message translates to:
-  /// **'بنقرة زر واحدة، تتحول نواقصك إلى قائمة شراء منظمة بدقة؛ لتسوق أسرع، مع إمكانية مشاركتها بسهولة عبر واتساب.'**
+  /// **'بنقرة زر، حوّل نواقصك إلى قائمة تسوق منظمة بدقة، وشاركها بسهولة عبر واتساب.'**
   String get onboardingBody3;
 
   /// Title for fourth onboarding page
@@ -1529,7 +1529,7 @@ abstract class AppLocalizations {
   /// Body text for fourth onboarding page
   ///
   /// In ar, this message translates to:
-  /// **'بدون إنترنت أو حسابات؛ بيانات منزلك محفوظة داخل هاتفك فقط لخصوصية تامة، مع ميزة النسخ الاحتياطي الآمن وقتما تشاء.'**
+  /// **'بلا إنترنت. بلا حسابات. بياناتك ملكك وحدك وعلى جهازك، مع إمكانية النسخ الاحتياطي المحلي متى أردت.'**
   String get onboardingBody4;
 
   /// Skip button text on onboarding
