@@ -656,9 +656,9 @@
     "description": "Error message when threshold is negative"
   },
 
-  "dateRequiredError": "Please enter the date",
-  "@dateRequiredError": {
-    "description": "Error message displayed when the user tries to submit without entering the required date field."
+  "refreshDateRequiredError": "Please enter the refresh date",
+  "@refreshDateRequiredError": {
+    "description": "Error message displayed when the user tries to submit without selecting a refresh date."
   },
 
   "genericSaveError": "An error occurred while saving the item. Please try again.",

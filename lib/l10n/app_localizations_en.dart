@@ -388,7 +388,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get negativeThresholdError => 'Threshold values cannot be negative';
 
   @override
-  String get dateRequiredError => 'Please enter the date';
+  String get refreshDateRequiredError => 'Please enter the refresh date';
 
   @override
   String get genericSaveError =>

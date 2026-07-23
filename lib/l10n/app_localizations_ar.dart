@@ -383,7 +383,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get negativeThresholdError => 'لا يمكن أن تكون الحدود قيمًا سالبة';
 
   @override
-  String get dateRequiredError => 'يرجى ادخال التاريخ';
+  String get refreshDateRequiredError => 'يرجى ادخال تاريخ التجديد';
 
   @override
   String get genericSaveError => 'حدث خطأ أثناء حفظ العنصر، حاول مرة أخرى';
