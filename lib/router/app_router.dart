@@ -22,7 +22,7 @@ import 'item_loader_screen.dart';
 import 'scaffold_with_nav_bar.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
-  final appState = ref.read(appStateNotifierProvider);
+  final appState = ref.watch(appStateNotifierProvider);
 
   return GoRouter(
     navigatorKey: rootNavigatorKey,
