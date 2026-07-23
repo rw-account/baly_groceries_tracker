@@ -101,7 +101,7 @@ class StorageService {
         id: 'default_sugar',
         name: langCode == 'ar' ? 'سكر' : 'Sugar',
         quantityDescription: langCode == 'ar' ? 'كيس 5 كيلو' : '5kg bag',
-        expectedDays: 16,
+        expectedDays: 14,
         createdAt: DateTime.now().subtract(const Duration(days: 4)),
         lastRefreshedAt: DateTime.now().subtract(const Duration(days: 4)),
         warningThresholdDays: 7,
