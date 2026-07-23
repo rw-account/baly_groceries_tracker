@@ -44,6 +44,10 @@ mixin SaveMixin on AddEditItemState {
       showError(thresholdError);
       return;
     }
+    if (lastRefreshedAt == null) {
+      showError(context.loc.refreshDateRequiredError);
+      return;
+    }
 
     await _persist(
       notifier: notifier,

@@ -14,7 +14,10 @@ mixin DatePickerMixin on AddEditItemState {
 
     try {
       final now = DateTime.now();
-      final initialDate = lastRefreshedAt.isAfter(now) ? now : lastRefreshedAt;
+      final initialDate = (lastRefreshedAt != null && !lastRefreshedAt!.isAfter(now))
+        ? lastRefreshedAt!
+        : now;
+      
       final currentLocale = Locale(LocaleNotifier.currentLanguage);
 
       final picked = await showDatePicker(

@@ -20,7 +20,7 @@ abstract class AddEditItemState extends ConsumerState<AddEditItemScreen> {
   late TextEditingController dateCtrl;
 
   late bool notificationsEnabled;
-  late DateTime lastRefreshedAt;
+  late DateTime? lastRefreshedAt;
   bool isPickingDate = false;
 
   String? _nameErrorText;
@@ -43,7 +43,7 @@ abstract class AddEditItemState extends ConsumerState<AddEditItemScreen> {
   late String _initialUrgent;
   late String _initialNotes;
   late bool _initialNotificationsEnabled;
-  late DateTime _initialLastRefreshedAt;
+  late DateTime? _initialLastRefreshedAt;
 
   bool get isEditing => widget.item != null;
 
@@ -69,8 +69,8 @@ abstract class AddEditItemState extends ConsumerState<AddEditItemScreen> {
     urgentCtrl = TextEditingController(text: (i?.urgentThresholdDays ?? 3).toString());
     notesCtrl = TextEditingController(text: i?.notes ?? '');
     notificationsEnabled = i?.notificationsEnabled ?? true;
-    lastRefreshedAt = i?.lastRefreshedAt ?? DateTime.now();
-    dateCtrl = TextEditingController(text: _dateFormat.format(lastRefreshedAt));
+    lastRefreshedAt = i?.lastRefreshedAt;
+    dateCtrl = TextEditingController(text: lastRefreshedAt != null ? _dateFormat.format(lastRefreshedAt!) : '',);
 
     _initialName = nameCtrl.text;
     _initialDesc = descCtrl.text;

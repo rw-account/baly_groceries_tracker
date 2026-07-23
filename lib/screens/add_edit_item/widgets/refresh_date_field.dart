@@ -31,7 +31,9 @@ class RefreshDateField extends StatelessWidget {
       onTap: onPickDate,
       decoration: InputDecoration(
         labelText: context.loc.refreshDateLabel,
-        labelStyle: theme.textTheme.bodyMedium?.copyWith(color: cs.primary),
+        labelStyle: theme.textTheme.bodyMedium?.copyWith(
+          color: cs.onSurfaceVariant,
+        ),
         hintText: context.loc.refreshDateHint,
         hintStyle: theme.textTheme.bodyMedium?.copyWith(
           color: cs.onSurfaceVariant.withValues(alpha: 0.7),
