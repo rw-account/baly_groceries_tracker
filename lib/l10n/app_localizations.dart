@@ -776,6 +776,12 @@ abstract class AppLocalizations {
   /// **'لا يمكن أن تكون الحدود قيمًا سالبة'**
   String get negativeThresholdError;
 
+  /// Error message displayed when the user tries to submit without entering the required date field.
+  ///
+  /// In ar, this message translates to:
+  /// **'يرجى ادخال التاريخ'**
+  String get dateRequiredError;
+
   /// Generic error message when saving fails
   ///
   /// In ar, this message translates to:

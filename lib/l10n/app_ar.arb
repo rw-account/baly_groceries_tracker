@@ -656,6 +656,11 @@
     "description": "Error message when threshold is negative"
   },
 
+  "dateRequiredError": "يرجى ادخال التاريخ",
+  "@dateRequiredError": {
+    "description": "Error message displayed when the user tries to submit without entering the required date field."
+  },
+
   "genericSaveError": "حدث خطأ أثناء حفظ العنصر، حاول مرة أخرى",
   "@genericSaveError": {
     "description": "Generic error message when saving fails"

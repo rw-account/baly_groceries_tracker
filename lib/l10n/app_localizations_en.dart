@@ -388,6 +388,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get negativeThresholdError => 'Threshold values cannot be negative';
 
   @override
+  String get dateRequiredError => 'Please enter the date';
+
+  @override
   String get genericSaveError =>
       'An error occurred while saving the item. Please try again.';
 
