@@ -380,8 +380,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get invalidDaysError => 'يرجى إدخال عدد أيام صحيح';
 
   @override
-  String get thresholdOrderError =>
-      'يجب أن تكون الحدود مرتبة: الآمن > الانتباه > العاجل';
+  String get thresholdOrderError => 'أيام الانتباه يجب أن تكون أكبر من العاجل';
 
   @override
   String get negativeThresholdError => 'لا يمكن أن تكون الحدود قيمًا سالبة';

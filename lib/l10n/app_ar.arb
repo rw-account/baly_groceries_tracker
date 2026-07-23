@@ -651,7 +651,7 @@
     "description": "Error message for invalid days input"
   },
 
-  "thresholdOrderError": "يجب أن تكون الحدود مرتبة: الآمن > الانتباه > العاجل",
+  "thresholdOrderError": "أيام الانتباه يجب أن تكون أكبر من العاجل",
   "@thresholdOrderError": {
     "description": "Error message when thresholds are not in correct order"
   },

@@ -385,7 +385,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get thresholdOrderError =>
-      'Thresholds must be ordered: Safe > Warning > Urgent';
+      'Warning days must be greater than urgent days.';
 
   @override
   String get negativeThresholdError => 'Threshold values cannot be negative';

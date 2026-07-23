@@ -773,7 +773,7 @@ abstract class AppLocalizations {
   /// Error message when thresholds are not in correct order
   ///
   /// In ar, this message translates to:
-  /// **'يجب أن تكون الحدود مرتبة: الآمن > الانتباه > العاجل'**
+  /// **'أيام الانتباه يجب أن تكون أكبر من العاجل'**
   String get thresholdOrderError;
 
   /// Error message when threshold is negative

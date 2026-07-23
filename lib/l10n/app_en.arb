@@ -651,7 +651,7 @@
     "description": "Error message for invalid days input"
   },
 
-  "thresholdOrderError": "Thresholds must be ordered: Safe > Warning > Urgent",
+  "thresholdOrderError": "Warning days must be greater than urgent days.",
   "@thresholdOrderError": {
     "description": "Error message when thresholds are not in correct order"
   },
