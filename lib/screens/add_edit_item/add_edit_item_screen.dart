@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:home_orders_tracker/core/theme/app_theme.dart';
 import '../../models/item_model.dart';
 import 'add_edit_item_state.dart';
 import 'mixins/save_mixin.dart';
@@ -190,14 +189,6 @@ class _AddEditItemScreenState extends AddEditItemState
       const SizedBox(height: 12),
       Row(
         children: [
-          Expanded(
-            child: ThresholdField(
-              controller: safeCtrl,
-              label: context.loc.safeThresholdLabel,
-              color: Theme.of(context).extension<CustomColors>()?.safe ?? const Color(0xFF34D399),
-            ),
-          ),
-          const SizedBox(width: 12),
           Expanded(
             child: ThresholdField(
               controller: warningCtrl,
