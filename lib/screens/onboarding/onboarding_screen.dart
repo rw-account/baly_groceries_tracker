@@ -2,10 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:home_orders_tracker/providers/app_state_provider.dart';
+import 'package:home_orders_tracker/providers/items_provider.dart';
 import 'package:home_orders_tracker/providers/storage_service_provider.dart';
-import 'package:home_orders_tracker/router/route_paths.dart';
 import 'package:home_orders_tracker/core/theme/app_theme.dart';
 import 'package:home_orders_tracker/l10n/app_localizations.dart';
 import 'package:introduction_screen/introduction_screen.dart';
@@ -111,13 +110,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   }
 
   Future<void> _completeOnboarding() async {
-    await ref.read(appStateNotifierProvider).completeOnboarding();
-
     final storage = ref.read(storageServiceProvider);
     await storage.seedDefaultData();
-    if (mounted) {
-      context.go(RoutePaths.home);
-    }
+    ref.invalidate(itemsProvider);
+    await ref.read(appStateNotifierProvider).completeOnboarding();
   }
 
   @override
@@ -128,7 +124,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
     
-    // ✅ تم التعديل هنا: جعل خلفية الـ Scaffold متطابقة مع colorScheme.surface
     final Color backgroundColor = colorScheme.surface;
 
     return Directionality(
@@ -137,7 +132,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
         backgroundColor: backgroundColor,
         extendBody: true,
         extendBodyBehindAppBar: true,
-        // ✅ تم التعديل هنا: إضافة bottom: false لجعل لون الخلفية يمتد لآخر الشاشة من الأسفل تماماً بدون قطع بVisual
         body: SafeArea(
           bottom: false,
           child: IntroductionScreen(
