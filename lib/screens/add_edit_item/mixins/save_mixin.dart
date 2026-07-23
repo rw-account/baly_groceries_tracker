@@ -7,7 +7,6 @@ import 'package:go_router/go_router.dart';
 import '../../../core/utils/context_extensions.dart';
 
 mixin SaveMixin on AddEditItemState {
-  static const int _defaultSafeThreshold = 20;
   static const int _defaultWarningThreshold = 10;
   static const int _defaultUrgentThreshold = 3;
 
@@ -35,13 +34,12 @@ mixin SaveMixin on AddEditItemState {
       return;
     }
 
-    final safe = int.tryParse(safeCtrl.text.trim()) ?? _defaultSafeThreshold;
     final warn =
         int.tryParse(warningCtrl.text.trim()) ?? _defaultWarningThreshold;
     final urgent =
         int.tryParse(urgentCtrl.text.trim()) ?? _defaultUrgentThreshold;
 
-    final thresholdError = _validateThresholds(safe, warn, urgent);
+    final thresholdError = _validateThresholds( warn, urgent);
     if (thresholdError != null) {
       showError(thresholdError);
       return;
@@ -51,7 +49,6 @@ mixin SaveMixin on AddEditItemState {
       notifier: notifier,
       name: name,
       days: days,
-      safe: safe,
       warn: warn,
       urgent: urgent,
     );
@@ -64,11 +61,11 @@ mixin SaveMixin on AddEditItemState {
     );
   }
 
-  String? _validateThresholds(int safe, int warn, int urgent) {
-    if (safe < 0 || warn < 0 || urgent < 0) {
+  String? _validateThresholds(int warn, int urgent) {
+    if (warn < 0 || urgent < 0) {
       return context.loc.negativeThresholdError;
     }
-    if (safe <= warn || warn <= urgent) {
+    if (warn <= urgent) {
       return context.loc.thresholdOrderError;
     }
     return null;
@@ -78,7 +75,6 @@ mixin SaveMixin on AddEditItemState {
     required ItemsNotifier notifier,
     required String name,
     required int days,
-    required int safe,
     required int warn,
     required int urgent,
   }) async {
@@ -96,7 +92,6 @@ mixin SaveMixin on AddEditItemState {
           expectedDays: days,
           createdAt: widget.item!.createdAt,
           notificationsEnabled: notificationsEnabled,
-          safeThresholdDays: safe,
           warningThresholdDays: warn,
           urgentThresholdDays: urgent,
           lastRefreshedAt: lastRefreshedAt,
@@ -109,7 +104,6 @@ mixin SaveMixin on AddEditItemState {
           quantityDescription: description,
           expectedDays: days,
           notes: notes.isEmpty ? null : notes,
-          safeThresholdDays: safe,
           warningThresholdDays: warn,
           urgentThresholdDays: urgent,
           notificationsEnabled: notificationsEnabled,
