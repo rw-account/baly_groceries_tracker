@@ -1487,7 +1487,7 @@ abstract class AppLocalizations {
   /// Title for first onboarding page
   ///
   /// In ar, this message translates to:
-  /// **'مخزون ذكي، لراحة بالك'**
+  /// **'بيت منظم، وراحة بال'**
   String get onboardingTitle1;
 
   /// Body text for first onboarding page

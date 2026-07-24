@@ -1321,7 +1321,7 @@
     "description": "Text displayed while loading"
   },
 
-  "onboardingTitle1": "مخزون ذكي، لراحة بالك",
+  "onboardingTitle1": "بيت منظم، وراحة بال",
   "@onboardingTitle1": {
     "description": "Title for first onboarding page"
   },

@@ -784,7 +784,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loading => 'Loading...';
 
   @override
-  String get onboardingTitle1 => 'Smart Inventory, Peace of Mind';
+  String get onboardingTitle1 => 'An Organized Home, Peace of Mind';
 
   @override
   String get onboardingBody1 =>

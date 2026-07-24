@@ -778,7 +778,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get loading => 'جارٍ التحميل...';
 
   @override
-  String get onboardingTitle1 => 'مخزون ذكي، لراحة بالك';
+  String get onboardingTitle1 => 'بيت منظم، وراحة بال';
 
   @override
   String get onboardingBody1 =>

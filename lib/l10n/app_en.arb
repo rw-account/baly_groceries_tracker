@@ -1321,7 +1321,7 @@
     "description": "Text displayed while loading"
   },
 
-  "onboardingTitle1": "Smart Inventory, Peace of Mind",
+  "onboardingTitle1": "An Organized Home, Peace of Mind",
   "@onboardingTitle1": {
     "description": "Title for first onboarding page"
   },
