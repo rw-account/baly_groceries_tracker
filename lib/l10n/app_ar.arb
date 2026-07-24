@@ -1325,7 +1325,8 @@
   "@onboardingTitle1": {
     "description": "Title for first onboarding page"
   },
-  "onboardingBody1": "انقل عناء تذكر متطلبات البيت بالكامل إلى تطبيقك. تتبع النواقص بذكاء ووفر طاقتك الذهنية لما هو أهم.",
+
+  "onboardingBody1": "انقل عناء التفكير بمتطلبات البيت بالكامل إلى تطبيقك. تتبع النواقص بذكاء ووفر طاقتك الذهنية لما هو أهم.",
   "@onboardingBody1": {
     "description": "Body text for first onboarding page"
   },

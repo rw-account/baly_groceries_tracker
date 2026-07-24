@@ -788,7 +788,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingBody1 =>
-      'Let the app remember your home essentials. Track shortages smartly and save your mental energy for what matters most.';
+      'Put the burden of managing your household essentials on the app. It intelligently tracks what’s running low, so you can save your mental energy for what matters most.';
 
   @override
   String get onboardingTitle2 => 'Timely Alerts, Zero Surprises';

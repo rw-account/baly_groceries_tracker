@@ -782,7 +782,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get onboardingBody1 =>
-      'انقل عناء تذكر متطلبات البيت بالكامل إلى تطبيقك. تتبع النواقص بذكاء ووفر طاقتك الذهنية لما هو أهم.';
+      'انقل عناء التفكير بمتطلبات البيت بالكامل إلى تطبيقك. تتبع النواقص بذكاء ووفر طاقتك الذهنية لما هو أهم.';
 
   @override
   String get onboardingTitle2 => 'تنبيهات في وقتها، بلا مفاجآت';

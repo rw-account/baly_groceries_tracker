@@ -1325,7 +1325,8 @@
   "@onboardingTitle1": {
     "description": "Title for first onboarding page"
   },
-  "onboardingBody1": "Let the app remember your home essentials. Track shortages smartly and save your mental energy for what matters most.",
+
+  "onboardingBody1": "Put the burden of managing your household essentials on the app. It intelligently tracks what’s running low, so you can save your mental energy for what matters most.",
   "@onboardingBody1": {
     "description": "Body text for first onboarding page"
   },
