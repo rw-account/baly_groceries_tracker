@@ -1,5 +1,9 @@
 // lib/services/backup_service.dart
 
+//
+// التعليقات مع تنظيم الملف جاهزات في هذا الملف
+//
+
 import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter_file_dialog/flutter_file_dialog.dart';
@@ -20,7 +24,7 @@ class BackupService {
     bool databaseWasClosed = false;
 
     try {
-      // 1. التحقق من مسار قاعدة البيانات الأصلية
+      // 1. Verify the original database path exists
       final dbPath = await getDatabasesPath();
       final dbFile = File(p.join(dbPath, _dbName));
 
@@ -28,7 +32,7 @@ class BackupService {
         throw const BackupException(BackupErrorType.backupFileNotFound);
       }
 
-      // 2. تجهيز مسار واسم الملف المؤقت
+      // 2. Prepare a temporary directory and generate a timestamped backup filename
       final tempDir = await getTemporaryDirectory();
       final timestamp = DateTime.now()
           .toIso8601String()
@@ -39,23 +43,23 @@ class BackupService {
       tempBackupFile = File(p.join(tempDir.path, fileName));
 
       // -------------------------------------------------------------
-      // 3. المنطقة الحرجة (النسخ السريع جداً)
+      // 3. Critical Section (Fast Copy)
       // -------------------------------------------------------------
       await storage.checkpointDatabase();
       
-      // إغلاق قاعدة البيانات لتجنب أي تعارض (File Locks)
+      // Close the database to prevent file locks or corruption during the copy
       await storage.closeDatabase();
       databaseWasClosed = true;
 
-      // نسخ الملف بأمان تام وهو مغلق
+      // Safely copy the database file while it's closed
       await dbFile.copy(tempBackupFile.path);
 
-      // إعادة فتح قاعدة البيانات فوراً ليعود التطبيق للعمل
+      // Immediately reopen the database to resume normal app operation
       await storage.reopenDatabase();
       databaseWasClosed = false;
       // -------------------------------------------------------------
 
-      // 4. فتح نافذة الحفظ للمستخدم (باستخدام الملف المؤقت بدلاً من الأصلي)
+      // 4. Open the system save dialog using the temporary file instead of the live database
       final params = SaveFileDialogParams(
         sourceFilePath: tempBackupFile.path,
         fileName: fileName,
@@ -82,7 +86,7 @@ class BackupService {
         cause: e,
       );
     } finally {
-      // ضمان إعادة فتح قاعدة البيانات في حال حدوث خطأ أثناء عملية النسخ
+      // Ensure the database is reopened if an error occurred during the copy process
       if (databaseWasClosed) {
         try {
           await storage.reopenDatabase();
@@ -91,19 +95,19 @@ class BackupService {
         }
       }
 
-      // تنظيف النظام: حذف الملف المؤقت بعد انتهاء عملية الحفظ أو في حال الإلغاء
+      // System Cleanup: Delete the temporary file after saving is complete or if it was cancelled
       if (tempBackupFile != null && await tempBackupFile.exists()) {
         try {
           await tempBackupFile.delete();
         } catch (_) {
-          // تجاهل أخطاء الحذف
+          // Swallow deletion errors
         }
       }
     }
   }
 
 
- /// Restores the database from a user-selected file.
+  /// Restores the database from a user-selected file.
   ///
   /// The selected file is only accepted once it passes a lightweight
   /// SQLite header check. The current database and its `-wal`/`-shm`
@@ -135,7 +139,7 @@ class BackupService {
         throw const BackupException(BackupErrorType.restoreFileNotFound);
       }
 
-      // 1. فحص هيدر SQLite للتأكد من سلامة الملف قبل لمس قاعدة البيانات الحالية
+      // 1. Validate the SQLite header to ensure file integrity before touching the current database
       final raf = await selectedFile.open();
       try {
         final bytes = await raf.read(16);
@@ -147,7 +151,7 @@ class BackupService {
         await raf.close();
       }
 
-      // 2. تفريغ وإغلاق قاعدة البيانات الحالية للتحضير للاستبدال
+      // 2. Flush WAL and close the current database to prepare for file replacement
       await storage.checkpointDatabase();
       await storage.closeDatabase();
       databaseWasClosed = true;
@@ -158,7 +162,7 @@ class BackupService {
       final walFile = File('$targetPath-wal');
       final shmFile = File('$targetPath-shm');
 
-      // 3. تغيير أسماء الملفات الحالية إلى (.bak) لحمايتها وإمكانية التراجع عند الفشل
+      // 3. Rename current files to (.bak) to preserve them and allow rollback on failure
       if (await targetFile.exists()) {
         originalDbBackup = await targetFile.rename('$targetPath.bak');
       }
@@ -171,21 +175,22 @@ class BackupService {
         await shmFile.rename(originalShmBackup);
       }
 
-      // 4. نسخ الملف المسترجع إلى المسار الرئيسي
+      // 4. Copy the selected restore file into the main database path
       await selectedFile.copy(targetPath);
 
-      // 5. إعادة فتح قاعدة البيانات بالبيانات الجديدة
+      // 5. Reopen the database with the newly restored data
       await storage.reopenDatabase();
-      databaseWasClosed = false; // نجح الفتح، لا يلزم التراجع بعد الآن
+      databaseWasClosed = false; // Reopen succeeded; rollback is no longer needed
 
-      // 6. التنظيف الآمن: حذف الملفات المؤقتة القديمة مع عزل أخطاء التنظيف لكي لا تسبب تراجعاً خاطئاً
-        await _deleteIfExists(originalDbBackup);
-        await _deleteIfExists(
-          originalWalBackup == null ? null : File(originalWalBackup),
-        );
-        await _deleteIfExists(
-          originalShmBackup == null ? null : File(originalShmBackup),
-        );
+      // 6. Safe Cleanup: Delete old backup files. 
+      // Errors are handled gracefully inside _deleteIfExists to prevent triggering a false rollback.
+      await _deleteIfExists(originalDbBackup);
+      await _deleteIfExists(
+        originalWalBackup == null ? null : File(originalWalBackup),
+      );
+      await _deleteIfExists(
+        originalShmBackup == null ? null : File(originalShmBackup),
+      );
 
     } on BackupException {
       await _rollbackRestore(
@@ -241,10 +246,10 @@ class BackupService {
         final dbPath = await getDatabasesPath();
         final targetPath = p.join(dbPath, _dbName);
 
-        // حذف الملف الفاشل/المسترجع جزئياً إن وجد
+        // Delete the partially restored or failed file if it exists
         await _deleteIfExists(File(targetPath));
 
-        // إرجاع الملفات الأصلية
+        // Restore the original files to their proper paths
         await originalDbBackup.rename(targetPath);
 
         if (originalWalBackup != null) {
@@ -265,6 +270,8 @@ class BackupService {
     }
   }
 
+  /// Safely deletes a file if it exists. Swallows errors to ensure 
+  /// cleanup operations do not crash the app.
   static Future<void> _deleteIfExists(File? file) async {
     if (file == null) return;
     try {
