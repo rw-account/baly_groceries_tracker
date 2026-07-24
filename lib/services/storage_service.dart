@@ -25,35 +25,48 @@ class StorageService {
     final dbPath = await getDatabasesPath();
     final fullPath = p.join(dbPath, _dbName);
 
-    return openDatabase(
-      fullPath,
-      version: _dbVersion,
-      onCreate: (db, version) async {
-        await db.execute('''
-          CREATE TABLE $_tableName (
-            id                  TEXT PRIMARY KEY,
-            name                TEXT NOT NULL,
-            quantityDescription TEXT NOT NULL DEFAULT '',
-            expectedDays        INTEGER NOT NULL,
-            createdAt           TEXT NOT NULL,
-            notificationsEnabled INTEGER NOT NULL DEFAULT 1,
-            warningThresholdDays INTEGER NOT NULL DEFAULT 10,
-            urgentThresholdDays INTEGER NOT NULL DEFAULT 3,
-            lastRefreshedAt     TEXT,
-            notes               TEXT
-          )
-        ''');
+  return openDatabase(
+    fullPath,
+    version: _dbVersion,
+    onCreate: (db, version) async {
+      // 1. إنشاء حاوية العمليات الدفعية
+      final batch = db.batch();
 
-        await db.execute('''
-          CREATE TABLE $_shoppingItemsTableName (
-            id                  INTEGER PRIMARY KEY AUTOINCREMENT,
-            title               TEXT NOT NULL,
-            inventory_item_id   TEXT,
-            is_checked          INTEGER NOT NULL DEFAULT 0,
-            price               REAL,
-            created_at          INTEGER NOT NULL
-          )
-        ''');
+      // 2. إضافة أمر إنشاء الجدول الأول
+      batch.execute('''
+        CREATE TABLE $_tableName (
+          id                  TEXT PRIMARY KEY,
+          name                TEXT NOT NULL,
+          quantityDescription TEXT NOT NULL DEFAULT '',
+          expectedDays        INTEGER NOT NULL,
+          createdAt           TEXT NOT NULL,
+          notificationsEnabled INTEGER NOT NULL DEFAULT 1,
+          warningThresholdDays INTEGER NOT NULL DEFAULT 10,
+          urgentThresholdDays INTEGER NOT NULL DEFAULT 3,
+          lastRefreshedAt     TEXT,
+          notes               TEXT
+        )
+      ''');
+
+      // 3. إضافة أمر إنشاء الجدول الثاني
+      batch.execute('''
+        CREATE TABLE $_shoppingItemsTableName (
+          id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+          title               TEXT NOT NULL,
+          inventory_item_id   TEXT,
+          is_checked          INTEGER NOT NULL DEFAULT 0,
+          price               REAL,
+          created_at          INTEGER NOT NULL
+        )
+      ''');
+
+      // 4. إضافة أوامر إنشاء الفهارس
+      batch.execute('CREATE INDEX IF NOT EXISTS idx_items_created_at ON $_tableName(createdAt)');
+      batch.execute('CREATE INDEX IF NOT EXISTS idx_shopping_items_created_at ON $_shoppingItemsTableName(created_at)');
+      batch.execute('CREATE INDEX IF NOT EXISTS idx_shopping_items_inventory_item_id ON $_shoppingItemsTableName(inventory_item_id)');
+
+      // 5. تنفيذ جميع العمليات دفعة واحدة في استعلام مدمج
+      await batch.commit(noResult: true);
       },
     );
   }
