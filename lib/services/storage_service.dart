@@ -89,7 +89,8 @@ class StorageService {
 
     final String langCode = prefs.getString('language_code') ?? 'ar';
 
-    final defaults = [
+    // 1. عناصر المخزون الافتراضية (Inventory Items)
+    final defaultInventoryItems = [
       ItemModel(
         id: 'default_rice',
         name: langCode == 'ar' ? 'ارز' : 'Rice',
@@ -122,11 +123,49 @@ class StorageService {
       ),
     ];
 
+    // 2. عناصر قائمة التسوق الافتراضية (Shopping Items)
+    final defaultShoppingItems = [
+      ShoppingItem(
+        title: langCode == 'ar' ? 'حليب طازج' : 'Fresh Milk',
+        isChecked: false,
+        price: 6.5,
+        createdAt: DateTime.now(),
+      ),
+      ShoppingItem(
+        title: langCode == 'ar' ? 'بيض' : 'Eggs',
+        inventoryItemId: 'default_eggs', // مرتبط بمنتج البيض في المخزون
+        isChecked: false,
+        price: 18.0,
+        createdAt: DateTime.now(),
+      ),
+      ShoppingItem(
+        title: langCode == 'ar' ? 'خبز' : 'Bread',
+        isChecked: true,
+        price: 2.0,
+        createdAt: DateTime.now().subtract(const Duration(hours: 2)),
+      ),
+    ];
+
     final batch = _database.batch();
-    for (final item in defaults) {
-      batch.insert(_tableName, item.toMap(),
-          conflictAlgorithm: ConflictAlgorithm.ignore);
+
+    // إدراج عناصر المخزون
+    for (final item in defaultInventoryItems) {
+      batch.insert(
+        _tableName,
+        item.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.ignore,
+      );
     }
+
+    // إدراج عناصر قائمة التسوق
+    for (final shoppingItem in defaultShoppingItems) {
+      batch.insert(
+        _shoppingItemsTableName,
+        shoppingItem.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.ignore,
+      );
+    }
+
     await batch.commit(noResult: true);
     await prefs.setBool('has_seeded_default_items', true);
   }
