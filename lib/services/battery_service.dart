@@ -20,9 +20,13 @@ class BatteryService {
 
   /// يسجل تاريخ أول إطلاق للتطبيق (يجب استدعاؤها في main.dart)
   static Future<void> initFirstLaunchDate() async {
-    final prefs = await SharedPreferences.getInstance();
-    if (prefs.getInt(_firstLaunchKey) == null) {
-      await prefs.setInt(_firstLaunchKey, DateTime.now().millisecondsSinceEpoch);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      if (prefs.getInt(_firstLaunchKey) == null) {
+        await prefs.setInt(_firstLaunchKey, DateTime.now().millisecondsSinceEpoch);
+      }
+    } catch (_) {
+      // فشل صامت، لن يؤثر على التطبيق
     }
   }
 
