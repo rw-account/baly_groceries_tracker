@@ -1331,32 +1331,32 @@
     "description": "Body text for first onboarding page"
   },
 
-  "onboardingTitle2": "Timely Alerts, Zero Surprises",
+  "onboardingTitle2": "Timely Alerts, No Surprises",
   "@onboardingTitle2": {
     "description": "Title for second onboarding page"
   },
 
-  "onboardingBody2": "Get notified when items run low, so you're always prepared and never caught off guard.",
+  "onboardingBody2": "Get notified before your household essentials run out, so you’re always prepared and never caught off guard.",
   "@onboardingBody2": {
     "description": "Body text for second onboarding page"
   },
 
-  "onboardingTitle3": "Simple Shopping",
+  "onboardingTitle3": "Shopping Made Easy",
   "@onboardingTitle3": {
     "description": "Title for third onboarding page"
   },
 
-  "onboardingBody3": "With a single tap, turn low-stock items into an organized shopping list and share it easily via WhatsApp.",
+  "onboardingBody3": "With a single tap, turn your shortages into a neatly organized shopping list and share it instantly on WhatsApp.",
   "@onboardingBody3": {
     "description": "Body text for third onboarding page"
   },
 
-  "onboardingTitle4": "Your Data is Safe",
+  "onboardingTitle4": "Your Data Stays Yours",
   "@onboardingTitle4": {
     "description": "Title for fourth onboarding page"
   },
 
-  "onboardingBody4": "No internet. No accounts. Your data stays yours, right on your device, with local backups whenever you need them.",
+  "onboardingBody4": "No internet. No accounts. Your data stays on your device, with local backups available whenever you need them.",
   "@onboardingBody4": {
     "description": "Body text for fourth onboarding page"
   },
