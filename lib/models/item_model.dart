@@ -70,18 +70,21 @@ class ItemModel extends Equatable {
     return base.add(Duration(days: expectedDays));
   }
 
-  int get remainingDays {
-    final now = DateTime.now();
+  int remainingDaysAt(DateTime now) {
     final expiry = expectedExpiryDate;
     return expiry.difference(DateTime(now.year, now.month, now.day)).inDays;
   }
 
-  ItemStatus get status {
-    final days = remainingDays;
+  int get remainingDays => remainingDaysAt(DateTime.now());
+
+  ItemStatus statusAt(DateTime now) {
+    final days = remainingDaysAt(now);
     if (days <= urgentThresholdDays) return ItemStatus.urgent;
     if (days <= warningThresholdDays) return ItemStatus.warning;
     return ItemStatus.safe;
   }
+
+  ItemStatus get status => statusAt(DateTime.now());
 
   ItemModel copyWith({
     String? id,

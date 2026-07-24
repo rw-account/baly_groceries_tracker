@@ -8,6 +8,8 @@ import '../utils/relative_date_utils.dart';
 import '../../../core/utils/context_extensions.dart';
 
 class ItemCard extends StatelessWidget {
+  static final DateFormat _dateFormat = DateFormat('yyyy-MM-dd');
+
   final ItemModel item;
   final VoidCallback onTap;
 
@@ -17,7 +19,8 @@ class ItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
-    final status = item.status;
+    final now = DateTime.now();
+    final status = item.statusAt(now);
 
     final statusColor = switch (status) {
       ItemStatus.safe => theme.extension<CustomColors>()?.safe ?? const Color(0xFF34D399),
@@ -39,12 +42,13 @@ class ItemCard extends StatelessWidget {
       ItemStatus.urgent => context.loc.statusUrgent,
     };
 
-    final remainingText = item.remainingDays > 0
-        ? context.loc.itemRemainingDaysPositiveFormat(item.remainingDays.toString())
-        : item.remainingDays == 0
+    final remainingDays = item.remainingDaysAt(now);
+    final remainingText = remainingDays > 0
+        ? context.loc.itemRemainingDaysPositiveFormat(remainingDays.toString())
+        : remainingDays == 0
             ? context.loc.itemRemainingDaysZero
-            : context.loc.itemRemainingDaysNegativeFormat((-item.remainingDays).toString());
-    final expiryText = DateFormat('yyyy-MM-dd').format(item.expectedExpiryDate);
+            : context.loc.itemRemainingDaysNegativeFormat((-remainingDays).toString());
+    final expiryText = _dateFormat.format(item.expectedExpiryDate);
 
     final dateToShow = item.lastRefreshedAt ?? item.createdAt;
     final relativeText = formatRelativeDate(dateToShow);
@@ -139,7 +143,7 @@ class ItemCard extends StatelessWidget {
               // Bottom row: notification status
               Align(
                 alignment: AlignmentDirectional.centerEnd,
-                child: _buildAlertText(context, item, theme),
+                child: _buildAlertText(context, item, theme, remainingDays, status),
               ),
             ],
           ),
@@ -190,7 +194,7 @@ class _StatusBadge extends StatelessWidget {
   }
 }
 
-Widget _buildAlertText(BuildContext context, ItemModel item, ThemeData theme) {
+Widget _buildAlertText(BuildContext context, ItemModel item, ThemeData theme, int remainingDays, ItemStatus status) {
   final cs = theme.colorScheme;
   final Color safeColor = theme.extension<CustomColors>()?.safe ?? const Color(0xFF34D399);
 
@@ -216,9 +220,9 @@ Widget _buildAlertText(BuildContext context, ItemModel item, ThemeData theme) {
     );
   }
 
-  final daysUntilWarning = item.remainingDays - item.warningThresholdDays;
+  final daysUntilWarning = remainingDays - item.warningThresholdDays;
 
-  if (item.status == ItemStatus.safe && daysUntilWarning > 0) {
+  if (status == ItemStatus.safe && daysUntilWarning > 0) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
@@ -239,7 +243,7 @@ Widget _buildAlertText(BuildContext context, ItemModel item, ThemeData theme) {
       ),
     );
   } else {
-    final bool isUrgent = item.status == ItemStatus.urgent;
+    final bool isUrgent = status == ItemStatus.urgent;
     final Color alertColor = isUrgent ? cs.error : cs.tertiary;
 
     return Container(
