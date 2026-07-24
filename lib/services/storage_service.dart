@@ -268,8 +268,11 @@ class StorageService {
   /// Closes the current database connection.
   /// Must be called before replacing the database file during restore.
   Future<void> closeDatabase() async {
-    await _db?.close();
-    _db = null;
+    try {
+      await _db?.close();
+    } finally {
+      _db = null;
+    }
   }
 
   /// Reopens the database connection after it was closed.
