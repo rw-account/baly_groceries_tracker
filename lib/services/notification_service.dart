@@ -14,9 +14,9 @@ class NotificationService {
 
   static const int _notificationId = 999;
   static const String _channelId = 'daily_summary';
-  static const String _channelName = 'الملخص اليومي';
+  static const String _channelName = 'Daily Digest';
   static const String _channelDescription =
-      'إشعار يومي يوضح العناصر التي تحتاج انتباه';
+      'Daily notification showing items requiring attention';
 
   // ─── Init ────────────────────────────────────────────────────────────────────
 
