@@ -1,5 +1,6 @@
 // lib/main.dart
 
+import 'dart:async';
 import 'package:home_orders_tracker/providers/app_state_provider.dart';
 import 'package:home_orders_tracker/providers/locale_provider.dart';
 import 'package:home_orders_tracker/providers/storage_service_provider.dart';
@@ -21,10 +22,10 @@ Future<void> main() async {
   final storage = StorageService();
   await storage.init();
 
-  await NotificationService.init();
-  await BatteryService.initFirstLaunchDate();
-
   final appState = AppStateNotifier(prefs);
+
+  await NotificationService.init();
+  unawaited(BatteryService.initFirstLaunchDate());
 
   AppTheme.applySystemUI(); 
   
