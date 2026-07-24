@@ -3,6 +3,7 @@
 import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter_file_dialog/flutter_file_dialog.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 import 'package:home_orders_tracker/services/storage_service.dart';
@@ -15,9 +16,11 @@ class BackupService {
   /// Shows a Save dialog with a timestamped filename.
   /// Throws [BackupException] on failure.
   static Future<void> runBackup(StorageService storage) async {
-    try {
-      await storage.checkpointDatabase();
+    File? tempBackupFile;
+    bool databaseWasClosed = false;
 
+    try {
+      // 1. التحقق من مسار قاعدة البيانات الأصلية
       final dbPath = await getDatabasesPath();
       final dbFile = File(p.join(dbPath, _dbName));
 
@@ -25,15 +28,36 @@ class BackupService {
         throw const BackupException(BackupErrorType.backupFileNotFound);
       }
 
+      // 2. تجهيز مسار واسم الملف المؤقت
+      final tempDir = await getTemporaryDirectory();
       final timestamp = DateTime.now()
           .toIso8601String()
           .replaceAll(':', '-')
           .split('.')
           .first;
       final fileName = 'home_orders_backup_$timestamp.db';
+      tempBackupFile = File(p.join(tempDir.path, fileName));
 
+      // -------------------------------------------------------------
+      // 3. المنطقة الحرجة (النسخ السريع جداً)
+      // -------------------------------------------------------------
+      await storage.checkpointDatabase();
+      
+      // إغلاق قاعدة البيانات لتجنب أي تعارض (File Locks)
+      await storage.closeDatabase();
+      databaseWasClosed = true;
+
+      // نسخ الملف بأمان تام وهو مغلق
+      await dbFile.copy(tempBackupFile.path);
+
+      // إعادة فتح قاعدة البيانات فوراً ليعود التطبيق للعمل
+      await storage.reopenDatabase();
+      databaseWasClosed = false;
+      // -------------------------------------------------------------
+
+      // 4. فتح نافذة الحفظ للمستخدم (باستخدام الملف المؤقت بدلاً من الأصلي)
       final params = SaveFileDialogParams(
-        sourceFilePath: dbFile.path,
+        sourceFilePath: tempBackupFile.path,
         fileName: fileName,
         mimeTypesFilter: ['application/x-sqlite3'],
       );
@@ -57,10 +81,29 @@ class BackupService {
         details: e.toString(),
         cause: e,
       );
+    } finally {
+      // ضمان إعادة فتح قاعدة البيانات في حال حدوث خطأ أثناء عملية النسخ
+      if (databaseWasClosed) {
+        try {
+          await storage.reopenDatabase();
+        } catch (_) {
+          // Swallow reopen error to avoid masking the original exception.
+        }
+      }
+
+      // تنظيف النظام: حذف الملف المؤقت بعد انتهاء عملية الحفظ أو في حال الإلغاء
+      if (tempBackupFile != null && await tempBackupFile.exists()) {
+        try {
+          await tempBackupFile.delete();
+        } catch (_) {
+          // تجاهل أخطاء الحذف
+        }
+      }
     }
   }
 
-  /// Restores the database from a user-selected file.
+
+ /// Restores the database from a user-selected file.
   ///
   /// The selected file is only accepted once it passes a lightweight
   /// SQLite header check. The current database and its `-wal`/`-shm`
@@ -76,6 +119,7 @@ class BackupService {
     File? originalDbBackup;
     String? originalWalBackup;
     String? originalShmBackup;
+    File? selectedFile;
 
     try {
       final params = OpenFileDialogParams();
@@ -86,13 +130,12 @@ class BackupService {
         throw const BackupException(BackupErrorType.restoreCancelled);
       }
 
-      final selectedFile = File(filePath);
+      selectedFile = File(filePath);
       if (!await selectedFile.exists()) {
         throw const BackupException(BackupErrorType.restoreFileNotFound);
       }
 
-      // Lightweight SQLite header check. Nothing about the current
-      // database is touched unless this passes.
+      // 1. فحص هيدر SQLite للتأكد من سلامة الملف قبل لمس قاعدة البيانات الحالية
       final raf = await selectedFile.open();
       try {
         final bytes = await raf.read(16);
@@ -104,8 +147,7 @@ class BackupService {
         await raf.close();
       }
 
-      // Selected file is accepted as valid enough to proceed. Flush the
-      // WAL into the main db file, then close it before touching it.
+      // 2. تفريغ وإغلاق قاعدة البيانات الحالية للتحضير للاستبدال
       await storage.checkpointDatabase();
       await storage.closeDatabase();
       databaseWasClosed = true;
@@ -116,8 +158,7 @@ class BackupService {
       final walFile = File('$targetPath-wal');
       final shmFile = File('$targetPath-shm');
 
-      // Move the current database (and any sidecar files) aside instead
-      // of deleting them, so we can roll back if anything below fails.
+      // 3. تغيير أسماء الملفات الحالية إلى (.bak) لحمايتها وإمكانية التراجع عند الفشل
       if (await targetFile.exists()) {
         originalDbBackup = await targetFile.rename('$targetPath.bak');
       }
@@ -130,21 +171,22 @@ class BackupService {
         await shmFile.rename(originalShmBackup);
       }
 
-      // Copy the selected file into place.
+      // 4. نسخ الملف المسترجع إلى المسار الرئيسي
       await selectedFile.copy(targetPath);
 
-      // Reopen with the restored database.
+      // 5. إعادة فتح قاعدة البيانات بالبيانات الجديدة
       await storage.reopenDatabase();
-      databaseWasClosed = false;
+      databaseWasClosed = false; // نجح الفتح، لا يلزم التراجع بعد الآن
 
-      // Restore succeeded: the old database is no longer needed.
-      await _deleteIfExists(originalDbBackup);
-      await _deleteIfExists(
-        originalWalBackup == null ? null : File(originalWalBackup),
-      );
-      await _deleteIfExists(
-        originalShmBackup == null ? null : File(originalShmBackup),
-      );
+      // 6. التنظيف الآمن: حذف الملفات المؤقتة القديمة مع عزل أخطاء التنظيف لكي لا تسبب تراجعاً خاطئاً
+        await _deleteIfExists(originalDbBackup);
+        await _deleteIfExists(
+          originalWalBackup == null ? null : File(originalWalBackup),
+        );
+        await _deleteIfExists(
+          originalShmBackup == null ? null : File(originalShmBackup),
+        );
+
     } on BackupException {
       await _rollbackRestore(
         storage,
@@ -154,6 +196,19 @@ class BackupService {
         originalShmBackup,
       );
       rethrow;
+    } on PlatformException catch (e) {
+      await _rollbackRestore(
+        storage,
+        databaseWasClosed,
+        originalDbBackup,
+        originalWalBackup,
+        originalShmBackup,
+      );
+      throw BackupException(
+        BackupErrorType.restoreFailed,
+        details: e.message,
+        cause: e,
+      );
     } catch (e) {
       await _rollbackRestore(
         storage,
@@ -186,7 +241,10 @@ class BackupService {
         final dbPath = await getDatabasesPath();
         final targetPath = p.join(dbPath, _dbName);
 
+        // حذف الملف الفاشل/المسترجع جزئياً إن وجد
         await _deleteIfExists(File(targetPath));
+
+        // إرجاع الملفات الأصلية
         await originalDbBackup.rename(targetPath);
 
         if (originalWalBackup != null) {
@@ -196,8 +254,7 @@ class BackupService {
           await File(originalShmBackup).rename('$targetPath-shm');
         }
       } catch (_) {
-        // Best effort; the reopen below still runs against whatever
-        // file ended up at targetPath.
+        // Best effort
       }
     }
 
@@ -210,6 +267,8 @@ class BackupService {
 
   static Future<void> _deleteIfExists(File? file) async {
     if (file == null) return;
-    if (await file.exists()) await file.delete();
+    try {
+      if (await file.exists()) await file.delete();
+    } catch (_) {}
   }
 }
