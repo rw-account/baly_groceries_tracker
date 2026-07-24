@@ -113,6 +113,8 @@ class NotificationService {
             channelDescription: _channelDescription,
             importance: Importance.high,
             priority: Priority.high,
+            enableVibration: true,
+            playSound: true,
             icon: 'ic_notification',
             styleInformation: BigTextStyleInformation(body),
           ),
