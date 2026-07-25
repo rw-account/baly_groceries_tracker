@@ -121,11 +121,6 @@ class NotificationService {
     }
   }
 
-  /// Cancels the daily summary notification.
-  static Future<void> cancelAll() async {
-    await _plugin.cancel(id: _notificationId);
-  }
-
   // ─────────────────────────────────────────────────────────────────────────────
   // Helper Methods
   // ─────────────────────────────────────────────────────────────────────────────
