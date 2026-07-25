@@ -1,9 +1,5 @@
 // lib/services/backup_service.dart
 
-//
-// التعليقات مع تنظيم الملف جاهزات في هذا الملف
-//
-
 import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter_file_dialog/flutter_file_dialog.dart';
