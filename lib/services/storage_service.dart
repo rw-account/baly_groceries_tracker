@@ -20,7 +20,6 @@ class StorageService {
     _db = await _openDatabase();
   }
 
-  /// Opens (or re-uses) the database. Safe to call multiple times.
   static Future<Database> _openDatabase() async {
     final dbPath = await getDatabasesPath();
     final fullPath = p.join(dbPath, _dbName);
@@ -29,10 +28,8 @@ class StorageService {
     fullPath,
     version: _dbVersion,
     onCreate: (db, version) async {
-      // 1. إنشاء حاوية العمليات الدفعية
       final batch = db.batch();
 
-      // 2. إضافة أمر إنشاء الجدول الأول
       batch.execute('''
         CREATE TABLE $_tableName (
           id                  TEXT PRIMARY KEY,
@@ -48,7 +45,6 @@ class StorageService {
         )
       ''');
 
-      // 3. إضافة أمر إنشاء الجدول الثاني
       batch.execute('''
         CREATE TABLE $_shoppingItemsTableName (
           id                  INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -60,12 +56,10 @@ class StorageService {
         )
       ''');
 
-      // 4. إضافة أوامر إنشاء الفهارس
       batch.execute('CREATE INDEX IF NOT EXISTS idx_items_created_at ON $_tableName(createdAt)');
       batch.execute('CREATE INDEX IF NOT EXISTS idx_shopping_items_created_at ON $_shoppingItemsTableName(created_at)');
       batch.execute('CREATE INDEX IF NOT EXISTS idx_shopping_items_inventory_item_id ON $_shoppingItemsTableName(inventory_item_id)');
 
-      // 5. تنفيذ جميع العمليات دفعة واحدة في استعلام مدمج
       await batch.commit(noResult: true);
       },
     );
@@ -89,7 +83,6 @@ class StorageService {
 
     final String langCode = prefs.getString('language_code') ?? 'ar';
 
-    // 1. عناصر المخزون الافتراضية (Inventory Items)
     final defaultInventoryItems = [
       ItemModel(
         id: 'default_rice',
@@ -123,7 +116,6 @@ class StorageService {
       ),
     ];
 
-    // 2. عناصر قائمة التسوق الافتراضية (Shopping Items)
     final defaultShoppingItems = [
       ShoppingItem(
         title: langCode == 'ar' ? 'حليب طازج' : 'Fresh Milk',
@@ -133,7 +125,7 @@ class StorageService {
       ),
       ShoppingItem(
         title: langCode == 'ar' ? 'بيض' : 'Eggs',
-        inventoryItemId: 'default_eggs', // مرتبط بمنتج البيض في المخزون
+        inventoryItemId: 'default_eggs',
         isChecked: false,
         price: 18.0,
         createdAt: DateTime.now(),
@@ -148,7 +140,6 @@ class StorageService {
 
     final batch = _database.batch();
 
-    // إدراج عناصر المخزون
     for (final item in defaultInventoryItems) {
       batch.insert(
         _tableName,
@@ -157,7 +148,6 @@ class StorageService {
       );
     }
 
-    // إدراج عناصر قائمة التسوق
     for (final shoppingItem in defaultShoppingItems) {
       batch.insert(
         _shoppingItemsTableName,
@@ -195,7 +185,7 @@ class StorageService {
   }
 
   Future<void> deleteAllShoppingItems() async {
-    await _database.delete(_shoppingItemsTableName); // Deletes all rows (not the table)
+    await _database.delete(_shoppingItemsTableName);
   }
 
 // ─── CRUD: Shopping Items ────────────────────────────────────────────────────
@@ -215,7 +205,9 @@ class StorageService {
 
   Future<void> updateShoppingItem(ShoppingItem item) async {
     if (item.id == null) {
-      throw ArgumentError('لا يمكن تحديث عنصر بدون id. استخدم addShoppingItem أولاً.');
+      throw ArgumentError(
+        'Cannot update an item without an ID. Use addShoppingItem() first.',
+      );
     }
     await _database.update(
       _shoppingItemsTableName,
@@ -262,7 +254,6 @@ class StorageService {
     );
   }
 
-  /// Adds multiple shopping items at once.
   Future<void> addMultipleShoppingItems(
     List<ShoppingItem> itemsToInsert,
   ) async {
@@ -278,7 +269,6 @@ class StorageService {
     }
   }
 
-  /// Deletes multiple shopping items at once using their ids.
   Future<void> deleteMultipleShoppingItems(List<int> ids) async {
     if(ids.isNotEmpty){
 
@@ -292,17 +282,6 @@ class StorageService {
   }
 
   // ─── Background helper ────────────────────────────────────────────────────────
-
-  /// Opens its own DB connection (for use in background isolates / Workmanager).
-  static Future<List<ItemModel>> getAllItemsBackground() async {
-    final db = await _openDatabase();
-    try {
-      final rows = await db.query(_tableName, orderBy: 'createdAt ASC');
-      return rows.map(ItemModel.fromMap).toList();
-    } finally {
-      await db.close();
-    }
-  }
 
   /// Closes the current database connection.
   /// Must be called before replacing the database file during restore.
