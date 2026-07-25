@@ -49,12 +49,28 @@ class NotificationService {
 
     try {
       final TimezoneInfo deviceZoneInfo = await FlutterTimezone.getLocalTimezone();
-      tz.setLocalLocation(tz.getLocation(deviceZoneInfo.identifier));
-    } catch (_) {
-      try{
-        // Fallback to a default timezone if device timezone cannot be determined
+      String zoneName = deviceZoneInfo.identifier;
+
+      // A map for handling unsupported names in the library and converting them to their direct equivalents.
+      const zoneAliases = {
+        'Asia/Kuwait': 'Asia/Riyadh',
+        'Asia/Aden': 'Asia/Riyadh',
+        'Asia/Bahrain': 'Asia/Riyadh',
+        'Asia/Qatar': 'Asia/Riyadh',
+      };
+
+      if (zoneAliases.containsKey(zoneName)) {
+        zoneName = zoneAliases[zoneName]!;
+      }
+
+      tz.setLocalLocation(tz.getLocation(zoneName));
+      debugPrint('NotificationService: TimeZone initialized -> $zoneName');
+      
+    } catch (e) {
+      debugPrint('NotificationService: Failed to get device timezone ($e). Applying fallback...');
+      try {
         tz.setLocalLocation(tz.getLocation(_fallbackTimezone));
-      } catch (_){
+      } catch (_) {
         tz.setLocalLocation(tz.UTC);
       }
     }
