@@ -115,7 +115,12 @@ class NotificationService {
       
       final scheduledDate = _getScheduledTime();
 
-      await _scheduleNotification(title, body, scheduledDate);
+      BigTextStyleInformation notificationStyle = BigTextStyleInformation(
+        body,
+        contentTitle: title,
+      );
+
+      await _scheduleNotification(title, body, scheduledDate, notificationStyle);
     } catch (e) {
       debugPrint('Notification scheduling error: $e');
     }
@@ -178,6 +183,7 @@ class NotificationService {
     String title,
     String body,
     tz.TZDateTime scheduledDate,
+    BigTextStyleInformation notificationStyle
   ) async {
     await _plugin.zonedSchedule(
       id: _notificationId,
@@ -194,7 +200,7 @@ class NotificationService {
           enableVibration: true,
           playSound: true,
           icon: 'ic_notification',
-          styleInformation: BigTextStyleInformation(body),
+          styleInformation: notificationStyle,
         ),
       ),
       androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
