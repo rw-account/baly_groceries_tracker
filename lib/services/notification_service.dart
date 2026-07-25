@@ -21,7 +21,7 @@ class NotificationService {
       'Daily notification showing items requiring attention';
 
   // Defaults
-  static const String _defaultLanguageCode = 'ar';
+  static const String _arabicLanguageCode = 'ar';
   static const String _fallbackTimezone = 'Asia/Riyadh';
   static const int _scheduledHour = 20; // 8 PM
 
@@ -84,12 +84,12 @@ class NotificationService {
 
       final prefs = await SharedPreferences.getInstance();
       await prefs.reload();
-      final String langCode = prefs.getString(_languageCodeKey) ?? _defaultLanguageCode;
+      final String langCode = prefs.getString(_languageCodeKey) ?? _arabicLanguageCode;
 
       final body = _buildNotificationBody(alertItems, langCode);
       if (body.isEmpty) return;
 
-      final title = langCode == _defaultLanguageCode 
+      final title = langCode == _arabicLanguageCode 
           ? 'ملخص طلبات البيت' 
           : 'Home Items Summary';
       
@@ -119,7 +119,7 @@ class NotificationService {
 
   /// Builds the notification body string based on urgent and warning items.
   static String _buildNotificationBody(List<ItemModel> alertItems, String langCode) {
-    final isArabic = langCode == _defaultLanguageCode;
+    final isArabic = langCode == _arabicLanguageCode;
     final separator = isArabic ? '، ' : ', ';
     final buffer = StringBuffer();
 
