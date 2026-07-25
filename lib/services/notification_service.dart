@@ -51,8 +51,12 @@ class NotificationService {
       final TimezoneInfo deviceZoneInfo = await FlutterTimezone.getLocalTimezone();
       tz.setLocalLocation(tz.getLocation(deviceZoneInfo.identifier));
     } catch (_) {
-      // Fallback to a default timezone if device timezone cannot be determined
-      tz.setLocalLocation(tz.getLocation(_fallbackTimezone));
+      try{
+        // Fallback to a default timezone if device timezone cannot be determined
+        tz.setLocalLocation(tz.getLocation(_fallbackTimezone));
+      } catch (_){
+        tz.setLocalLocation(tz.UTC);
+      }
     }
   }
 
