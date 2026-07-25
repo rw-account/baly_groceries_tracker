@@ -25,9 +25,8 @@ class BatteryService {
   static const int _reminderDays = 7;
 
   /// Registers the first launch date of the app (should be called in main.dart).
-  static Future<void> initFirstLaunchDate() async {
+  static Future<void> initFirstLaunchDate(SharedPreferences prefs) async {
     try {
-      final prefs = await SharedPreferences.getInstance();
       if (!prefs.containsKey(_firstLaunchKey)) {
         await prefs.setInt(
           _firstLaunchKey,

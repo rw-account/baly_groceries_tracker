@@ -25,7 +25,7 @@ Future<void> main() async {
   final appState = AppStateNotifier(prefs);
 
   await NotificationService.init();
-  unawaited(BatteryService.initFirstLaunchDate());
+  unawaited(BatteryService.initFirstLaunchDate(prefs));
 
   AppTheme.applySystemUI(); 
   
