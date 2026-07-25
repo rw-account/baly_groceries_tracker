@@ -677,9 +677,6 @@ class AppLocalizationsAr extends AppLocalizations {
       'تعذر فتح الإعدادات تلقائيًا. لضمان ظهور الاشعارات التذكيرية يرجى الذهاب إلى الإعدادات > التطبيقات > تطبيقنا > البطارية > السماح بالتشغيل في الخلفية';
 
   @override
-  String get batterySnackBarRetry => 'إعادة المحاولة';
-
-  @override
   String get notificationChannelName => 'الملخص اليومي';
 
   @override

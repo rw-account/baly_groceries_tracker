@@ -683,9 +683,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Could not open settings automatically. To ensure reminder notifications appear, go to Settings > Apps > Home Orders Tracker > Battery > Allow background activity';
 
   @override
-  String get batterySnackBarRetry => 'Retry';
-
-  @override
   String get notificationChannelName => 'Daily Summary';
 
   @override

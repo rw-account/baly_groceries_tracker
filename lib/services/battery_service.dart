@@ -162,10 +162,6 @@ void _showErrorSnackBar(BuildContext context) {
         behavior: SnackBarBehavior.floating,
         duration: const Duration(seconds: 10),
         content: Text(context.loc.batterySnackBarError),
-        action: SnackBarAction(
-          label: context.loc.batterySnackBarRetry,
-          onPressed: () => BatteryService.openBatterySettings(),
-        ),
       ),
     );
 }

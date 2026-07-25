@@ -1286,12 +1286,6 @@ abstract class AppLocalizations {
   /// **'تعذر فتح الإعدادات تلقائيًا. لضمان ظهور الاشعارات التذكيرية يرجى الذهاب إلى الإعدادات > التطبيقات > تطبيقنا > البطارية > السماح بالتشغيل في الخلفية'**
   String get batterySnackBarError;
 
-  /// Retry button in battery error snackbar to try opening settings again
-  ///
-  /// In ar, this message translates to:
-  /// **'إعادة المحاولة'**
-  String get batterySnackBarRetry;
-
   /// Notification channel name
   ///
   /// In ar, this message translates to:
