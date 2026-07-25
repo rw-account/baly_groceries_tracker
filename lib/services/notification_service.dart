@@ -1,6 +1,6 @@
 // lib/services/notification_service.dart
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/data/latest.dart' as tz_data;
@@ -19,6 +19,7 @@ class NotificationService {
   static const String _channelName = 'Daily Digest';
   static const String _channelDescription =
       'Daily notification showing items requiring attention';
+  static const Color _notificationColor = Color(0xFF66C0F4);
 
   // Defaults
   static const String _arabicLanguageCode = 'ar';
@@ -104,23 +105,38 @@ class NotificationService {
 
       final prefs = await SharedPreferences.getInstance();
       await prefs.reload();
-      final String langCode = prefs.getString(_languageCodeKey) ?? _arabicLanguageCode;
+      final String langCode =
+          prefs.getString(_languageCodeKey) ?? _arabicLanguageCode;
+      final isArabic = langCode == _arabicLanguageCode;
 
-      final body = _buildNotificationBody(alertItems, langCode);
-      if (body.isEmpty) return;
+      final urgentItems =
+          alertItems.where((i) => i.status == ItemStatus.urgent).toList();
+      final warningItems =
+          alertItems.where((i) => i.status == ItemStatus.warning).toList();
 
-      final title = langCode == _arabicLanguageCode 
-          ? 'ملخص طلبات البيت' 
-          : 'Home Items Summary';
+      final title = isArabic ? 'طلبات البيت' : 'Home Items';
       
-      final scheduledDate = _getScheduledTime();
+      final previewBody = _buildPreviewBody(urgentItems, warningItems, isArabic);
 
-      BigTextStyleInformation notificationStyle = BigTextStyleInformation(
-        body,
+      final expandedText = _buildExpandedText(urgentItems, warningItems, isArabic);
+      if (expandedText.isEmpty) return;
+
+      final notificationStyle = BigTextStyleInformation(
+        expandedText,
         contentTitle: title,
+        htmlFormatContentTitle: false,
+        htmlFormatSummaryText: false,
+        htmlFormatBigText: false,
       );
 
-      await _scheduleNotification(title, body, scheduledDate, notificationStyle);
+      final scheduledDate = _getScheduledTime();
+
+      await _scheduleNotification(
+        title: title,
+        body: previewBody,
+        scheduledDate: scheduledDate,
+        notificationStyle: notificationStyle,
+      );
     } catch (e) {
       debugPrint('Notification scheduling error: $e');
     }
@@ -137,23 +153,68 @@ class NotificationService {
     }).toList();
   }
 
-  /// Builds the notification body string based on urgent and warning items.
-  static String _buildNotificationBody(List<ItemModel> alertItems, String langCode) {
-    final isArabic = langCode == _arabicLanguageCode;
-    final separator = isArabic ? '، ' : ', ';
-    final buffer = StringBuffer();
+  /// Builds a short preview text to show the number of urgent and warning items.
+  static String _buildPreviewBody(
+    List<ItemModel> urgentItems,
+    List<ItemModel> warningItems,
+    bool isArabic,
+  ) {
+    final urgentCount = urgentItems.length;
+    final warningCount = warningItems.length;
 
-    final urgentItems = alertItems.where((i) => i.status == ItemStatus.urgent).toList();
-    final warningItems = alertItems.where((i) => i.status == ItemStatus.warning).toList();
+    if (urgentCount > 0 && warningCount > 0) {
+      return isArabic
+          ? '🔴 $urgentCount عاجل  •  🟡 $warningCount انتبه'
+          : '🔴 $urgentCount urgent  •  🟡 $warningCount warning';
+    } else if (urgentCount > 0) {
+      return isArabic
+          ? '🔴 $urgentCount عاجل'
+          : '🔴 $urgentCount urgent';
+    } else {
+      return isArabic
+          ? '🟡 $warningCount انتبه'
+          : '🟡 $warningCount warning';
+    }
+  }
+
+  /// Builds the full expanded notification text while showing only the first 2 items for each category.
+  static String _buildExpandedText(
+    List<ItemModel> urgentItems,
+    List<ItemModel> warningItems,
+    bool isArabic,
+  ) {
+    final buffer = StringBuffer();
+    const int maxItemsToShow = 2;
 
     if (urgentItems.isNotEmpty) {
-      final urgentPrefix = isArabic ? '🔴 عاجل' : '🔴 Urgent';
-      buffer.writeln('$urgentPrefix: ${urgentItems.map((e) => e.name).join(separator)}');
+      buffer.writeln(isArabic ? '🔴 عاجل:' : '🔴 Urgent:');
+      int limit = urgentItems.length > maxItemsToShow ? maxItemsToShow : urgentItems.length;
+      for (int i = 0; i < limit; i++) {
+        buffer.writeln('   • ${urgentItems[i].name}');
+      }
+      if (urgentItems.length > maxItemsToShow) {
+        final remaining = urgentItems.length - maxItemsToShow;
+        buffer.writeln(isArabic 
+            ? '   • و $remaining أخرى' 
+            : '   • +$remaining more');
+      }
     }
 
     if (warningItems.isNotEmpty) {
-      final warningPrefix = isArabic ? '🟡 انتبه' : '🟡 Warning';
-      buffer.writeln('$warningPrefix: ${warningItems.map((e) => e.name).join(separator)}');
+      if (urgentItems.isNotEmpty) {
+        buffer.writeln(); // Blank line as a separator between the two lists.
+      }
+      buffer.writeln(isArabic ? '🟡 انتبه:' : '🟡 Warning:');
+      int limit = warningItems.length > maxItemsToShow ? maxItemsToShow : warningItems.length;
+      for (int i = 0; i < limit; i++) {
+        buffer.writeln('   • ${warningItems[i].name}');
+      }
+      if (warningItems.length > maxItemsToShow) {
+        final remaining = warningItems.length - maxItemsToShow;
+        buffer.writeln(isArabic 
+            ? '   • و $remaining أخرى' 
+            : '   • +$remaining more');
+      }
     }
 
     return buffer.toString().trim();
@@ -178,13 +239,12 @@ class NotificationService {
     return scheduledDate;
   }
 
-  /// Schedules the actual notification using the plugin.
-  static Future<void> _scheduleNotification(
-    String title,
-    String body,
-    tz.TZDateTime scheduledDate,
-    BigTextStyleInformation notificationStyle
-  ) async {
+  static Future<void> _scheduleNotification({
+    required String title,
+    required String body,
+    required tz.TZDateTime scheduledDate,
+    required StyleInformation notificationStyle,
+  }) async {
     await _plugin.zonedSchedule(
       id: _notificationId,
       title: title,
@@ -200,6 +260,8 @@ class NotificationService {
           enableVibration: true,
           playSound: true,
           icon: 'ic_notification',
+          color: _notificationColor,
+          category: AndroidNotificationCategory.reminder,
           styleInformation: notificationStyle,
         ),
       ),
