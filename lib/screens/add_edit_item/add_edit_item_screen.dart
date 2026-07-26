@@ -257,7 +257,7 @@ class _AddEditItemScreenState extends AddEditItemState
         validator: (v) {
           if (v == null || v.trim().isEmpty) return context.loc.enterDaysError;
           final n = int.tryParse(v.trim());
-          if (n == null || n <= 0) return context.loc.enterValidNumberError;
+          if (n == null || n < 0) return context.loc.enterValidNumberError;
           return null;
         },
       ),
