@@ -16,9 +16,9 @@ class ItemsNotifier extends _$ItemsNotifier {
 
   @override
   Future<List<ItemModel>> build() async {
-    final storage = ref.watch(storageServiceProvider); // ✅ مسموح داخل build
+    final storage = ref.watch(storageServiceProvider);
     final items = await storage.getAllItems();
-    return items; // الحالة الأولية جاهزة
+    return items;
   }
 
   // ─── Helpers ────────────────────────────────────────────────────────────────

@@ -13,7 +13,7 @@ class ShoppingListNotifier extends _$ShoppingListNotifier {
   Future<List<ShoppingItem>> build() async {
     final storage = ref.watch(storageServiceProvider);
     final items = await storage.getAllShoppingItems();
-    return items; // الحالة الأولية جاهزة
+    return items;
   }
 
   Future<void> _refreshState(StorageService storage) async {
