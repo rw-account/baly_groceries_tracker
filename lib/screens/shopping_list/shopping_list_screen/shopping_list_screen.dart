@@ -17,7 +17,6 @@ import '../../../core/utils/context_extensions.dart';
 import 'widgets/widgets.dart';
 import 'package:intl/intl.dart';
 
-// SharedPreferences key for the swipe-hint flag.
 const _kHasSeenSwipeHint = 'has_seen_swipe_hint';
 
 class ShoppingListScreen extends ConsumerStatefulWidget {
@@ -31,10 +30,8 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
   // Undo timer for single-item delete
   Timer? _snackBarTimer;
 
-  // Swipe-hint flag
-  bool _hasSeenSwipeHint = true; // default to true → no flicker on load
+  bool _hasSeenSwipeHint = true;
 
-  // Search state
   bool _isSearching = false;
   String _searchQuery = '';
   final TextEditingController _searchController = TextEditingController();
@@ -105,7 +102,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
     final isSelecting = selection.isSelecting;
 
     final showFab = !isSelecting &&
-        !_isSearching && // Hide FAB while searching for a cleaner UI
+        !_isSearching &&
         shoppingAsync.maybeWhen(
           data: (items) => items.isNotEmpty,
           orElse: () => false,
@@ -155,7 +152,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
                 isSearching: _isSearching,
                 selectedIds: selection.selectedIds,
                 onItemLongPress: (id) {
-                  if (_isSearching) _toggleSearch(); // Exit search on long press
+                  if (_isSearching) _toggleSearch();
                   ref.read(shoppingSelectionProvider.notifier).enterSelectionMode(id);
                 },
                 onItemTap: (id) => ref.read(shoppingSelectionProvider.notifier).toggleSelection(id),
