@@ -51,14 +51,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       final confirmed = await _confirmRestore();
       if (!confirmed) return;
       final storage = ref.read(storageServiceProvider);
-      await BackupService.runRestore(storage); // الآن ترمي استثناء عند الفشل
+      await BackupService.runRestore(storage);
       if (!mounted) return;
 
-      // نجاح
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(context.loc.restoreSuccess)),
       );
-      // انتظر قليلاً حتى يقرأ المستخدم الرسالة، ثم أعد التشغيل
+      // Wait a moment so the user can read the message, then restart.
       Future.delayed(const Duration(milliseconds: 1500), () {
         Restart.restartApp();
       });
@@ -82,7 +81,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     return await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text(context.loc.restoreConfirmationTitle),   // تحتاج إلى إضافة هذا المفتاح للترجمة
+        title: Text(context.loc.restoreConfirmationTitle),
         content: Text(context.loc.restoreConfirmationContent),
         actions: [
           TextButton(
@@ -104,8 +103,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     ) ?? false;
   }
 
-  /// يحول [BackupException] إلى رسالة مترجمة، بالاعتماد على enum
-  /// بدلاً من البحث النصي الهش داخل رسالة الخطأ.
   String _getErrorMessage(BackupException error, AppLocalizations loc) {
     switch (error.type) {
       case BackupErrorType.backupFileNotFound:
