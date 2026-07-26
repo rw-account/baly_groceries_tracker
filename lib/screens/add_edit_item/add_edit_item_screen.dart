@@ -13,7 +13,6 @@ import 'widgets/widgets.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/utils/context_extensions.dart';
 
-/// شاشة إضافة/تعديل مادة.
 class AddEditItemScreen extends ConsumerStatefulWidget {
   final ItemModel? item;
   const AddEditItemScreen({super.key, this.item});
