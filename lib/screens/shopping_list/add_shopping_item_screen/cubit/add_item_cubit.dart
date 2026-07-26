@@ -151,19 +151,16 @@ class AddItemCubit extends Cubit<AddItemState> {
     String? duplicateMessage;
 
     if (name.isNotEmpty) {
-      // فحص قائمة الشراء أولاً
       isInShoppingList = _allShoppingItems.any(
         (item) => item.title.trim().toLowerCase() == normalizedName,
       );
 
-      // فحص المخزون فقط إذا لم يكن موجوداً في قائمة الشراء
       if (!isInShoppingList) {
         isInInventory = _allItems.any(
           (item) => item.name.trim().toLowerCase() == normalizedName,
         );
       }
 
-      // بناء الرسالة المناسبة
       if (isInShoppingList) {
         duplicateMessage = 'itemExistsInShoppingList';
       } else if (isInInventory) {
