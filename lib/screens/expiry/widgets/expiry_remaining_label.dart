@@ -6,8 +6,8 @@ import '../../../core/utils/relative_date_utils.dart';
 import '../../../models/item_model.dart';
 import '../../../core/utils/context_extensions.dart';
 
-/// نص فرعي يوضّح الوقت المتبقي على نفاد عنصر واحد، أو منذ متى نفد إن
-/// كان قد تجاوز تاريخ انتهائه بالفعل.
+/// A subtitle that shows how much time remains until a single item runs out,
+/// or how long it has been out of stock if it has already passed its expiry date.
 class ExpiryRemainingLabel extends StatelessWidget {
   const ExpiryRemainingLabel({super.key, required this.item});
 

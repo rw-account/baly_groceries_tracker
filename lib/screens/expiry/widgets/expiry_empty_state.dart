@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/utils/context_extensions.dart';
 
-/// حالة الشاشة الفارغة عندما لا توجد أي عناصر تحتاج انتباه حالياً.
 class ExpiryEmptyState extends StatelessWidget {
   const ExpiryEmptyState({super.key});
 

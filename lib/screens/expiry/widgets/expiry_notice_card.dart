@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import '../../../core/utils/context_extensions.dart';
 
-/// بطاقة ملاحظة أعلى شاشة العناصر على وشك النفاد، توضّح للمستخدم أن
-/// العناصر ذات الحالة الآمنة لا تظهر في هذه القائمة.
+/// A note card at the top of the expiring items screen, explaining to the user that
+/// items with a safe status do not appear in this list.
 class ExpiryNoticeCard extends StatelessWidget {
   const ExpiryNoticeCard({super.key});
 
