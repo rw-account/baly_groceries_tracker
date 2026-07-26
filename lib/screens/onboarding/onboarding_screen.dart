@@ -9,7 +9,6 @@ import 'package:home_orders_tracker/core/theme/app_theme.dart';
 import 'package:home_orders_tracker/l10n/app_localizations.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
-/// Builds a luxurious, glowing icon container
 Widget _buildLuxuryIcon(BuildContext context, IconData icon) {
   final theme = Theme.of(context);
   final colorScheme = theme.colorScheme;
@@ -48,7 +47,6 @@ Widget _buildLuxuryIcon(BuildContext context, IconData icon) {
   );
 }
 
-/// Builds the shared [PageDecoration]
 PageDecoration _buildPageDecoration(BuildContext context) {
   final theme = Theme.of(context);
   final textTheme = theme.textTheme;
@@ -144,7 +142,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             showSkipButton: true,
             showBackButton: false,
 
-            // 1. زر التخطي (Skip)
             skip: Text(
               l10n.onboardingSkip,
               style: textTheme.labelLarge?.copyWith(
@@ -152,7 +149,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               ),
             ),
 
-            // 2. زر التالي (Next)
             next: Text(
               l10n.onboardingNext,
               style: TextStyle(
@@ -161,7 +157,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               ),
             ),
 
-            // 3. زر البدء/الإنهاء الفاخر (Done)
             done: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
               decoration: BoxDecoration(
@@ -185,7 +180,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               ),
             ),
 
-            // 4. تصفير الحواشي الداخلية ومنع الوميض المربع عند الضغط
             skipStyle: TextButton.styleFrom(padding: EdgeInsets.zero, overlayColor: Colors.transparent,),
             nextStyle: TextButton.styleFrom(padding: EdgeInsets.zero, overlayColor: Colors.transparent,),
             doneStyle: TextButton.styleFrom(padding: EdgeInsets.zero, overlayColor: Colors.transparent,),
@@ -203,7 +197,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               ),
             ),
 
-            // 5. ضبط الهوامش السفلية المخصصة لعناصر التحكم لتعطي مساحة تنفس مريحة للأزرار والنقاط
             controlsPadding: const EdgeInsets.symmetric(
               horizontal: 20.0,
               vertical: 12.0,
