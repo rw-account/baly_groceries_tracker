@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:home_orders_tracker/l10n/app_localizations.dart';
 import 'package:home_orders_tracker/screens/add_edit_item/widgets/field_utils.dart';
 
 typedef RestockDialogResult = ({bool confirmed, int? newTotalDays});
@@ -138,9 +139,10 @@ class _RestockDialogState extends State<_RestockDialog> {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context);
     final titleText = widget.itemName != null
-        ? 'تجديد كمية: ${widget.itemName}'
-        : 'تجديد الكمية';
+        ? l10n.restockDialogTitleWithItem(widget.itemName!)
+        : l10n.restockDialogTitleDefault;
 
     final finalTotal = _calculateFinalTotal();
 
@@ -187,7 +189,7 @@ class _RestockDialogState extends State<_RestockDialog> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'أدخل الكميات ليتم حساب الإجمالي وتحديث العداد من جديد.',
+                  l10n.restockDialogDescription,
                   style: textTheme.bodyMedium?.copyWith(color: cs.onSurfaceVariant),
                 ),
                 const SizedBox(height: 20),
@@ -202,14 +204,14 @@ class _RestockDialogState extends State<_RestockDialog> {
                   keyboardType: TextInputType.number,
                   decoration: _fieldDecoration(
                     cs,
-                    label: 'الأيام الحالية المتبقية',
-                    hint: 'أدخل الأيام الحالية',
+                    label: l10n.currentDaysLabel,
+                    hint: l10n.currentDaysHint,
                   ),
                   onChanged: (_) => setState(() {}), // Update the UI to refresh the total.
                   validator: (value) {
-                    if (value == null || value.trim().isEmpty) return 'مطلوب';
+                    if (value == null || value.trim().isEmpty) return l10n.requiredFieldError;
                     final n = int.tryParse(value.trim());
-                    if (n == null || n < 0) return 'أدخل رقماً صحيحاً';
+                    if (n == null || n < 0) return l10n.invalidNumberError;
                     return null;
                   },
                 ),
@@ -223,7 +225,7 @@ class _RestockDialogState extends State<_RestockDialog> {
                       const SizedBox(width: 4),
                       Flexible(
                         child: Text(
-                          'القيمة الأصلية المسجّلة: $_originalDays يوم',
+                          l10n.originalValueLabel(_originalDays),
                           style: textTheme.bodySmall?.copyWith(color: cs.onSurfaceVariant),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -245,15 +247,15 @@ class _RestockDialogState extends State<_RestockDialog> {
                   keyboardType: TextInputType.number,
                   decoration: _fieldDecoration(
                     cs,
-                    label: 'الأيام الجديدة المضافة (للكمية المشتراة)',
-                    hint: 'أدخل عدد الأيام الجديدة',
+                    label: l10n.addedDaysLabel,
+                    hint: l10n.addedDaysHint,
                   ),
                   onChanged: (_) => setState(() {}), // Update the UI to refresh the total.
                   onFieldSubmitted: (_) => _submit(),
                   validator: (value) {
-                    if (value == null || value.trim().isEmpty) return 'مطلوب';
+                    if (value == null || value.trim().isEmpty) return l10n.requiredFieldError;
                     final n = int.tryParse(value.trim());
-                    if (n == null || n <= 0) return 'أدخل رقماً صحيحاً';
+                    if (n == null || n <= 0) return l10n.invalidNumberError;
                     return null;
                   },
                 ),
@@ -272,7 +274,7 @@ class _RestockDialogState extends State<_RestockDialog> {
                     children: [
                       Flexible(
                         child: Text(
-                          'الإجمالي النهائي للحفظ',
+                          l10n.finalTotalLabel,
                           style: TextStyle(
                             color: cs.onPrimaryContainer,
                             fontWeight: FontWeight.w600,
@@ -282,7 +284,7 @@ class _RestockDialogState extends State<_RestockDialog> {
                       ),
                       const SizedBox(width: 12),
                       Text(
-                        '$finalTotal يوم',
+                        l10n.daysValueText(finalTotal),
                         style: TextStyle(
                           color: cs.onPrimaryContainer,
                           fontSize: 20,
@@ -302,14 +304,14 @@ class _RestockDialogState extends State<_RestockDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context, _cancelledResult),
-          child: const Text('إلغاء'),
+          child: Text(l10n.cancelButton),
         ),
         FilledButton.icon(
           onPressed: (finalTotal > 0 && _currentDaysController.text.isNotEmpty && _addedDaysController.text.isNotEmpty) 
             ? _submit 
             : null,
           icon: const Icon(Icons.save_outlined),
-          label: const Text('حفظ التحديث'),
+          label: Text(l10n.saveUpdateButton),
           style: FilledButton.styleFrom(
             minimumSize: const Size(80, 44),
             padding: const EdgeInsets.symmetric(horizontal: 16),
