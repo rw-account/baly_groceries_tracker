@@ -4,15 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../core/utils/context_extensions.dart';
 
-/// نوع بيانات موحد لنجاح أو إلغاء الديالوج (أفضل للقراءة)
 typedef PriceDialogResult = ({bool confirmed, double? price});
 const PriceDialogResult _cancelledResult = (confirmed: false, price: null);
 
-/// دالة مساعدة لتسهيل استدعاء الديالوج ومعالجة الإغلاق بالخارج
 Future<PriceDialogResult> showEditPriceDialog(
   BuildContext context, {
   double? initialPrice,
-  String? itemName, // اختياري: لعرض اسم المنتج في العنوان
+  String? itemName,
 }) async {
   final result = await showDialog<PriceDialogResult>(
     context: context,
@@ -68,7 +66,6 @@ class _EditPriceDialogState extends State<_EditPriceDialog> {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     
-    // عنوان ذكي: يعرض اسم المنتج إذا تم تمريره، وإلا يعرض "تعديل السعر"
     final titleText = widget.itemName != null 
         ? context.loc.editPriceDialogTitleWithItem(widget.itemName!) 
         : context.loc.editPriceDialogTitle;
