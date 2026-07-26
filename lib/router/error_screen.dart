@@ -17,11 +17,11 @@ class ErrorScreen extends StatelessWidget {
 
   const ErrorScreen({
     super.key,
-    this.title = 'حدث خطأ غير متوقع',
-    this.message = 'لم نتمكن من إكمال الطلب، يرجى المحاولة مرة أخرى.',
+    this.title = 'An unexpected error occurred',
+    this.message = 'We couldn\'t complete the request. Please try again.',
     this.icon = Icons.error_outline_rounded,
     this.onRetry,
-    this.retryLabel = 'العودة إلى الرئيسية',
+    this.retryLabel = 'Back to Home',
   });
 
   /// Ready-made case: unknown route.
@@ -121,8 +121,9 @@ class ErrorScreen extends StatelessWidget {
 void installGlobalErrorHandling() {
   ErrorWidget.builder = (FlutterErrorDetails details) {
     return const ErrorScreen(
-      title: 'حدث خطأ غير متوقع',
-      message: 'حدث خلل أثناء عرض هذه الشاشة. حاول العودة والمحاولة مرة أخرى.',
+      title: 'An unexpected error occurred',
+      message:
+          'Something went wrong while displaying this screen. Please go back and try again.',
       icon: Icons.bug_report_outlined,
     );
   };
