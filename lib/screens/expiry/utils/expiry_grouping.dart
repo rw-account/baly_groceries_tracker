@@ -3,9 +3,9 @@
 import '../../../models/expiry_bucket.dart';
 import '../../../models/item_model.dart';
 
-/// يجمع العناصر في خريطة حسب فئة [ExpiryBucket].
-/// جميع الفئات تكون موجودة كمفاتيح في الخريطة الناتجة، حتى إذا لم
-/// تحتوي على أي عناصر، مع الحفاظ على ترتيب تعريفها في الـ enum.
+/// Groups items into a map by [ExpiryBucket].
+/// All buckets are included as keys in the resulting map, even if they
+/// contain no items, while preserving the order in which they are defined in the enum.
 Map<ExpiryBucket, List<ItemModel>> groupItemsByExpiryBucket(
   List<ItemModel> items,
 ) {
