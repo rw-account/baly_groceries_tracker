@@ -15,13 +15,11 @@ class ShoppingListView extends StatelessWidget {
     super.key,
     required this.items,
     required this.onDelete,
-    // Selection-mode params
     required this.isInSelectionMode,
     required this.isSearching,
     required this.selectedIds,
     required this.onItemLongPress,
     required this.onItemTap,
-    // Peek-animation params
     this.showPeekAnimation = false,
     this.onSwipeCompleted,
   });
