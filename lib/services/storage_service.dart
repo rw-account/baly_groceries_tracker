@@ -157,6 +157,9 @@ class StorageService {
         lastRefreshedAt: now.subtract(const Duration(days: 16)),
         warningThresholdDays: 5,
         urgentThresholdDays: 2,
+        notes: isArabic
+            ? 'يمكنك كتابة أي ملاحظة تفيدك لاحقًا، مثل:\n"كيس 10 كيلو يبقى لدي عادة 18 يوم."'
+            : 'You can write any note that helps later, such as:\n"I usually have a 10kg bag last 18 days."',
       ),
       ItemModel(
         id: 'default_eggs',
@@ -167,6 +170,9 @@ class StorageService {
         lastRefreshedAt: now.subtract(const Duration(days: 10)),
         warningThresholdDays: 4,
         urgentThresholdDays: 2,
+        notes: isArabic
+            ? 'يمكنك كتابة أي ملاحظة تفيدك لاحقًا، مثل:\n"كرتونة 30 بيضة تكفيني عادة 14 يوم."'
+            : 'You can write any note that helps later, such as:\n"A carton of 30 eggs usually lasts me 14 days."',
       ),
       ItemModel(
         id: 'default_sugar',
@@ -177,6 +183,9 @@ class StorageService {
         lastRefreshedAt: now.subtract(const Duration(days: 4)),
         warningThresholdDays: 7,
         urgentThresholdDays: 2,
+        notes: isArabic
+            ? 'يمكنك كتابة أي ملاحظة تفيدك لاحقًا، مثل:\n"كيس 5 كيلو يكفيني عادة 14 يوم."'
+            : 'You can write any note that helps later, such as:\n"A 5kg bag usually lasts me 14 days."',
       ),
     ];
   }
