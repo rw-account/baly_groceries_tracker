@@ -27,7 +27,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   Future<void> _updateDailyNotification() async {
       try {
-        // نستخدم .future للانتظار حتى يكتمل جلب البيانات من القاعدة بنجاح
         final items = await ref.read(itemsProvider.future);
         
         if (items.isNotEmpty && mounted) {
@@ -35,7 +34,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           debugPrint('Daily notification scheduled successfully.');
         }
       } catch (e) {
-        // نتجاهل الخطأ بصمت حتى لا نؤثر على واجهة المستخدم
+        // Ignore the error silently so we do not affect the UI.
         debugPrint('Failed to schedule daily notification: $e');
       }
     }
