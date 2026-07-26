@@ -1316,12 +1316,12 @@
     "description": "Text displayed while loading"
   },
 
-  "onboardingTitle1": "An Organized Home, Peace of Mind",
+  "onboardingTitle1": "Organized Home, Peace of Mind",
   "@onboardingTitle1": {
     "description": "Title for first onboarding page"
   },
 
-  "onboardingBody1": "Put the burden of managing your household essentials on the app. It intelligently tracks what’s running low, so you can save your mental energy for what matters most.",
+  "onboardingBody1": "Transfer the burden of tracking household needs entirely to the app. Smartly track what's running low and save your mental energy for what truly matters.",
   "@onboardingBody1": {
     "description": "Body text for first onboarding page"
   },
@@ -1330,18 +1330,17 @@
   "@onboardingTitle2": {
     "description": "Title for second onboarding page"
   },
-
-  "onboardingBody2": "Get notified before your household essentials run out, so you’re always prepared and never caught off guard.",
+  "onboardingBody2": "Receive alerts when items are running low, so you stay prepared and avoid sudden shortages.",
   "@onboardingBody2": {
     "description": "Body text for second onboarding page"
   },
 
-  "onboardingTitle3": "Shopping Made Easy",
+  "onboardingTitle3": "Effortless Shopping",
   "@onboardingTitle3": {
     "description": "Title for third onboarding page"
   },
 
-  "onboardingBody3": "With a single tap, turn your shortages into a neatly organized shopping list and share it instantly on WhatsApp.",
+  "onboardingBody3": "With a single tap, turn your missing items into a neatly organized shopping list and easily share it via WhatsApp.",
   "@onboardingBody3": {
     "description": "Body text for third onboarding page"
   },
@@ -1351,7 +1350,7 @@
     "description": "Title for fourth onboarding page"
   },
 
-  "onboardingBody4": "No internet. No accounts. Your data stays on your device, with local backups available whenever you need them.",
+  "onboardingBody4": "No internet. No accounts. Your data is yours alone and stays on your device, with the option to back it up locally whenever you want.",
   "@onboardingBody4": {
     "description": "Body text for fourth onboarding page"
   },

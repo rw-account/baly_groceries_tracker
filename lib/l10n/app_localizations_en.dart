@@ -781,32 +781,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loading => 'Loading...';
 
   @override
-  String get onboardingTitle1 => 'An Organized Home, Peace of Mind';
+  String get onboardingTitle1 => 'Organized Home, Peace of Mind';
 
   @override
   String get onboardingBody1 =>
-      'Put the burden of managing your household essentials on the app. It intelligently tracks what’s running low, so you can save your mental energy for what matters most.';
+      'Transfer the burden of tracking household needs entirely to the app. Smartly track what\'s running low and save your mental energy for what truly matters.';
 
   @override
   String get onboardingTitle2 => 'Timely Alerts, No Surprises';
 
   @override
   String get onboardingBody2 =>
-      'Get notified before your household essentials run out, so you’re always prepared and never caught off guard.';
+      'Receive alerts when items are running low, so you stay prepared and avoid sudden shortages.';
 
   @override
-  String get onboardingTitle3 => 'Shopping Made Easy';
+  String get onboardingTitle3 => 'Effortless Shopping';
 
   @override
   String get onboardingBody3 =>
-      'With a single tap, turn your shortages into a neatly organized shopping list and share it instantly on WhatsApp.';
+      'With a single tap, turn your missing items into a neatly organized shopping list and easily share it via WhatsApp.';
 
   @override
   String get onboardingTitle4 => 'Your Data Stays Yours';
 
   @override
   String get onboardingBody4 =>
-      'No internet. No accounts. Your data stays on your device, with local backups available whenever you need them.';
+      'No internet. No accounts. Your data is yours alone and stays on your device, with the option to back it up locally whenever you want.';
 
   @override
   String get onboardingSkip => 'Skip';
