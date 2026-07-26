@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'field_utils.dart';
 import '../../../core/utils/context_extensions.dart';
 
-/// حقل رقمي مختصر لعتبات (آمن / تحذير / عاجل).
 class ThresholdField extends StatefulWidget {
   const ThresholdField({
     super.key,
@@ -22,7 +21,7 @@ class ThresholdField extends StatefulWidget {
   final Color color;
   final String? errorText;
 
-  /// أقصى عدد أرقام مسموح (يمنع إدخال قيم غير منطقية مثل 99999 يوم).
+  /// Maximum number of digits allowed (prevents entering unrealistic values such as 99999 days).
   final int maxDigits;
   final void Function(String)? onChanged;
 
