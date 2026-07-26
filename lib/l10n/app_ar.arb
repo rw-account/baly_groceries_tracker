@@ -1383,5 +1383,90 @@
   "languageChangeFailed": "فشل تغيير اللغة. حاول مجدداً",
   "@languageChangeFailed": {
     "description": "Error message when changing language fails"
+  },
+
+  "restockDialogTitleWithItem": "تجديد كمية: {itemName}",
+  "@restockDialogTitleWithItem": {
+    "description": "Dialog title shown when an item name is provided",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "restockDialogTitleDefault": "تجديد الكمية",
+  "@restockDialogTitleDefault": {
+    "description": "Dialog title shown when no item name is provided"
+  },
+
+  "restockDialogDescription": "أدخل الكميات ليتم حساب الإجمالي وتحديث العداد من جديد.",
+  "@restockDialogDescription": {
+    "description": "Description text explaining the purpose of the restock dialog"
+  },
+
+  "currentDaysLabel": "الأيام الحالية المتبقية",
+  "@currentDaysLabel": {
+    "description": "Label for the current remaining days field"
+  },
+
+  "currentDaysHint": "أدخل الأيام الحالية",
+  "@currentDaysHint": {
+    "description": "Hint text for the current remaining days field"
+  },
+
+  "requiredFieldError": "مطلوب",
+  "@requiredFieldError": {
+    "description": "Validation error shown when a required field is empty"
+  },
+
+  "invalidNumberError": "أدخل رقماً صحيحاً",
+  "@invalidNumberError": {
+    "description": "Validation error shown when the entered value is not a valid number"
+  },
+
+  "originalValueLabel": "القيمة الأصلية المسجّلة: {days} يوم",
+  "@originalValueLabel": {
+    "description": "Text showing the originally recorded value in days",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+
+  "addedDaysLabel": "الأيام الجديدة المضافة (للكمية المشتراة)",
+  "@addedDaysLabel": {
+    "description": "Label for the newly added days field"
+  },
+
+  "addedDaysHint": "أدخل عدد الأيام الجديدة",
+  "@addedDaysHint": {
+    "description": "Hint text for the newly added days field"
+  },
+
+  "finalTotalLabel": "الإجمالي النهائي للحفظ",
+  "@finalTotalLabel": {
+    "description": "Label for the final total to be saved"
+  },
+
+  "daysValueText": "{days} يوم",
+  "@daysValueText": {
+    "description": "Text showing a number of days value",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+
+  "cancelButton": "إلغاء",
+  "@cancelButton": {
+    "description": "Label for the cancel button"
+  },
+
+  "saveUpdateButton": "حفظ التحديث",
+  "@saveUpdateButton": {
+    "description": "Label for the save update button"
   }
 }

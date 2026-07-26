@@ -1383,6 +1383,91 @@
   "languageChangeFailed": "Failed to change language. Please try again.",
   "@languageChangeFailed": {
     "description": "Error message when changing language fails"
+  },
+  
+  "restockDialogTitleWithItem": "Restock: {itemName}",
+  "@restockDialogTitleWithItem": {
+    "description": "Dialog title shown when an item name is provided",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "restockDialogTitleDefault": "Restock Quantity",
+  "@restockDialogTitleDefault": {
+    "description": "Dialog title shown when no item name is provided"
+  },
+
+  "restockDialogDescription": "Enter the quantities to calculate the total and update the counter.",
+  "@restockDialogDescription": {
+    "description": "Description text explaining the purpose of the restock dialog"
+  },
+
+  "currentDaysLabel": "Current Remaining Days",
+  "@currentDaysLabel": {
+    "description": "Label for the current remaining days field"
+  },
+
+  "currentDaysHint": "Enter the current days",
+  "@currentDaysHint": {
+    "description": "Hint text for the current remaining days field"
+  },
+
+  "requiredFieldError": "Required",
+  "@requiredFieldError": {
+    "description": "Validation error shown when a required field is empty"
+  },
+
+  "invalidNumberError": "Enter a valid number",
+  "@invalidNumberError": {
+    "description": "Validation error shown when the entered value is not a valid number"
+  },
+
+  "originalValueLabel": "Originally recorded value: {days} days",
+  "@originalValueLabel": {
+    "description": "Text showing the originally recorded value in days",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+
+  "addedDaysLabel": "New Added Days (for the purchased quantity)",
+  "@addedDaysLabel": {
+    "description": "Label for the newly added days field"
+  },
+
+  "addedDaysHint": "Enter the number of new days",
+  "@addedDaysHint": {
+    "description": "Hint text for the newly added days field"
+  },
+
+  "finalTotalLabel": "Final Total to Save",
+  "@finalTotalLabel": {
+    "description": "Label for the final total to be saved"
+  },
+
+  "daysValueText": "{days} days",
+  "@daysValueText": {
+    "description": "Text showing a number of days value",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+
+  "cancelButton": "Cancel",
+  "@cancelButton": {
+    "description": "Label for the cancel button"
+  },
+
+  "saveUpdateButton": "Save Update",
+  "@saveUpdateButton": {
+    "description": "Label for the save update button"
   }
 }
 

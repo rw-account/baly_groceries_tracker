@@ -1561,6 +1561,90 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'فشل تغيير اللغة. حاول مجدداً'**
   String get languageChangeFailed;
+
+  /// Dialog title shown when an item name is provided
+  ///
+  /// In ar, this message translates to:
+  /// **'تجديد كمية: {itemName}'**
+  String restockDialogTitleWithItem(String itemName);
+
+  /// Dialog title shown when no item name is provided
+  ///
+  /// In ar, this message translates to:
+  /// **'تجديد الكمية'**
+  String get restockDialogTitleDefault;
+
+  /// Description text explaining the purpose of the restock dialog
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل الكميات ليتم حساب الإجمالي وتحديث العداد من جديد.'**
+  String get restockDialogDescription;
+
+  /// Label for the current remaining days field
+  ///
+  /// In ar, this message translates to:
+  /// **'الأيام الحالية المتبقية'**
+  String get currentDaysLabel;
+
+  /// Hint text for the current remaining days field
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل الأيام الحالية'**
+  String get currentDaysHint;
+
+  /// Validation error shown when a required field is empty
+  ///
+  /// In ar, this message translates to:
+  /// **'مطلوب'**
+  String get requiredFieldError;
+
+  /// Validation error shown when the entered value is not a valid number
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل رقماً صحيحاً'**
+  String get invalidNumberError;
+
+  /// Text showing the originally recorded value in days
+  ///
+  /// In ar, this message translates to:
+  /// **'القيمة الأصلية المسجّلة: {days} يوم'**
+  String originalValueLabel(int days);
+
+  /// Label for the newly added days field
+  ///
+  /// In ar, this message translates to:
+  /// **'الأيام الجديدة المضافة (للكمية المشتراة)'**
+  String get addedDaysLabel;
+
+  /// Hint text for the newly added days field
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل عدد الأيام الجديدة'**
+  String get addedDaysHint;
+
+  /// Label for the final total to be saved
+  ///
+  /// In ar, this message translates to:
+  /// **'الإجمالي النهائي للحفظ'**
+  String get finalTotalLabel;
+
+  /// Text showing a number of days value
+  ///
+  /// In ar, this message translates to:
+  /// **'{days} يوم'**
+  String daysValueText(int days);
+
+  /// Label for the cancel button
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء'**
+  String get cancelButton;
+
+  /// Label for the save update button
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظ التحديث'**
+  String get saveUpdateButton;
 }
 
 class _AppLocalizationsDelegate

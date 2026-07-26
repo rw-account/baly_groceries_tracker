@@ -826,4 +826,53 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get languageChangeFailed =>
       'Failed to change language. Please try again.';
+
+  @override
+  String restockDialogTitleWithItem(String itemName) {
+    return 'Restock: $itemName';
+  }
+
+  @override
+  String get restockDialogTitleDefault => 'Restock Quantity';
+
+  @override
+  String get restockDialogDescription =>
+      'Enter the quantities to calculate the total and update the counter.';
+
+  @override
+  String get currentDaysLabel => 'Current Remaining Days';
+
+  @override
+  String get currentDaysHint => 'Enter the current days';
+
+  @override
+  String get requiredFieldError => 'Required';
+
+  @override
+  String get invalidNumberError => 'Enter a valid number';
+
+  @override
+  String originalValueLabel(int days) {
+    return 'Originally recorded value: $days days';
+  }
+
+  @override
+  String get addedDaysLabel => 'New Added Days (for the purchased quantity)';
+
+  @override
+  String get addedDaysHint => 'Enter the number of new days';
+
+  @override
+  String get finalTotalLabel => 'Final Total to Save';
+
+  @override
+  String daysValueText(int days) {
+    return '$days days';
+  }
+
+  @override
+  String get cancelButton => 'Cancel';
+
+  @override
+  String get saveUpdateButton => 'Save Update';
 }

@@ -819,4 +819,53 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get languageChangeFailed => 'فشل تغيير اللغة. حاول مجدداً';
+
+  @override
+  String restockDialogTitleWithItem(String itemName) {
+    return 'تجديد كمية: $itemName';
+  }
+
+  @override
+  String get restockDialogTitleDefault => 'تجديد الكمية';
+
+  @override
+  String get restockDialogDescription =>
+      'أدخل الكميات ليتم حساب الإجمالي وتحديث العداد من جديد.';
+
+  @override
+  String get currentDaysLabel => 'الأيام الحالية المتبقية';
+
+  @override
+  String get currentDaysHint => 'أدخل الأيام الحالية';
+
+  @override
+  String get requiredFieldError => 'مطلوب';
+
+  @override
+  String get invalidNumberError => 'أدخل رقماً صحيحاً';
+
+  @override
+  String originalValueLabel(int days) {
+    return 'القيمة الأصلية المسجّلة: $days يوم';
+  }
+
+  @override
+  String get addedDaysLabel => 'الأيام الجديدة المضافة (للكمية المشتراة)';
+
+  @override
+  String get addedDaysHint => 'أدخل عدد الأيام الجديدة';
+
+  @override
+  String get finalTotalLabel => 'الإجمالي النهائي للحفظ';
+
+  @override
+  String daysValueText(int days) {
+    return '$days يوم';
+  }
+
+  @override
+  String get cancelButton => 'إلغاء';
+
+  @override
+  String get saveUpdateButton => 'حفظ التحديث';
 }
