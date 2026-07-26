@@ -14,7 +14,7 @@ class MainActivity: FlutterActivity() {
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
 
-        // قناة البطارية
+        // Battery channel
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, BATTERY_CHANNEL).setMethodCallHandler { call, result ->
             when (call.method) {
                 "isIgnoringBatteryOptimizations" -> {

@@ -53,11 +53,9 @@ android {
         release {
             signingConfig = signingConfigs.getByName("release") 
             
-            // استخدام الصيغة الصحيحة لـ Kotlin DSL تضمن تفعيل ProGuard بنجاح
             isMinifyEnabled = true
             isShrinkResources = true
             
-            // استخدام الأقواس وعلامات الاقتباس المزدوجة " " الإلزامية في ملفات kts
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), 
                 "proguard-rules.pro"

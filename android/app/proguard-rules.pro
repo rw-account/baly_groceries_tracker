@@ -1,6 +1,6 @@
 -keepattributes *Annotation*,Signature,InnerClasses,EnclosingMethod
 
-##  حل مشكلة انهيار إقلاع التطبيق لـ WorkManager (NoSuchMethodException)
+## Fixing the app startup crash issue for WorkManager (NoSuchMethodException)
 -keep class androidx.work.impl.WorkDatabase_Impl {
     public <init>(...);
 }
