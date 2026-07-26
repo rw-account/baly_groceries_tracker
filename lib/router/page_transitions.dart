@@ -3,9 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-/// يبني صفحة بانتقال سلس يجمع بين التلاشي (fade) والانزلاق الخفيف (slide)،
-/// لإعطاء شعورًا طبيعيًا عند فتح شاشة فرعية (مثل إضافة/تعديل عنصر)
-/// دون أن يكون الانتقال مفاجئًا أو ثقيلًا.
+/// Builds a page with a smooth transition that combines a fade and a subtle
+/// slide animation, providing a natural feel when opening a secondary screen
+/// (such as adding or editing an item) without making the transition feel
+/// abrupt or heavy.
 CustomTransitionPage<T> buildSlideFadeTransitionPage<T>({
   required BuildContext context,
   required GoRouterState state,

@@ -17,8 +17,9 @@ class ScaffoldWithNavBar extends StatelessWidget {
   const ScaffoldWithNavBar({super.key, required this.navigationShell});
 
   void _onDestinationSelected(int index) {
-    // إن كان التبويب المحدد هو نفسه الحالي، تُعاد للجذر (initialLocation)؛
-    // وإن كان تبويبًا آخر، يُحافَظ على آخر مكان توقّف عنده المستخدم فيه.
+    // If the selected tab is already active, navigate back to its root
+    // (initialLocation). Otherwise, preserve the user's last navigation
+    // state in that tab.
     navigationShell.goBranch(
       index,
       initialLocation: index == navigationShell.currentIndex,
