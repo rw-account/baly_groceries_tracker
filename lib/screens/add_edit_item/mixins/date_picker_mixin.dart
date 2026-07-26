@@ -51,33 +51,35 @@ mixin DatePickerMixin on AddEditItemState {
     }
   }
 
-  Future<void> resetLastRefreshedToToday() async {
+  Future<void> resetLastRefreshedToToday({bool skipConfirmation = false}) async {
     if (isPickingDate) return;
 
-    final confirmed = await showDialog<bool>(
-      context: context,
-      barrierDismissible: false,
-      builder: (ctx) => AlertDialog.adaptive(
-        title: Text(context.loc.resetDateDialogTitle),
-        content: Text(context.loc.resetDateDialogContent),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: Text(context.loc.cancelLabel),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            style: FilledButton.styleFrom(
-              minimumSize: const Size(80, 40),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+    if (!skipConfirmation) {
+      final confirmed = await showDialog<bool>(
+        context: context,
+        barrierDismissible: false,
+        builder: (ctx) => AlertDialog.adaptive(
+          title: Text(context.loc.resetDateDialogTitle),
+          content: Text(context.loc.resetDateDialogContent),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              child: Text(context.loc.cancelLabel),
             ),
-            child: Text(context.loc.resetDateConfirmLabel),
-          ),
-        ],
-      ),
-    );
+            FilledButton(
+              onPressed: () => Navigator.pop(ctx, true),
+              style: FilledButton.styleFrom(
+                minimumSize: const Size(80, 40),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+              ),
+              child: Text(context.loc.resetDateConfirmLabel),
+            ),
+          ],
+        ),
+      );
 
-    if (confirmed != true || !mounted) return;
+      if (confirmed != true || !mounted) return;
+    }
 
     _applyDateChange(DateTime.now());
   }
