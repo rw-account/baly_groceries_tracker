@@ -2,13 +2,6 @@
 
 import 'package:flutter/material.dart';
 
-/// فئات تجميع العناصر حسب عدد الأيام المتبقية على انتهائها، مع بيانات
-/// العرض (العنوان، الأيقونة، اللون) الخاصة بكل فئة.
-///
-/// ملاحظة: ترتيب القيم في التعريف أدناه هو نفسه ترتيب عرضها في الواجهة
-/// (من الأكثر إلحاحاً إلى الأقل)، لذا يمكن الاعتماد مباشرة على
-/// `ExpiryBucket.values` عند بناء الأقسام في الشاشة دون الحاجة لأي
-/// ترتيب إضافي.
 enum ExpiryBucket {
   expired,
   threeDays,
@@ -17,8 +10,9 @@ enum ExpiryBucket {
   month,
   moreThanMonth;
 
-  /// يحدد الفئة الزمنية المناسبة بناءً على عدد الأيام المتبقية.
-  /// (قيمة سالبة تعني أن العنصر قد نفد بالفعل).
+  /// Determines the appropriate time bucket based on the number of
+  /// remaining days.
+  /// (A negative value means the item has already run out.)
   static ExpiryBucket fromRemainingDays(int days) {
     if (days < 0) return ExpiryBucket.expired;
     if (days <= 3) return ExpiryBucket.threeDays;

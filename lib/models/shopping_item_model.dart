@@ -3,11 +3,11 @@
 import 'package:equatable/equatable.dart';
 
 class ShoppingItem extends Equatable {
-  final int? id; // null عند الإنشاء قبل الحفظ في قاعدة البيانات (AUTOINCREMENT)
+  final int? id;
   final String title;
-  final String? inventoryItemId; // مرتبط بعنصر في المخزون (items.id) إذا لم يكن null
+  final String? inventoryItemId;
   final bool isChecked;
-  final double? price; // السعر لكل وحدة من العنصر (اختياري)
+  final double? price;
   final DateTime createdAt;
 
   ShoppingItem({
@@ -19,10 +19,6 @@ class ShoppingItem extends Equatable {
     DateTime? createdAt,
   }) : createdAt = createdAt ?? DateTime.now();
 
-  // NOTE: copyWith uses `??` for all fields, so explicitly passing `null`
-  // will NOT set a field back to `null`. To clear a field (e.g., price or
-  // inventoryItemId), you'll need to add a dedicated `clear*` flag or use a
-  // sentinel value.
   ShoppingItem copyWith({
     int? id,
     String? title,
