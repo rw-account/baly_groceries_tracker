@@ -22,7 +22,7 @@ class _LanguageSelectionScreenState
   bool _isLoading = false;
 
   Future<void> _selectLanguage(String languageCode) async {
-    // منع اختيار نفس اللغة مرة أخرى أو أثناء التحميل
+    // Prevent selecting the same language again or while loading.
     if (_isLoading || _selectedLanguage == languageCode) return;
 
     setState(() {
@@ -33,10 +33,8 @@ class _LanguageSelectionScreenState
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     try {
-      // تحديث اللغة فوراً
       await ref.read(localeProvider.notifier).changeLocale(languageCode);
     } catch (e) {
-      // معالجة الخطأ: عرض رسالة للمستخدم وإعادة تعيين الاختيار
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -45,11 +43,10 @@ class _LanguageSelectionScreenState
           ),
         );
         setState(() {
-          _selectedLanguage = null; // السماح للمستخدم بالمحاولة مرة أخرى
+          _selectedLanguage = null; // Allow the user to try again.
         });
       }
     } finally {
-      // ضمان إعادة تعيين حالة التحميل دائماً
       if (mounted) {
         setState(() => _isLoading = false);
       }
@@ -65,7 +62,7 @@ class _LanguageSelectionScreenState
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     
-    // مراقبة تغييرات اللغة لتحديث الواجهة واتجاه النص فوراً
+    // Watch language changes to update the UI and text direction immediately.
     final locale = ref.watch(localeProvider);
     final isRTL = locale.languageCode == 'ar';
 
