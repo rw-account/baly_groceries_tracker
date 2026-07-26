@@ -11,7 +11,7 @@ import 'services/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:home_orders_tracker/l10n/app_localizations.dart';
-import 'core/theme/app_theme.dart'; 
+import 'core/theme/app_theme.dart';
 import 'router/app_router.dart';
 
 Future<void> main() async {
@@ -27,8 +27,8 @@ Future<void> main() async {
   await NotificationService.init();
   unawaited(BatteryService.initFirstLaunchDate(prefs));
 
-  AppTheme.applySystemUI(); 
-  
+  AppTheme.applySystemUI();
+
   runApp(
     ProviderScope(
       overrides: [
@@ -46,20 +46,17 @@ class HomeOrdersTrackerApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locale = ref.watch(localeProvider);
-    
-    return MaterialApp.router(
-          title: 'Home Orders Tracker',
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.dark,
-          darkTheme: AppTheme.dark,
-          themeMode: ThemeMode.dark,
-          
-          locale: locale,
-          
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
 
-          routerConfig: ref.watch(goRouterProvider),
+    return MaterialApp.router(
+      title: 'Home Orders Tracker',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.dark,
+      darkTheme: AppTheme.dark,
+      themeMode: ThemeMode.dark,
+      locale: locale,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      routerConfig: ref.watch(goRouterProvider),
     );
   }
 }
