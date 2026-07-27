@@ -26,7 +26,7 @@ mixin DatePickerMixin on AddEditItemState {
         firstDate: DateTime(now.year - 5),
         lastDate: now,
         locale: currentLocale,
-        helpText: context.loc.datePickerHelpText,
+        helpText: context.loc.renewalDatePickerHelpText,
         cancelText: context.loc.cancelLabel,
         confirmText: context.loc.datePickerConfirmText,
       );
