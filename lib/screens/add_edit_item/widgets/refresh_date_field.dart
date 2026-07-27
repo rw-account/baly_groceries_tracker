@@ -29,6 +29,12 @@ class RefreshDateField extends StatelessWidget {
       readOnly: true,
       controller: dateController,
       onTap: onPickDate,
+      validator: (value) {
+        if (value == null || value.trim().isEmpty) {
+          return context.loc.refreshDateRequiredError;
+        }
+        return null;
+      },
       decoration: InputDecoration(
         labelText: context.loc.refreshDateLabel,
         labelStyle: theme.textTheme.bodyMedium?.copyWith(
