@@ -85,9 +85,19 @@ class _StockStatusDialogState extends State<_StockStatusDialog> {
     if (_selectedChoice == null) return;
 
     if (_selectedChoice == StockStatusChoice.outOfStock) {
+      final now = DateTime.now();
+      final cleanNow = DateTime(now.year, now.month, now.day);
+      final cleanOutOfStock = DateTime(
+        _outOfStockDate.year,
+        _outOfStockDate.month,
+        _outOfStockDate.day,
+      );
+      
+      final realRemainingDays = cleanOutOfStock.difference(cleanNow).inDays;
+
       Navigator.pop(context, (
         choice: StockStatusChoice.outOfStock, 
-        remainingDays: 0, 
+        remainingDays: realRemainingDays, 
         outOfStockDate: _outOfStockDate
       ));
     } else {
