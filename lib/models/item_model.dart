@@ -71,8 +71,19 @@ class ItemModel extends Equatable {
   }
 
   int remainingDaysAt(DateTime now) {
-    final expiry = expectedExpiryDate;
-    return expiry.difference(DateTime(now.year, now.month, now.day)).inDays;
+    final cleanExpiry = DateTime(
+      expectedExpiryDate.year,
+      expectedExpiryDate.month,
+      expectedExpiryDate.day,
+    );
+
+    final cleanNow = DateTime(
+      now.year,
+      now.month,
+      now.day,
+    );
+
+    return cleanExpiry.difference(cleanNow).inDays;
   }
 
   int get remainingDays => remainingDaysAt(DateTime.now());
