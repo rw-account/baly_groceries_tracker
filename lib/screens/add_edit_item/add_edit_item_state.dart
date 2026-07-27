@@ -61,6 +61,9 @@ abstract class AddEditItemState extends ConsumerState<AddEditItemScreen> {
     super.initState();
     final i = widget.item;
     final now = DateTime.now();
+
+    // For UI display only: negative remaining days are shown as 0
+    // to provide a clearer and more intuitive user experience.
     final remainingDays = i != null ? math.max(0, i.remainingDaysAt(now).toInt()) : null;
 
     nameCtrl = TextEditingController(text: i?.name ?? '');
