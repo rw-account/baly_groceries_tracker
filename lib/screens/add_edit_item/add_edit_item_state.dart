@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'add_edit_item_screen.dart';
-import 'dart:math' as math;
 
 /// Abstract base that owns every controller, field, and computed property.
 /// Mixins and the concrete State class compose on top of this.
@@ -62,9 +61,7 @@ abstract class AddEditItemState extends ConsumerState<AddEditItemScreen> {
     final i = widget.item;
     final now = DateTime.now();
 
-    // For UI display only: negative remaining days are shown as 0
-    // to provide a clearer and more intuitive user experience.
-    final remainingDays = i != null ? math.max(0, i.remainingDaysAt(now).toInt()) : null;
+    final remainingDays = i?.remainingDaysAt(now);
 
     nameCtrl = TextEditingController(text: i?.name ?? '');
     descCtrl = TextEditingController(text: i?.quantityDescription ?? '');
@@ -77,7 +74,7 @@ abstract class AddEditItemState extends ConsumerState<AddEditItemScreen> {
     
     // Left empty to prevent forgetting to update the renewal date;
     // the validator will show an error if left blank.
-    dateCtrl = TextEditingController(text: '',);
+    dateCtrl = TextEditingController(text: '');
 
     _initialName = nameCtrl.text;
     _initialDesc = descCtrl.text;
