@@ -666,8 +666,8 @@
     "description": "Generic error message when saving fails"
   },
 
-  "datePickerHelpText": "اختر تاريخ التجديد",
-  "@datePickerHelpText": {
+  "renewalDatePickerHelpText": "اختر تاريخ التجديد",
+  "@renewalDatePickerHelpText": {
     "description": "Help text for the date picker"
   },
 
@@ -1473,5 +1473,10 @@
   "lastRefreshedLabel": "آخر تجديد",
   "@lastRefreshedLabel": {
     "description": "Label indicating when the item was last refreshed"
+  },
+
+  "outOfStockDatePickerHelpText": "اختر تاريخ النفاد",
+  "@outOfStockDatePickerHelpText": {
+    "description": "Help text for the out of stock date picker"
   }
 }

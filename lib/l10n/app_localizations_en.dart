@@ -395,7 +395,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'An error occurred while saving the item. Please try again.';
 
   @override
-  String get datePickerHelpText => 'Select renewal date';
+  String get renewalDatePickerHelpText => 'Select renewal date';
 
   @override
   String get datePickerCancelText => 'Cancel';
@@ -878,4 +878,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lastRefreshedLabel => 'Last refreshed';
+
+  @override
+  String get outOfStockDatePickerHelpText => 'Select out-of-stock date';
 }

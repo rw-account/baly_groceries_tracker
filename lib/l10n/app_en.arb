@@ -666,8 +666,8 @@
     "description": "Generic error message when saving fails"
   },
 
-  "datePickerHelpText": "Select renewal date",
-  "@datePickerHelpText": {
+  "renewalDatePickerHelpText": "Select renewal date",
+  "@renewalDatePickerHelpText": {
     "description": "Help text for the date picker"
   },
 
@@ -1473,6 +1473,11 @@
   "lastRefreshedLabel": "Last refreshed",
   "@lastRefreshedLabel": {
     "description": "Label indicating when the item was last refreshed"
+  },
+
+  "outOfStockDatePickerHelpText": "Select out-of-stock date",
+  "@outOfStockDatePickerHelpText": {
+    "description": "Help text for the out of stock date picker"
   }
 }
 

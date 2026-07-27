@@ -389,7 +389,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get genericSaveError => 'حدث خطأ أثناء حفظ العنصر، حاول مرة أخرى';
 
   @override
-  String get datePickerHelpText => 'اختر تاريخ التجديد';
+  String get renewalDatePickerHelpText => 'اختر تاريخ التجديد';
 
   @override
   String get datePickerCancelText => 'إلغاء';
@@ -871,4 +871,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get lastRefreshedLabel => 'آخر تجديد';
+
+  @override
+  String get outOfStockDatePickerHelpText => 'اختر تاريخ النفاد';
 }

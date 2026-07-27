@@ -792,7 +792,7 @@ abstract class AppLocalizations {
   ///
   /// In ar, this message translates to:
   /// **'اختر تاريخ التجديد'**
-  String get datePickerHelpText;
+  String get renewalDatePickerHelpText;
 
   /// Cancel text for the date picker
   ///
@@ -1651,6 +1651,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'آخر تجديد'**
   String get lastRefreshedLabel;
+
+  /// Help text for the out of stock date picker
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر تاريخ النفاد'**
+  String get outOfStockDatePickerHelpText;
 }
 
 class _AppLocalizationsDelegate
