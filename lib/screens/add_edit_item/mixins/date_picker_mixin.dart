@@ -23,7 +23,7 @@ mixin DatePickerMixin on AddEditItemState {
       final picked = await showDatePicker(
         context: context,
         initialDate: initialDate,
-        firstDate: DateTime(now.year - 5),
+        firstDate: DateTime(2000),
         lastDate: now,
         locale: currentLocale,
         helpText: context.loc.renewalDatePickerHelpText,
