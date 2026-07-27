@@ -1645,6 +1645,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'حفظ التحديث'**
   String get saveUpdateButton;
+
+  /// Label indicating when the item was last refreshed
+  ///
+  /// In ar, this message translates to:
+  /// **'آخر تجديد'**
+  String get lastRefreshedLabel;
 }
 
 class _AppLocalizationsDelegate

@@ -1468,5 +1468,10 @@
   "saveUpdateButton": "حفظ التحديث",
   "@saveUpdateButton": {
     "description": "Label for the save update button"
+  },
+
+  "lastRefreshedLabel": "آخر تجديد",
+  "@lastRefreshedLabel": {
+    "description": "Label indicating when the item was last refreshed"
   }
 }

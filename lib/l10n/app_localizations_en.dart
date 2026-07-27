@@ -875,4 +875,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get saveUpdateButton => 'Save Update';
+
+  @override
+  String get lastRefreshedLabel => 'Last refreshed';
 }

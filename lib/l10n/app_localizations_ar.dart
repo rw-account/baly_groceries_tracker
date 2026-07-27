@@ -868,4 +868,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get saveUpdateButton => 'حفظ التحديث';
+
+  @override
+  String get lastRefreshedLabel => 'آخر تجديد';
 }

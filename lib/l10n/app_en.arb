@@ -1468,6 +1468,11 @@
   "saveUpdateButton": "Save Update",
   "@saveUpdateButton": {
     "description": "Label for the save update button"
+  },
+
+  "lastRefreshedLabel": "Last refreshed",
+  "@lastRefreshedLabel": {
+    "description": "Label indicating when the item was last refreshed"
   }
 }
 
