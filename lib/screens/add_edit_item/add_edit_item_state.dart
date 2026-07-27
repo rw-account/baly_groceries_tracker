@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'add_edit_item_screen.dart';
+import 'dart:math' as math;
 
 /// Abstract base that owns every controller, field, and computed property.
 /// Mixins and the concrete State class compose on top of this.
@@ -61,10 +62,12 @@ abstract class AddEditItemState extends ConsumerState<AddEditItemScreen> {
   void initState() {
     super.initState();
     final i = widget.item;
+    final now = DateTime.now();
+    final remainingDays = i != null ? math.max(0, i.remainingDaysAt(now).toInt()) : null;
 
     nameCtrl = TextEditingController(text: i?.name ?? '');
     descCtrl = TextEditingController(text: i?.quantityDescription ?? '');
-    daysCtrl = TextEditingController(text: i?.expectedDays.toString() ?? '');
+    daysCtrl = TextEditingController(text: remainingDays?.toString() ?? '');
     warningCtrl = TextEditingController(text: (i?.warningThresholdDays ?? 10).toString());
     urgentCtrl = TextEditingController(text: (i?.urgentThresholdDays ?? 3).toString());
     notesCtrl = TextEditingController(text: i?.notes ?? '');
