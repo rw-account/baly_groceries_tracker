@@ -67,7 +67,18 @@ class ItemModel extends Equatable {
 
   DateTime get expectedExpiryDate {
     final base = lastRefreshedAt ?? createdAt;
-    return base.add(Duration(days: expectedDays));
+    
+    // Written this way to avoid DST-related issues.
+    return DateTime(
+      base.year,
+      base.month,
+      base.day + expectedDays,
+      base.hour,
+      base.minute,
+      base.second,
+      base.millisecond,
+      base.microsecond,
+    );
   }
 
   int remainingDaysAt(DateTime now) {
