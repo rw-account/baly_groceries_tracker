@@ -11,12 +11,14 @@ class RefreshDateField extends StatelessWidget {
     required this.isEditing,
     required this.onPickDate,
     required this.onResetToToday,
+    required this.lastRefreshedDateText,
   });
 
   final TextEditingController dateController;
   final bool isEditing;
   final VoidCallback onPickDate;
   final VoidCallback onResetToToday;
+  final String? lastRefreshedDateText;
 
   static const double _narrowLayoutBreakpoint = 520;
 
@@ -44,7 +46,7 @@ class RefreshDateField extends StatelessWidget {
         hintStyle: theme.textTheme.bodyMedium?.copyWith(
           color: cs.onSurfaceVariant.withValues(alpha: 0.7),
         ),
-        prefixIcon: Icon(Icons.event_available_outlined),
+        prefixIcon: const Icon(Icons.event_available_outlined),
         filled: true,
         fillColor: cs.surfaceContainerHighest.withValues(alpha: 0.5),
         border: appFieldBorder(context),
@@ -56,7 +58,42 @@ class RefreshDateField extends StatelessWidget {
       ),
     );
 
-    if (!isEditing) return dateField;
+    final bool showHistoryText = isEditing &&
+        lastRefreshedDateText != null &&
+        lastRefreshedDateText!.trim().isNotEmpty;
+
+    final dateFieldWithHistory = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        dateField,
+        if (showHistoryText)
+          Padding(
+            padding: const EdgeInsets.only(top: 6, right: 4, left: 4),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.history, size: 14, color: cs.onSurfaceVariant),
+                const SizedBox(width: 4),
+                Flexible(
+                  child: Text(
+                    '${context.loc.lastRefreshedLabel}: $lastRefreshedDateText',
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: cs.onSurfaceVariant,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          ),
+      ],
+    );
+
+    if (!isEditing) {
+      // display only the dateFieldWithHistory and hide the "Reset to Today" button.
+      return dateFieldWithHistory;
+    }
 
     final resetButton = OutlinedButton.icon(
       onPressed: onResetToToday,
@@ -75,13 +112,17 @@ class RefreshDateField extends StatelessWidget {
         if (constraints.maxWidth < _narrowLayoutBreakpoint) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [dateField, const SizedBox(height: 8), resetButton],
+            children: [
+              dateFieldWithHistory,
+              const SizedBox(height: 12),
+              resetButton,
+            ],
           );
         }
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(child: dateField),
+            Expanded(child: dateFieldWithHistory),
             const SizedBox(width: 8),
             resetButton,
           ],
