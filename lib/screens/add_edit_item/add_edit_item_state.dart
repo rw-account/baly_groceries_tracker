@@ -71,6 +71,9 @@ abstract class AddEditItemState extends ConsumerState<AddEditItemScreen> {
     notesCtrl = TextEditingController(text: i?.notes ?? '');
     notificationsEnabled = i?.notificationsEnabled ?? true;
     lastRefreshedAt = i?.lastRefreshedAt;
+    
+    // Left empty to prevent forgetting to update the renewal date;
+    // the validator will show an error if left blank.
     dateCtrl = TextEditingController(text: '',);
 
     _initialName = nameCtrl.text;
