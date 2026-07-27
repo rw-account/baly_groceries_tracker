@@ -58,17 +58,24 @@ class BatteryService {
     final int? firstLaunchMillis = prefs.getInt(_firstLaunchKey);
     if (firstLaunchMillis == null) return false; // Not initialized yet
 
-    final DateTime now = DateTime.now();
-    final DateTime firstLaunchDate = DateTime.fromMillisecondsSinceEpoch(firstLaunchMillis);
-    final int daysSinceFirstLaunch = now.difference(firstLaunchDate).inDays;
+    final DateTime nowDateOnly = DateUtils.dateOnly(DateTime.now());
+    final DateTime firstLaunchDateOnly = DateUtils.dateOnly(
+      DateTime.fromMillisecondsSinceEpoch(firstLaunchMillis),
+    );
+
+    final int daysSinceFirstLaunch =
+        nowDateOnly.difference(firstLaunchDateOnly).inDays;
 
     if (daysSinceFirstLaunch < _initialDelayDays) return false;
 
     final int? lastPromptMillis = prefs.getInt(_lastPromptKey);
     if (lastPromptMillis != null) {
-      final DateTime lastPromptDate = DateTime.fromMillisecondsSinceEpoch(lastPromptMillis);
-      final int daysSinceLastPrompt = now.difference(lastPromptDate).inDays;
-      
+      final DateTime lastPromptDateOnly = DateUtils.dateOnly(
+        DateTime.fromMillisecondsSinceEpoch(lastPromptMillis),
+      );
+      final int daysSinceLastPrompt =
+          nowDateOnly.difference(lastPromptDateOnly).inDays;
+
       if (daysSinceLastPrompt < _reminderDays) return false;
     }
 
@@ -85,7 +92,8 @@ class BatteryService {
   /// Returns true if successful, false otherwise.
   static Future<bool> openBatterySettings() async {
     try {
-      await AppSettings.openAppSettings(type: AppSettingsType.batteryOptimization);
+      await AppSettings.openAppSettings(
+          type: AppSettingsType.batteryOptimization);
       return true;
     } catch (e) {
       debugPrint('Failed to open specific battery settings: $e');
@@ -121,7 +129,7 @@ Future<void> checkAndShowBatteryDialog(BuildContext context) async {
 
   // 4. Attempt to open settings
   final bool success = await BatteryService.openBatterySettings();
-  
+
   // 5. Show error fallback if opening settings failed
   if (!success && context.mounted) {
     _showErrorSnackBar(context);
