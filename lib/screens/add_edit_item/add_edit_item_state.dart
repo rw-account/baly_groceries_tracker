@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'add_edit_item_screen.dart';
 import 'dart:math' as math;
 
@@ -10,7 +9,6 @@ import 'dart:math' as math;
 /// Mixins and the concrete State class compose on top of this.
 abstract class AddEditItemState extends ConsumerState<AddEditItemScreen> {
   final formKey = GlobalKey<FormState>();
-  final _dateFormat = DateFormat('yyyy-MM-dd');
 
   late TextEditingController nameCtrl;
   late TextEditingController descCtrl;
@@ -73,7 +71,7 @@ abstract class AddEditItemState extends ConsumerState<AddEditItemScreen> {
     notesCtrl = TextEditingController(text: i?.notes ?? '');
     notificationsEnabled = i?.notificationsEnabled ?? true;
     lastRefreshedAt = i?.lastRefreshedAt;
-    dateCtrl = TextEditingController(text: lastRefreshedAt != null ? _dateFormat.format(lastRefreshedAt!) : '',);
+    dateCtrl = TextEditingController(text: '',);
 
     _initialName = nameCtrl.text;
     _initialDesc = descCtrl.text;
