@@ -107,8 +107,8 @@ class _StockStatusDialogState extends State<_StockStatusDialog> {
     final cs = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context);
     final titleText = widget.itemName != null 
-        ? 'تصحيح حالة: ${widget.itemName}' 
-        : 'تصحيح حالة المادة';
+        ? l10n.stockStatusDialogTitleWithItem(widget.itemName!) 
+        : l10n.stockStatusDialogTitle;
 
     return AlertDialog.adaptive(
       title: Text(titleText),
@@ -123,7 +123,7 @@ class _StockStatusDialogState extends State<_StockStatusDialog> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'اختر الحالة الصحيحة للمادة:',
+                  l10n.stockStatusChooseCorrectStatus,
                   style: TextStyle(color: cs.onSurfaceVariant),
                 ),
                 const SizedBox(height: 12),
@@ -131,7 +131,7 @@ class _StockStatusDialogState extends State<_StockStatusDialog> {
                 // First option: Effectively out of stock
                 RadioListTile<StockStatusChoice>(
                   value: StockStatusChoice.outOfStock,
-                  title: const Text('نفدت فعلياً'),
+                  title: Text(l10n.stockStatusOutOfStockOption),
                   activeColor: cs.error,
                   contentPadding: EdgeInsets.zero,
                 ),
@@ -144,7 +144,7 @@ class _StockStatusDialogState extends State<_StockStatusDialog> {
                       spacing: 8,
                       children: [
                         ChoiceChip(
-                          label: const Text('اليوم'),
+                          label: Text(l10n.stockStatusToday),
                           selected: _isToday,
                           onSelected: (_) {
                             setState(() {
@@ -155,7 +155,7 @@ class _StockStatusDialogState extends State<_StockStatusDialog> {
                           },
                         ),
                         ChoiceChip(
-                          label: const Text('أمس'),
+                          label: Text(l10n.stockStatusYesterday),
                           selected: _isYesterday,
                           onSelected: (_) {
                             setState(() {
@@ -166,7 +166,7 @@ class _StockStatusDialogState extends State<_StockStatusDialog> {
                           },
                         ),
                         ActionChip(
-                          label: Text(_isToday || _isYesterday ? 'تاريخ آخر' : _formatDate(_outOfStockDate)),
+                          label: Text(_isToday || _isYesterday ? l10n.stockStatusOtherDate : _formatDate(_outOfStockDate)),
                           avatar: const Icon(Icons.calendar_today_outlined, size: 16),
                           onPressed: _pickCustomDate,
                         ),
@@ -179,8 +179,8 @@ class _StockStatusDialogState extends State<_StockStatusDialog> {
                 // Second option: Still have it
                 RadioListTile<StockStatusChoice>(
                   value: StockStatusChoice.stillAvailable,
-                  title: const Text('ما زالت لدي'),
-                  subtitle: const Text('إعادة ضبط الأيام المتبقية'),
+                  title: Text(l10n.stockStatusStillAvailableOption),
+                  subtitle: Text(l10n.stockStatusResetRemainingDays),
                   activeColor: cs.primary,
                   contentPadding: EdgeInsets.zero,
                 ),
@@ -197,8 +197,8 @@ class _StockStatusDialogState extends State<_StockStatusDialog> {
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      labelText: 'كم يوم يكفي المتبقي؟',
-                      hintText: 'أدخل عدد الأيام',
+                      labelText: l10n.stockStatusRemainingDaysLabel,
+                      hintText: l10n.stockStatusRemainingDaysHint,
                       floatingLabelStyle: TextStyle(color: cs.primary),
                       filled: true,
                       fillColor: cs.surfaceContainerHighest,
@@ -226,9 +226,9 @@ class _StockStatusDialogState extends State<_StockStatusDialog> {
                     ),
                     onFieldSubmitted: (_) => _submit(),
                     validator: (value) {
-                      if (value == null || value.trim().isEmpty) return 'مطلوب';
+                      if (value == null || value.trim().isEmpty) return l10n.fieldRequiredValidation;
                       final n = int.tryParse(value.trim());
-                      if (n == null || n <= 0) return 'أدخل رقماً صحيحاً';
+                      if (n == null || n <= 0) return l10n.enterValidNumberValidation;
                       return null;
                     },
                   ),
@@ -241,7 +241,7 @@ class _StockStatusDialogState extends State<_StockStatusDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context, _cancelledResult),
-          child: const Text('إلغاء'),
+          child: Text(l10n.cancelLabel),
         ),
         FilledButton(
           onPressed: _submit,
@@ -249,7 +249,7 @@ class _StockStatusDialogState extends State<_StockStatusDialog> {
             minimumSize: const Size(80, 40),
             padding: const EdgeInsets.symmetric(horizontal: 16),
           ),
-          child: const Text('حفظ'),
+          child: Text(l10n.saveLabel),
         ),
       ],
     );
