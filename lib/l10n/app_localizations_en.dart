@@ -913,8 +913,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get stockStatusResetRemainingDays => 'Reset remaining days';
 
   @override
-  String get stockStatusRemainingDaysLabel =>
-      'How many days will the remaining stock last?';
+  String get stockStatusRemainingDaysLabel => 'Remaining days';
 
   @override
   String get stockStatusRemainingDaysHint => 'Enter number of days';

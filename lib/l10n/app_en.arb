@@ -1530,7 +1530,7 @@
     "description": "Subtitle explaining that choosing this option resets remaining days"
   },
 
-  "stockStatusRemainingDaysLabel": "How many days will the remaining stock last?",
+  "stockStatusRemainingDaysLabel": "Remaining days",
   "@stockStatusRemainingDaysLabel": {
     "description": "Label for the remaining days input field"
   },

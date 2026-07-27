@@ -905,7 +905,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get stockStatusResetRemainingDays => 'إعادة ضبط الأيام المتبقية';
 
   @override
-  String get stockStatusRemainingDaysLabel => 'كم يوم يكفي المتبقي؟';
+  String get stockStatusRemainingDaysLabel => 'الأيام المتبقية';
 
   @override
   String get stockStatusRemainingDaysHint => 'أدخل عدد الأيام';

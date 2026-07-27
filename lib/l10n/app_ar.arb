@@ -1530,7 +1530,7 @@
     "description": "Subtitle explaining that choosing this option resets remaining days"
   },
 
-  "stockStatusRemainingDaysLabel": "كم يوم يكفي المتبقي؟",
+  "stockStatusRemainingDaysLabel": "الأيام المتبقية",
   "@stockStatusRemainingDaysLabel": {
     "description": "Label for the remaining days input field"
   },

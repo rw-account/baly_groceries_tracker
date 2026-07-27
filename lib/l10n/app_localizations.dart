@@ -1715,7 +1715,7 @@ abstract class AppLocalizations {
   /// Label for the remaining days input field
   ///
   /// In ar, this message translates to:
-  /// **'كم يوم يكفي المتبقي؟'**
+  /// **'الأيام المتبقية'**
   String get stockStatusRemainingDaysLabel;
 
   /// Hint text for the remaining days input field
