@@ -874,4 +874,48 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get outOfStockDatePickerHelpText => 'اختر تاريخ النفاد';
+
+  @override
+  String stockStatusDialogTitleWithItem(String itemName) {
+    return 'تصحيح حالة: $itemName';
+  }
+
+  @override
+  String get stockStatusDialogTitle => 'تصحيح حالة المادة';
+
+  @override
+  String get stockStatusChooseCorrectStatus => 'اختر الحالة الصحيحة للمادة:';
+
+  @override
+  String get stockStatusOutOfStockOption => 'نفدت فعلياً';
+
+  @override
+  String get stockStatusToday => 'اليوم';
+
+  @override
+  String get stockStatusYesterday => 'أمس';
+
+  @override
+  String get stockStatusOtherDate => 'تاريخ آخر';
+
+  @override
+  String get stockStatusStillAvailableOption => 'ما زالت لدي';
+
+  @override
+  String get stockStatusResetRemainingDays => 'إعادة ضبط الأيام المتبقية';
+
+  @override
+  String get stockStatusRemainingDaysLabel => 'كم يوم يكفي المتبقي؟';
+
+  @override
+  String get stockStatusRemainingDaysHint => 'أدخل عدد الأيام';
+
+  @override
+  String get fieldRequiredValidation => 'مطلوب';
+
+  @override
+  String get enterValidNumberValidation => 'أدخل رقماً صحيحاً';
+
+  @override
+  String get saveLabel => 'حفظ';
 }

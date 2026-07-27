@@ -881,4 +881,50 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get outOfStockDatePickerHelpText => 'Select out-of-stock date';
+
+  @override
+  String stockStatusDialogTitleWithItem(String itemName) {
+    return 'Correct status: $itemName';
+  }
+
+  @override
+  String get stockStatusDialogTitle => 'Correct item status';
+
+  @override
+  String get stockStatusChooseCorrectStatus =>
+      'Choose the correct status for the item:';
+
+  @override
+  String get stockStatusOutOfStockOption => 'Actually out of stock';
+
+  @override
+  String get stockStatusToday => 'Today';
+
+  @override
+  String get stockStatusYesterday => 'Yesterday';
+
+  @override
+  String get stockStatusOtherDate => 'Other date';
+
+  @override
+  String get stockStatusStillAvailableOption => 'Still have it';
+
+  @override
+  String get stockStatusResetRemainingDays => 'Reset remaining days';
+
+  @override
+  String get stockStatusRemainingDaysLabel =>
+      'How many days will the remaining stock last?';
+
+  @override
+  String get stockStatusRemainingDaysHint => 'Enter number of days';
+
+  @override
+  String get fieldRequiredValidation => 'Required';
+
+  @override
+  String get enterValidNumberValidation => 'Enter a valid number';
+
+  @override
+  String get saveLabel => 'Save';
 }

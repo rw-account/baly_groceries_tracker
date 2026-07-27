@@ -1478,6 +1478,80 @@
   "outOfStockDatePickerHelpText": "Select out-of-stock date",
   "@outOfStockDatePickerHelpText": {
     "description": "Help text for the out of stock date picker"
+  },
+
+  "stockStatusDialogTitleWithItem": "Correct status: {itemName}",
+  "@stockStatusDialogTitleWithItem": {
+    "description": "Dialog title shown when an item name is provided",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "stockStatusDialogTitle": "Correct item status",
+  "@stockStatusDialogTitle": {
+    "description": "Dialog title shown when no item name is provided"
+  },
+
+  "stockStatusChooseCorrectStatus": "Choose the correct status for the item:",
+  "@stockStatusChooseCorrectStatus": {
+    "description": "Instruction text asking the user to choose the correct stock status"
+  },
+
+  "stockStatusOutOfStockOption": "Actually out of stock",
+  "@stockStatusOutOfStockOption": {
+    "description": "Radio option label for item being effectively out of stock"
+  },
+
+  "stockStatusToday": "Today",
+  "@stockStatusToday": {
+    "description": "Choice chip label for today's date"
+  },
+
+  "stockStatusYesterday": "Yesterday",
+  "@stockStatusYesterday": {
+    "description": "Choice chip label for yesterday's date"
+  },
+
+  "stockStatusOtherDate": "Other date",
+  "@stockStatusOtherDate": {
+    "description": "Action chip label to pick a custom date, shown when today/yesterday is selected"
+  },
+
+  "stockStatusStillAvailableOption": "Still have it",
+  "@stockStatusStillAvailableOption": {
+    "description": "Radio option label for item still being available"
+  },
+
+  "stockStatusResetRemainingDays": "Reset remaining days",
+  "@stockStatusResetRemainingDays": {
+    "description": "Subtitle explaining that choosing this option resets remaining days"
+  },
+
+  "stockStatusRemainingDaysLabel": "How many days will the remaining stock last?",
+  "@stockStatusRemainingDaysLabel": {
+    "description": "Label for the remaining days input field"
+  },
+
+  "stockStatusRemainingDaysHint": "Enter number of days",
+  "@stockStatusRemainingDaysHint": {
+    "description": "Hint text for the remaining days input field"
+  },
+
+  "fieldRequiredValidation": "Required",
+  "@fieldRequiredValidation": {
+    "description": "Validation message shown when a required field is empty"
+  },
+
+  "enterValidNumberValidation": "Enter a valid number",
+  "@enterValidNumberValidation": {
+    "description": "Validation message shown when the entered value is not a valid positive number"
+  },
+
+  "saveLabel": "Save",
+  "@saveLabel": {
+    "description": "Label for the save button"
   }
 }
-

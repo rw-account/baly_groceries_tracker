@@ -1478,5 +1478,80 @@
   "outOfStockDatePickerHelpText": "اختر تاريخ النفاد",
   "@outOfStockDatePickerHelpText": {
     "description": "Help text for the out of stock date picker"
+  },
+
+  "stockStatusDialogTitleWithItem": "تصحيح حالة: {itemName}",
+  "@stockStatusDialogTitleWithItem": {
+    "description": "Dialog title shown when an item name is provided",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "stockStatusDialogTitle": "تصحيح حالة المادة",
+  "@stockStatusDialogTitle": {
+    "description": "Dialog title shown when no item name is provided"
+  },
+
+  "stockStatusChooseCorrectStatus": "اختر الحالة الصحيحة للمادة:",
+  "@stockStatusChooseCorrectStatus": {
+    "description": "Instruction text asking the user to choose the correct stock status"
+  },
+
+  "stockStatusOutOfStockOption": "نفدت فعلياً",
+  "@stockStatusOutOfStockOption": {
+    "description": "Radio option label for item being effectively out of stock"
+  },
+
+  "stockStatusToday": "اليوم",
+  "@stockStatusToday": {
+    "description": "Choice chip label for today's date"
+  },
+
+  "stockStatusYesterday": "أمس",
+  "@stockStatusYesterday": {
+    "description": "Choice chip label for yesterday's date"
+  },
+
+  "stockStatusOtherDate": "تاريخ آخر",
+  "@stockStatusOtherDate": {
+    "description": "Action chip label to pick a custom date, shown when today/yesterday is selected"
+  },
+
+  "stockStatusStillAvailableOption": "ما زالت لدي",
+  "@stockStatusStillAvailableOption": {
+    "description": "Radio option label for item still being available"
+  },
+
+  "stockStatusResetRemainingDays": "إعادة ضبط الأيام المتبقية",
+  "@stockStatusResetRemainingDays": {
+    "description": "Subtitle explaining that choosing this option resets remaining days"
+  },
+
+  "stockStatusRemainingDaysLabel": "كم يوم يكفي المتبقي؟",
+  "@stockStatusRemainingDaysLabel": {
+    "description": "Label for the remaining days input field"
+  },
+
+  "stockStatusRemainingDaysHint": "أدخل عدد الأيام",
+  "@stockStatusRemainingDaysHint": {
+    "description": "Hint text for the remaining days input field"
+  },
+
+  "fieldRequiredValidation": "مطلوب",
+  "@fieldRequiredValidation": {
+    "description": "Validation message shown when a required field is empty"
+  },
+
+  "enterValidNumberValidation": "أدخل رقماً صحيحاً",
+  "@enterValidNumberValidation": {
+    "description": "Validation message shown when the entered value is not a valid positive number"
+  },
+
+  "saveLabel": "حفظ",
+  "@saveLabel": {
+    "description": "Label for the save button"
   }
 }

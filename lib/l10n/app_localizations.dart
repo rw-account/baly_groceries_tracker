@@ -1657,6 +1657,90 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'اختر تاريخ النفاد'**
   String get outOfStockDatePickerHelpText;
+
+  /// Dialog title shown when an item name is provided
+  ///
+  /// In ar, this message translates to:
+  /// **'تصحيح حالة: {itemName}'**
+  String stockStatusDialogTitleWithItem(String itemName);
+
+  /// Dialog title shown when no item name is provided
+  ///
+  /// In ar, this message translates to:
+  /// **'تصحيح حالة المادة'**
+  String get stockStatusDialogTitle;
+
+  /// Instruction text asking the user to choose the correct stock status
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر الحالة الصحيحة للمادة:'**
+  String get stockStatusChooseCorrectStatus;
+
+  /// Radio option label for item being effectively out of stock
+  ///
+  /// In ar, this message translates to:
+  /// **'نفدت فعلياً'**
+  String get stockStatusOutOfStockOption;
+
+  /// Choice chip label for today's date
+  ///
+  /// In ar, this message translates to:
+  /// **'اليوم'**
+  String get stockStatusToday;
+
+  /// Choice chip label for yesterday's date
+  ///
+  /// In ar, this message translates to:
+  /// **'أمس'**
+  String get stockStatusYesterday;
+
+  /// Action chip label to pick a custom date, shown when today/yesterday is selected
+  ///
+  /// In ar, this message translates to:
+  /// **'تاريخ آخر'**
+  String get stockStatusOtherDate;
+
+  /// Radio option label for item still being available
+  ///
+  /// In ar, this message translates to:
+  /// **'ما زالت لدي'**
+  String get stockStatusStillAvailableOption;
+
+  /// Subtitle explaining that choosing this option resets remaining days
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة ضبط الأيام المتبقية'**
+  String get stockStatusResetRemainingDays;
+
+  /// Label for the remaining days input field
+  ///
+  /// In ar, this message translates to:
+  /// **'كم يوم يكفي المتبقي؟'**
+  String get stockStatusRemainingDaysLabel;
+
+  /// Hint text for the remaining days input field
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل عدد الأيام'**
+  String get stockStatusRemainingDaysHint;
+
+  /// Validation message shown when a required field is empty
+  ///
+  /// In ar, this message translates to:
+  /// **'مطلوب'**
+  String get fieldRequiredValidation;
+
+  /// Validation message shown when the entered value is not a valid positive number
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل رقماً صحيحاً'**
+  String get enterValidNumberValidation;
+
+  /// Label for the save button
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظ'**
+  String get saveLabel;
 }
 
 class _AppLocalizationsDelegate
