@@ -918,4 +918,20 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get saveLabel => 'حفظ';
+
+  @override
+  String get realityCheckSectionTitle => 'تصحيح الحالة أو التجديد';
+
+  @override
+  String get restockButtonLabel => 'اشتريت كمية جديدة (تجديد مبكر)';
+
+  @override
+  String get realityMismatchTitle => 'مخالفة الواقع للتوقع؟';
+
+  @override
+  String get realityMismatchDescription =>
+      'إذا نفدت المادة فعلياً أو كان لا يزال لديك منها دون شراء جديد، قم بالتصحيح فوراً.';
+
+  @override
+  String get correctNowButtonLabel => 'تصحيح الواقع الآن';
 }

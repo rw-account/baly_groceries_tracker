@@ -926,4 +926,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get saveLabel => 'Save';
+
+  @override
+  String get realityCheckSectionTitle => 'Correct Status or Restock';
+
+  @override
+  String get restockButtonLabel => 'Bought a new quantity (early restock)';
+
+  @override
+  String get realityMismatchTitle => 'Reality doesn\'t match the expectation?';
+
+  @override
+  String get realityMismatchDescription =>
+      'If the item has actually run out, or you still have some without buying new, correct it immediately.';
+
+  @override
+  String get correctNowButtonLabel => 'Correct Reality Now';
 }

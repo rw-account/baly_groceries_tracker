@@ -1741,6 +1741,36 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'حفظ'**
   String get saveLabel;
+
+  /// Title for the reality check / restock section
+  ///
+  /// In ar, this message translates to:
+  /// **'تصحيح الحالة أو التجديد'**
+  String get realityCheckSectionTitle;
+
+  /// Label for the button used to record an early restock purchase
+  ///
+  /// In ar, this message translates to:
+  /// **'اشتريت كمية جديدة (تجديد مبكر)'**
+  String get restockButtonLabel;
+
+  /// Title asking if actual stock status differs from the expected status
+  ///
+  /// In ar, this message translates to:
+  /// **'مخالفة الواقع للتوقع؟'**
+  String get realityMismatchTitle;
+
+  /// Description explaining when to correct the actual stock status immediately
+  ///
+  /// In ar, this message translates to:
+  /// **'إذا نفدت المادة فعلياً أو كان لا يزال لديك منها دون شراء جديد، قم بالتصحيح فوراً.'**
+  String get realityMismatchDescription;
+
+  /// Label for the button used to correct the actual stock status immediately
+  ///
+  /// In ar, this message translates to:
+  /// **'تصحيح الواقع الآن'**
+  String get correctNowButtonLabel;
 }
 
 class _AppLocalizationsDelegate

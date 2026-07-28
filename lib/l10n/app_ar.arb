@@ -1553,5 +1553,30 @@
   "saveLabel": "حفظ",
   "@saveLabel": {
     "description": "Label for the save button"
+  },
+
+  "realityCheckSectionTitle": "تصحيح الحالة أو التجديد",
+  "@realityCheckSectionTitle": {
+    "description": "Title for the reality check / restock section"
+  },
+
+  "restockButtonLabel": "اشتريت كمية جديدة (تجديد مبكر)",
+  "@restockButtonLabel": {
+    "description": "Label for the button used to record an early restock purchase"
+  },
+
+  "realityMismatchTitle": "مخالفة الواقع للتوقع؟",
+  "@realityMismatchTitle": {
+    "description": "Title asking if actual stock status differs from the expected status"
+  },
+
+  "realityMismatchDescription": "إذا نفدت المادة فعلياً أو كان لا يزال لديك منها دون شراء جديد، قم بالتصحيح فوراً.",
+  "@realityMismatchDescription": {
+    "description": "Description explaining when to correct the actual stock status immediately"
+  },
+
+  "correctNowButtonLabel": "تصحيح الواقع الآن",
+  "@correctNowButtonLabel": {
+    "description": "Label for the button used to correct the actual stock status immediately"
   }
 }

@@ -1553,5 +1553,30 @@
   "saveLabel": "Save",
   "@saveLabel": {
     "description": "Label for the save button"
+  },
+
+  "realityCheckSectionTitle": "Correct Status or Restock",
+  "@realityCheckSectionTitle": {
+    "description": "Title for the reality check / restock section"
+  },
+
+  "restockButtonLabel": "Bought a new quantity (early restock)",
+  "@restockButtonLabel": {
+    "description": "Label for the button used to record an early restock purchase"
+  },
+
+  "realityMismatchTitle": "Reality doesn't match the expectation?",
+  "@realityMismatchTitle": {
+    "description": "Title asking if actual stock status differs from the expected status"
+  },
+
+  "realityMismatchDescription": "If the item has actually run out, or you still have some without buying new, correct it immediately.",
+  "@realityMismatchDescription": {
+    "description": "Description explaining when to correct the actual stock status immediately"
+  },
+
+  "correctNowButtonLabel": "Correct Reality Now",
+  "@correctNowButtonLabel": {
+    "description": "Label for the button used to correct the actual stock status immediately"
   }
 }
