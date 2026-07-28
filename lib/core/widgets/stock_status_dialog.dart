@@ -100,7 +100,7 @@ class _StockStatusDialogState extends State<_StockStatusDialog> {
         remainingDays: realRemainingDays, 
         outOfStockDate: _outOfStockDate
       ));
-    } else {
+    } else if (_selectedChoice == StockStatusChoice.stillAvailable) {
       if (_formKey.currentState?.validate() ?? false) {
         final days = int.tryParse(_controller.text.trim()) ?? 0;
         Navigator.pop(context, (
