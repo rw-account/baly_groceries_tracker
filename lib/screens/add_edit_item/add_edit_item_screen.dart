@@ -41,6 +41,23 @@ class _AddEditItemScreenState extends AddEditItemState
     super.dispose();
   }
 
+  /// Returns a dynamic warning message for values <= 0; otherwise returns null.
+  /// This compensates for negative remaining-day values to provide a clearer UX.
+  String? _getDepletedWarningMessage() {
+    final text = daysCtrl.text.trim();
+    
+    if (text.isEmpty || text == '-') return null;
+
+    final days = int.tryParse(text);
+    if (days == null || days > 0) return null;
+
+    if (days == 0) {
+      return context.loc.depletedToday;
+    } else {
+      return context.loc.depletedDaysAgo(days.abs());
+    }
+  }
+
   @override
   void Function(String message) get showError => (String message) {
     final theme = _scaffoldMessengerKey.currentContext != null 
@@ -341,6 +358,8 @@ class _AddEditItemScreenState extends AddEditItemState
         ? '${_dateFormat.format(dateToShow)} • ${formatRelativeDate(dateToShow)}'
         : null;
 
+    final warningMessage = _getDepletedWarningMessage();
+
     return [
       SectionTitle(
         title: context.loc.itemInfoSectionTitle,
@@ -386,6 +405,7 @@ class _AddEditItemScreenState extends AddEditItemState
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'^-?\d*')),
         ],
+        onChanged: (_) => setState(() {}),
         onSubmitted: (_) => _daysFocus.unfocus(),
         validator: (v) {
           if (v == null || v.trim().isEmpty) return context.loc.enterDaysError;
@@ -394,6 +414,31 @@ class _AddEditItemScreenState extends AddEditItemState
           return null;
         },
       ),
+      if (warningMessage != null) ...[
+        const SizedBox(height: 6),
+        Padding(
+          padding: const EdgeInsetsDirectional.only(start: 12),
+          child: Row(
+            children: [
+              Icon(
+                Icons.warning_amber_rounded,
+                size: 16,
+                color: Theme.of(context).colorScheme.tertiary,
+              ),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Text(
+                  warningMessage,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Theme.of(context).colorScheme.tertiary,
+                        fontWeight: FontWeight.w500,
+                      ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
       const SizedBox(height: 16),
       RefreshDateField(
         dateController: dateCtrl,
