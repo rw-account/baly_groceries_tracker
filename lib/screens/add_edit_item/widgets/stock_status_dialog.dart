@@ -1,4 +1,4 @@
-// lib/core/widgets/stock_status_dialog.dart
+// lib/screens/add_edit_item/widgets/stock_status_dialog.dart
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
