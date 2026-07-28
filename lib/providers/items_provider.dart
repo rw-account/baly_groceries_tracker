@@ -7,6 +7,8 @@ import 'package:uuid/uuid.dart';
 import '../models/item_model.dart';
 import '../services/notification_service.dart';
 import '../services/storage_service.dart';
+import '../models/item_change_log_model.dart';
+import 'item_history_provider.dart';
 
 part 'items_provider.g.dart';
 
@@ -64,20 +66,34 @@ class ItemsNotifier extends _$ItemsNotifier {
       lastRefreshedAt: lastRefreshedAt ?? now,
       notes: notes,
     );
-    await storage.saveItem(item);
+
+    await storage.saveItemWithLog(
+      item: item,
+      actionType: ItemActionType.create,
+    );
     await _refreshStateAndNotifications(storage);
   }
 
-  Future<void> updateItem(ItemModel updated) async {
+  Future<void> updateItem(
+    ItemModel updated, {
+    String actionType = ItemActionType.update,
+    String? description,
+  }) async {
     final storage = ref.read(storageServiceProvider);
-    await storage.saveItem(updated);
+
+    await storage.saveItemWithLog(
+      item: updated,
+      actionType: actionType,
+      description: description,
+    );
 
     // Update the title of all shopping items associated with this inventory item
     await storage.updateShoppingItemTitleForInventoryItem(
         updated.id, updated.name);
 
-    // Invalidate the shopping list provider to trigger a UI update
+    // Invalidate providers to trigger UI updates
     ref.invalidate(shoppingListProvider);
+    ref.invalidate(itemHistoryProvider(updated.id));
 
     await _refreshStateAndNotifications(storage);
   }
@@ -85,15 +101,32 @@ class ItemsNotifier extends _$ItemsNotifier {
   Future<void> deleteItem(String id) async {
     final storage = ref.read(storageServiceProvider);
 
-    // Delete all shopping items associated with this inventory item
-    await storage.deleteShoppingItemsForInventoryItem(id);
+    await storage.deleteItemWithLog(id);
 
-    await storage.deleteItem(id);
-
-    // Invalidate the shopping list provider to trigger a UI update
+    // Invalidate providers to trigger UI updates
     ref.invalidate(shoppingListProvider);
+    ref.invalidate(itemHistoryProvider(id));
 
     await _refreshStateAndNotifications(storage);
+  }
+
+  /// Reverts an item's current state to a specific log version snapshot.
+  /// The revert action itself is saved as a new update log entry.
+  Future<void> revertItemToVersion({
+    required String itemId,
+    required ItemChangeLogModel logEntry,
+    required String description,
+  }) async {
+    final targetState = logEntry.parsedNewState ?? logEntry.parsedPreviousState;
+    if (targetState == null) return;
+
+    final restoredItem = targetState.copyWith(id: itemId);
+
+    await updateItem(
+      restoredItem,
+      actionType: ItemActionType.update,
+      description: description,
+    );
   }
 
   /// Finds a single item by its [id].
@@ -103,5 +136,4 @@ class ItemsNotifier extends _$ItemsNotifier {
     final index = items.indexWhere((item) => item.id == id);
     return index == -1 ? null : items[index];
   }
-
 }
