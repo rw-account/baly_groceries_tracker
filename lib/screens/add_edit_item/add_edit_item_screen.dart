@@ -88,7 +88,7 @@ class _AddEditItemScreenState extends AddEditItemState
     final result = await showStockStatusDialog(context, itemName: nameCtrl.text);
     
     // If the user cancels.
-    if (result.choice == null && result.remainingDays == null && result.outOfStockDate == null) return;
+    if (!result.confirmed) return;
     if (!mounted) return;
 
     setState(() {

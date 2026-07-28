@@ -9,12 +9,14 @@ import 'package:intl/intl.dart';
 enum StockStatusChoice { outOfStock, stillAvailable }
 
 typedef StockStatusDialogResult = ({
+  bool confirmed,
   StockStatusChoice? choice,
   int? remainingDays,
   DateTime? outOfStockDate
 });
 
 const StockStatusDialogResult _cancelledResult = (
+  confirmed: false,
   choice: null,
   remainingDays: null,
   outOfStockDate: null
@@ -96,6 +98,7 @@ class _StockStatusDialogState extends State<_StockStatusDialog> {
       final realRemainingDays = cleanOutOfStock.difference(cleanNow).inDays;
 
       Navigator.pop(context, (
+        confirmed: true,
         choice: StockStatusChoice.outOfStock, 
         remainingDays: realRemainingDays, 
         outOfStockDate: _outOfStockDate
@@ -104,6 +107,7 @@ class _StockStatusDialogState extends State<_StockStatusDialog> {
       if (_formKey.currentState?.validate() ?? false) {
         final days = int.tryParse(_controller.text.trim()) ?? 0;
         Navigator.pop(context, (
+          confirmed: true,
           choice: StockStatusChoice.stillAvailable, 
           remainingDays: days,
           outOfStockDate: null
