@@ -77,21 +77,41 @@ class _ThresholdFieldState extends State<ThresholdField> {
             LengthLimitingTextInputFormatter(widget.maxDigits),
           ],
           onChanged: widget.onChanged,
+          validator: (value) {
+            if (value == null || value.trim().isEmpty) {
+              return context.loc.fieldRequiredValidation;
+            }
+            final n = int.tryParse(value.trim());
+            if (n == null || n < 0) {
+              return context.loc.enterValidNumberValidation;
+            }
+            return null;
+          },
           decoration: InputDecoration(
             suffixText: context.loc.thresholdFieldSuffix,
             suffixStyle: Theme.of(context).textTheme.labelSmall?.copyWith(
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
             filled: true,
-            fillColor: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+            fillColor: Theme.of(context)
+                .colorScheme
+                .surfaceContainerHighest
+                .withValues(alpha: 0.5),
             errorText: widget.errorText,
-            errorStyle: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.error),
+            errorStyle: Theme.of(context)
+                .textTheme
+                .bodySmall
+                ?.copyWith(color: Theme.of(context).colorScheme.error),
             border: appFieldBorder(context, radius: 12),
-            enabledBorder: appFieldBorder(context, color: widget.color.withValues(alpha: 0.3), radius: 12),
+            enabledBorder: appFieldBorder(
+                context, color: widget.color.withValues(alpha: 0.3), radius: 12),
             focusedBorder: appFieldBorder(context, color: widget.color, radius: 12),
-            errorBorder: appFieldBorder(context, color: Theme.of(context).colorScheme.error, radius: 12),
-            focusedErrorBorder: appFieldBorder(context, color: Theme.of(context).colorScheme.error, radius: 12),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            errorBorder: appFieldBorder(
+                context, color: Theme.of(context).colorScheme.error, radius: 12),
+            focusedErrorBorder: appFieldBorder(
+                context, color: Theme.of(context).colorScheme.error, radius: 12),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           ),
         ),
       ],
