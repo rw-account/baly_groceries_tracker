@@ -141,8 +141,9 @@ class _RestockDialogState extends State<_RestockDialog> {
     final cs = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final l10n = AppLocalizations.of(context);
-    final titleText = widget.itemName != null
-        ? l10n.restockDialogTitleWithItem(widget.itemName!)
+    final hasItemName = widget.itemName != null && widget.itemName!.trim().isNotEmpty;
+    final titleText = hasItemName
+        ? l10n.restockDialogTitleWithItem(widget.itemName!.trim())
         : l10n.restockDialogTitleDefault;
 
     final finalTotal = _calculateFinalTotal();
