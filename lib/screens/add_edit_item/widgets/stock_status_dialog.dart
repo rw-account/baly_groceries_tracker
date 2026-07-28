@@ -116,8 +116,9 @@ class _StockStatusDialogState extends State<_StockStatusDialog> {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context);
-    final titleText = widget.itemName != null 
-        ? l10n.stockStatusDialogTitleWithItem(widget.itemName!) 
+    final hasItemName = widget.itemName != null && widget.itemName!.trim().isNotEmpty;
+    final titleText = hasItemName 
+        ? l10n.stockStatusDialogTitleWithItem(widget.itemName!.trim()) 
         : l10n.stockStatusDialogTitle;
 
     return AlertDialog.adaptive(
