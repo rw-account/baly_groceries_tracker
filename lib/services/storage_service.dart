@@ -5,6 +5,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
 import '../models/item_model.dart';
 import '../models/shopping_item_model.dart';
+import '../models/item_change_log_model.dart';
 
 class StorageService {
   static const String _dbName = 'home_orders.db';
@@ -13,6 +14,7 @@ class StorageService {
   // Tables
   static const String _tableName = 'items';
   static const String _shoppingItemsTableName = 'shopping_items';
+  static const String _itemChangeLogsTableName = 'item_change_logs';
 
   // SharedPreferences Keys
   static const String _hasSeededKey = 'has_seeded_default_items';
@@ -71,10 +73,23 @@ class StorageService {
       )
     ''');
 
+    batch.execute('''
+      CREATE TABLE $_itemChangeLogsTableName (
+        id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+        item_id             TEXT NOT NULL,
+        action_type         TEXT NOT NULL,
+        timestamp           TEXT NOT NULL,
+        previous_state      TEXT,
+        new_state           TEXT,
+        description         TEXT
+      )
+    ''');
+
     // Indexes for performance optimization
     batch.execute('CREATE INDEX IF NOT EXISTS idx_items_created_at ON $_tableName(createdAt)');
     batch.execute('CREATE INDEX IF NOT EXISTS idx_shopping_items_created_at ON $_shoppingItemsTableName(created_at)');
     batch.execute('CREATE INDEX IF NOT EXISTS idx_shopping_items_inventory_item_id ON $_shoppingItemsTableName(inventory_item_id)');
+    batch.execute('CREATE INDEX IF NOT EXISTS idx_change_logs_item_id ON $_itemChangeLogsTableName(item_id)');
 
     await batch.commit(noResult: true);
   }
@@ -241,9 +256,89 @@ class StorageService {
     );
   }
 
+  /// Saves an inventory item and records a change log entry atomically.
+  Future<void> saveItemWithLog({
+    required ItemModel item,
+    required String actionType,
+    ItemModel? previousItem,
+    String? description,
+  }) async {
+    await _database.transaction((txn) async {
+      ItemModel? oldState = previousItem;
+      if (oldState == null && actionType != ItemActionType.create) {
+        final rows = await txn.query(_tableName, where: 'id = ?', whereArgs: [item.id]);
+        if (rows.isNotEmpty) {
+          oldState = ItemModel.fromMap(rows.first);
+        }
+      }
+
+      await txn.insert(
+        _tableName,
+        item.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+
+      final log = ItemChangeLogModel(
+        itemId: item.id,
+        actionType: actionType,
+        timestamp: DateTime.now().toUtc().toIso8601String(),
+        previousState: oldState?.toJson(),
+        newState: item.toJson(),
+        description: description,
+      );
+
+      await txn.insert(_itemChangeLogsTableName, log.toMap());
+    });
+  }
+
   /// Deletes an inventory item by its ID.
   Future<void> deleteItem(String id) async {
     await _database.delete(_tableName, where: 'id = ?', whereArgs: [id]);
+  }
+
+  /// Deletes an inventory item by ID and records a DELETE change log entry atomically.
+  /// Retains change log history even after the item is deleted.
+  Future<void> deleteItemWithLog(String id, {String? description}) async {
+    await _database.transaction((txn) async {
+      ItemModel? oldState;
+
+      // Capture the current item state before deletion.
+      final rows = await txn.query(_tableName, where: 'id = ?', whereArgs: [id]);
+      if (rows.isNotEmpty) {
+        oldState = ItemModel.fromMap(rows.first);
+      }
+
+      await txn.delete(_tableName, where: 'id = ?', whereArgs: [id]);
+
+      // Delete linked shopping items
+      await txn.delete(
+        _shoppingItemsTableName,
+        where: 'inventory_item_id = ?',
+        whereArgs: [id],
+      );
+
+      final log = ItemChangeLogModel(
+        itemId: id,
+        actionType: ItemActionType.delete,
+        timestamp: DateTime.now().toUtc().toIso8601String(),
+        previousState: oldState?.toJson(),
+        newState: null,
+        description: description,
+      );
+
+      await txn.insert(_itemChangeLogsTableName, log.toMap());
+    });
+  }
+
+  /// Fetches the change logs for a given item ID, ordered by timestamp descending.
+  Future<List<ItemChangeLogModel>> getItemChangeLogs(String itemId) async {
+    final rows = await _database.query(
+      _itemChangeLogsTableName,
+      where: 'item_id = ?',
+      whereArgs: [itemId],
+      orderBy: 'timestamp DESC',
+    );
+    return rows.map(ItemChangeLogModel.fromMap).toList();
   }
 
   // ─────────────────────────────────────────────────────────────────────────────
