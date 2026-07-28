@@ -56,8 +56,9 @@ class _RestockDialogState extends State<_RestockDialog> {
         ? widget.remainingDays!
         : 0;
 
+    // Pre-fill with '0' if expired or zero, ensuring instant validation readiness
     _currentDaysController = TextEditingController(
-      text: _originalDays > 0 ? _originalDays.toString() : '',
+      text: _originalDays.toString(),
     );
 
     _addedDaysController = TextEditingController();
@@ -207,7 +208,7 @@ class _RestockDialogState extends State<_RestockDialog> {
                     label: l10n.currentDaysLabel,
                     hint: l10n.currentDaysHint,
                   ),
-                  onChanged: (_) => setState(() {}), // Update the UI to refresh the total.
+                  onChanged: (_) => setState(() {}),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) return l10n.requiredFieldError;
                     final n = int.tryParse(value.trim());
@@ -250,7 +251,7 @@ class _RestockDialogState extends State<_RestockDialog> {
                     label: l10n.addedDaysLabel,
                     hint: l10n.addedDaysHint,
                   ),
-                  onChanged: (_) => setState(() {}), // Update the UI to refresh the total.
+                  onChanged: (_) => setState(() {}),
                   onFieldSubmitted: (_) => _submit(),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) return l10n.requiredFieldError;
@@ -261,7 +262,7 @@ class _RestockDialogState extends State<_RestockDialog> {
                 ),
                 const SizedBox(height: 24),
 
-                // Display the live final total.
+                // Live final total display
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
