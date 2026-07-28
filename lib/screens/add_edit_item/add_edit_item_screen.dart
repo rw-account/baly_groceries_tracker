@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:home_orders_tracker/core/utils/relative_date_utils.dart';
+import 'package:intl/intl.dart';
 import '../../models/item_model.dart';
 import 'add_edit_item_state.dart';
 import 'mixins/save_mixin.dart';
@@ -24,7 +26,8 @@ class AddEditItemScreen extends ConsumerStatefulWidget {
 class _AddEditItemScreenState extends AddEditItemState
     with SaveMixin, DeleteMixin, DatePickerMixin, DiscardMixin {
 
-  final _scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>(); 
+  final _scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+  final _dateFormat = DateFormat('yyyy-MM-dd');
 
   final _nameFocus = FocusNode();
   final _descFocus = FocusNode();
@@ -62,6 +65,53 @@ class _AddEditItemScreenState extends AddEditItemState
     final canLeave = await confirmDiscard();
     if (!mounted) return;
     if (canLeave) context.pop();
+  }
+
+  Future<void> _handleStockCorrection() async {
+    final result = await showStockStatusDialog(context, itemName: nameCtrl.text);
+    
+    // If the user cancels.
+    if (result.choice == null && result.remainingDays == null && result.outOfStockDate == null) return;
+    if (!mounted) return;
+
+    setState(() {
+      if (result.choice == StockStatusChoice.outOfStock) {
+        daysCtrl.text = (result.remainingDays ?? 0).toString();
+        
+        resetLastRefreshedToToday(skipConfirmation: true);
+        
+      } else if (result.choice == StockStatusChoice.stillAvailable) {
+        daysCtrl.text = (result.remainingDays ?? 1).toString();
+        resetLastRefreshedToToday(skipConfirmation: true); 
+      }
+    });
+
+    // Save immediately.
+    await save();
+  }
+
+  Future<void> _handleRestock() async {
+    final now = DateTime.now();
+    final parsedDays = widget.item != null
+        ? widget.item!.remainingDaysAt(now)
+        : int.tryParse(daysCtrl.text.trim()) ?? 0;
+
+    final result = await showRestockDialog(
+      context,
+      itemName: nameCtrl.text,
+      remainingDays: parsedDays,
+    );
+    
+    if (!result.confirmed || result.newTotalDays == null) return;
+    if (!mounted) return;
+
+    setState(() {
+      daysCtrl.text = result.newTotalDays.toString();
+      resetLastRefreshedToToday(skipConfirmation: true);
+    });
+
+    // Save immediately.
+    await save();
   }
 
   @override
@@ -121,6 +171,8 @@ class _AddEditItemScreenState extends AddEditItemState
             padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 24),
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             children: [
+              ..._buildRealityCheckSection(),
+              const SizedBox(height: 24),
               ..._buildItemInfoSection(),
               const SizedBox(height: 24),
               ..._buildThresholdsSection(),
@@ -133,6 +185,78 @@ class _AddEditItemScreenState extends AddEditItemState
         ),
       ),
     );
+  }
+
+  List<Widget> _buildRealityCheckSection() {
+    if (!isEditing) return [];
+    
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+    
+    return [
+      SectionTitle(
+        title: 'تصحيح الحالة أو التجديد',
+        icon: Icons.fact_check_outlined,
+      ),
+      const SizedBox(height: 12),
+      Card(
+        elevation: 0,
+        color: cs.surfaceContainerHighest.withValues(alpha: 0.5),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: BorderSide(color: cs.outlineVariant),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton.icon(
+                  onPressed: saving ? null : _handleRestock,
+                  icon: const Icon(Icons.add_shopping_cart_outlined),
+                  label: const Text('اشتريت كمية جديدة (تجديد مبكر)'),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: cs.primary,
+                    foregroundColor: cs.onPrimary,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              const Divider(),
+              const SizedBox(height: 12),
+              Text(
+                'مخالفة الواقع للتوقع؟',
+                style: theme.textTheme.titleMedium,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'إذا نفدت المادة فعلياً أو كان لا يزال لديك منها دون شراء جديد، قم بالتصحيح فوراً.',
+                style: theme.textTheme.bodySmall?.copyWith(color: cs.onSurfaceVariant),
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton.tonalIcon(
+                  onPressed: saving ? null : _handleStockCorrection,
+                  icon: const Icon(Icons.sync_problem_outlined),
+                  label: const Text('تصحيح الواقع الآن'),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: cs.primaryContainer,
+                    foregroundColor: cs.onPrimaryContainer,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ];
   }
 
   List<Widget> _buildNotificationsSection() {
@@ -210,6 +334,13 @@ class _AddEditItemScreenState extends AddEditItemState
   }
 
   List<Widget> _buildItemInfoSection() {
+    final item = widget.item;
+    final dateToShow = item != null ? (item.lastRefreshedAt ?? item.createdAt) : null;
+
+    final lastRefreshedDateText = dateToShow != null
+        ? '${_dateFormat.format(dateToShow)} • ${formatRelativeDate(dateToShow)}'
+        : null;
+
     return [
       SectionTitle(
         title: context.loc.itemInfoSectionTitle,
@@ -248,16 +379,18 @@ class _AddEditItemScreenState extends AddEditItemState
         label: context.loc.expectedDaysLabel,
         hint: context.loc.expectedDaysHint,
         icon: const Icon(Icons.calendar_today_outlined),
-        keyboardType: TextInputType.number,
+        keyboardType: const TextInputType.numberWithOptions(signed: true),
         suffix: context.loc.daysSuffix,
         focusNode: _daysFocus,
         textInputAction: TextInputAction.done,
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        inputFormatters: [
+          FilteringTextInputFormatter.allow(RegExp(r'^-?\d*')),
+        ],
         onSubmitted: (_) => _daysFocus.unfocus(),
         validator: (v) {
           if (v == null || v.trim().isEmpty) return context.loc.enterDaysError;
           final n = int.tryParse(v.trim());
-          if (n == null || n < 0) return context.loc.enterValidNumberError;
+          if (n == null) return context.loc.enterValidNumberError;
           return null;
         },
       ),
@@ -267,8 +400,9 @@ class _AddEditItemScreenState extends AddEditItemState
         isEditing: isEditing,
         onPickDate: pickLastRefreshedDate,
         onResetToToday: resetLastRefreshedToToday,
+        lastRefreshedDateText: lastRefreshedDateText,
       ),
-      const SizedBox(height: 16),
+      const SizedBox(height: 18),
       AppTextField(
         controller: notesCtrl,
         label: context.loc.notesLabel,
