@@ -195,7 +195,7 @@ class _AddEditItemScreenState extends AddEditItemState
     
     return [
       SectionTitle(
-        title: 'تصحيح الحالة أو التجديد',
+        title: context.loc.realityCheckSectionTitle,
         icon: Icons.fact_check_outlined,
       ),
       const SizedBox(height: 12),
@@ -216,7 +216,7 @@ class _AddEditItemScreenState extends AddEditItemState
                 child: FilledButton.icon(
                   onPressed: saving ? null : _handleRestock,
                   icon: const Icon(Icons.add_shopping_cart_outlined),
-                  label: const Text('اشتريت كمية جديدة (تجديد مبكر)'),
+                  label: Text(context.loc.restockButtonLabel),
                   style: FilledButton.styleFrom(
                     backgroundColor: cs.primary,
                     foregroundColor: cs.onPrimary,
@@ -229,12 +229,12 @@ class _AddEditItemScreenState extends AddEditItemState
               const Divider(),
               const SizedBox(height: 12),
               Text(
-                'مخالفة الواقع للتوقع؟',
+                context.loc.realityMismatchTitle,
                 style: theme.textTheme.titleMedium,
               ),
               const SizedBox(height: 4),
               Text(
-                'إذا نفدت المادة فعلياً أو كان لا يزال لديك منها دون شراء جديد، قم بالتصحيح فوراً.',
+                context.loc.realityMismatchDescription,
                 style: theme.textTheme.bodySmall?.copyWith(color: cs.onSurfaceVariant),
               ),
               const SizedBox(height: 12),
@@ -243,7 +243,7 @@ class _AddEditItemScreenState extends AddEditItemState
                 child: FilledButton.tonalIcon(
                   onPressed: saving ? null : _handleStockCorrection,
                   icon: const Icon(Icons.sync_problem_outlined),
-                  label: const Text('تصحيح الواقع الآن'),
+                  label: Text(context.loc.correctNowButtonLabel),
                   style: FilledButton.styleFrom(
                     backgroundColor: cs.primaryContainer,
                     foregroundColor: cs.onPrimaryContainer,
