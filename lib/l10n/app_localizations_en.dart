@@ -942,4 +942,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get correctNowButtonLabel => 'Correct Reality Now';
+
+  @override
+  String get depletedToday => 'Ran out today.';
+
+  @override
+  String depletedDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ran out $count days ago.',
+      one: 'Ran out 1 day ago.',
+    );
+    return '$_temp0';
+  }
 }

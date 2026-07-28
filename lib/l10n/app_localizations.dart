@@ -1771,6 +1771,18 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تصحيح الواقع الآن'**
   String get correctNowButtonLabel;
+
+  /// Message shown when the item is depleted today.
+  ///
+  /// In ar, this message translates to:
+  /// **'نفد اليوم.'**
+  String get depletedToday;
+
+  /// Message shown when the item was depleted a specified number of days ago.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, =1{نفد قبل يوم.} =2{نفد قبل يومين.} few{نفد قبل {count} أيام.} many{نفد قبل {count} يوماً.} other{نفد قبل {count} يوم.}}'**
+  String depletedDaysAgo(int count);
 }
 
 class _AppLocalizationsDelegate

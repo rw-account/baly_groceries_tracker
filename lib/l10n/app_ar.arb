@@ -1578,5 +1578,20 @@
   "correctNowButtonLabel": "تصحيح الواقع الآن",
   "@correctNowButtonLabel": {
     "description": "Label for the button used to correct the actual stock status immediately"
+  },
+
+  "depletedToday": "نفد اليوم.",
+  "@depletedToday": {
+    "description": "Message shown when the item is depleted today."
+  },
+
+  "depletedDaysAgo": "{count, plural, =1{نفد قبل يوم.} =2{نفد قبل يومين.} few{نفد قبل {count} أيام.} many{نفد قبل {count} يوماً.} other{نفد قبل {count} يوم.}}",
+  "@depletedDaysAgo": {
+    "description": "Message shown when the item was depleted a specified number of days ago.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

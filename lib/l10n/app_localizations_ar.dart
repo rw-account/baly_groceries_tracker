@@ -934,4 +934,21 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get correctNowButtonLabel => 'تصحيح الواقع الآن';
+
+  @override
+  String get depletedToday => 'نفد اليوم.';
+
+  @override
+  String depletedDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'نفد قبل $count يوم.',
+      many: 'نفد قبل $count يوماً.',
+      few: 'نفد قبل $count أيام.',
+      two: 'نفد قبل يومين.',
+      one: 'نفد قبل يوم.',
+    );
+    return '$_temp0';
+  }
 }

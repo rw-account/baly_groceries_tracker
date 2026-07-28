@@ -1578,5 +1578,20 @@
   "correctNowButtonLabel": "Correct Reality Now",
   "@correctNowButtonLabel": {
     "description": "Label for the button used to correct the actual stock status immediately"
+  },
+
+  "depletedToday": "Ran out today.",
+  "@depletedToday": {
+    "description": "Message shown when the item is depleted today."
+  },
+
+  "depletedDaysAgo": "{count, plural, =1{Ran out 1 day ago.} other{Ran out {count} days ago.}}",
+  "@depletedDaysAgo": {
+    "description": "Message shown when the item was depleted a specified number of days ago.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }
