@@ -1,5 +1,6 @@
 // lib/models/item_model.dart
 
+import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 enum ItemStatus { safe, warning, urgent }
@@ -46,16 +47,28 @@ class ItemModel extends Equatable {
     };
   }
 
+  String toJson() => jsonEncode(toMap());
+
+  factory ItemModel.fromJson(String source) =>
+      ItemModel.fromMap(jsonDecode(source) as Map<String, dynamic>);
+
   factory ItemModel.fromMap(Map<String, dynamic> map) {
+    final rawNotifications = map['notificationsEnabled'];
+    final bool notifications = rawNotifications is bool
+        ? rawNotifications
+        : ((rawNotifications as int? ?? 1) == 1);
+
     return ItemModel(
-      id: map['id'] as String,
-      name: map['name'] as String,
+      id: map['id'] as String? ?? '',
+      name: map['name'] as String? ?? '',
       quantityDescription: map['quantityDescription'] as String? ?? '',
-      expectedDays: map['expectedDays'] as int,
-      createdAt: DateTime.parse(map['createdAt'] as String),
-      notificationsEnabled: (map['notificationsEnabled'] as int? ?? 1) == 1,
-      warningThresholdDays: map['warningThresholdDays'] as int? ?? 10,
-      urgentThresholdDays: map['urgentThresholdDays'] as int? ?? 3,
+      expectedDays: (map['expectedDays'] as num?)?.toInt() ?? 0,
+      createdAt: map['createdAt'] != null
+          ? DateTime.parse(map['createdAt'] as String)
+          : DateTime.now(),
+      notificationsEnabled: notifications,
+      warningThresholdDays: (map['warningThresholdDays'] as num?)?.toInt() ?? 10,
+      urgentThresholdDays: (map['urgentThresholdDays'] as num?)?.toInt() ?? 3,
       lastRefreshedAt: map['lastRefreshedAt'] != null
           ? DateTime.parse(map['lastRefreshedAt'] as String)
           : null,
