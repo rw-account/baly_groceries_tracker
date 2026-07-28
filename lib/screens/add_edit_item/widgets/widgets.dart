@@ -5,3 +5,5 @@ export 'section_title.dart';
 export 'app_text_field.dart';
 export 'threshold_field.dart';
 export 'refresh_date_field.dart';
+export 'stock_status_dialog.dart';
+export 'restock_dialog.dart';
