@@ -27,4 +27,7 @@ abstract class RoutePaths {
   /// Builds the full path for editing a specific item by its ID,
   /// used for deep links and internal navigation.
   static String editItemPath(String itemId) => '/home/edit-item/$itemId';
+
+  static const String itemHistory = 'history';
+  static String itemHistoryPath(String itemId) => '/home/edit-item/$itemId/history';
 }
