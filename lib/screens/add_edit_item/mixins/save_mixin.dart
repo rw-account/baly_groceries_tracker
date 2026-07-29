@@ -5,6 +5,7 @@ import '../../../providers/items_provider.dart';
 import '../add_edit_item_state.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/utils/context_extensions.dart';
+import '../../../models/item_change_log_model.dart';
 
 mixin SaveMixin on AddEditItemState {
   static const int _defaultWarningThreshold = 10;
@@ -12,7 +13,7 @@ mixin SaveMixin on AddEditItemState {
 
   void Function(String message) get showError;
 
-  Future<void> save() async {
+  Future<void> save({String actionType = ItemActionType.update}) async {
     if (saving) return;
 
     FocusScope.of(context).unfocus();
@@ -55,6 +56,7 @@ mixin SaveMixin on AddEditItemState {
       days: days,
       warn: warn,
       urgent: urgent,
+      actionType: actionType,
     );
   }
 
@@ -81,6 +83,7 @@ mixin SaveMixin on AddEditItemState {
     required int days,
     required int warn,
     required int urgent,
+    required String actionType,
   }) async {
     setState(() => setSaving(true));
 
@@ -101,7 +104,7 @@ mixin SaveMixin on AddEditItemState {
           lastRefreshedAt: lastRefreshedAt,
           notes: notes.isEmpty ? null : notes,
         );
-        await notifier.updateItem(updated);
+        await notifier.updateItem(updated, actionType: actionType);
       } else {
         await notifier.addItem(
           name: name,
