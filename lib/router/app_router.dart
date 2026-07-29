@@ -13,6 +13,7 @@ import '../screens/settings/settings_screen.dart';
 import '../screens/onboarding/onboarding_screen.dart';
 import '../screens/onboarding/language_selection_screen.dart';
 import '../models/item_model.dart';
+import '../screens/item_history/item_history_screen.dart';
 
 import 'route_paths.dart';
 import 'router_keys.dart';
@@ -117,6 +118,19 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                       ),
                     );
                   },
+                  routes: [
+                    GoRoute(
+                      path: RoutePaths.itemHistory,
+                      pageBuilder: (context, state) {
+                        final itemId = state.pathParameters['itemId'] ?? '';
+                        return buildSlideFadeTransitionPage(
+                          context: context,
+                          state: state,
+                          child: ItemHistoryScreen(itemId: itemId),
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
