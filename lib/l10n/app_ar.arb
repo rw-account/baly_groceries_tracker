@@ -561,7 +561,7 @@
     "description": "Label for the warning threshold field"
   },
 
-  "urgentThresholdLabel": "🔴 الحد العاجل",
+  "urgentThresholdLabel": "🔴 حد العاجل",
   "@urgentThresholdLabel": {
     "description": "Label for the urgent threshold field"
   },
@@ -1593,5 +1593,159 @@
         "type": "int"
       }
     }
+  },
+
+  "changeHistoryTitle": "سجل التعديلات",
+  "@changeHistoryTitle": {
+    "description": "Title for the change history screen"
+  },
+
+  "changeHistoryEmpty": "لا يوجد سجل تعديلات لهذا العنصر.",
+  "@changeHistoryEmpty": {
+    "description": "Message shown when no change logs exist"
+  },
+
+  "actionCreate": "إنشاء",
+  "@actionCreate": {
+    "description": "Tag label for CREATE action"
+  },
+
+  "actionUpdate": "تعديل",
+  "@actionUpdate": {
+    "description": "Tag label for UPDATE action"
+  },
+
+  "actionRestock": "تجديد كمية",
+  "@actionRestock": {
+    "description": "Tag label for RESTOCK action"
+  },
+
+  "actionStockCorrection": "تصحيح كمية",
+  "@actionStockCorrection": {
+    "description": "Tag label for STOCK_CORRECTION action"
+  },
+
+  "actionDelete": "حذف",
+  "@actionDelete": {
+    "description": "Tag label for DELETE action"
+  },
+
+  "revertButton": "الاستعادة لهذه النسخة",
+  "@revertButton": {
+    "description": "Button text to restore an old item version"
+  },
+
+  "revertConfirmTitle": "تأكيد الاستعادة",
+  "@revertConfirmTitle": {
+    "description": "Title for revert confirmation dialog"
+  },
+
+  "revertConfirmMessage": "هل أنت متأكد من أنك تريد الرجوع إلى هذه النسخة؟ سيتم استبدال البيانات الحالية بالحالة التي كانت محفوظة في ذلك الوقت.",
+  "@revertConfirmMessage": {
+    "description": "Body message for revert confirmation dialog"
+  },
+
+  "revertSuccess": "تمت استعادة نسخة العنصر بنجاح.",
+  "@revertSuccess": {
+    "description": "Snackbar message after successful revert"
+  },
+
+  "revertDescription": "تمت الاستعادة إلى نسخة {date}",
+  "@revertDescription": {
+    "description": "Description string logged when reverting",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+
+  "diffNameChanged": "الاسم: {oldVal} ← {newVal}",
+  "@diffNameChanged": {
+    "description": "Diff text for name change",
+    "placeholders": {
+      "oldVal": {"type": "String"},
+      "newVal": {"type": "String"}
+    }
+  },
+
+  "diffQtyDescChanged": "الكمية: {oldVal} ← {newVal}",
+  "@diffQtyDescChanged": {
+    "description": "Diff text for quantity description change",
+    "placeholders": {
+      "oldVal": {"type": "String"},
+      "newVal": {"type": "String"}
+    }
+  },
+
+  "diffExpectedDaysChanged": "الأيام المتوقعة: {oldVal} يوم ← {newVal} يوم",
+  "@diffExpectedDaysChanged": {
+    "description": "Diff text for expected days change",
+    "placeholders": {
+      "oldVal": {"type": "String"},
+      "newVal": {"type": "String"}
+    }
+  },
+
+  "diffWarningDaysChanged": "حد الانتباه: {oldVal} يوم ← {newVal} يوم",
+  "@diffWarningDaysChanged": {
+    "description": "Diff text for warning threshold change",
+    "placeholders": {
+      "oldVal": {"type": "String"},
+      "newVal": {"type": "String"}
+    }
+  },
+
+  "diffUrgentDaysChanged": "حد العاجل: {oldVal} يوم ← {newVal} يوم",
+  "@diffUrgentDaysChanged": {
+    "description": "Diff text for urgent threshold change",
+    "placeholders": {
+      "oldVal": {"type": "String"},
+      "newVal": {"type": "String"}
+    }
+  },
+
+  "diffNotificationsChanged": "الإشعارات: {oldVal} ← {newVal}",
+  "@diffNotificationsChanged": {
+    "description": "Diff text for notifications state change",
+    "placeholders": {
+      "oldVal": {"type": "String"},
+      "newVal": {"type": "String"}
+    }
+  },
+
+  "diffNotesChanged": "تم تحديث الملاحظات",
+  "@diffNotesChanged": {
+    "description": "Diff text for notes change"
+  },
+
+  "diffRefreshedAtChanged": "تم تحديث تاريخ التجديد",
+  "@diffRefreshedAtChanged": {
+    "description": "Diff text for refreshed date change"
+  },
+
+  "diffItemCreated": "تم إنشاء العنصر بالإعدادات الأولية",
+  "@diffItemCreated": {
+    "description": "Diff text when item was created"
+  },
+
+  "diffItemDeleted": "تم حذف العنصر",
+  "@diffItemDeleted": {
+    "description": "Diff text when item was deleted"
+  },
+
+  "diffNoChanges": "لم يتم رصد تغييرات في الخصائص",
+  "@diffNoChanges": {
+    "description": "Diff text when states are identical"
+  },
+
+  "enabledText": "مفعّل",
+  "@enabledText": {
+    "description": "Text for Enabled"
+  },
+
+  "disabledText": "معطّل",
+  "@disabledText": {
+    "description": "Text for Disabled"
   }
 }

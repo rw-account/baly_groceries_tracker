@@ -956,4 +956,94 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get changeHistoryTitle => 'Change History';
+
+  @override
+  String get changeHistoryEmpty => 'No change history found for this item.';
+
+  @override
+  String get actionCreate => 'Created';
+
+  @override
+  String get actionUpdate => 'Updated';
+
+  @override
+  String get actionRestock => 'Restocked';
+
+  @override
+  String get actionStockCorrection => 'Stock Correction';
+
+  @override
+  String get actionDelete => 'Deleted';
+
+  @override
+  String get revertButton => 'Revert to this version';
+
+  @override
+  String get revertConfirmTitle => 'Confirm Revert';
+
+  @override
+  String get revertConfirmMessage =>
+      'Are you sure you want to revert to this version? Current data will be replaced with the state saved at that time.';
+
+  @override
+  String get revertSuccess => 'Successfully reverted item version.';
+
+  @override
+  String revertDescription(String date) {
+    return 'Reverted to version from $date';
+  }
+
+  @override
+  String diffNameChanged(String oldVal, String newVal) {
+    return 'Name: $oldVal → $newVal';
+  }
+
+  @override
+  String diffQtyDescChanged(String oldVal, String newVal) {
+    return 'Quantity: $oldVal → $newVal';
+  }
+
+  @override
+  String diffExpectedDaysChanged(String oldVal, String newVal) {
+    return 'Expected days: $oldVal days → $newVal days';
+  }
+
+  @override
+  String diffWarningDaysChanged(String oldVal, String newVal) {
+    return 'Warning threshold: $oldVal days → $newVal days';
+  }
+
+  @override
+  String diffUrgentDaysChanged(String oldVal, String newVal) {
+    return 'Urgent threshold: $oldVal days → $newVal days';
+  }
+
+  @override
+  String diffNotificationsChanged(String oldVal, String newVal) {
+    return 'Notifications: $oldVal → $newVal';
+  }
+
+  @override
+  String get diffNotesChanged => 'Notes updated';
+
+  @override
+  String get diffRefreshedAtChanged => 'Last refreshed date updated';
+
+  @override
+  String get diffItemCreated => 'Item created with initial settings';
+
+  @override
+  String get diffItemDeleted => 'Item was deleted';
+
+  @override
+  String get diffNoChanges => 'No property changes detected';
+
+  @override
+  String get enabledText => 'Enabled';
+
+  @override
+  String get disabledText => 'Disabled';
 }

@@ -326,7 +326,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get warningThresholdLabel => '🟡 حد الانتباه';
 
   @override
-  String get urgentThresholdLabel => '🔴 الحد العاجل';
+  String get urgentThresholdLabel => '🔴 حد العاجل';
 
   @override
   String get itemInfoSectionTitle => 'معلومات المادة';
@@ -951,4 +951,94 @@ class AppLocalizationsAr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get changeHistoryTitle => 'سجل التعديلات';
+
+  @override
+  String get changeHistoryEmpty => 'لا يوجد سجل تعديلات لهذا العنصر.';
+
+  @override
+  String get actionCreate => 'إنشاء';
+
+  @override
+  String get actionUpdate => 'تعديل';
+
+  @override
+  String get actionRestock => 'تجديد كمية';
+
+  @override
+  String get actionStockCorrection => 'تصحيح كمية';
+
+  @override
+  String get actionDelete => 'حذف';
+
+  @override
+  String get revertButton => 'الاستعادة لهذه النسخة';
+
+  @override
+  String get revertConfirmTitle => 'تأكيد الاستعادة';
+
+  @override
+  String get revertConfirmMessage =>
+      'هل أنت متأكد من أنك تريد الرجوع إلى هذه النسخة؟ سيتم استبدال البيانات الحالية بالحالة التي كانت محفوظة في ذلك الوقت.';
+
+  @override
+  String get revertSuccess => 'تمت استعادة نسخة العنصر بنجاح.';
+
+  @override
+  String revertDescription(String date) {
+    return 'تمت الاستعادة إلى نسخة $date';
+  }
+
+  @override
+  String diffNameChanged(String oldVal, String newVal) {
+    return 'الاسم: $oldVal ← $newVal';
+  }
+
+  @override
+  String diffQtyDescChanged(String oldVal, String newVal) {
+    return 'الكمية: $oldVal ← $newVal';
+  }
+
+  @override
+  String diffExpectedDaysChanged(String oldVal, String newVal) {
+    return 'الأيام المتوقعة: $oldVal يوم ← $newVal يوم';
+  }
+
+  @override
+  String diffWarningDaysChanged(String oldVal, String newVal) {
+    return 'حد الانتباه: $oldVal يوم ← $newVal يوم';
+  }
+
+  @override
+  String diffUrgentDaysChanged(String oldVal, String newVal) {
+    return 'حد العاجل: $oldVal يوم ← $newVal يوم';
+  }
+
+  @override
+  String diffNotificationsChanged(String oldVal, String newVal) {
+    return 'الإشعارات: $oldVal ← $newVal';
+  }
+
+  @override
+  String get diffNotesChanged => 'تم تحديث الملاحظات';
+
+  @override
+  String get diffRefreshedAtChanged => 'تم تحديث تاريخ التجديد';
+
+  @override
+  String get diffItemCreated => 'تم إنشاء العنصر بالإعدادات الأولية';
+
+  @override
+  String get diffItemDeleted => 'تم حذف العنصر';
+
+  @override
+  String get diffNoChanges => 'لم يتم رصد تغييرات في الخصائص';
+
+  @override
+  String get enabledText => 'مفعّل';
+
+  @override
+  String get disabledText => 'معطّل';
 }

@@ -665,7 +665,7 @@ abstract class AppLocalizations {
   /// Label for the urgent threshold field
   ///
   /// In ar, this message translates to:
-  /// **'🔴 الحد العاجل'**
+  /// **'🔴 حد العاجل'**
   String get urgentThresholdLabel;
 
   /// Section title for item information
@@ -1783,6 +1783,156 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'{count, plural, =1{نفد قبل يوم.} =2{نفد قبل يومين.} few{نفد قبل {count} أيام.} many{نفد قبل {count} يوماً.} other{نفد قبل {count} يوم.}}'**
   String depletedDaysAgo(int count);
+
+  /// Title for the change history screen
+  ///
+  /// In ar, this message translates to:
+  /// **'سجل التعديلات'**
+  String get changeHistoryTitle;
+
+  /// Message shown when no change logs exist
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يوجد سجل تعديلات لهذا العنصر.'**
+  String get changeHistoryEmpty;
+
+  /// Tag label for CREATE action
+  ///
+  /// In ar, this message translates to:
+  /// **'إنشاء'**
+  String get actionCreate;
+
+  /// Tag label for UPDATE action
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل'**
+  String get actionUpdate;
+
+  /// Tag label for RESTOCK action
+  ///
+  /// In ar, this message translates to:
+  /// **'تجديد كمية'**
+  String get actionRestock;
+
+  /// Tag label for STOCK_CORRECTION action
+  ///
+  /// In ar, this message translates to:
+  /// **'تصحيح كمية'**
+  String get actionStockCorrection;
+
+  /// Tag label for DELETE action
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف'**
+  String get actionDelete;
+
+  /// Button text to restore an old item version
+  ///
+  /// In ar, this message translates to:
+  /// **'الاستعادة لهذه النسخة'**
+  String get revertButton;
+
+  /// Title for revert confirmation dialog
+  ///
+  /// In ar, this message translates to:
+  /// **'تأكيد الاستعادة'**
+  String get revertConfirmTitle;
+
+  /// Body message for revert confirmation dialog
+  ///
+  /// In ar, this message translates to:
+  /// **'هل أنت متأكد من أنك تريد الرجوع إلى هذه النسخة؟ سيتم استبدال البيانات الحالية بالحالة التي كانت محفوظة في ذلك الوقت.'**
+  String get revertConfirmMessage;
+
+  /// Snackbar message after successful revert
+  ///
+  /// In ar, this message translates to:
+  /// **'تمت استعادة نسخة العنصر بنجاح.'**
+  String get revertSuccess;
+
+  /// Description string logged when reverting
+  ///
+  /// In ar, this message translates to:
+  /// **'تمت الاستعادة إلى نسخة {date}'**
+  String revertDescription(String date);
+
+  /// Diff text for name change
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم: {oldVal} ← {newVal}'**
+  String diffNameChanged(String oldVal, String newVal);
+
+  /// Diff text for quantity description change
+  ///
+  /// In ar, this message translates to:
+  /// **'الكمية: {oldVal} ← {newVal}'**
+  String diffQtyDescChanged(String oldVal, String newVal);
+
+  /// Diff text for expected days change
+  ///
+  /// In ar, this message translates to:
+  /// **'الأيام المتوقعة: {oldVal} يوم ← {newVal} يوم'**
+  String diffExpectedDaysChanged(String oldVal, String newVal);
+
+  /// Diff text for warning threshold change
+  ///
+  /// In ar, this message translates to:
+  /// **'حد الانتباه: {oldVal} يوم ← {newVal} يوم'**
+  String diffWarningDaysChanged(String oldVal, String newVal);
+
+  /// Diff text for urgent threshold change
+  ///
+  /// In ar, this message translates to:
+  /// **'حد العاجل: {oldVal} يوم ← {newVal} يوم'**
+  String diffUrgentDaysChanged(String oldVal, String newVal);
+
+  /// Diff text for notifications state change
+  ///
+  /// In ar, this message translates to:
+  /// **'الإشعارات: {oldVal} ← {newVal}'**
+  String diffNotificationsChanged(String oldVal, String newVal);
+
+  /// Diff text for notes change
+  ///
+  /// In ar, this message translates to:
+  /// **'تم تحديث الملاحظات'**
+  String get diffNotesChanged;
+
+  /// Diff text for refreshed date change
+  ///
+  /// In ar, this message translates to:
+  /// **'تم تحديث تاريخ التجديد'**
+  String get diffRefreshedAtChanged;
+
+  /// Diff text when item was created
+  ///
+  /// In ar, this message translates to:
+  /// **'تم إنشاء العنصر بالإعدادات الأولية'**
+  String get diffItemCreated;
+
+  /// Diff text when item was deleted
+  ///
+  /// In ar, this message translates to:
+  /// **'تم حذف العنصر'**
+  String get diffItemDeleted;
+
+  /// Diff text when states are identical
+  ///
+  /// In ar, this message translates to:
+  /// **'لم يتم رصد تغييرات في الخصائص'**
+  String get diffNoChanges;
+
+  /// Text for Enabled
+  ///
+  /// In ar, this message translates to:
+  /// **'مفعّل'**
+  String get enabledText;
+
+  /// Text for Disabled
+  ///
+  /// In ar, this message translates to:
+  /// **'معطّل'**
+  String get disabledText;
 }
 
 class _AppLocalizationsDelegate

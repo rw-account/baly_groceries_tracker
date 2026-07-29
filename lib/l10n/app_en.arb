@@ -1593,5 +1593,159 @@
         "type": "int"
       }
     }
+  },
+
+  "changeHistoryTitle": "Change History",
+  "@changeHistoryTitle": {
+    "description": "Title for the change history screen"
+  },
+
+  "changeHistoryEmpty": "No change history found for this item.",
+  "@changeHistoryEmpty": {
+    "description": "Message shown when no change logs exist"
+  },
+
+  "actionCreate": "Created",
+  "@actionCreate": {
+    "description": "Tag label for CREATE action"
+  },
+
+  "actionUpdate": "Updated",
+  "@actionUpdate": {
+    "description": "Tag label for UPDATE action"
+  },
+
+  "actionRestock": "Restocked",
+  "@actionRestock": {
+    "description": "Tag label for RESTOCK action"
+  },
+
+  "actionStockCorrection": "Stock Correction",
+  "@actionStockCorrection": {
+    "description": "Tag label for STOCK_CORRECTION action"
+  },
+
+  "actionDelete": "Deleted",
+  "@actionDelete": {
+    "description": "Tag label for DELETE action"
+  },
+
+  "revertButton": "Revert to this version",
+  "@revertButton": {
+    "description": "Button text to restore an old item version"
+  },
+
+  "revertConfirmTitle": "Confirm Revert",
+  "@revertConfirmTitle": {
+    "description": "Title for revert confirmation dialog"
+  },
+
+  "revertConfirmMessage": "Are you sure you want to revert to this version? Current data will be replaced with the state saved at that time.",
+  "@revertConfirmMessage": {
+    "description": "Body message for revert confirmation dialog"
+  },
+
+  "revertSuccess": "Successfully reverted item version.",
+  "@revertSuccess": {
+    "description": "Snackbar message after successful revert"
+  },
+
+  "revertDescription": "Reverted to version from {date}",
+  "@revertDescription": {
+    "description": "Description string logged when reverting",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+
+  "diffNameChanged": "Name: {oldVal} → {newVal}",
+  "@diffNameChanged": {
+    "description": "Diff text for name change",
+    "placeholders": {
+      "oldVal": {"type": "String"},
+      "newVal": {"type": "String"}
+    }
+  },
+
+  "diffQtyDescChanged": "Quantity: {oldVal} → {newVal}",
+  "@diffQtyDescChanged": {
+    "description": "Diff text for quantity description change",
+    "placeholders": {
+      "oldVal": {"type": "String"},
+      "newVal": {"type": "String"}
+    }
+  },
+
+  "diffExpectedDaysChanged": "Expected days: {oldVal} days → {newVal} days",
+  "@diffExpectedDaysChanged": {
+    "description": "Diff text for expected days change",
+    "placeholders": {
+      "oldVal": {"type": "String"},
+      "newVal": {"type": "String"}
+    }
+  },
+
+  "diffWarningDaysChanged": "Warning threshold: {oldVal} days → {newVal} days",
+  "@diffWarningDaysChanged": {
+    "description": "Diff text for warning threshold change",
+    "placeholders": {
+      "oldVal": {"type": "String"},
+      "newVal": {"type": "String"}
+    }
+  },
+
+  "diffUrgentDaysChanged": "Urgent threshold: {oldVal} days → {newVal} days",
+  "@diffUrgentDaysChanged": {
+    "description": "Diff text for urgent threshold change",
+    "placeholders": {
+      "oldVal": {"type": "String"},
+      "newVal": {"type": "String"}
+    }
+  },
+
+  "diffNotificationsChanged": "Notifications: {oldVal} → {newVal}",
+  "@diffNotificationsChanged": {
+    "description": "Diff text for notifications state change",
+    "placeholders": {
+      "oldVal": {"type": "String"},
+      "newVal": {"type": "String"}
+    }
+  },
+
+  "diffNotesChanged": "Notes updated",
+  "@diffNotesChanged": {
+    "description": "Diff text for notes change"
+  },
+
+  "diffRefreshedAtChanged": "Last refreshed date updated",
+  "@diffRefreshedAtChanged": {
+    "description": "Diff text for refreshed date change"
+  },
+
+  "diffItemCreated": "Item created with initial settings",
+  "@diffItemCreated": {
+    "description": "Diff text when item was created"
+  },
+
+  "diffItemDeleted": "Item was deleted",
+  "@diffItemDeleted": {
+    "description": "Diff text when item was deleted"
+  },
+
+  "diffNoChanges": "No property changes detected",
+  "@diffNoChanges": {
+    "description": "Diff text when states are identical"
+  },
+
+  "enabledText": "Enabled",
+  "@enabledText": {
+    "description": "Text for Enabled"
+  },
+
+  "disabledText": "Disabled",
+  "@disabledText": {
+    "description": "Text for Disabled"
   }
 }
