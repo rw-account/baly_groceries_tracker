@@ -280,6 +280,8 @@ class _LogItemCard extends StatelessWidget {
     );
   }
 
+  /// Analyzes state changes between item versions and converts them into
+  /// localized, human-readable summary sentences for display.
   List<String> _buildDiffSentences(
     BuildContext context,
     ItemModel? oldItem,
