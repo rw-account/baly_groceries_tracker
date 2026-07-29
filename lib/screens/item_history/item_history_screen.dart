@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:home_orders_tracker/core/theme/app_theme.dart';
 import 'package:intl/intl.dart';
 import 'package:home_orders_tracker/core/utils/context_extensions.dart';
 import 'package:home_orders_tracker/models/item_change_log_model.dart';
@@ -378,21 +379,24 @@ class _LogItemCard extends StatelessWidget {
   /// associated with a specific [ItemActionType] for the log card header.
   _TagInfo _getTagInfo(BuildContext context, String actionType) {
     final cs = Theme.of(context).colorScheme;
+    final customColors = Theme.of(context).extension<CustomColors>();
+    final safeColor = customColors?.safe ?? const Color(0xFF34D399);
     final loc = context.loc;
 
     switch (actionType) {
       case ItemActionType.create:
         return _TagInfo(
           label: loc.actionCreate,
-          backgroundColor: Colors.green.withValues(alpha: 0.15),
-          foregroundColor: Colors.green.shade700,
+          backgroundColor: safeColor.withValues(alpha: 0.15),
+          foregroundColor: safeColor,
           icon: Icons.add_circle_outline,
         );
       case ItemActionType.restock:
+        const restockColor = Color(0xFF2DD4BF);
         return _TagInfo(
           label: loc.actionRestock,
-          backgroundColor: Colors.teal.withValues(alpha: 0.15),
-          foregroundColor: Colors.teal.shade700,
+          backgroundColor: restockColor.withValues(alpha: 0.15),
+          foregroundColor: restockColor,
           icon: Icons.add_shopping_cart_outlined,
         );
       case ItemActionType.update:
@@ -405,22 +409,22 @@ class _LogItemCard extends StatelessWidget {
       case ItemActionType.stockCorrection:
         return _TagInfo(
           label: loc.actionStockCorrection,
-          backgroundColor: Colors.orange.withValues(alpha: 0.15),
-          foregroundColor: Colors.orange.shade800,
+          backgroundColor: cs.tertiary.withValues(alpha: 0.15),
+          foregroundColor: cs.tertiary,
           icon: Icons.sync_problem_outlined,
         );
       case ItemActionType.delete:
         return _TagInfo(
           label: loc.actionDelete,
-          backgroundColor: cs.errorContainer,
-          foregroundColor: cs.onErrorContainer,
+          backgroundColor: cs.error.withValues(alpha: 0.15),
+          foregroundColor: cs.error,
           icon: Icons.delete_outline,
         );
       default:
         return _TagInfo(
           label: actionType,
           backgroundColor: cs.surfaceContainerHighest,
-          foregroundColor: cs.onSurfaceVariant,
+          foregroundColor: cs.onSurface,
           icon: Icons.info_outline,
         );
     }
