@@ -14,6 +14,8 @@ import 'mixins/discard_mixin.dart';
 import 'widgets/widgets.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/utils/context_extensions.dart';
+import '../../models/item_change_log_model.dart';
+import '../../router/route_paths.dart';
 
 class AddEditItemScreen extends ConsumerStatefulWidget {
   final ItemModel? item;
@@ -103,8 +105,8 @@ class _AddEditItemScreenState extends AddEditItemState
       }
     });
 
-    // Save immediately.
-    await save();
+    // Save immediately with STOCK_CORRECTION action type.
+    await save(actionType: ItemActionType.stockCorrection);
   }
 
   Future<void> _handleRestock() async {
@@ -127,8 +129,8 @@ class _AddEditItemScreenState extends AddEditItemState
       resetLastRefreshedToToday(skipConfirmation: true);
     });
 
-    // Save immediately.
-    await save();
+    // Save immediately with RESTOCK action type.
+    await save(actionType: ItemActionType.restock);
   }
 
   @override
@@ -167,6 +169,16 @@ class _AddEditItemScreenState extends AddEditItemState
         onPressed: saving ? null : _handleBack,
       ),
       actions: [
+        if (isEditing && widget.item != null)
+          IconButton(
+            icon: Icon(Icons.history_outlined, color: cs.onSurfaceVariant),
+            tooltip: context.loc.changeHistoryTitle,
+            onPressed: saving
+                ? null
+                : () {
+                    context.push(RoutePaths.itemHistoryPath(widget.item!.id));
+                  },
+          ),
         IconButton(
           icon: Icon(Icons.check, color: cs.primary),
           tooltip: isEditing ? context.loc.saveChangesButton : context.loc.addItemSubmitButton,
