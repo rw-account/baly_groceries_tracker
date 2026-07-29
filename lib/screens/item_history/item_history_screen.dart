@@ -280,6 +280,17 @@ class _LogItemCard extends StatelessWidget {
     );
   }
 
+  /// Checks if two nullable DateTimes represent the exact same calendar day.
+  bool _isSameDay(DateTime? d1, DateTime? d2) {
+    if (d1 == null && d2 == null) return true;
+    if (d1 == null || d2 == null) return false;
+    
+    final l1 = d1.toLocal();
+    final l2 = d2.toLocal();
+    
+    return l1.year == l2.year && l1.month == l2.month && l1.day == l2.day;
+  }
+
   /// Analyzes state changes between item versions and converts them into
   /// localized, human-readable summary sentences for display.
   List<String> _buildDiffSentences(
@@ -352,7 +363,7 @@ class _LogItemCard extends StatelessWidget {
       diffs.add(loc.diffNotesChanged);
     }
 
-    if (oldItem.lastRefreshedAt != newItem.lastRefreshedAt) {
+    if (!_isSameDay(oldItem.lastRefreshedAt, newItem.lastRefreshedAt)) {
       diffs.add(loc.diffRefreshedAtChanged);
     }
 
