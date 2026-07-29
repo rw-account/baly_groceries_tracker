@@ -363,6 +363,8 @@ class _LogItemCard extends StatelessWidget {
     return diffs;
   }
 
+  /// Returns the tag styling and metadata (color, label, and icon) 
+  /// associated with a specific [ItemActionType] for the log card header.
   _TagInfo _getTagInfo(BuildContext context, String actionType) {
     final cs = Theme.of(context).colorScheme;
     final loc = context.loc;
