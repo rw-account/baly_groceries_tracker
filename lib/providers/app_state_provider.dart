@@ -3,7 +3,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/log_retention_option.dart';
 
 final appStateNotifierProvider =
     Provider<AppStateNotifier>((ref) => throw UnsupportedError(
@@ -32,24 +31,5 @@ class AppStateNotifier extends ChangeNotifier {
     await prefs.setString('language_code', languageCode);
     _hasLanguageSelected = true;
     notifyListeners();
-  }
-
-  Future<void> setLogRetentionOption(LogRetentionOption option, {int? customDays}) async {
-    await prefs.setString('log_retention_option', option.storageValue);
-    if (customDays != null) {
-      await prefs.setInt('log_retention_custom_days', customDays);
-    } else {
-      await prefs.remove('log_retention_custom_days');
-    }
-    notifyListeners();
-  }
-
-  LogRetentionOption getLogRetentionOption() {
-    final value = prefs.getString('log_retention_option');
-    return LogRetentionOptionX.fromStorageValue(value);
-  }
-
-  int? getLogRetentionCustomDays() {
-    return prefs.getInt('log_retention_custom_days');
   }
 }
