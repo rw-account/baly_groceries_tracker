@@ -25,7 +25,12 @@ Future<void> main() async {
   final appState = AppStateNotifier(prefs);
 
   await NotificationService.init();
-  unawaited(storage.runLogRetentionCleanup());
+  unawaited(
+    storage.runLogRetentionCleanup().catchError((e, st) {
+      debugPrint('Log retention cleanup failed: $e');
+      return 0;
+    }),
+  );
   unawaited(BatteryService.initFirstLaunchDate(prefs));
 
   AppTheme.applySystemUI();
