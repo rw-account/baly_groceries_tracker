@@ -6,6 +6,7 @@ import 'package:path/path.dart' as p;
 import '../models/item_model.dart';
 import '../models/shopping_item_model.dart';
 import '../models/item_change_log_model.dart';
+import '../models/log_retention_option.dart';
 
 class StorageService {
   static const String _dbName = 'home_orders.db';
@@ -19,6 +20,8 @@ class StorageService {
   // SharedPreferences Keys
   static const String _hasSeededKey = 'has_seeded_default_items';
   static const String _languageCodeKey = 'language_code';
+  static const String _logRetentionOptionKey = 'log_retention_option';
+  static const String _logRetentionCustomDaysKey = 'log_retention_custom_days';
 
   Database? _db;
 
@@ -339,6 +342,66 @@ class StorageService {
       orderBy: 'timestamp DESC',
     );
     return rows.map(ItemChangeLogModel.fromMap).toList();
+  }
+
+  Future<LogRetentionOption> getLogRetentionOption() async {
+    final prefs = await SharedPreferences.getInstance();
+    final value = prefs.getString(_logRetentionOptionKey);
+    return LogRetentionOptionX.fromStorageValue(value);
+  }
+
+  Future<int?> getLogRetentionCustomDays() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(_logRetentionCustomDaysKey);
+  }
+
+  Future<void> setLogRetentionOption(
+    LogRetentionOption option, {
+    int? customDays,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_logRetentionOptionKey, option.storageValue);
+    if (customDays != null) {
+      await prefs.setInt(_logRetentionCustomDaysKey, customDays);
+    } else {
+      await prefs.remove(_logRetentionCustomDaysKey);
+    }
+  }
+
+  DateTime? calculateLogRetentionCutoff({
+    required LogRetentionOption option,
+    int? customDays,
+    DateTime? referenceDate,
+  }) {
+    return calculateLogRetentionCutoffDate(
+      option: option,
+      customDays: customDays,
+      referenceDate: referenceDate,
+    );
+  }
+
+  /// Deletes logs older than the specified cutoff date.
+  /// Returns the number of deleted rows directly from SQLite.
+  Future<int> deleteLogsOlderThan(DateTime cutoff) async {
+    return await _database.delete(
+      _itemChangeLogsTableName,
+      where: 'timestamp < ?',
+      whereArgs: [cutoff.toUtc().toIso8601String()],
+    );
+  }
+
+  Future<int> runLogRetentionCleanup({DateTime? referenceDate}) async {
+    final option = await getLogRetentionOption();
+    final customDays = await getLogRetentionCustomDays();
+    final cutoff = calculateLogRetentionCutoff(
+      option: option,
+      customDays: customDays,
+      referenceDate: referenceDate,
+    );
+
+    if (cutoff == null) return 0;
+
+    return await deleteLogsOlderThan(cutoff);
   }
 
   // ─────────────────────────────────────────────────────────────────────────────
