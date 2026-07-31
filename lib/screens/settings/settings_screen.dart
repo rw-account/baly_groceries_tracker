@@ -1,11 +1,13 @@
 // lib/screens/settings/settings_screen.dart
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:restart_app/restart_app.dart';
 import '../../core/utils/context_extensions.dart';
 import '../../l10n/app_localizations.dart';
+import '../../models/log_retention_option.dart';
 import '../../providers/locale_provider.dart';
 import '../../providers/storage_service_provider.dart';
 import '../../services/backup_service.dart';
@@ -20,6 +22,27 @@ class SettingsScreen extends ConsumerStatefulWidget {
 
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   bool _isProcessing = false;
+  LogRetentionOption _logRetentionOption = LogRetentionOption.sixMonths;
+  int? _customDaysValue;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadRetentionSettings();
+  }
+
+  Future<void> _loadRetentionSettings() async {
+    final storage = ref.read(storageServiceProvider);
+    final savedOption = await storage.getLogRetentionOption();
+    final savedCustomDays = await storage.getLogRetentionCustomDays();
+
+    if (!mounted) return;
+
+    setState(() {
+      _logRetentionOption = savedOption;
+      _customDaysValue = savedCustomDays;
+    });
+  }
 
   Future<void> _handleBackup() async {
     setState(() => _isProcessing = true);
@@ -124,6 +147,141 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     }
   }
 
+  Future<void> _saveRetentionOption(
+    LogRetentionOption option, {
+    int? customDays,
+  }) async {
+    final storage = ref.read(storageServiceProvider);
+    await storage.setLogRetentionOption(option, customDays: customDays);
+  }
+
+  DateTime? _calculateCutoffForCurrentSelection() {
+    return calculateLogRetentionCutoffDate(
+      option: _logRetentionOption,
+      customDays: _customDaysValue,
+      referenceDate: DateTime.now(),
+    );
+  }
+
+  Future<void> _handleRetentionOptionChanged(LogRetentionOption option) async {
+    final customDays = option == LogRetentionOption.custom ? _customDaysValue : null;
+
+    setState(() {
+      _logRetentionOption = option;
+    });
+
+    await _saveRetentionOption(option, customDays: customDays);
+  }
+
+  Future<void> _showCustomDaysDialog() async {
+    final controller = TextEditingController(text: _customDaysValue?.toString() ?? '');
+
+    final result = await showDialog<int>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(context.loc.customRetentionDaysTitle),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(context.loc.customRetentionDaysContent),
+            const SizedBox(height: 16),
+            TextField(
+              controller: controller,
+              keyboardType: TextInputType.number,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              decoration: InputDecoration(
+                labelText: context.loc.customRetentionDaysLabel,
+                hintText: context.loc.customRetentionDaysHint,
+                border: const OutlineInputBorder(),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(context.loc.cancelLabel),
+          ),
+          FilledButton(
+            onPressed: () {
+              final value = int.tryParse(controller.text);
+              if (value != null && value > 0) {
+                Navigator.pop(ctx, value);
+              }
+            },
+            style: FilledButton.styleFrom(
+              minimumSize: const Size(80, 40),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+            ),
+            child: Text(context.loc.saveLabel),
+          ),
+        ],
+      ),
+    );
+
+    if (result != null && mounted) {
+      setState(() {
+        _customDaysValue = result;
+      });
+      await _saveRetentionOption(LogRetentionOption.custom, customDays: result);
+    }
+  }
+
+  Future<void> _handleDeleteLogsNow() async {
+    final confirmed = await _confirmDeleteLogsNow();
+    if (!confirmed || !mounted) return;
+
+    final storage = ref.read(storageServiceProvider);
+    final cutoff = _calculateCutoffForCurrentSelection();
+
+    if (cutoff == null) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.loc.autoDeletionOffNoLogsRemoved)),
+      );
+      return;
+    }
+
+    final deletedCount = await storage.deleteLogsOlderThan(cutoff);
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          deletedCount > 0
+              ? context.loc.logDeletedCount(deletedCount)
+              : context.loc.noLogsMatchedRetention,
+        ),
+      ),
+    );
+  }
+
+  Future<bool> _confirmDeleteLogsNow() async {
+    return await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(context.loc.deleteLogNowConfirmTitle),
+        content: Text(context.loc.deleteLogNowConfirmContent),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text(context.loc.cancelLabel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            style: FilledButton.styleFrom(
+              minimumSize: const Size(80, 40),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              backgroundColor: Theme.of(ctx).colorScheme.error,
+              foregroundColor: Theme.of(ctx).colorScheme.onError,
+            ),
+            child: Text(context.loc.deleteButtonLabel),
+          ),
+        ],
+      ),
+    ) ?? false;
+  }
+
   @override
   Widget build(BuildContext context) {
     final locale = ref.watch(localeProvider);
@@ -150,7 +308,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        // Language Section
         Text(
           context.loc.language,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -172,7 +329,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
         const SizedBox(height: 32),
 
-        // Backup & Restore Section
         Text(
           context.loc.backupAndRestore,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -180,8 +336,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ),
         ),
         const SizedBox(height: 16),
-
-        // Create Backup
         _BackupRestoreTile(
           icon: Icons.backup_outlined,
           title: context.loc.createBackup,
@@ -189,10 +343,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           isProcessing: _isProcessing,
           onTap: _isProcessing ? null : _handleBackup,
         ),
-
         const SizedBox(height: 8),
-
-        // Restore Backup
         _BackupRestoreTile(
           icon: Icons.restore_outlined,
           title: context.loc.restoreBackup,
@@ -200,7 +351,160 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           isProcessing: _isProcessing,
           onTap: _isProcessing ? null : _handleRestore,
         ),
+
+        const SizedBox(height: 32),
+        Card(
+          elevation: 0,
+          color: Theme.of(context).colorScheme.surfaceContainerHighest,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+            side: BorderSide(
+              color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
+              width: 1,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  context.loc.logManagement,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+                const SizedBox(height: 16),
+                _RetentionRadioTile(
+                  title: context.loc.logRetentionOff,
+                  isSelected: _logRetentionOption == LogRetentionOption.off,
+                  onTap: () => _handleRetentionOptionChanged(LogRetentionOption.off),
+                ),
+                if (_logRetentionOption == LogRetentionOption.off) ...[
+                  const SizedBox(height: 8),
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.errorContainer,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.warning_amber_rounded,
+                          color: Theme.of(context).colorScheme.onErrorContainer,
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            context.loc.logRetentionOffWarning,
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onErrorContainer,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 8),
+                _RetentionRadioTile(
+                  title: context.loc.logRetentionThreeMonths,
+                  isSelected: _logRetentionOption == LogRetentionOption.threeMonths,
+                  onTap: () => _handleRetentionOptionChanged(LogRetentionOption.threeMonths),
+                ),
+                const SizedBox(height: 8),
+                _RetentionRadioTile(
+                  title: context.loc.logRetentionSixMonths,
+                  isSelected: _logRetentionOption == LogRetentionOption.sixMonths,
+                  onTap: () => _handleRetentionOptionChanged(LogRetentionOption.sixMonths),
+                ),
+                const SizedBox(height: 8),
+                _RetentionRadioTile(
+                  title: context.loc.logRetentionOneYear,
+                  isSelected: _logRetentionOption == LogRetentionOption.oneYear,
+                  onTap: () => _handleRetentionOptionChanged(LogRetentionOption.oneYear),
+                ),
+                const SizedBox(height: 8),
+                _RetentionRadioTile(
+                  title: _customDaysValue != null
+                      ? context.loc.customRetentionFormat(_customDaysValue!)
+                      : context.loc.logRetentionCustom,
+                  isSelected: _logRetentionOption == LogRetentionOption.custom,
+                  onTap: () async {
+                    if (_logRetentionOption != LogRetentionOption.custom) {
+                      await _handleRetentionOptionChanged(LogRetentionOption.custom);
+                    }
+                    if (mounted) {
+                      await _showCustomDaysDialog();
+                    }
+                  },
+                ),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton.icon(
+                    onPressed: _handleDeleteLogsNow,
+                    icon: const Icon(Icons.delete_outline),
+                    label: Text(context.loc.deleteLogNow),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.errorContainer,
+                      foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ],
+    );
+  }
+}
+
+class _RetentionRadioTile extends StatelessWidget {
+  const _RetentionRadioTile({
+    required this.title,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  final String title;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Card(
+      elevation: 0,
+      color: isSelected
+          ? theme.colorScheme.primaryContainer
+          : theme.colorScheme.surface,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(
+          color: isSelected
+              ? theme.colorScheme.primary
+              : theme.colorScheme.outline.withValues(alpha: 0.2),
+          width: isSelected ? 2 : 1,
+        ),
+      ),
+      child: ListTile(
+        contentPadding: const EdgeInsetsDirectional.symmetric(horizontal: 16, vertical: 4),
+        leading: Icon(
+          isSelected
+              ? Icons.radio_button_checked_outlined
+              : Icons.radio_button_unchecked_outlined,
+          color: isSelected ? theme.colorScheme.primary : theme.colorScheme.onSurfaceVariant,
+        ),
+        title: Text(title),
+        onTap: onTap,
+      ),
     );
   }
 }
