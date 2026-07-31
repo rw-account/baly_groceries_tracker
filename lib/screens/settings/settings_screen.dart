@@ -174,57 +174,91 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   Future<void> _showCustomDaysDialog() async {
-    final controller = TextEditingController(text: _customDaysValue?.toString() ?? '');
+    final controller = TextEditingController(
+      text: _customDaysValue?.toString() ?? '',
+    );
+    final formKey = GlobalKey<FormState>();
 
-    final result = await showDialog<int>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(context.loc.customRetentionDaysTitle),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(context.loc.customRetentionDaysContent),
-            const SizedBox(height: 16),
-            TextField(
-              controller: controller,
-              keyboardType: TextInputType.number,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              decoration: InputDecoration(
-                labelText: context.loc.customRetentionDaysLabel,
-                hintText: context.loc.customRetentionDaysHint,
-                border: const OutlineInputBorder(),
+    try {
+      final result = await showDialog<int>(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            title: Text(context.loc.customRetentionDaysTitle),
+            content: Form(
+              key: formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(context.loc.customRetentionDaysContent),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: controller,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    decoration: InputDecoration(
+                      labelText: context.loc.customRetentionDaysLabel,
+                      hintText: context.loc.customRetentionDaysHint,
+                      border: const OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      final text = value?.trim() ?? '';
+
+                      if (text.isEmpty) {
+                        return 'الرجاء إدخال عدد الأيام';
+                      }
+
+                      final days = int.tryParse(text);
+                      if (days == null) {
+                        return 'الرجاء إدخال رقم صحيح';
+                      }
+
+                      if (days <= 0) {
+                        return 'يجب أن يكون العدد أكبر من صفر';
+                      }
+
+                      return null;
+                    },
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: Text(context.loc.cancelLabel),
-          ),
-          FilledButton(
-            onPressed: () {
-              final value = int.tryParse(controller.text);
-              if (value != null && value > 0) {
-                Navigator.pop(ctx, value);
-              }
-            },
-            style: FilledButton.styleFrom(
-              minimumSize: const Size(80, 40),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-            ),
-            child: Text(context.loc.saveLabel),
-          ),
-        ],
-      ),
-    );
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(ctx, null),
+                child: Text(context.loc.cancelLabel),
+              ),
+              FilledButton(
+                onPressed: () {
+                  final isValid = formKey.currentState?.validate() ?? false;
+                  if (!isValid) return;
 
-    if (result != null && mounted) {
-      setState(() {
-        _customDaysValue = result;
-      });
-      await _saveRetentionOption(LogRetentionOption.custom, customDays: result);
+                  final value = int.parse(controller.text.trim());
+                  Navigator.pop(ctx, value);
+                },
+                style: FilledButton.styleFrom(
+                  minimumSize: const Size(80, 40),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                ),
+                child: Text(context.loc.saveLabel),
+              ),
+            ],
+          );
+        },
+      );
+
+      if (result != null && mounted) {
+        setState(() {
+          _customDaysValue = result;
+        });
+        await _saveRetentionOption(
+          LogRetentionOption.custom,
+          customDays: result,
+        );
+      }
+    } finally {
+      controller.dispose();
     }
   }
 
