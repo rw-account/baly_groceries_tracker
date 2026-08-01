@@ -284,7 +284,7 @@ class StorageService {
       final log = ItemChangeLogModel(
         itemId: item.id,
         actionType: actionType,
-        timestamp: DateTime.now().toUtc().toIso8601String(),
+        timestamp: DateTime.now().toIso8601String(),
         previousState: oldState?.toJson(),
         newState: item.toJson(),
         description: description,
@@ -323,7 +323,7 @@ class StorageService {
       final log = ItemChangeLogModel(
         itemId: id,
         actionType: ItemActionType.delete,
-        timestamp: DateTime.now().toUtc().toIso8601String(),
+        timestamp: DateTime.now().toIso8601String(),
         previousState: oldState?.toJson(),
         newState: null,
         description: description,
@@ -386,7 +386,7 @@ class StorageService {
     return await _database.delete(
       _itemChangeLogsTableName,
       where: 'timestamp < ?',
-      whereArgs: [cutoff.toUtc().toIso8601String()],
+      whereArgs: [cutoff.toIso8601String()],
     );
   }
 
