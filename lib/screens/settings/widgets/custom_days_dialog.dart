@@ -71,7 +71,6 @@ class _CustomDaysDialogState extends State<CustomDaysDialog> {
             const SizedBox(height: 16),
             TextFormField(
               controller: _controller,
-              autofocus: true,
               keyboardType: TextInputType.number,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               decoration: InputDecoration(
