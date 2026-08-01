@@ -47,13 +47,12 @@ DateTime? calculateLogRetentionCutoffDate({
   int? customDays,
   DateTime? referenceDate,
 }) {
-  if (option == LogRetentionOption.off) {
-    return null;
-  }
 
   final effectiveReferenceDate = referenceDate ?? DateTime.now();
 
   switch (option) {
+    case LogRetentionOption.off:
+      return null;
     case LogRetentionOption.threeMonths:
       return DateTime(
         effectiveReferenceDate.year,
@@ -81,7 +80,5 @@ DateTime? calculateLogRetentionCutoffDate({
         effectiveReferenceDate.month,
         effectiveReferenceDate.day - customDays,
       );
-    case LogRetentionOption.off:
-      return null;
   }
 }
