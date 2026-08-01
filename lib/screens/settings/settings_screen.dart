@@ -172,6 +172,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     });
 
     await _saveRetentionOption(option, customDays: customDays);
+
+    if (!mounted) return;
+    
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(context.loc.retentionPolicyUpdated),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
+    );
   }
 
   Future<void> _showCustomDaysDialog() async {
@@ -188,6 +199,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       await _saveRetentionOption(
         LogRetentionOption.custom,
         customDays: result,
+      );
+
+      if (!mounted) return;
+    
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(context.loc.retentionPolicyUpdated),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
       );
     }
   }
