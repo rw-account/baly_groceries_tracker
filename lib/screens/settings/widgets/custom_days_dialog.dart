@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:home_orders_tracker/core/utils/context_extensions.dart';
+import 'package:home_orders_tracker/screens/add_edit_item/widgets/field_utils.dart';
 
 class CustomDaysDialog extends StatefulWidget {
   final int? initialValue;
@@ -23,6 +24,8 @@ class CustomDaysDialog extends StatefulWidget {
 class _CustomDaysDialogState extends State<CustomDaysDialog> {
   late final TextEditingController _controller;
   final _formKey = GlobalKey<FormState>();
+  final _focusNode = FocusNode();
+  late final EndCursorOnFocus _cursorHelper;
 
   @override
   void initState() {
@@ -30,10 +33,16 @@ class _CustomDaysDialogState extends State<CustomDaysDialog> {
     _controller = TextEditingController(
       text: widget.initialValue?.toString() ?? '',
     );
+    _cursorHelper = EndCursorOnFocus(
+      controller: _controller,
+      focusNode: _focusNode,
+    );
   }
 
   @override
   void dispose() {
+    _cursorHelper.dispose();
+    _focusNode.dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -71,6 +80,7 @@ class _CustomDaysDialogState extends State<CustomDaysDialog> {
             const SizedBox(height: 16),
             TextFormField(
               controller: _controller,
+              focusNode: _focusNode,
               keyboardType: TextInputType.number,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               decoration: InputDecoration(
