@@ -93,6 +93,7 @@ class StorageService {
     batch.execute('CREATE INDEX IF NOT EXISTS idx_shopping_items_created_at ON $_shoppingItemsTableName(created_at)');
     batch.execute('CREATE INDEX IF NOT EXISTS idx_shopping_items_inventory_item_id ON $_shoppingItemsTableName(inventory_item_id)');
     batch.execute('CREATE INDEX IF NOT EXISTS idx_change_logs_item_id ON $_itemChangeLogsTableName(item_id)');
+    batch.execute('CREATE INDEX IF NOT EXISTS idx_change_logs_timestamp ON $_itemChangeLogsTableName(timestamp)');
 
     await batch.commit(noResult: true);
   }
