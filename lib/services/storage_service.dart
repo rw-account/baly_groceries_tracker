@@ -170,7 +170,6 @@ class StorageService {
       ItemModel(
         id: 'default_rice',
         name: isArabic ? 'ارز' : 'Rice',
-        quantityDescription: isArabic ? 'كيس 10 كيلو' : '10kg bag',
         expectedDays: 18,
         createdAt: now.subtract(const Duration(days: 16)),
         lastRefreshedAt: now.subtract(const Duration(days: 16)),
@@ -183,7 +182,6 @@ class StorageService {
       ItemModel(
         id: 'default_eggs',
         name: isArabic ? 'بيض' : 'Eggs',
-        quantityDescription: isArabic ? 'كرتونة 30 بيضة' : 'carton of 30 eggs',
         expectedDays: 14,
         createdAt: now.subtract(const Duration(days: 10)),
         lastRefreshedAt: now.subtract(const Duration(days: 10)),
@@ -196,7 +194,6 @@ class StorageService {
       ItemModel(
         id: 'default_sugar',
         name: isArabic ? 'سكر' : 'Sugar',
-        quantityDescription: isArabic ? 'كيس 5 كيلو' : '5kg bag',
         expectedDays: 14,
         createdAt: now.subtract(const Duration(days: 4)),
         lastRefreshedAt: now.subtract(const Duration(days: 4)),
