@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:home_orders_tracker/core/utils/context_extensions.dart';
-import 'package:home_orders_tracker/screens/settings/settings_screen.dart';
 
 class CustomDaysDialog extends StatefulWidget {
   final int? initialValue;
@@ -39,6 +38,25 @@ class _CustomDaysDialogState extends State<CustomDaysDialog> {
     super.dispose();
   }
 
+  String? validateCustomDaysInput(String? value) {
+    final text = value?.trim() ?? '';
+
+    if (text.isEmpty) {
+      return context.loc.fieldRequiredValidation;
+    }
+
+    final days = int.tryParse(text);
+    if (days == null) {
+      return context.loc.enterValidNumberValidation;
+    }
+
+    if (days <= 0) {
+      return context.loc.logRetentionDaysMustBePositive;
+    }
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -60,7 +78,7 @@ class _CustomDaysDialogState extends State<CustomDaysDialog> {
                 hintText: context.loc.customRetentionDaysHint,
                 border: const OutlineInputBorder(),
               ),
-              validator: (value) => validateCustomDaysInput(value, context.loc),
+              validator: (value) => validateCustomDaysInput(value),
             ),
           ],
         ),
