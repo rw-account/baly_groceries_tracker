@@ -27,148 +27,120 @@ class LogManagementSection extends StatelessWidget {
     final colorScheme = theme.colorScheme;
     final isOff = selectedOption == LogRetentionOption.off;
 
-    return Card(
-      elevation: 0,
-      color: colorScheme.surface,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-        side: BorderSide(
-          color: colorScheme.outline.withValues(alpha: 0.2),
-          width: 1,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          context.loc.logManagement,
+          style: theme.textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
         ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+        const SizedBox(height: 16),
+        
+        Card(
+          elevation: 0,
+          color: colorScheme.surfaceContainerHighest,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+            side: BorderSide(
+              color: colorScheme.outline.withValues(alpha: 0.2),
+              width: 1,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: colorScheme.primaryContainer,
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  child: Icon(
-                    Icons.history_toggle_off_rounded,
-                    color: colorScheme.onPrimaryContainer,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+                  child: Text(
+                    context.loc.logRetentionDurationLabel,
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      color: colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        context.loc.logManagement,
-                        style: theme.textTheme.titleLarge?.copyWith(
+                
+                RetentionRadioTile(
+                  title: context.loc.logRetentionOff,
+                  isSelected: isOff,
+                  onTap: () => onOptionSelected(LogRetentionOption.off),
+                ),
+                if (isOff)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(14, 0, 14, 8),
+                    child: _RetentionOffWarning(
+                      message: context.loc.logRetentionOffWarning,
+                    ),
+                  ),
+                _optionDivider(colorScheme),
+                RetentionRadioTile(
+                  title: context.loc.logRetentionThreeMonths,
+                  isSelected: selectedOption == LogRetentionOption.threeMonths,
+                  onTap: () => onOptionSelected(LogRetentionOption.threeMonths),
+                ),
+                _optionDivider(colorScheme),
+                RetentionRadioTile(
+                  title: context.loc.logRetentionSixMonths,
+                  isSelected: selectedOption == LogRetentionOption.sixMonths,
+                  onTap: () => onOptionSelected(LogRetentionOption.sixMonths),
+                ),
+                _optionDivider(colorScheme),
+                RetentionRadioTile(
+                  title: context.loc.logRetentionOneYear,
+                  isSelected: selectedOption == LogRetentionOption.oneYear,
+                  onTap: () => onOptionSelected(LogRetentionOption.oneYear),
+                ),
+                _optionDivider(colorScheme),
+                RetentionRadioTile(
+                  title: customDaysValue != null
+                      ? context.loc.customRetentionFormat(customDaysValue!)
+                      : context.loc.logRetentionCustom,
+                  isSelected: selectedOption == LogRetentionOption.custom,
+                  onTap: onCustomOptionTap,
+                ),
+
+                _optionDivider(colorScheme),
+                
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: onDeleteLogsNow,
+                      icon: Icon(
+                        Icons.delete_outline_rounded,
+                        size: 20,
+                        color: colorScheme.error,
+                      ),
+                      label: Text(
+                        context.loc.deleteLogNow,
+                        style: TextStyle(
+                          color: colorScheme.error,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        context.loc.logRetentionSectionSubtitle,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onSurfaceVariant,
-                          height: 1.3,
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(
+                          color: colorScheme.error.withValues(alpha: 0.5),
+                          width: 1.5,
                         ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ],
             ),
-
-            const SizedBox(height: 22),
-
-            Padding(
-              padding: const EdgeInsets.only(left: 2, bottom: 8),
-              child: Text(
-                context.loc.logRetentionDurationLabel,
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: colorScheme.primary,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 0.6,
-                ),
-              ),
-            ),
-
-            Container(
-              decoration: BoxDecoration(
-                color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: colorScheme.outline.withValues(alpha: 0.15),
-                ),
-              ),
-              padding: const EdgeInsets.symmetric(vertical: 6),
-              child: Column(
-                children: [
-                  RetentionRadioTile(
-                    title: context.loc.logRetentionOff,
-                    isSelected: isOff,
-                    onTap: () => onOptionSelected(LogRetentionOption.off),
-                  ),
-                  if (isOff)
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(14, 0, 14, 10),
-                      child: _RetentionOffWarning(
-                        message: context.loc.logRetentionOffWarning,
-                      ),
-                    ),
-                  _optionDivider(colorScheme),
-                  RetentionRadioTile(
-                    title: context.loc.logRetentionThreeMonths,
-                    isSelected: selectedOption == LogRetentionOption.threeMonths,
-                    onTap: () => onOptionSelected(LogRetentionOption.threeMonths),
-                  ),
-                  _optionDivider(colorScheme),
-                  RetentionRadioTile(
-                    title: context.loc.logRetentionSixMonths,
-                    isSelected: selectedOption == LogRetentionOption.sixMonths,
-                    onTap: () => onOptionSelected(LogRetentionOption.sixMonths),
-                  ),
-                  _optionDivider(colorScheme),
-                  RetentionRadioTile(
-                    title: context.loc.logRetentionOneYear,
-                    isSelected: selectedOption == LogRetentionOption.oneYear,
-                    onTap: () => onOptionSelected(LogRetentionOption.oneYear),
-                  ),
-                  _optionDivider(colorScheme),
-                  RetentionRadioTile(
-                    title: customDaysValue != null
-                        ? context.loc.customRetentionFormat(customDaysValue!)
-                        : context.loc.logRetentionCustom,
-                    isSelected: selectedOption == LogRetentionOption.custom,
-                    onTap: onCustomOptionTap,
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 16),
-
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton.icon(
-                onPressed: onDeleteLogsNow,
-                icon: const Icon(Icons.delete_outline),
-                label: Text(context.loc.deleteLogNow),
-                style: FilledButton.styleFrom(
-                  backgroundColor: colorScheme.errorContainer,
-                  foregroundColor: colorScheme.onErrorContainer,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 
@@ -177,7 +149,8 @@ class LogManagementSection extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 14),
       child: Divider(
         height: 1,
-        color: colorScheme.outline.withValues(alpha: 0.12),
+        thickness: 1,
+        color: colorScheme.outline.withValues(alpha: 0.15),
       ),
     );
   }
