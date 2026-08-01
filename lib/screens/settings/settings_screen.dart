@@ -297,7 +297,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final localeNotifier = ref.read(localeProvider.notifier);
 
     return ListView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 60),
       children: [
         LanguageSection(
           currentLanguageCode: currentLocale.languageCode,
