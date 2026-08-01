@@ -1747,5 +1747,125 @@
   "disabledText": "معطّل",
   "@disabledText": {
     "description": "Text for Disabled"
+  },
+
+  "customRetentionDaysTitle": "أيام الاحتفاظ المخصصة",
+  "@customRetentionDaysTitle": {
+    "description": "Title for the custom retention days dialog"
+  },
+
+  "customRetentionDaysContent": "أدخل عدد الأيام للاحتفاظ بالسجلات.",
+  "@customRetentionDaysContent": {
+    "description": "Content text for the custom retention days dialog"
+  },
+
+  "customRetentionDaysLabel": "عدد الأيام",
+  "@customRetentionDaysLabel": {
+    "description": "Label for the custom retention days text field"
+  },
+
+  "customRetentionDaysHint": "مثال: 30",
+  "@customRetentionDaysHint": {
+    "description": "Hint text for the custom retention days text field"
+  },
+
+  "autoDeletionOffNoLogsRemoved": "الحذف التلقائي معطل. لم تتم إزالة أي سجلات.",
+  "@autoDeletionOffNoLogsRemoved": {
+    "description": "SnackBar message when auto-deletion is off and no logs were removed"
+  },
+
+  "logDeletedCount": "تم حذف {deletedCount} سجل.",
+  "@logDeletedCount": {
+    "description": "SnackBar message showing the number of deleted logs",
+    "placeholders": {
+      "deletedCount": {
+        "type": "int"
+      }
+    }
+  },
+
+  "noLogsMatchedRetention": "لا توجد سجلات تطابق سياسة الاحتفاظ.",
+  "@noLogsMatchedRetention": {
+    "description": "SnackBar message when no logs matched the retention criteria"
+  },
+
+  "deleteLogNowConfirmTitle": "حذف السجلات الآن؟",
+  "@deleteLogNowConfirmTitle": {
+    "description": "Title for the delete logs now confirmation dialog"
+  },
+
+  "deleteLogNowConfirmContent": "هل أنت متأكد أنك تريد حذف السجلات الأقدم من فترة الاحتفاظ المحددة؟",
+  "@deleteLogNowConfirmContent": {
+    "description": "Content for the delete logs now confirmation dialog"
+  },
+
+    "logManagement": "إدارة السجلات",
+  "@logManagement": {
+    "description": "Title for the log management section"
+  },
+
+  "logRetentionOff": "إيقاف",
+  "@logRetentionOff": {
+    "description": "Radio button title for turning off log retention"
+  },
+
+  "logRetentionOffWarning": "سيؤدي هذا إلى الاحتفاظ بجميع السجلات إلى الأبد، مما قد يستهلك مساحة تخزين كبيرة.",
+  "@logRetentionOffWarning": {
+    "description": "Warning message displayed when log retention is turned off"
+  },
+
+  "logRetentionThreeMonths": "3 أشهر",
+  "@logRetentionThreeMonths": {
+    "description": "Radio button title for 3 months log retention"
+  },
+
+  "logRetentionSixMonths": "6 أشهر",
+  "@logRetentionSixMonths": {
+    "description": "Radio button title for 6 months log retention"
+  },
+
+  "logRetentionOneYear": "سنة واحدة",
+  "@logRetentionOneYear": {
+    "description": "Radio button title for 1 year log retention"
+  },
+
+  "customRetentionFormat": "مخصص ({days} يوم)",
+  "@customRetentionFormat": {
+    "description": "Radio button title for custom log retention, formatted with the number of days",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+
+  "logRetentionCustom": "مخصص",
+  "@logRetentionCustom": {
+    "description": "Radio button title for custom log retention when no value is set yet"
+  },
+
+  "deleteLogNow": "حذف السجلات الآن",
+  "@deleteLogNow": {
+    "description": "Label for the delete logs now button"
+  },
+
+  "customRetentionDaysValidationError": "يرجى إدخال عدد أيام صحيح (يوم واحد على الأقل)",
+  "@customRetentionDaysValidationError": {
+    "description": "Validation error message shown in the dialog when the custom retention days input is empty, non-numeric, or less than 1."
+  },
+
+  "logRetentionSectionSubtitle": "حدد المدة التي يحتفظ فيها التطبيق بسجل التغييرات قبل حذفه تلقائياً.",
+  "@logRetentionSectionSubtitle": {
+    "description": "Subtitle explaining that these settings control how long change history logs are kept before automatic deletion"
+  },
+
+  "logRetentionDurationLabel": "مدة الاحتفاظ بالسجل",
+  "@logRetentionDurationLabel": {
+    "description": "Label displayed above retention options to indicate the log retention duration setting"
+  },
+
+  "logRetentionDaysMustBePositive": "يجب أن يكون العدد أكبر من صفر",
+  "@logRetentionDaysMustBePositive": {
+    "description": "Validation error shown when the entered number is zero or negative"
   }
 }

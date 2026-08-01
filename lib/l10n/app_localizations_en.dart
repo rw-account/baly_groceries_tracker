@@ -1046,4 +1046,81 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get disabledText => 'Disabled';
+
+  @override
+  String get customRetentionDaysTitle => 'Custom Retention Days';
+
+  @override
+  String get customRetentionDaysContent =>
+      'Enter the number of days to retain logs.';
+
+  @override
+  String get customRetentionDaysLabel => 'Number of Days';
+
+  @override
+  String get customRetentionDaysHint => 'e.g., 30';
+
+  @override
+  String get autoDeletionOffNoLogsRemoved =>
+      'Auto-deletion is off. No logs were removed.';
+
+  @override
+  String logDeletedCount(int deletedCount) {
+    return '$deletedCount logs deleted.';
+  }
+
+  @override
+  String get noLogsMatchedRetention => 'No logs matched the retention policy.';
+
+  @override
+  String get deleteLogNowConfirmTitle => 'Delete Logs Now?';
+
+  @override
+  String get deleteLogNowConfirmContent =>
+      'Are you sure you want to delete logs older than the selected retention period?';
+
+  @override
+  String get logManagement => 'Log Management';
+
+  @override
+  String get logRetentionOff => 'Off';
+
+  @override
+  String get logRetentionOffWarning =>
+      'This will keep all logs forever, which may consume significant storage space.';
+
+  @override
+  String get logRetentionThreeMonths => '3 Months';
+
+  @override
+  String get logRetentionSixMonths => '6 Months';
+
+  @override
+  String get logRetentionOneYear => '1 Year';
+
+  @override
+  String customRetentionFormat(int days) {
+    return 'Custom ($days days)';
+  }
+
+  @override
+  String get logRetentionCustom => 'Custom';
+
+  @override
+  String get deleteLogNow => 'Delete Logs Now';
+
+  @override
+  String get customRetentionDaysValidationError =>
+      'Please enter a valid number of days (at least 1 day)';
+
+  @override
+  String get logRetentionSectionSubtitle =>
+      'Choose how long the app keeps change history before it is automatically deleted.';
+
+  @override
+  String get logRetentionDurationLabel => 'Log retention duration';
+
+  @override
+  String get logRetentionDaysMustBePositive =>
+      'The number must be greater than zero';
 }

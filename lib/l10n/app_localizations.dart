@@ -1933,6 +1933,138 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'معطّل'**
   String get disabledText;
+
+  /// Title for the custom retention days dialog
+  ///
+  /// In ar, this message translates to:
+  /// **'أيام الاحتفاظ المخصصة'**
+  String get customRetentionDaysTitle;
+
+  /// Content text for the custom retention days dialog
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل عدد الأيام للاحتفاظ بالسجلات.'**
+  String get customRetentionDaysContent;
+
+  /// Label for the custom retention days text field
+  ///
+  /// In ar, this message translates to:
+  /// **'عدد الأيام'**
+  String get customRetentionDaysLabel;
+
+  /// Hint text for the custom retention days text field
+  ///
+  /// In ar, this message translates to:
+  /// **'مثال: 30'**
+  String get customRetentionDaysHint;
+
+  /// SnackBar message when auto-deletion is off and no logs were removed
+  ///
+  /// In ar, this message translates to:
+  /// **'الحذف التلقائي معطل. لم تتم إزالة أي سجلات.'**
+  String get autoDeletionOffNoLogsRemoved;
+
+  /// SnackBar message showing the number of deleted logs
+  ///
+  /// In ar, this message translates to:
+  /// **'تم حذف {deletedCount} سجل.'**
+  String logDeletedCount(int deletedCount);
+
+  /// SnackBar message when no logs matched the retention criteria
+  ///
+  /// In ar, this message translates to:
+  /// **'لا توجد سجلات تطابق سياسة الاحتفاظ.'**
+  String get noLogsMatchedRetention;
+
+  /// Title for the delete logs now confirmation dialog
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف السجلات الآن؟'**
+  String get deleteLogNowConfirmTitle;
+
+  /// Content for the delete logs now confirmation dialog
+  ///
+  /// In ar, this message translates to:
+  /// **'هل أنت متأكد أنك تريد حذف السجلات الأقدم من فترة الاحتفاظ المحددة؟'**
+  String get deleteLogNowConfirmContent;
+
+  /// Title for the log management section
+  ///
+  /// In ar, this message translates to:
+  /// **'إدارة السجلات'**
+  String get logManagement;
+
+  /// Radio button title for turning off log retention
+  ///
+  /// In ar, this message translates to:
+  /// **'إيقاف'**
+  String get logRetentionOff;
+
+  /// Warning message displayed when log retention is turned off
+  ///
+  /// In ar, this message translates to:
+  /// **'سيؤدي هذا إلى الاحتفاظ بجميع السجلات إلى الأبد، مما قد يستهلك مساحة تخزين كبيرة.'**
+  String get logRetentionOffWarning;
+
+  /// Radio button title for 3 months log retention
+  ///
+  /// In ar, this message translates to:
+  /// **'3 أشهر'**
+  String get logRetentionThreeMonths;
+
+  /// Radio button title for 6 months log retention
+  ///
+  /// In ar, this message translates to:
+  /// **'6 أشهر'**
+  String get logRetentionSixMonths;
+
+  /// Radio button title for 1 year log retention
+  ///
+  /// In ar, this message translates to:
+  /// **'سنة واحدة'**
+  String get logRetentionOneYear;
+
+  /// Radio button title for custom log retention, formatted with the number of days
+  ///
+  /// In ar, this message translates to:
+  /// **'مخصص ({days} يوم)'**
+  String customRetentionFormat(int days);
+
+  /// Radio button title for custom log retention when no value is set yet
+  ///
+  /// In ar, this message translates to:
+  /// **'مخصص'**
+  String get logRetentionCustom;
+
+  /// Label for the delete logs now button
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف السجلات الآن'**
+  String get deleteLogNow;
+
+  /// Validation error message shown in the dialog when the custom retention days input is empty, non-numeric, or less than 1.
+  ///
+  /// In ar, this message translates to:
+  /// **'يرجى إدخال عدد أيام صحيح (يوم واحد على الأقل)'**
+  String get customRetentionDaysValidationError;
+
+  /// Subtitle explaining that these settings control how long change history logs are kept before automatic deletion
+  ///
+  /// In ar, this message translates to:
+  /// **'حدد المدة التي يحتفظ فيها التطبيق بسجل التغييرات قبل حذفه تلقائياً.'**
+  String get logRetentionSectionSubtitle;
+
+  /// Label displayed above retention options to indicate the log retention duration setting
+  ///
+  /// In ar, this message translates to:
+  /// **'مدة الاحتفاظ بالسجل'**
+  String get logRetentionDurationLabel;
+
+  /// Validation error shown when the entered number is zero or negative
+  ///
+  /// In ar, this message translates to:
+  /// **'يجب أن يكون العدد أكبر من صفر'**
+  String get logRetentionDaysMustBePositive;
 }
 
 class _AppLocalizationsDelegate

@@ -1041,4 +1041,79 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get disabledText => 'معطّل';
+
+  @override
+  String get customRetentionDaysTitle => 'أيام الاحتفاظ المخصصة';
+
+  @override
+  String get customRetentionDaysContent => 'أدخل عدد الأيام للاحتفاظ بالسجلات.';
+
+  @override
+  String get customRetentionDaysLabel => 'عدد الأيام';
+
+  @override
+  String get customRetentionDaysHint => 'مثال: 30';
+
+  @override
+  String get autoDeletionOffNoLogsRemoved =>
+      'الحذف التلقائي معطل. لم تتم إزالة أي سجلات.';
+
+  @override
+  String logDeletedCount(int deletedCount) {
+    return 'تم حذف $deletedCount سجل.';
+  }
+
+  @override
+  String get noLogsMatchedRetention => 'لا توجد سجلات تطابق سياسة الاحتفاظ.';
+
+  @override
+  String get deleteLogNowConfirmTitle => 'حذف السجلات الآن؟';
+
+  @override
+  String get deleteLogNowConfirmContent =>
+      'هل أنت متأكد أنك تريد حذف السجلات الأقدم من فترة الاحتفاظ المحددة؟';
+
+  @override
+  String get logManagement => 'إدارة السجلات';
+
+  @override
+  String get logRetentionOff => 'إيقاف';
+
+  @override
+  String get logRetentionOffWarning =>
+      'سيؤدي هذا إلى الاحتفاظ بجميع السجلات إلى الأبد، مما قد يستهلك مساحة تخزين كبيرة.';
+
+  @override
+  String get logRetentionThreeMonths => '3 أشهر';
+
+  @override
+  String get logRetentionSixMonths => '6 أشهر';
+
+  @override
+  String get logRetentionOneYear => 'سنة واحدة';
+
+  @override
+  String customRetentionFormat(int days) {
+    return 'مخصص ($days يوم)';
+  }
+
+  @override
+  String get logRetentionCustom => 'مخصص';
+
+  @override
+  String get deleteLogNow => 'حذف السجلات الآن';
+
+  @override
+  String get customRetentionDaysValidationError =>
+      'يرجى إدخال عدد أيام صحيح (يوم واحد على الأقل)';
+
+  @override
+  String get logRetentionSectionSubtitle =>
+      'حدد المدة التي يحتفظ فيها التطبيق بسجل التغييرات قبل حذفه تلقائياً.';
+
+  @override
+  String get logRetentionDurationLabel => 'مدة الاحتفاظ بالسجل';
+
+  @override
+  String get logRetentionDaysMustBePositive => 'يجب أن يكون العدد أكبر من صفر';
 }

@@ -1747,5 +1747,125 @@
   "disabledText": "Disabled",
   "@disabledText": {
     "description": "Text for Disabled"
+  },
+
+  "customRetentionDaysTitle": "Custom Retention Days",
+  "@customRetentionDaysTitle": {
+    "description": "Title for the custom retention days dialog"
+  },
+
+  "customRetentionDaysContent": "Enter the number of days to retain logs.",
+  "@customRetentionDaysContent": {
+    "description": "Content text for the custom retention days dialog"
+  },
+
+  "customRetentionDaysLabel": "Number of Days",
+  "@customRetentionDaysLabel": {
+    "description": "Label for the custom retention days text field"
+  },
+
+  "customRetentionDaysHint": "e.g., 30",
+  "@customRetentionDaysHint": {
+    "description": "Hint text for the custom retention days text field"
+  },
+
+  "autoDeletionOffNoLogsRemoved": "Auto-deletion is off. No logs were removed.",
+  "@autoDeletionOffNoLogsRemoved": {
+    "description": "SnackBar message when auto-deletion is off and no logs were removed"
+  },
+
+  "logDeletedCount": "{deletedCount} logs deleted.",
+  "@logDeletedCount": {
+    "description": "SnackBar message showing the number of deleted logs",
+    "placeholders": {
+      "deletedCount": {
+        "type": "int"
+      }
+    }
+  },
+
+  "noLogsMatchedRetention": "No logs matched the retention policy.",
+  "@noLogsMatchedRetention": {
+    "description": "SnackBar message when no logs matched the retention criteria"
+  },
+
+  "deleteLogNowConfirmTitle": "Delete Logs Now?",
+  "@deleteLogNowConfirmTitle": {
+    "description": "Title for the delete logs now confirmation dialog"
+  },
+
+  "deleteLogNowConfirmContent": "Are you sure you want to delete logs older than the selected retention period?",
+  "@deleteLogNowConfirmContent": {
+    "description": "Content for the delete logs now confirmation dialog"
+  },
+
+    "logManagement": "Log Management",
+  "@logManagement": {
+    "description": "Title for the log management section"
+  },
+
+  "logRetentionOff": "Off",
+  "@logRetentionOff": {
+    "description": "Radio button title for turning off log retention"
+  },
+
+  "logRetentionOffWarning": "This will keep all logs forever, which may consume significant storage space.",
+  "@logRetentionOffWarning": {
+    "description": "Warning message displayed when log retention is turned off"
+  },
+
+  "logRetentionThreeMonths": "3 Months",
+  "@logRetentionThreeMonths": {
+    "description": "Radio button title for 3 months log retention"
+  },
+
+  "logRetentionSixMonths": "6 Months",
+  "@logRetentionSixMonths": {
+    "description": "Radio button title for 6 months log retention"
+  },
+
+  "logRetentionOneYear": "1 Year",
+  "@logRetentionOneYear": {
+    "description": "Radio button title for 1 year log retention"
+  },
+
+  "customRetentionFormat": "Custom ({days} days)",
+  "@customRetentionFormat": {
+    "description": "Radio button title for custom log retention, formatted with the number of days",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+
+  "logRetentionCustom": "Custom",
+  "@logRetentionCustom": {
+    "description": "Radio button title for custom log retention when no value is set yet"
+  },
+
+  "deleteLogNow": "Delete Logs Now",
+  "@deleteLogNow": {
+    "description": "Label for the delete logs now button"
+  },
+
+  "customRetentionDaysValidationError": "Please enter a valid number of days (at least 1 day)",
+  "@customRetentionDaysValidationError": {
+    "description": "Validation error message shown in the dialog when the custom retention days input is empty, non-numeric, or less than 1."
+  },
+
+  "logRetentionSectionSubtitle": "Choose how long the app keeps change history before it is automatically deleted.",
+  "@logRetentionSectionSubtitle": {
+    "description": "Subtitle explaining that these settings control how long change history logs are kept before automatic deletion"
+  },
+
+  "logRetentionDurationLabel": "Log retention duration",
+  "@logRetentionDurationLabel": {
+    "description": "Label displayed above retention options to indicate the log retention duration setting"
+  },
+
+  "logRetentionDaysMustBePositive": "The number must be greater than zero",
+  "@logRetentionDaysMustBePositive": {
+    "description": "Validation error shown when the entered number is zero or negative"
   }
 }
