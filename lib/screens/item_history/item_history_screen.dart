@@ -117,7 +117,7 @@ class ItemHistoryScreen extends ConsumerWidget {
     );
 
     if (confirmed == true && context.mounted) {
-      final formattedDate = DateFormat('yyyy/MM/dd hh:mm a', 'en').format(log.timestampDateTime.toLocal());
+      final formattedDate = DateFormat('yyyy/MM/dd hh:mm a', 'en').format(log.timestampDateTime);
       final dateStr = '\u200E$formattedDate';
       final revertDescription = context.loc.revertDescription(dateStr);
 
@@ -156,9 +156,7 @@ class _LogItemCard extends StatelessWidget {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
 
-    // Convert UTC timestamp to local time ONLY for display
-    final localTime = log.timestampDateTime.toLocal();
-    final formattedDate = '\u200E${DateFormat('yyyy/MM/dd hh:mm a', 'en').format(localTime)}';
+    final formattedDate = '\u200E${DateFormat('yyyy/MM/dd hh:mm a', 'en').format(log.timestampDateTime)}';
 
     final oldState = log.parsedPreviousState;
     final newState = log.parsedNewState;
@@ -286,10 +284,7 @@ class _LogItemCard extends StatelessWidget {
     if (d1 == null && d2 == null) return true;
     if (d1 == null || d2 == null) return false;
     
-    final l1 = d1.toLocal();
-    final l2 = d2.toLocal();
-    
-    return l1.year == l2.year && l1.month == l2.month && l1.day == l2.day;
+    return d1.year == d2.year && d1.month == d2.month && d1.day == d2.day;
   }
 
   /// Analyzes state changes between item versions and converts them into
