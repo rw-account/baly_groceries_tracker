@@ -1,5 +1,7 @@
 // lib/models/log_retention_option.dart
 
+import 'package:jiffy/jiffy.dart';
+
 enum LogRetentionOption {
   off,
   threeMonths,
@@ -42,43 +44,36 @@ extension LogRetentionOptionX on LogRetentionOption {
   }
 }
 
+/// Calculates the minimum retention date/time for logs.
+/// The logic relies on actual elapsed time using the Jiffy library:
+/// - Months/years/days are subtracted while preserving hours, minutes, and seconds.
+/// - Variations in month lengths are handled automatically by Jiffy
+///   (e.g., March 31 - 1 month = February 28/29).
 DateTime? calculateLogRetentionCutoffDate({
   required LogRetentionOption option,
   int? customDays,
   DateTime? referenceDate,
 }) {
-
   final effectiveReferenceDate = referenceDate ?? DateTime.now();
+  final jiffy = Jiffy.parseFromDateTime(effectiveReferenceDate);
 
   switch (option) {
     case LogRetentionOption.off:
       return null;
+
     case LogRetentionOption.threeMonths:
-      return DateTime(
-        effectiveReferenceDate.year,
-        effectiveReferenceDate.month - 3,
-        effectiveReferenceDate.day,
-      );
+      return jiffy.subtract(months: 3).dateTime;
+
     case LogRetentionOption.sixMonths:
-      return DateTime(
-        effectiveReferenceDate.year,
-        effectiveReferenceDate.month - 6,
-        effectiveReferenceDate.day,
-      );
+      return jiffy.subtract(months: 6).dateTime;
+
     case LogRetentionOption.oneYear:
-      return DateTime(
-        effectiveReferenceDate.year - 1,
-        effectiveReferenceDate.month,
-        effectiveReferenceDate.day,
-      );
+      return jiffy.subtract(years: 1).dateTime;
+
     case LogRetentionOption.custom:
       if (customDays == null || customDays <= 0) {
         return null;
       }
-      return DateTime(
-        effectiveReferenceDate.year,
-        effectiveReferenceDate.month,
-        effectiveReferenceDate.day - customDays,
-      );
+      return jiffy.subtract(days: customDays).dateTime;
   }
 }
