@@ -16,7 +16,7 @@ class ItemChangeLogModel extends Equatable {
   final int? id;
   final String itemId;
   final String actionType;
-  final String timestamp; // UTC ISO-8601 string
+  final String timestamp; // Local time stored as ISO-8601 string
   final String? previousState; // JSON string
   final String? newState; // JSON string
   final String? description;
