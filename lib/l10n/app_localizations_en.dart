@@ -1123,4 +1123,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get logRetentionDaysMustBePositive =>
       'The number must be greater than zero';
+
+  @override
+  String get retentionPolicyUpdated => 'Log retention policy updated';
 }

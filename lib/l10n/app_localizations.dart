@@ -2065,6 +2065,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'يجب أن يكون العدد أكبر من صفر'**
   String get logRetentionDaysMustBePositive;
+
+  /// SnackBar message displayed when the log retention policy is updated
+  ///
+  /// In ar, this message translates to:
+  /// **'تم تحديث سياسة الاحتفاظ بالسجلات'**
+  String get retentionPolicyUpdated;
 }
 
 class _AppLocalizationsDelegate

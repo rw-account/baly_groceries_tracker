@@ -1116,4 +1116,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get logRetentionDaysMustBePositive => 'يجب أن يكون العدد أكبر من صفر';
+
+  @override
+  String get retentionPolicyUpdated => 'تم تحديث سياسة الاحتفاظ بالسجلات';
 }

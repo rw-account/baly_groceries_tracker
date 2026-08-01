@@ -1867,5 +1867,10 @@
   "logRetentionDaysMustBePositive": "The number must be greater than zero",
   "@logRetentionDaysMustBePositive": {
     "description": "Validation error shown when the entered number is zero or negative"
+  },
+
+  "retentionPolicyUpdated": "Log retention policy updated",
+  "@retentionPolicyUpdated": {
+    "description": "SnackBar message displayed when the log retention policy is updated"
   }
 }
