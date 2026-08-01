@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:home_orders_tracker/providers/item_history_provider.dart';
 import 'package:restart_app/restart_app.dart';
 import '../../core/utils/context_extensions.dart';
 import '../../l10n/app_localizations.dart';
@@ -279,6 +280,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     }
 
     final deletedCount = await storage.deleteLogsOlderThan(cutoff);
+
+    if (deletedCount > 0) {
+      ref.invalidate(itemHistoryProvider);
+    }
+
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
