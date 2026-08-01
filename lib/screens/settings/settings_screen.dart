@@ -251,6 +251,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       if (result != null && mounted) {
         setState(() {
           _customDaysValue = result;
+          _logRetentionOption = LogRetentionOption.custom;
         });
         await _saveRetentionOption(
           LogRetentionOption.custom,
@@ -468,12 +469,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       : context.loc.logRetentionCustom,
                   isSelected: _logRetentionOption == LogRetentionOption.custom,
                   onTap: () async {
-                    if (_logRetentionOption != LogRetentionOption.custom) {
-                      await _handleRetentionOptionChanged(LogRetentionOption.custom);
-                    }
-                    if (mounted) {
-                      await _showCustomDaysDialog();
-                    }
+                    await _showCustomDaysDialog();
                   },
                 ),
                 const SizedBox(height: 12),
