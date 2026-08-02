@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:home_orders_tracker/core/theme/app_theme.dart';
 import 'package:intl/intl.dart';
 import 'package:home_orders_tracker/core/utils/context_extensions.dart';
@@ -9,6 +10,7 @@ import 'package:home_orders_tracker/models/item_change_log_model.dart';
 import 'package:home_orders_tracker/models/item_model.dart';
 import 'package:home_orders_tracker/providers/item_history_provider.dart';
 import 'package:home_orders_tracker/providers/items_provider.dart';
+import 'package:home_orders_tracker/router/route_paths.dart';
 
 String _formatFullDateTime(DateTime date) {
   return DateFormat('yyyy/MM/dd - hh:mm:ss a', 'en').format(date);
@@ -125,21 +127,38 @@ class ItemHistoryScreen extends ConsumerWidget {
       final dateStr = '\u200E$formattedDate';
       final revertDescription = context.loc.revertDescription(dateStr);
 
-      await ref.read(itemsProvider.notifier).revertItemToVersion(
+      final restoredItem = await ref.read(itemsProvider.notifier).revertItemToVersion(
             itemId: itemId,
             logEntry: log,
             description: revertDescription,
           );
 
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(context.loc.revertSuccess),
-            behavior: SnackBarBehavior.floating,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          ),
-        );
+        if (restoredItem != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(context.loc.revertSuccess),
+              behavior: SnackBarBehavior.floating,
+              duration: const Duration(seconds: 3),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          );
+
+          context.go(RoutePaths.editItemPath(itemId));
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(context.loc.revertFailed),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Theme.of(context).colorScheme.error,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          );
+        }
       }
     }
   }

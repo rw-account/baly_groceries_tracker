@@ -1850,6 +1850,12 @@ abstract class AppLocalizations {
   /// **'تمت استعادة نسخة العنصر بنجاح.'**
   String get revertSuccess;
 
+  /// Snackbar message when reverting item version fails
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذرت استعادة نسخة العنصر.'**
+  String get revertFailed;
+
   /// Description string logged when reverting
   ///
   /// In ar, this message translates to:

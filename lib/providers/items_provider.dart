@@ -112,13 +112,13 @@ class ItemsNotifier extends _$ItemsNotifier {
 
   /// Reverts an item's current state to a specific log version snapshot.
   /// The revert action itself is saved as a new update log entry.
-  Future<void> revertItemToVersion({
+  Future<ItemModel?> revertItemToVersion({
     required String itemId,
     required ItemChangeLogModel logEntry,
     required String description,
   }) async {
     final targetState = logEntry.parsedNewState ?? logEntry.parsedPreviousState;
-    if (targetState == null) return;
+    if (targetState == null) return null;
 
     final restoredItem = targetState.copyWith(id: itemId);
 
@@ -127,6 +127,8 @@ class ItemsNotifier extends _$ItemsNotifier {
       actionType: ItemActionType.update,
       description: description,
     );
+
+    return restoredItem;
   }
 
   /// Finds a single item by its [id].

@@ -987,6 +987,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get revertSuccess => 'تمت استعادة نسخة العنصر بنجاح.';
 
   @override
+  String get revertFailed => 'تعذرت استعادة نسخة العنصر.';
+
+  @override
   String revertDescription(String date) {
     return 'تمت الاستعادة إلى نسخة $date';
   }

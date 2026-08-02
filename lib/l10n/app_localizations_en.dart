@@ -992,6 +992,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get revertSuccess => 'Successfully reverted item version.';
 
   @override
+  String get revertFailed => 'Failed to revert item version.';
+
+  @override
   String revertDescription(String date) {
     return 'Reverted to version from $date';
   }

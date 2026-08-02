@@ -1650,6 +1650,11 @@
     "description": "Snackbar message after successful revert"
   },
 
+  "revertFailed": "Failed to revert item version.",
+  "@revertFailed": {
+    "description": "Snackbar message when reverting item version fails"
+  },
+
   "revertDescription": "Reverted to version from {date}",
   "@revertDescription": {
     "description": "Description string logged when reverting",

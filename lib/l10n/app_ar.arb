@@ -1650,6 +1650,11 @@
     "description": "Snackbar message after successful revert"
   },
 
+  "revertFailed": "تعذرت استعادة نسخة العنصر.",
+  "@revertFailed": {
+    "description": "Snackbar message when reverting item version fails"
+  },
+
   "revertDescription": "تمت الاستعادة إلى نسخة {date}",
   "@revertDescription": {
     "description": "Description string logged when reverting",
