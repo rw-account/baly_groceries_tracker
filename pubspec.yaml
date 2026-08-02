@@ -55,7 +55,7 @@ flutter:
   generate: true
 
   assets:
-    - assets/
+    - assets/icons/
   
   fonts:
     - family: Tajawal
@@ -77,18 +77,18 @@ flutter:
 
 flutter_launcher_icons:
   android: true
-  image_path: "assets/icon.png"
+  image_path: "assets/icons/icon.png"
   adaptive_icon_background: "#01071B"
-  adaptive_icon_foreground: "assets/icon.png"
+  adaptive_icon_foreground: "assets/icons/icon.png"
 
 flutter_native_splash:
   color: "#01071B"
-  image: assets/splash_icon.png
+  image: assets/icons/splash_icon.png
 
   android: true
   ios: true
   web: false
 
   android_12:
-    image: assets/splash_icon.png
+    image: assets/icons/splash_icon.png
     color: "#01071B"
