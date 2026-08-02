@@ -1719,9 +1719,13 @@
     "description": "Diff text for notes change"
   },
 
-  "diffRefreshedAtChanged": "Last refreshed date updated",
-  "@diffRefreshedAtChanged": {
-    "description": "Diff text for refreshed date change"
+  "diffRefreshedAtChangedFromTo": "Renewal date:\n    From: {oldVal}\n    To:      {newVal}",
+  "@diffRefreshedAtChangedFromTo": {
+    "description": "Diff text for refreshed date change with full old/new timestamps",
+    "placeholders": {
+      "oldVal": {"type": "String"},
+      "newVal": {"type": "String"}
+    }
   },
 
   "diffItemCreated": "Item created with initial settings",

@@ -1719,9 +1719,13 @@
     "description": "Diff text for notes change"
   },
 
-  "diffRefreshedAtChanged": "تم تحديث تاريخ التجديد",
-  "@diffRefreshedAtChanged": {
-    "description": "Diff text for refreshed date change"
+  "diffRefreshedAtChangedFromTo": "تاريخ التجديد:\n    من:  {oldVal}\n    إلى: {newVal}",
+  "@diffRefreshedAtChangedFromTo": {
+    "description": "Diff text for refreshed date change with full old/new timestamps",
+    "placeholders": {
+      "oldVal": {"type": "String"},
+      "newVal": {"type": "String"}
+    }
   },
 
   "diffItemCreated": "تم إنشاء العنصر بالإعدادات الأولية",

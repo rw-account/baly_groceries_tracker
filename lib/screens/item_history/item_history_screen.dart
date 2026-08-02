@@ -10,6 +10,10 @@ import 'package:home_orders_tracker/models/item_model.dart';
 import 'package:home_orders_tracker/providers/item_history_provider.dart';
 import 'package:home_orders_tracker/providers/items_provider.dart';
 
+String _formatFullDateTime(DateTime date) {
+  return DateFormat('yyyy/MM/dd - hh:mm:ss a', 'en').format(date);
+}
+
 class ItemHistoryScreen extends ConsumerWidget {
   final String itemId;
 
@@ -117,7 +121,7 @@ class ItemHistoryScreen extends ConsumerWidget {
     );
 
     if (confirmed == true && context.mounted) {
-      final formattedDate = DateFormat('yyyy/MM/dd hh:mm a', 'en').format(log.timestampDateTime);
+      final formattedDate = _formatFullDateTime(log.timestampDateTime);
       final dateStr = '\u200E$formattedDate';
       final revertDescription = context.loc.revertDescription(dateStr);
 
@@ -132,7 +136,8 @@ class ItemHistoryScreen extends ConsumerWidget {
           SnackBar(
             content: Text(context.loc.revertSuccess),
             behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           ),
         );
       }
@@ -156,11 +161,12 @@ class _LogItemCard extends StatelessWidget {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
 
-    final formattedDate = '\u200E${DateFormat('yyyy/MM/dd hh:mm a', 'en').format(log.timestampDateTime)}';
+    final formattedDate = '\u200E${_formatFullDateTime(log.timestampDateTime)}';
 
     final oldState = log.parsedPreviousState;
     final newState = log.parsedNewState;
-    final diffSentences = _buildDiffSentences(context, oldState, newState, log.actionType);
+    final diffSentences =
+        _buildDiffSentences(context, oldState, newState, log.actionType);
 
     final tagInfo = _getTagInfo(context, log.actionType);
 
@@ -171,7 +177,8 @@ class _LogItemCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
         side: BorderSide(
-          color: isLatest ? cs.primary.withValues(alpha: 0.5) : cs.outlineVariant,
+          color:
+              isLatest ? cs.primary.withValues(alpha: 0.5) : cs.outlineVariant,
           width: isLatest ? 1.5 : 1,
         ),
       ),
@@ -184,7 +191,8 @@ class _LogItemCard extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
                     color: tagInfo.backgroundColor,
                     borderRadius: BorderRadius.circular(20),
@@ -192,7 +200,8 @@ class _LogItemCard extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(tagInfo.icon, size: 14, color: tagInfo.foregroundColor),
+                      Icon(tagInfo.icon,
+                          size: 14, color: tagInfo.foregroundColor),
                       const SizedBox(width: 4),
                       Text(
                         tagInfo.label,
@@ -204,16 +213,32 @@ class _LogItemCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                const Spacer(),
-                Icon(Icons.access_time_rounded, size: 14, color: cs.onSurfaceVariant),
-                const SizedBox(width: 4),
-                Text(
-                  formattedDate,
-                  style: theme.textTheme.bodySmall?.copyWith(color: cs.onSurfaceVariant),
+                const SizedBox(width: 12),
+                Flexible(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Icon(Icons.access_time_rounded,
+                          size: 14, color: cs.onSurfaceVariant),
+                      const SizedBox(width: 4),
+                      Flexible(
+                        child: Text(
+                          formattedDate,
+                          textAlign: TextAlign.end,
+                          softWrap: true,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: cs.onSurfaceVariant,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-            if (log.description != null && log.description!.trim().isNotEmpty) ...[
+            if (log.description != null &&
+                log.description!.trim().isNotEmpty) ...[
               const SizedBox(height: 8),
               Text(
                 log.description!,
@@ -267,8 +292,10 @@ class _LogItemCard extends StatelessWidget {
                   style: OutlinedButton.styleFrom(
                     foregroundColor: cs.primary,
                     side: BorderSide(color: cs.primary.withValues(alpha: 0.6)),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   ),
                 ),
               ),
@@ -279,12 +306,17 @@ class _LogItemCard extends StatelessWidget {
     );
   }
 
-  /// Checks if two nullable DateTimes represent the exact same calendar day.
-  bool _isSameDay(DateTime? d1, DateTime? d2) {
+  String _formatNullableFullDateTime(DateTime? date) {
+    if (date == null) return '-';
+    return '\u200E${_formatFullDateTime(date)}';
+  }
+
+  /// Checks if two nullable DateTimes represent the exact same moment.
+  bool _isSameMoment(DateTime? d1, DateTime? d2) {
     if (d1 == null && d2 == null) return true;
     if (d1 == null || d2 == null) return false;
-    
-    return d1.year == d2.year && d1.month == d2.month && d1.day == d2.day;
+
+    return d1.isAtSameMomentAs(d2);
   }
 
   /// Analyzes state changes between item versions and converts them into
@@ -303,9 +335,11 @@ class _LogItemCard extends StatelessWidget {
         diffs.add(loc.diffItemCreated);
         diffs.add('${loc.itemNameFieldLabel}: ${newItem.name}');
         if (newItem.quantityDescription.isNotEmpty) {
-          diffs.add('${loc.quantityDescriptionLabel}: ${newItem.quantityDescription}');
+          diffs.add(
+              '${loc.quantityDescriptionLabel}: ${newItem.quantityDescription}');
         }
-        diffs.add('${loc.expectedDaysLabel}: ${newItem.expectedDays} ${loc.daysSuffix}');
+        diffs.add(
+            '${loc.expectedDaysLabel}: ${newItem.expectedDays} ${loc.daysSuffix}');
       }
       return diffs;
     }
@@ -359,8 +393,11 @@ class _LogItemCard extends StatelessWidget {
       diffs.add(loc.diffNotesChanged);
     }
 
-    if (!_isSameDay(oldItem.lastRefreshedAt, newItem.lastRefreshedAt)) {
-      diffs.add(loc.diffRefreshedAtChanged);
+    if (!_isSameMoment(oldItem.lastRefreshedAt, newItem.lastRefreshedAt)) {
+      diffs.add(loc.diffRefreshedAtChangedFromTo(
+        _formatNullableFullDateTime(oldItem.lastRefreshedAt),
+        _formatNullableFullDateTime(newItem.lastRefreshedAt),
+      ));
     }
 
     if (diffs.isEmpty) {
@@ -370,7 +407,7 @@ class _LogItemCard extends StatelessWidget {
     return diffs;
   }
 
-  /// Returns the tag styling and metadata (color, label, and icon) 
+  /// Returns the tag styling and metadata (color, label, and icon)
   /// associated with a specific [ItemActionType] for the log card header.
   _TagInfo _getTagInfo(BuildContext context, String actionType) {
     final cs = Theme.of(context).colorScheme;

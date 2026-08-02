@@ -1025,7 +1025,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get diffNotesChanged => 'تم تحديث الملاحظات';
 
   @override
-  String get diffRefreshedAtChanged => 'تم تحديث تاريخ التجديد';
+  String diffRefreshedAtChangedFromTo(String oldVal, String newVal) {
+    return 'تاريخ التجديد:\n    من:  $oldVal\n    إلى: $newVal';
+  }
 
   @override
   String get diffItemCreated => 'تم إنشاء العنصر بالإعدادات الأولية';

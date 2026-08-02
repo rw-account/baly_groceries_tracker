@@ -1030,7 +1030,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get diffNotesChanged => 'Notes updated';
 
   @override
-  String get diffRefreshedAtChanged => 'Last refreshed date updated';
+  String diffRefreshedAtChangedFromTo(String oldVal, String newVal) {
+    return 'Renewal date:\n    From: $oldVal\n    To:      $newVal';
+  }
 
   @override
   String get diffItemCreated => 'Item created with initial settings';
