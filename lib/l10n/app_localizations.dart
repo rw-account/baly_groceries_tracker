@@ -1901,7 +1901,7 @@ abstract class AppLocalizations {
   /// Diff text for refreshed date change with full old/new timestamps
   ///
   /// In ar, this message translates to:
-  /// **'تاريخ التجديد:\n    من: {oldVal}\n    إلى: {newVal}'**
+  /// **'تاريخ التجديد:\n    من : {oldVal}\n    إلى: {newVal}'**
   String diffRefreshedAtChangedFromTo(String oldVal, String newVal);
 
   /// Diff text when item was created

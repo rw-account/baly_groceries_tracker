@@ -1719,7 +1719,7 @@
     "description": "Diff text for notes change"
   },
 
-  "diffRefreshedAtChangedFromTo": "تاريخ التجديد:\n    من: {oldVal}\n    إلى: {newVal}",
+  "diffRefreshedAtChangedFromTo": "تاريخ التجديد:\n    من\u200a: {oldVal}\n    إلى: {newVal}",
   "@diffRefreshedAtChangedFromTo": {
     "description": "Diff text for refreshed date change with full old/new timestamps",
     "placeholders": {
