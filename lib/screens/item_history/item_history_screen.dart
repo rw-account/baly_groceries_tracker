@@ -122,7 +122,7 @@ class ItemHistoryScreen extends ConsumerWidget {
       ),
     );
 
-    if (confirmed == true && context.mounted) {
+if (confirmed == true && context.mounted) {
       final formattedDate = _formatFullDateTime(log.timestampDateTime);
       final dateStr = '\u200E$formattedDate';
       final revertDescription = context.loc.revertDescription(dateStr);
@@ -134,30 +134,42 @@ class ItemHistoryScreen extends ConsumerWidget {
           );
 
       if (context.mounted) {
+        final theme = Theme.of(context);
+        final messenger = ScaffoldMessenger.of(context);
+
         if (restoredItem != null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(context.loc.revertSuccess),
-              behavior: SnackBarBehavior.floating,
-              duration: const Duration(seconds: 3),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+          messenger
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Text(context.loc.revertSuccess),
+                behavior: SnackBarBehavior.floating,
+                margin: const EdgeInsets.all(16),
+                duration: const Duration(seconds: 3),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
-            ),
-          );
+            );
 
           context.go(RoutePaths.editItemPath(itemId));
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(context.loc.revertFailed),
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Theme.of(context).colorScheme.error,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+          messenger
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Text(
+                  context.loc.revertFailed,
+                  style: TextStyle(color: theme.colorScheme.onError),
+                ),
+                backgroundColor: theme.colorScheme.error,
+                behavior: SnackBarBehavior.floating,
+                margin: const EdgeInsets.all(16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
-            ),
-          );
+            );
         }
       }
     }
