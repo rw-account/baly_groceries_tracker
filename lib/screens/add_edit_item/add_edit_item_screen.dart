@@ -451,6 +451,29 @@ class _AddEditItemScreenState extends AddEditItemState
           ),
         ),
       ],
+      const SizedBox(height: 6),
+      Padding(
+        padding: const EdgeInsetsDirectional.only(start: 12),
+        child: Row(
+          children: [
+            Icon(
+              Icons.info_outline_rounded,
+              size: 16,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+            const SizedBox(width: 6),
+            Expanded(
+              child: Text(
+                context.loc.expectedDaysNote,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      fontWeight: FontWeight.w400,
+                    ),
+              ),
+            ),
+          ],
+        ),
+      ),
       const SizedBox(height: 16),
       RefreshDateField(
         dateController: dateCtrl,
