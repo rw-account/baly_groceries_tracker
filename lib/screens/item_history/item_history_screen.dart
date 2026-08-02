@@ -122,57 +122,92 @@ class ItemHistoryScreen extends ConsumerWidget {
       ),
     );
 
-if (confirmed == true && context.mounted) {
+    if (confirmed != true || !context.mounted) return;
+
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return PopScope(
+          canPop: false,
+          child: AlertDialog(
+            content: Row(
+              children: [
+                const CircularProgressIndicator(),
+                const SizedBox(width: 20),
+                Text(context.loc.loading),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+
+    try {
       final formattedDate = _formatFullDateTime(log.timestampDateTime);
       final dateStr = '\u200E$formattedDate';
       final revertDescription = context.loc.revertDescription(dateStr);
 
-      final restoredItem = await ref.read(itemsProvider.notifier).revertItemToVersion(
+      final restoredItem = await ref
+          .read(itemsProvider.notifier)
+          .revertItemToVersion(
             itemId: itemId,
             logEntry: log,
             description: revertDescription,
           );
 
+      if (!context.mounted) return;
+
+      Navigator.of(context, rootNavigator: true).pop();
+
+      if (restoredItem != null) {
+        _showSuccessSnackBar(context, context.loc.revertSuccess);
+        context.go(RoutePaths.editItemPath(itemId));
+      } else {
+        _showErrorSnackBar(context, context.loc.revertFailed);
+      }
+    } catch (e) {
       if (context.mounted) {
-        final theme = Theme.of(context);
-        final messenger = ScaffoldMessenger.of(context);
-
-        if (restoredItem != null) {
-          messenger
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Text(context.loc.revertSuccess),
-                behavior: SnackBarBehavior.floating,
-                margin: const EdgeInsets.all(16),
-                duration: const Duration(seconds: 3),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-            );
-
-          context.go(RoutePaths.editItemPath(itemId));
-        } else {
-          messenger
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Text(
-                  context.loc.revertFailed,
-                  style: TextStyle(color: theme.colorScheme.onError),
-                ),
-                backgroundColor: theme.colorScheme.error,
-                behavior: SnackBarBehavior.floating,
-                margin: const EdgeInsets.all(16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-            );
-        }
+        Navigator.of(context, rootNavigator: true).pop();
+        _showErrorSnackBar(context, context.loc.revertFailed);
       }
     }
+  }
+
+  void _showSuccessSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(message),
+          behavior: SnackBarBehavior.floating,
+          margin: const EdgeInsets.all(16),
+          duration: const Duration(seconds: 3),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      );
+  }
+
+  void _showErrorSnackBar(BuildContext context, String message) {
+    final theme = Theme.of(context);
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(
+            message,
+            style: TextStyle(color: theme.colorScheme.onError),
+          ),
+          backgroundColor: theme.colorScheme.error,
+          behavior: SnackBarBehavior.floating,
+          margin: const EdgeInsets.all(16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      );
   }
 }
 
