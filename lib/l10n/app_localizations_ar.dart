@@ -1026,7 +1026,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String diffRefreshedAtChangedFromTo(String oldVal, String newVal) {
-    return 'تاريخ التجديد:\n    من:  $oldVal\n    إلى: $newVal';
+    return 'تاريخ التجديد:\n    من: $oldVal\n    إلى: $newVal';
   }
 
   @override
