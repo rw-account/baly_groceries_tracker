@@ -1872,5 +1872,10 @@
   "retentionPolicyUpdated": "تم تحديث سياسة الاحتفاظ بالسجلات",
   "@retentionPolicyUpdated": {
     "description": "SnackBar message displayed when the log retention policy is updated"
+  },
+
+  "expectedDaysNote": "يكفي رقم تقريبي، ولا يشترط أن يكون دقيقًا بنسبة 100٪",
+  "@expectedDaysNote": {
+    "description": "Helper text explaining that the expected depletion days can be an approximate estimate."
   }
 }

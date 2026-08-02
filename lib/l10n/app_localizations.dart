@@ -2071,6 +2071,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تم تحديث سياسة الاحتفاظ بالسجلات'**
   String get retentionPolicyUpdated;
+
+  /// Helper text explaining that the expected depletion days can be an approximate estimate.
+  ///
+  /// In ar, this message translates to:
+  /// **'يكفي رقم تقريبي، ولا يشترط أن يكون دقيقًا بنسبة 100٪'**
+  String get expectedDaysNote;
 }
 
 class _AppLocalizationsDelegate

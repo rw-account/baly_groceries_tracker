@@ -1126,4 +1126,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get retentionPolicyUpdated => 'Log retention policy updated';
+
+  @override
+  String get expectedDaysNote =>
+      'An approximate number is enough; it doesn\'t have to be 100% accurate.';
 }

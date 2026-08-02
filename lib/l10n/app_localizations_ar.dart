@@ -1119,4 +1119,8 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get retentionPolicyUpdated => 'تم تحديث سياسة الاحتفاظ بالسجلات';
+
+  @override
+  String get expectedDaysNote =>
+      'يكفي رقم تقريبي، ولا يشترط أن يكون دقيقًا بنسبة 100٪';
 }

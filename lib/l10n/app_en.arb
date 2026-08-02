@@ -1872,5 +1872,10 @@
   "retentionPolicyUpdated": "Log retention policy updated",
   "@retentionPolicyUpdated": {
     "description": "SnackBar message displayed when the log retention policy is updated"
+  },
+
+  "expectedDaysNote": "An approximate number is enough; it doesn't have to be 100% accurate.",
+  "@expectedDaysNote": {
+    "description": "Helper text explaining that the expected depletion days can be an approximate estimate."
   }
 }
