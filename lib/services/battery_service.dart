@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:app_settings/app_settings.dart';
 import '../../../core/utils/context_extensions.dart';
+import '../../core/utils/ui_helpers.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Business Logic: Battery Service
@@ -132,7 +133,7 @@ Future<void> checkAndShowBatteryDialog(BuildContext context) async {
 
   // 5. Show error fallback if opening settings failed
   if (!success && context.mounted) {
-    _showErrorSnackBar(context);
+    showErrorSnackBar(context, context.loc.batterySnackBarError);
   }
 }
 
@@ -159,17 +160,4 @@ Future<bool?> _showBatteryDialog(BuildContext context) {
       ],
     ),
   );
-}
-
-/// Shows a SnackBar indicating that opening settings failed, with a retry action.
-void _showErrorSnackBar(BuildContext context) {
-  ScaffoldMessenger.of(context)
-    ..clearSnackBars()
-    ..showSnackBar(
-      SnackBar(
-        behavior: SnackBarBehavior.floating,
-        duration: const Duration(seconds: 10),
-        content: Text(context.loc.batterySnackBarError),
-      ),
-    );
 }
