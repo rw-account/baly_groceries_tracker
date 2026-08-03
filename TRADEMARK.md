@@ -4,7 +4,7 @@
 
 The source code for **Home Orders Tracker (متابعة طلبات البيت)** is licensed under the **MIT License**. This license applies only to the source code.
 
-The project name, official logo, app icon, and other branding assets are **not** covered by the MIT License and remain the intellectual property of the original author.
+The project name, official logo, app icon, and other branding assets are not covered by the MIT License and remain the intellectual property of Ramy Waheeb (@rw-account).
 
 ---
 
