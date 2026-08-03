@@ -92,7 +92,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                           OutlinedButton.icon(
                             onPressed: () async {
                               final uri = Uri.parse(
-                                  'https://github.com/USERNAME/REPOSITORY');
+                                  'https://github.com/rw-account/home_orders_tracker.git');
                               try {
                                 if (await canLaunchUrl(uri)) {
                                   await launchUrl(
