@@ -1523,7 +1523,7 @@ abstract class AppLocalizations {
   /// Body text for first onboarding page
   ///
   /// In ar, this message translates to:
-  /// **'انقل عناء التفكير بمستلزمات البيت بالكامل إلى التطبيق. تتبع النواقص بذكاء ووفر طاقتك الذهنية لما هو أهم.'**
+  /// **'انقل عناء التفكير في احتياجات المنزل إلى التطبيق. تتبع النواقص بذكاء ووفر طاقتك الذهنية لما هو أهم.'**
   String get onboardingBody1;
 
   /// Title for second onboarding page
@@ -1535,7 +1535,7 @@ abstract class AppLocalizations {
   /// Body text for second onboarding page
   ///
   /// In ar, this message translates to:
-  /// **'تصلك تنبيهات عند اقتراب النواقص من النفاد، لتبقى مستعداً دائماً وتتجنب النقص المفاجئ.'**
+  /// **'تصلك تنبيهات عند اقتراب المواد من النفاد، لتبقى مستعداً دائماً وتتجنب النقص المفاجئ.'**
   String get onboardingBody2;
 
   /// Title for third onboarding page

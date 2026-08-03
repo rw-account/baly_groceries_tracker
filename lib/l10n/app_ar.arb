@@ -1360,7 +1360,8 @@
   "@onboardingTitle2": {
     "description": "Title for second onboarding page"
   },
-  "onboardingBody2": "تصلك تنبيهات عند اقتراب النواقص من النفاد، لتبقى مستعداً دائماً وتتجنب النقص المفاجئ.",
+
+  "onboardingBody2": "تصلك تنبيهات عند اقتراب المواد من النفاد، لتبقى مستعداً دائماً وتتجنب النقص المفاجئ.",
   "@onboardingBody2": {
     "description": "Body text for second onboarding page"
   },

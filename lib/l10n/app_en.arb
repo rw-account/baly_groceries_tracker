@@ -1360,6 +1360,7 @@
   "@onboardingTitle2": {
     "description": "Title for second onboarding page"
   },
+  
   "onboardingBody2": "Receive alerts when items are running low, so you stay prepared and avoid sudden shortages.",
   "@onboardingBody2": {
     "description": "Body text for second onboarding page"

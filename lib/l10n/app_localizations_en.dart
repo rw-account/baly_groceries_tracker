@@ -805,7 +805,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingBody1 =>
-      'Transfer the burden of tracking household needs entirely to the app. Smartly track what\'s running low and save your mental energy for what truly matters.';
+      'Transfer the burden of thinking about household needs to the app. Smartly track what\'s running low and save your mental energy for what truly matters.';
 
   @override
   String get onboardingTitle2 => 'Timely Alerts, No Surprises';
