@@ -1523,7 +1523,7 @@ abstract class AppLocalizations {
   /// Body text for first onboarding page
   ///
   /// In ar, this message translates to:
-  /// **'انقل عناء التفكير بمتطلبات البيت بالكامل إلى تطبيقك. تتبع النواقص بذكاء ووفر طاقتك الذهنية لما هو أهم.'**
+  /// **'انقل عناء التفكير بمستلزمات البيت بالكامل إلى التطبيق. تتبع النواقص بذكاء ووفر طاقتك الذهنية لما هو أهم.'**
   String get onboardingBody1;
 
   /// Title for second onboarding page

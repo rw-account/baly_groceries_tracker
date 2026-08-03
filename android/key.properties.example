@@ -1,5 +1,18 @@
-# App signing configuration template - Fill in the values below and save this file as key.properties
-STORE_FILE=your-keystore-file.jks
-STORE_PASSWORD=your_keystore_password_here
+# ==============================================================================
+# Android App Signing Configuration Template
+# ==============================================================================
+# Instructions:
+# 1. Copy this file and rename the copy to 'key.properties' in the 'android/' directory.
+# 2. Fill in your actual keystore credentials below.
+# 3. NEVER commit your real 'key.properties' or '.jks' file to Git.
+# ==============================================================================
+
+# Path to your .jks file (Relative to the 'android/app' directory)
+# - If placed in 'android/app/': use 'upload-keystore.jks'
+# - If placed in 'android/':     use '../upload-keystore.jks'
+STORE_FILE=upload-keystore.jks
+
+# Keystore credentials
+STORE_PASSWORD=your_store_password_here
 KEY_ALIAS=your_key_alias_here
 KEY_PASSWORD=your_key_password_here
