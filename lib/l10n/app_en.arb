@@ -1351,7 +1351,7 @@
     "description": "Title for first onboarding page"
   },
 
-  "onboardingBody1": "Transfer the burden of tracking household needs entirely to the app. Smartly track what's running low and save your mental energy for what truly matters.",
+  "onboardingBody1": "Transfer the burden of thinking about household needs to the app. Smartly track what's running low and save your mental energy for what truly matters.",
   "@onboardingBody1": {
     "description": "Body text for first onboarding page"
   },

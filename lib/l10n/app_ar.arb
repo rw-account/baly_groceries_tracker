@@ -1351,7 +1351,7 @@
     "description": "Title for first onboarding page"
   },
 
-  "onboardingBody1": "انقل عناء التفكير بمستلزمات البيت بالكامل إلى التطبيق. تتبع النواقص بذكاء ووفر طاقتك الذهنية لما هو أهم.",
+  "onboardingBody1": "انقل عناء التفكير في احتياجات المنزل إلى التطبيق. تتبع النواقص بذكاء ووفر طاقتك الذهنية لما هو أهم.",
   "@onboardingBody1": {
     "description": "Body text for first onboarding page"
   },
