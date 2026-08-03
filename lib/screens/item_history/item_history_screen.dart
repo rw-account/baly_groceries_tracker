@@ -11,6 +11,7 @@ import 'package:home_orders_tracker/models/item_model.dart';
 import 'package:home_orders_tracker/providers/item_history_provider.dart';
 import 'package:home_orders_tracker/providers/items_provider.dart';
 import 'package:home_orders_tracker/router/route_paths.dart';
+import '../../core/utils/ui_helpers.dart';
 
 String _formatFullDateTime(DateTime date) {
   return DateFormat('yyyy/MM/dd - hh:mm:ss a', 'en').format(date);
@@ -161,53 +162,17 @@ class ItemHistoryScreen extends ConsumerWidget {
       Navigator.of(context, rootNavigator: true).pop();
 
       if (restoredItem != null) {
-        _showSuccessSnackBar(context, context.loc.revertSuccess);
+        showSuccessSnackBar(context, context.loc.revertSuccess);
         context.go(RoutePaths.editItemPath(itemId));
       } else {
-        _showErrorSnackBar(context, context.loc.revertFailed);
+        showErrorSnackBar(context, context.loc.revertFailed);
       }
     } catch (e) {
       if (context.mounted) {
         Navigator.of(context, rootNavigator: true).pop();
-        _showErrorSnackBar(context, context.loc.revertFailed);
+        showErrorSnackBar(context, context.loc.revertFailed);
       }
     }
-  }
-
-  void _showSuccessSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          content: Text(message),
-          behavior: SnackBarBehavior.floating,
-          margin: const EdgeInsets.all(16),
-          duration: const Duration(seconds: 3),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-      );
-  }
-
-  void _showErrorSnackBar(BuildContext context, String message) {
-    final theme = Theme.of(context);
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          content: Text(
-            message,
-            style: TextStyle(color: theme.colorScheme.onError),
-          ),
-          backgroundColor: theme.colorScheme.error,
-          behavior: SnackBarBehavior.floating,
-          margin: const EdgeInsets.all(16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-      );
   }
 }
 

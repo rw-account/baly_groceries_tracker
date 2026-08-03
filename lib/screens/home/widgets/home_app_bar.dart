@@ -5,6 +5,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/utils/context_extensions.dart';
 import '../../../router/route_paths.dart';
+import '../../../core/utils/ui_helpers.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   final int urgentCount;
@@ -99,21 +100,13 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                                     mode: LaunchMode.externalApplication,
                                   );
                                 } else if (context.mounted) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                          context.loc.githubLinkOpenFailed),
-                                    ),
-                                  );
+                                  showErrorSnackBar(
+                                      context, context.loc.githubLinkOpenFailed);
                                 }
                               } catch (e) {
                                 if (context.mounted) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content:
-                                          Text(context.loc.githubLinkOpenError),
-                                    ),
-                                  );
+                                  showErrorSnackBar(
+                                      context, context.loc.githubLinkOpenError);
                                 }
                               }
                             },
