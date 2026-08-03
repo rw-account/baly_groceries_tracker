@@ -254,11 +254,47 @@ abstract class AppLocalizations {
   /// **'متابعة طلبات البيت'**
   String get appTitle;
 
+  /// Menu item text for opening the about dialog
+  ///
+  /// In ar, this message translates to:
+  /// **'عن التطبيق'**
+  String get aboutLabel;
+
   /// Menu item text for sharing item details
   ///
   /// In ar, this message translates to:
   /// **'مشاركة تفاصيل المواد'**
   String get shareItemDetails;
+
+  /// Description text shown in the about dialog
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا التطبيق مجاني ومفتوح المصدر. يمكنك زيارة صفحة المشروع الرسمية على GitHub:'**
+  String get aboutDialogDescription;
+
+  /// SnackBar message shown when the GitHub link cannot be opened
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذر فتح الرابط، تأكد من وجود متصفح مثبت'**
+  String get githubLinkOpenFailed;
+
+  /// SnackBar message shown when opening the GitHub link throws an error
+  ///
+  /// In ar, this message translates to:
+  /// **'حدث خطأ أثناء فتح الرابط'**
+  String get githubLinkOpenError;
+
+  /// Close button label
+  ///
+  /// In ar, this message translates to:
+  /// **'إغلاق'**
+  String get closeLabel;
+
+  /// Button label for opening the app licenses page
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض التراخيص'**
+  String get showLicensesLabel;
 
   /// Title for the shopping list screen app bar
   ///

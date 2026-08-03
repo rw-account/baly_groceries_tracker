@@ -97,7 +97,26 @@ class AppLocalizationsAr extends AppLocalizations {
   String get appTitle => 'متابعة طلبات البيت';
 
   @override
+  String get aboutLabel => 'عن التطبيق';
+
+  @override
   String get shareItemDetails => 'مشاركة تفاصيل المواد';
+
+  @override
+  String get aboutDialogDescription =>
+      'هذا التطبيق مجاني ومفتوح المصدر. يمكنك زيارة صفحة المشروع الرسمية على GitHub:';
+
+  @override
+  String get githubLinkOpenFailed => 'تعذر فتح الرابط، تأكد من وجود متصفح مثبت';
+
+  @override
+  String get githubLinkOpenError => 'حدث خطأ أثناء فتح الرابط';
+
+  @override
+  String get closeLabel => 'إغلاق';
+
+  @override
+  String get showLicensesLabel => 'عرض التراخيص';
 
   @override
   String get shoppingListTitle => 'قائمة الشراء';

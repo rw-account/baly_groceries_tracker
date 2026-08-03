@@ -161,9 +161,39 @@
     "description": "App title shown in the home app bar"
   },
 
+  "aboutLabel": "عن التطبيق",
+  "@aboutLabel": {
+    "description": "Menu item text for opening the about dialog"
+  },
+
   "shareItemDetails": "مشاركة تفاصيل المواد",
   "@shareItemDetails": {
     "description": "Menu item text for sharing item details"
+  },
+
+  "aboutDialogDescription": "هذا التطبيق مجاني ومفتوح المصدر. يمكنك زيارة صفحة المشروع الرسمية على GitHub:",
+  "@aboutDialogDescription": {
+    "description": "Description text shown in the about dialog"
+  },
+
+  "githubLinkOpenFailed": "تعذر فتح الرابط، تأكد من وجود متصفح مثبت",
+  "@githubLinkOpenFailed": {
+    "description": "SnackBar message shown when the GitHub link cannot be opened"
+  },
+
+  "githubLinkOpenError": "حدث خطأ أثناء فتح الرابط",
+  "@githubLinkOpenError": {
+    "description": "SnackBar message shown when opening the GitHub link throws an error"
+  },
+
+  "closeLabel": "إغلاق",
+  "@closeLabel": {
+    "description": "Close button label"
+  },
+
+  "showLicensesLabel": "عرض التراخيص",
+  "@showLicensesLabel": {
+    "description": "Button label for opening the app licenses page"
   },
 
   "shoppingListTitle": "قائمة الشراء",

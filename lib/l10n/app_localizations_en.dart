@@ -97,7 +97,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'Home Orders Tracker';
 
   @override
+  String get aboutLabel => 'About';
+
+  @override
   String get shareItemDetails => 'Share item details';
+
+  @override
+  String get aboutDialogDescription =>
+      'This app is free and open source. You can visit the official project page on GitHub:';
+
+  @override
+  String get githubLinkOpenFailed =>
+      'Could not open the link. Make sure a browser is installed.';
+
+  @override
+  String get githubLinkOpenError => 'An error occurred while opening the link.';
+
+  @override
+  String get closeLabel => 'Close';
+
+  @override
+  String get showLicensesLabel => 'Show licenses';
 
   @override
   String get shoppingListTitle => 'Shopping List';

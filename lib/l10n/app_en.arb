@@ -161,9 +161,39 @@
     "description": "App title shown in the home app bar"
   },
 
+  "aboutLabel": "About",
+  "@aboutLabel": {
+    "description": "Menu item text for opening the about dialog"
+  },
+
   "shareItemDetails": "Share item details",
   "@shareItemDetails": {
     "description": "Menu item text for sharing item details"
+  },
+
+  "aboutDialogDescription": "This app is free and open source. You can visit the official project page on GitHub:",
+  "@aboutDialogDescription": {
+    "description": "Description text shown in the about dialog"
+  },
+
+  "githubLinkOpenFailed": "Could not open the link. Make sure a browser is installed.",
+  "@githubLinkOpenFailed": {
+    "description": "SnackBar message shown when the GitHub link cannot be opened"
+  },
+
+  "githubLinkOpenError": "An error occurred while opening the link.",
+  "@githubLinkOpenError": {
+    "description": "SnackBar message shown when opening the GitHub link throws an error"
+  },
+
+  "closeLabel": "Close",
+  "@closeLabel": {
+    "description": "Close button label"
+  },
+
+  "showLicensesLabel": "Show licenses",
+  "@showLicensesLabel": {
+    "description": "Button label for opening the app licenses page"
   },
 
   "shoppingListTitle": "Shopping List",
