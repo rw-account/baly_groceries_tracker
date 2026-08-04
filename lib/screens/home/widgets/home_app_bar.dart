@@ -1,6 +1,7 @@
 // lib/screens/home/widgets/home_app_bar.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:home_orders_tracker/providers/locale_provider.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/utils/context_extensions.dart';
@@ -92,7 +93,10 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                           OutlinedButton.icon(
                             onPressed: () async {
                               final uri = Uri.parse(
-                                  'https://github.com/rw-account/home_orders_tracker.git');
+                                LocaleNotifier.currentLanguage == 'ar'
+                                    ? 'https://github.com/rw-account/home_orders_tracker/blob/main/README_AR.md'
+                                    : 'https://github.com/rw-account/home_orders_tracker.git',
+                              );
                               try {
                                 if (await canLaunchUrl(uri)) {
                                   await launchUrl(
@@ -100,8 +104,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                                     mode: LaunchMode.externalApplication,
                                   );
                                 } else if (context.mounted) {
-                                  showErrorSnackBar(
-                                      context, context.loc.githubLinkOpenFailed);
+                                  showErrorSnackBar(context,
+                                      context.loc.githubLinkOpenFailed);
                                 }
                               } catch (e) {
                                 if (context.mounted) {
