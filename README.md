@@ -12,7 +12,7 @@
 
 **Home Orders Tracker** helps you keep track of your household essentials, letting you see at a glance how much you have left of eggs, flour, rice, and other everyday items, so you always know what's running low and what's still well stocked.
 
-This helps you prioritize your shopping, giving you greater control over your household budget. By notifying you before essential items run out, the app gives you a chance to set aside part of your budget for them before mindlessly spending it on non-essential purchases. It also reduces the worry of unexpectedly running out of everyday necessities, giving you peace of mind by always keeping you informed about what you have at home.
+This helps you prioritize your shopping, giving you greater control over your household budget. By notifying you before essential items run out, the app gives you a chance to set aside part of your budget for them before mindlessly spending it on non-essential purchases, which reduces the chance of facing a financial crisis. It also eases the anxiety of unexpectedly running out of everyday necessities, giving you peace of mind by always keeping you informed about what you have at home. Additionally, the app offers several features, most notably:
 
 The app also includes a wide range of useful features, including:
 
