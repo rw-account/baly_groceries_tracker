@@ -94,7 +94,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statusUrgent => 'Urgent';
 
   @override
-  String get appTitle => 'Home Orders Tracker';
+  String get appTitle => 'Baly Groceries Tracker';
 
   @override
   String get aboutLabel => 'About';
@@ -700,7 +700,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get batterySnackBarError =>
-      'Could not open settings automatically. To ensure reminder notifications appear, go to Settings > Apps > Home Orders Tracker > Battery > Allow background activity';
+      'Could not open settings automatically. To ensure reminder notifications appear, go to Settings > Apps > Baly Groceries Tracker > Battery > Allow background activity';
 
   @override
   String get notificationChannelName => 'Daily Summary';
@@ -710,7 +710,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'A daily notification showing items that need attention';
 
   @override
-  String get notificationTitle => 'Home Orders Summary';
+  String get notificationTitle => 'Items About to Run Out';
 
   @override
   String get notificationUrgentPrefix => '🔴 Urgent: ';
@@ -801,11 +801,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loading => 'Loading...';
 
   @override
-  String get onboardingTitle1 => 'Organized Home, Peace of Mind';
+  String get onboardingTitle1 => 'Reduce Grocery Stress';
 
   @override
   String get onboardingBody1 =>
-      'Transfer the burden of thinking about household needs to the app. Smartly track what\'s running low and save your mental energy for what truly matters.';
+      'Stop worrying about what\'s running low. Let the app keep track of your groceries while you focus on what matters most.';
 
   @override
   String get onboardingTitle2 => 'Timely Alerts, No Surprises';

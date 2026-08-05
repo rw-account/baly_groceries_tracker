@@ -1,4 +1,4 @@
-package com.home_orders_tracker.app
+package com.baly_groceries_tracker.app
 
 import android.content.Context
 import android.os.Build
@@ -9,7 +9,7 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
 class MainActivity: FlutterActivity() {
-    private val BATTERY_CHANNEL = "com.home_orders_tracker.app/battery_optimization"
+    private val BATTERY_CHANNEL = "com.baly_groceries_tracker.app/battery_optimization"
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)

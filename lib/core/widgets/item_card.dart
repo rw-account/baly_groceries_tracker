@@ -1,7 +1,7 @@
 // lib/core/widgets/item_card.dart
 
 import 'package:flutter/material.dart';
-import 'package:home_orders_tracker/core/theme/app_theme.dart';
+import 'package:baly_groceries_tracker/core/theme/app_theme.dart';
 import 'package:intl/intl.dart';
 import '../../models/item_model.dart';
 import '../utils/relative_date_utils.dart';

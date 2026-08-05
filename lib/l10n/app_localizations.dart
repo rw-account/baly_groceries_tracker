@@ -251,7 +251,7 @@ abstract class AppLocalizations {
   /// App title shown in the home app bar
   ///
   /// In ar, this message translates to:
-  /// **'متابعة طلبات البيت'**
+  /// **'Baly Groceries Tracker'**
   String get appTitle;
 
   /// Menu item text for opening the about dialog
@@ -965,7 +965,7 @@ abstract class AppLocalizations {
   /// App bar title for the expiry screen
   ///
   /// In ar, this message translates to:
-  /// **'عناصر على وشك النفاد'**
+  /// **'مواد على وشك النفاد'**
   String get expiryScreenTitle;
 
   /// Menu item for adding all items to shopping list
@@ -1337,7 +1337,7 @@ abstract class AppLocalizations {
   /// Title for daily summary notification
   ///
   /// In ar, this message translates to:
-  /// **'ملخص طلبات البيت'**
+  /// **'مواد على وشك النفاد'**
   String get notificationTitle;
 
   /// Prefix for urgent items in notification
@@ -1517,13 +1517,13 @@ abstract class AppLocalizations {
   /// Title for first onboarding page
   ///
   /// In ar, this message translates to:
-  /// **'بيت منظم، وراحة بال'**
+  /// **'قلل القلق بشأن احتياجات المنزل'**
   String get onboardingTitle1;
 
   /// Body text for first onboarding page
   ///
   /// In ar, this message translates to:
-  /// **'انقل عناء التفكير في احتياجات المنزل إلى التطبيق. تتبع النواقص بذكاء ووفر طاقتك الذهنية لما هو أهم.'**
+  /// **'لا تقلق بشأن ما أوشك على النفاد. دع التطبيق يتابع احتياجات منزلك، بينما تركز على ما هو أهم.'**
   String get onboardingBody1;
 
   /// Title for second onboarding page

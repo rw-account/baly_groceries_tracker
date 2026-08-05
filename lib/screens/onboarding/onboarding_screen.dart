@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:home_orders_tracker/providers/app_state_provider.dart';
-import 'package:home_orders_tracker/providers/items_provider.dart';
-import 'package:home_orders_tracker/providers/storage_service_provider.dart';
-import 'package:home_orders_tracker/core/theme/app_theme.dart';
-import 'package:home_orders_tracker/l10n/app_localizations.dart';
+import 'package:baly_groceries_tracker/providers/app_state_provider.dart';
+import 'package:baly_groceries_tracker/providers/items_provider.dart';
+import 'package:baly_groceries_tracker/providers/storage_service_provider.dart';
+import 'package:baly_groceries_tracker/core/theme/app_theme.dart';
+import 'package:baly_groceries_tracker/l10n/app_localizations.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 Widget _buildLuxuryIcon(BuildContext context, IconData icon) {

@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:home_orders_tracker/l10n/app_localizations.dart';
-import 'package:home_orders_tracker/screens/add_edit_item/widgets/field_utils.dart';
+import 'package:baly_groceries_tracker/l10n/app_localizations.dart';
+import 'package:baly_groceries_tracker/screens/add_edit_item/widgets/field_utils.dart';
 
 typedef RestockDialogResult = ({bool confirmed, int? newTotalDays});
 const RestockDialogResult _cancelledResult = (confirmed: false, newTotalDays: null);

@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:home_orders_tracker/services/notification_service.dart';
+import 'package:baly_groceries_tracker/services/notification_service.dart';
 import 'package:restart_app/restart_app.dart';
 import 'widgets/widgets.dart';
 import '../../providers/items_provider.dart';

@@ -1,7 +1,7 @@
 // lib/providers/items_provider.dart
 
-import 'package:home_orders_tracker/providers/shopping_list_provider.dart';
-import 'package:home_orders_tracker/providers/storage_service_provider.dart';
+import 'package:baly_groceries_tracker/providers/shopping_list_provider.dart';
+import 'package:baly_groceries_tracker/providers/storage_service_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 import '../models/item_model.dart';

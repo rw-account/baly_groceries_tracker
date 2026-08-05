@@ -2,7 +2,7 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:home_orders_tracker/providers/app_state_provider.dart';
+import 'package:baly_groceries_tracker/providers/app_state_provider.dart';
 
 import '../screens/home/home_screen.dart';
 import '../screens/expiry/expiry_screen.dart';

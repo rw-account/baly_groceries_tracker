@@ -156,7 +156,7 @@
     "description": "Status label for urgent items in summary bar"
   },
 
-  "appTitle": "Home Orders Tracker",
+  "appTitle": "Baly Groceries Tracker",
   "@appTitle": {
     "description": "App title shown in the home app bar"
   },
@@ -1181,7 +1181,7 @@
     "description": "Open settings button in battery dialog"
   },
 
-  "batterySnackBarError": "Could not open settings automatically. To ensure reminder notifications appear, go to Settings > Apps > Home Orders Tracker > Battery > Allow background activity",
+  "batterySnackBarError": "Could not open settings automatically. To ensure reminder notifications appear, go to Settings > Apps > Baly Groceries Tracker > Battery > Allow background activity",
   "@batterySnackBarError": {
     "description": "Error snackbar when battery settings can't be opened"
   },
@@ -1196,7 +1196,7 @@
     "description": "Notification channel description"
   },
 
-  "notificationTitle": "Home Orders Summary",
+  "notificationTitle": "Items About to Run Out",
   "@notificationTitle": {
     "description": "Title for daily summary notification"
   },
@@ -1346,12 +1346,12 @@
     "description": "Text displayed while loading"
   },
 
-  "onboardingTitle1": "Organized Home, Peace of Mind",
+  "onboardingTitle1": "Reduce Grocery Stress",
   "@onboardingTitle1": {
     "description": "Title for first onboarding page"
   },
 
-  "onboardingBody1": "Transfer the burden of thinking about household needs to the app. Smartly track what's running low and save your mental energy for what truly matters.",
+  "onboardingBody1": "Stop worrying about what's running low. Let the app keep track of your groceries while you focus on what matters most.",
   "@onboardingBody1": {
     "description": "Body text for first onboarding page"
   },

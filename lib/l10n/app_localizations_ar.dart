@@ -94,7 +94,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statusUrgent => 'عاجل';
 
   @override
-  String get appTitle => 'متابعة طلبات البيت';
+  String get appTitle => 'Baly Groceries Tracker';
 
   @override
   String get aboutLabel => 'عن التطبيق';
@@ -482,7 +482,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get resetToTodayButton => 'إعادة تعيين إلى تاريخ اليوم';
 
   @override
-  String get expiryScreenTitle => 'عناصر على وشك النفاد';
+  String get expiryScreenTitle => 'مواد على وشك النفاد';
 
   @override
   String get addAllToShoppingListMenu => 'إضافة كل المواد إلى قائمة الشراء';
@@ -703,7 +703,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'إشعار يومي يوضح العناصر التي تحتاج انتباه';
 
   @override
-  String get notificationTitle => 'ملخص طلبات البيت';
+  String get notificationTitle => 'مواد على وشك النفاد';
 
   @override
   String get notificationUrgentPrefix => '🔴 عاجل: ';
@@ -794,11 +794,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get loading => 'جارٍ التحميل...';
 
   @override
-  String get onboardingTitle1 => 'بيت منظم، وراحة بال';
+  String get onboardingTitle1 => 'قلل القلق بشأن احتياجات المنزل';
 
   @override
   String get onboardingBody1 =>
-      'انقل عناء التفكير في احتياجات المنزل إلى التطبيق. تتبع النواقص بذكاء ووفر طاقتك الذهنية لما هو أهم.';
+      'لا تقلق بشأن ما أوشك على النفاد. دع التطبيق يتابع احتياجات منزلك، بينما تركز على ما هو أهم.';
 
   @override
   String get onboardingTitle2 => 'تنبيهات في وقتها، بلا مفاجآت';

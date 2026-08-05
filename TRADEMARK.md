@@ -2,7 +2,7 @@
 
 ## Overview
 
-The source code for **Home Orders Tracker (متابعة طلبات البيت)** is licensed under the **MIT License**. This license applies only to the source code.
+The source code for **Baly Groceries Tracker** is licensed under the **MIT License**. This license applies only to the source code.
 
 The project name, official logo, app icon, and other branding assets are not covered by the MIT License and remain the intellectual property of Ramy Waheeb (@rw-account).
 
@@ -14,7 +14,7 @@ You may:
 
 * Use, modify, and distribute the source code in accordance with the MIT License.
 * Fork this repository.
-* State that your project is **based on** or **forked from** Home Orders Tracker, provided this does not imply endorsement or affiliation with the original project.
+* State that your project is **based on** or **forked from** Baly Groceries Tracker, provided this does not imply endorsement or affiliation with the original project.
 
 ---
 
@@ -27,7 +27,7 @@ If you distribute a modified version of this application, including through publ
 * Replace the official logo, app icon, and branding assets.
 * Clearly distinguish your distribution from the original project.
 
-You may not use the **Home Orders Tracker** name, **متابعة طلبات البيت**, or any confusingly similar branding in a way that suggests your build is an official release or is endorsed by the original author.
+You may not use the **Baly Groceries Tracker** name or any confusingly similar branding in a way that suggests your build is an official release or is endorsed by the original author.
 
 ---
 

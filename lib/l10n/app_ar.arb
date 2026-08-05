@@ -156,7 +156,7 @@
     "description": "Status label for urgent items in summary bar"
   },
 
-  "appTitle": "متابعة طلبات البيت",
+  "appTitle": "Baly Groceries Tracker",
   "@appTitle": {
     "description": "App title shown in the home app bar"
   },
@@ -817,7 +817,7 @@
     "description": "Label for the reset to today button"
   },
 
-  "expiryScreenTitle": "عناصر على وشك النفاد",
+  "expiryScreenTitle": "مواد على وشك النفاد",
   "@expiryScreenTitle": {
     "description": "App bar title for the expiry screen"
   },
@@ -1196,7 +1196,7 @@
     "description": "Notification channel description"
   },
 
-  "notificationTitle": "ملخص طلبات البيت",
+  "notificationTitle": "مواد على وشك النفاد",
   "@notificationTitle": {
     "description": "Title for daily summary notification"
   },
@@ -1346,12 +1346,12 @@
     "description": "Text displayed while loading"
   },
 
-  "onboardingTitle1": "بيت منظم، وراحة بال",
+  "onboardingTitle1": "قلل القلق بشأن احتياجات المنزل",
   "@onboardingTitle1": {
     "description": "Title for first onboarding page"
   },
 
-  "onboardingBody1": "انقل عناء التفكير في احتياجات المنزل إلى التطبيق. تتبع النواقص بذكاء ووفر طاقتك الذهنية لما هو أهم.",
+  "onboardingBody1": "لا تقلق بشأن ما أوشك على النفاد. دع التطبيق يتابع احتياجات منزلك، بينما تركز على ما هو أهم.",
   "@onboardingBody1": {
     "description": "Body text for first onboarding page"
   },

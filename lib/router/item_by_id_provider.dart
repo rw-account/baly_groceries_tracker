@@ -1,7 +1,7 @@
 // lib/router/item_by_id_provider.dart
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:home_orders_tracker/providers/items_provider.dart';
+import 'package:baly_groceries_tracker/providers/items_provider.dart';
 import '../models/item_model.dart';
 
 final itemByIdProvider =

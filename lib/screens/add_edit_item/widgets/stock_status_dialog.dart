@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:home_orders_tracker/l10n/app_localizations.dart';
-import 'package:home_orders_tracker/providers/locale_provider.dart';
+import 'package:baly_groceries_tracker/l10n/app_localizations.dart';
+import 'package:baly_groceries_tracker/providers/locale_provider.dart';
 import 'package:intl/intl.dart';
 
 enum StockStatusChoice { outOfStock, stillAvailable }

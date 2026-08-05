@@ -1,4 +1,4 @@
-import 'package:home_orders_tracker/providers/locale_provider.dart';
+import 'package:baly_groceries_tracker/providers/locale_provider.dart';
 
 String formatRelativeDate(
   DateTime date, {

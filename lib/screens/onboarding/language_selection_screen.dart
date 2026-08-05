@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:home_orders_tracker/l10n/app_localizations.dart';
-import 'package:home_orders_tracker/providers/locale_provider.dart';
-import 'package:home_orders_tracker/router/route_paths.dart';
+import 'package:baly_groceries_tracker/l10n/app_localizations.dart';
+import 'package:baly_groceries_tracker/providers/locale_provider.dart';
+import 'package:baly_groceries_tracker/router/route_paths.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Language selection screen shown on first launch.

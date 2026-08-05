@@ -15,7 +15,7 @@ plugins {
 }
 
 android {
-    namespace = "com.home_orders_tracker.app"
+    namespace = "com.baly_groceries_tracker.app"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -26,7 +26,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.home_orders_tracker.app"
+        applicationId = "com.baly_groceries_tracker.app"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

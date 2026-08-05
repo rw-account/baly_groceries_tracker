@@ -1,8 +1,8 @@
 // lib/providers/locale_provider.dart
 
 import 'package:flutter/material.dart';
-import 'package:home_orders_tracker/providers/app_state_provider.dart';
-import 'package:home_orders_tracker/providers/storage_service_provider.dart';
+import 'package:baly_groceries_tracker/providers/app_state_provider.dart';
+import 'package:baly_groceries_tracker/providers/storage_service_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../services/notification_service.dart';
 

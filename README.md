@@ -1,4 +1,4 @@
-# Home Orders Tracker
+# Baly Groceries Tracker
 
 [![License](https://img.shields.io/badge/license-MIT-4CAF50.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Android-3DDC84?logo=android&logoColor=white)](android/)
@@ -10,7 +10,7 @@
 ![No Ads](https://img.shields.io/badge/ads-Free%20%26%20No%20Ads-FF9800)
 [![Languages](https://img.shields.io/badge/languages-Arabic%20%7C%20English-7952B3)](lib/l10n/)
 
-**Home Orders Tracker** helps you keep track of your household essentials, letting you see at a glance how much you have left of eggs, flour, rice, and other everyday items, so you always know what's running low and what's still well stocked.
+**Baly Groceries Tracker** helps you keep track of your household essentials, letting you see at a glance how much you have left of eggs, flour, rice, and other everyday items, so you always know what's running low and what's still well stocked.
 
 This helps you prioritize your shopping, giving you greater control over your household budget. By notifying you before essential items run out, the app gives you a chance to set aside part of your budget for them before mindlessly spending it on non-essential purchases, which reduces the chance of facing a financial crisis. It also eases the anxiety of unexpectedly running out of everyday necessities, giving you peace of mind by always keeping you informed about what you have at home. Additionally, the app offers several features, most notably:
 
@@ -84,8 +84,8 @@ The app also includes a wide range of useful features, including:
 Clone the repository and download the project dependencies:
 
 ```bash
-git clone https://github.com/rw-account/home_orders_tracker.git
-cd home_orders_tracker
+git clone https://github.com/rw-account/baly_groceries_tracker.git
+cd baly_groceries_tracker
 flutter pub get
 ```
 

@@ -114,7 +114,7 @@ class NotificationService {
       final warningItems =
           alertItems.where((i) => i.status == ItemStatus.warning).toList();
 
-      final title = isArabic ? 'طلبات البيت' : 'Home Items';
+      final title = isArabic ? 'مواد على وشك النفاد' : 'Items About to Run Out';
       
       final previewBody = _buildPreviewBody(urgentItems, warningItems, isArabic);
 

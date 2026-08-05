@@ -1,6 +1,6 @@
 // lib/screens/home/widgets/summary_bar.dart
 import 'package:flutter/material.dart';
-import 'package:home_orders_tracker/core/theme/app_theme.dart';
+import 'package:baly_groceries_tracker/core/theme/app_theme.dart';
 import '../../../core/utils/context_extensions.dart';
 
 class SummaryBar extends StatelessWidget {

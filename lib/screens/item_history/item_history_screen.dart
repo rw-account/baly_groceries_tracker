@@ -3,14 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:home_orders_tracker/core/theme/app_theme.dart';
+import 'package:baly_groceries_tracker/core/theme/app_theme.dart';
 import 'package:intl/intl.dart';
-import 'package:home_orders_tracker/core/utils/context_extensions.dart';
-import 'package:home_orders_tracker/models/item_change_log_model.dart';
-import 'package:home_orders_tracker/models/item_model.dart';
-import 'package:home_orders_tracker/providers/item_history_provider.dart';
-import 'package:home_orders_tracker/providers/items_provider.dart';
-import 'package:home_orders_tracker/router/route_paths.dart';
+import 'package:baly_groceries_tracker/core/utils/context_extensions.dart';
+import 'package:baly_groceries_tracker/models/item_change_log_model.dart';
+import 'package:baly_groceries_tracker/models/item_model.dart';
+import 'package:baly_groceries_tracker/providers/item_history_provider.dart';
+import 'package:baly_groceries_tracker/providers/items_provider.dart';
+import 'package:baly_groceries_tracker/router/route_paths.dart';
 import '../../core/utils/ui_helpers.dart';
 
 String _formatFullDateTime(DateTime date) {

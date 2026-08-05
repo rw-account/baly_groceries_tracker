@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:home_orders_tracker/core/utils/context_extensions.dart';
-import 'package:home_orders_tracker/screens/add_edit_item/widgets/field_utils.dart';
+import 'package:baly_groceries_tracker/core/utils/context_extensions.dart';
+import 'package:baly_groceries_tracker/screens/add_edit_item/widgets/field_utils.dart';
 
 class CustomDaysDialog extends StatefulWidget {
   final int? initialValue;

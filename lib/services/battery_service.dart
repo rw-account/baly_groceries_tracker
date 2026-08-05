@@ -15,7 +15,7 @@ class BatteryService {
   BatteryService._();
 
   static const MethodChannel _batteryChannel =
-      MethodChannel('com.home_orders_tracker.app/battery_optimization');
+      MethodChannel('com.baly_groceries_tracker.app/battery_optimization');
 
   // SharedPreferences Keys
   static const String _lastPromptKey = 'battery_prompt_last_shown';

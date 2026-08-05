@@ -1,7 +1,7 @@
 // lib/screens/home/widgets/home_app_bar.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:home_orders_tracker/providers/locale_provider.dart';
+import 'package:baly_groceries_tracker/providers/locale_provider.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/utils/context_extensions.dart';
@@ -94,8 +94,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                             onPressed: () async {
                               final uri = Uri.parse(
                                 LocaleNotifier.currentLanguage == 'ar'
-                                    ? 'https://github.com/rw-account/home_orders_tracker/blob/main/README_AR.md'
-                                    : 'https://github.com/rw-account/home_orders_tracker.git',
+                                    ? 'https://github.com/rw-account/baly_groceries_tracker/blob/main/README_AR.md'
+                                    : 'https://github.com/rw-account/baly_groceries_tracker.git',
                               );
                               try {
                                 if (await canLaunchUrl(uri)) {
