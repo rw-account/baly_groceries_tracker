@@ -10,27 +10,43 @@
 ![No Ads](https://img.shields.io/badge/ads-Free%20%26%20No%20Ads-FF9800)
 [![Languages](https://img.shields.io/badge/languages-Arabic%20%7C%20English-7952B3)](lib/l10n/)
 
-**Baly Groceries Tracker** helps you keep track of your household essentials, letting you see at a glance how much you have left of eggs, flour, rice, and other everyday items, so you always know what's running low and what's still well stocked.
+**Baly Groceries Tracker** is a free and open-source app that gives you an instant overview of your groceries. See at a glance exactly how much you have left of eggs, flour, rice, and other everyday essentials, so you always know what's running low and what's still well stocked.
 
-This helps you prioritize your shopping, giving you greater control over your household budget. By notifying you before essential items run out, the app gives you a chance to set aside part of your budget for them before mindlessly spending it on non-essential purchases, which reduces the chance of facing a financial crisis. It also eases the anxiety of unexpectedly running out of everyday necessities, giving you peace of mind by always keeping you informed about what you have at home. Additionally, the app offers several features, most notably:
+Stay organized and shop with confidence. By keeping track of your groceries and alerting you before essential items run low, the app helps you prioritize what truly needs to be replaced. This makes it easier to spend your budget on necessities first instead of impulse purchases, reducing waste, avoiding last-minute shortages, and giving you greater peace of mind in your day-to-day life.
 
-The app also includes a wide range of useful features, including:
+## Key Features
 
-- The **"Expiry"** screen automatically lists all items that are close to running out, sorted by priority with clear visual indicators, so you instantly know what needs to be bought first.
+### **Expiry Screen**
 
-- Receive notifications before household essentials run low, giving you plenty of time to plan your shopping. You can also disable notifications for any individual item whenever you want.
+The **Expiry** screen automatically lists items that are running low, prioritized with clear visual indicators so you can instantly see what needs to be restocked first.
 
-- No need to keep your shopping list somewhere else. The built-in shopping list lets you add items that are running low, along with anything else you don't track in the app, so you buy only what you actually need and avoid unnecessary impulse purchases. You can also share the list easily via WhatsApp with anyone who can shop for you.
+### **Smart Notifications**
 
-- Want to let a family member know what's available at home? Generate a summary showing all your tracked items and the remaining days for each one, then share it instantly via WhatsApp.
+Receive timely reminders before your groceries run low, giving you plenty of time to plan your shopping. You can also disable notifications for individual items whenever you like.
 
-- Made a mistake while updating an item, or unsure about a value you entered before? No problem. You can review the complete change history to see exactly what was changed and when, and restore any previous version whenever you need.
+### **Built-in Shopping List**
 
-- Your data is stored locally on your device to protect your privacy. The app works completely offline and also lets you create and restore backups whenever needed.
+No need for a separate shopping list app. Add items that are running low, along with anything else you need, and buy only what matters. Easily share your shopping list via WhatsApp with family or anyone shopping on your behalf.
 
-- Completely free of ads, so you can use the app without distractions.
+### **Share Your Inventory**
 
-- Full support for both Arabic and English.
+Want to let a family member know what's available at home? Generate a summary of your tracked groceries, including the estimated time remaining for each item, and share it instantly via WhatsApp.
+
+### **Complete History**
+
+Made a mistake or want to check a previous update? Browse the complete history of every change, see exactly what was modified and when, and restore any previous version whenever you need.
+
+### **Private & Offline**
+
+Your data stays on your device and is never uploaded to external servers. The app works completely offline and lets you create and restore backups whenever needed.
+
+### **Ad-Free Experience**
+
+Enjoy a clean, distraction-free experience with no ads.
+
+### **Arabic & English Support**
+
+The app is fully available in both Arabic and English.
 
 ## Screenshots
 
