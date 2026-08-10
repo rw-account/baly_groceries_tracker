@@ -95,7 +95,7 @@ The app is fully available in both Arabic and English.
 
 ### Prerequisites
 
-- **Flutter SDK:** `>= 3.44.0` (Stable Channel)
+- **Flutter SDK:** `>= 3.44.8` (Stable Channel)
 
 - **Dart SDK:** `>= 3.12.0`
 
