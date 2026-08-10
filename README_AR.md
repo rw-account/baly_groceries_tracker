@@ -81,6 +81,18 @@
         <img src="assets/screenshots/ar/edit_item_ar.png" alt="Arabic edit item screen" width="260">
       </td>
     </tr>
+    <tr>
+      <td align="center"><b>مشاركة تفاصيل المواد</b></td>
+      <td align="center"><b>مشاركة قائمة الشراء</b></td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="assets/screenshots/ar/share_item_details_ar.png" alt="Arabic share item details screen" width="260">
+      </td>
+      <td align="center">
+        <img src="assets/screenshots/ar/share_shopping_list_ar.png" alt="Arabic share shopping list screen" width="260">
+      </td>
+    </tr>
   </table>
 </div>
 

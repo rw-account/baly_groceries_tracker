@@ -76,6 +76,18 @@ The app is fully available in both Arabic and English.
         <img src="assets/screenshots/en/edit_item_en.png" alt="English edit item screen" width="260">
       </td>
     </tr>
+    <tr>
+      <td align="center"><b>Share Item Details</b></td>
+      <td align="center"><b>Share Shopping List</b></td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="assets/screenshots/en/share_item_details_en.png" alt="English share item details screen" width="260">
+      </td>
+      <td align="center">
+        <img src="assets/screenshots/en/share_shopping_list_en.png" alt="English share shopping list screen" width="260">
+      </td>
+    </tr>
   </table>
 </div>
 
@@ -159,7 +171,9 @@ build/app/outputs/flutter-apk/app-release.apk
 
 ## Contributing
 
-Contributions are welcome. To help keep the review process smooth, please keep pull requests focused and include a clear description of the changes.
+Contributions are welcome! If you are looking for ideas or planned features to work on, feel free to check out [TODO.md](TODO.md).
+
+To help keep the review process smooth, please keep pull requests focused and include a clear description of the changes.
 
 ### Before submitting a pull request
 
