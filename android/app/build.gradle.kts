@@ -1,5 +1,6 @@
 import java.io.FileInputStream
 import java.util.Properties
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 val keystorePropertiesFile = rootProject.file("key.properties")
 val keystoreProperties = Properties().apply {
@@ -54,12 +55,12 @@ android {
             } else {
                 signingConfigs.getByName("debug")
             }
-            
+
             isMinifyEnabled = true
             isShrinkResources = true
-            
+
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), 
+                getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
@@ -67,7 +68,9 @@ android {
 }
 
 kotlin {
-    jvmToolchain(17)
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_17
+    }
 }
 
 flutter {
