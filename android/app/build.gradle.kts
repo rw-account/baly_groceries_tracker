@@ -27,6 +27,11 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
+    }
+
     defaultConfig {
         applicationId = "com.baly_groceries_tracker.app"
         minSdk = flutter.minSdkVersion
