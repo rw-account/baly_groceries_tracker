@@ -16,35 +16,35 @@ Stay organized and shop with confidence. By keeping track of your groceries and 
 
 ## Key Features
 
-### **Expiry Screen**
+### Expiry Screen
 
 The **Expiry** screen automatically lists items that are running low, prioritized with clear visual indicators so you can instantly see what needs to be restocked first.
 
-### **Smart Notifications**
+### Smart Notifications
 
 Receive timely reminders before your groceries run low, giving you plenty of time to plan your shopping. You can also disable notifications for individual items whenever you like.
 
-### **Built-in Shopping List**
+### Built-in Shopping List
 
 No need for a separate shopping list app. Add items that are running low, along with anything else you need, and buy only what matters. Easily share your shopping list via WhatsApp with family or anyone shopping on your behalf.
 
-### **Share Your Inventory**
+### Share Your Inventory
 
 Want to let a family member know what's available at home? Generate a summary of your tracked groceries, including the estimated time remaining for each item, and share it instantly via WhatsApp.
 
-### **Complete History**
+### Complete History
 
 Made a mistake or want to check a previous update? Browse the complete history of every change, see exactly what was modified and when, and restore any previous version whenever you need.
 
-### **Private & Offline**
+### Private & Offline
 
 Your data stays on your device and is never uploaded to external servers. The app works completely offline and lets you create and restore backups whenever needed.
 
-### **Ad-Free Experience**
+### Ad-Free Experience
 
 Enjoy a clean, distraction-free experience with no ads.
 
-### **Arabic & English Support**
+### Arabic & English Support
 
 The app is fully available in both Arabic and English.
 
