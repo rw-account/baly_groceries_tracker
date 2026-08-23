@@ -50,46 +50,17 @@ The app is fully available in both Arabic and English.
 
 ## Screenshots
 
-<div align="center">
-  <table>
-    <tr>
-      <td align="center"><b>Home Screen</b></td>
-      <td align="center"><b>Expiry Screen</b></td>
-    </tr>
-    <tr>
-      <td align="center">
-        <img src="assets/screenshots/en/home_en.png" alt="English home screen" width="260">
-      </td>
-      <td align="center">
-        <img src="assets/screenshots/en/expiry_en.png" alt="English expiry screen" width="260">
-      </td>
-    </tr>
-    <tr>
-      <td align="center"><b>Shopping List</b></td>
-      <td align="center"><b>Edit Item</b></td>
-    </tr>
-    <tr>
-      <td align="center">
-        <img src="assets/screenshots/en/shopping_list_en.png" alt="English shopping list screen" width="260">
-      </td>
-      <td align="center">
-        <img src="assets/screenshots/en/edit_item_en.png" alt="English edit item screen" width="260">
-      </td>
-    </tr>
-    <tr>
-      <td align="center"><b>Share Item Details</b></td>
-      <td align="center"><b>Share Shopping List</b></td>
-    </tr>
-    <tr>
-      <td align="center">
-        <img src="assets/screenshots/en/share_item_details_en.png" alt="English share item details screen" width="260">
-      </td>
-      <td align="center">
-        <img src="assets/screenshots/en/share_shopping_list_en.png" alt="English share shopping list screen" width="260">
-      </td>
-    </tr>
-  </table>
-</div>
+| Home Screen | Expiry Screen |
+| --- | --- |
+| ![Home Screen](assets/screenshots/en/home_en.png) | ![Expiry Screen](assets/screenshots/en/expiry_en.png) |
+
+| Shopping List | Edit Item |
+| --- | --- |
+| ![Shopping List](assets/screenshots/en/shopping_list_en.png) | ![Edit Item](assets/screenshots/en/edit_item_en.png) |
+
+| Share Item Details | Share Shopping List |
+| --- | --- |
+| ![Share Item Details](assets/screenshots/en/share_item_details_en.png) | ![Share Shopping List](assets/screenshots/en/share_shopping_list_en.png) |
 
 ## Building from Source
 
