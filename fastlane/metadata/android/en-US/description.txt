@@ -1,37 +1,37 @@
-**Baly Groceries Tracker** is a free and open-source app that gives you an instant overview of your groceries. See at a glance exactly how much you have left of eggs, flour, rice, and other everyday essentials, so you always know what's running low and what's still well stocked.
+<p><strong>Baly Groceries Tracker</strong> is a free and open-source app that gives you an instant overview of your groceries. See at a glance exactly how much you have left of eggs, flour, rice, and other everyday essentials, so you always know what's running low and what's still well stocked.</p>
 
-Stay organized and shop with confidence. By keeping track of your groceries and alerting you before essential items run low, the app helps you prioritize what truly needs to be replaced. This makes it easier to spend your budget on necessities first instead of impulse purchases, reducing waste, avoiding last-minute shortages, and giving you greater peace of mind in your day-to-day life.
+<p>Stay organized and shop with confidence. By keeping track of your groceries and alerting you before essential items run low, the app helps you prioritize what truly needs to be replaced. This makes it easier to spend your budget on necessities first instead of impulse purchases, reducing waste, avoiding last-minute shortages, and giving you greater peace of mind in your day-to-day life.</p>
 
-## Key Features
+<h2>Key Features</h2>
 
-### **Expiry Screen**
+<h3><strong>Expiry Screen</strong></h3>
 
-The **Expiry** screen automatically lists items that are running low, prioritized with clear visual indicators so you can instantly see what needs to be restocked first.
+<p>The <strong>Expiry</strong> screen automatically lists items that are running low, prioritized with clear visual indicators so you can instantly see what needs to be restocked first.</p>
 
-### **Smart Notifications**
+<h3><strong>Smart Notifications</strong></h3>
 
-Receive timely reminders before your groceries run low, giving you plenty of time to plan your shopping. You can also disable notifications for individual items whenever you like.
+<p>Receive timely reminders before your groceries run low, giving you plenty of time to plan your shopping. You can also disable notifications for individual items whenever you like.</p>
 
-### **Built-in Shopping List**
+<h3><strong>Built-in Shopping List</strong></h3>
 
-No need for a separate shopping list app. Add items that are running low, along with anything else you need, and buy only what matters. Easily share your shopping list via WhatsApp with family or anyone shopping on your behalf.
+<p>No need for a separate shopping list app. Add items that are running low, along with anything else you need, and buy only what matters. Easily share your shopping list via WhatsApp with family or anyone shopping on your behalf.</p>
 
-### **Share Your Inventory**
+<h3><strong>Share Your Inventory</strong></h3>
 
-Want to let a family member know what's available at home? Generate a summary of your tracked groceries, including the estimated time remaining for each item, and share it instantly via WhatsApp.
+<p>Want to let a family member know what's available at home? Generate a summary of your tracked groceries, including the estimated time remaining for each item, and share it instantly via WhatsApp.</p>
 
-### **Complete History**
+<h3><strong>Complete History</strong></h3>
 
-Made a mistake or want to check a previous update? Browse the complete history of every change, see exactly what was modified and when, and restore any previous version whenever you need.
+<p>Made a mistake or want to check a previous update? Browse the complete history of every change, see exactly what was modified and when, and restore any previous version whenever you need.</p>
 
-### **Private & Offline**
+<h3><strong>Private & Offline</strong></h3>
 
-Your data stays on your device and is never uploaded to external servers. The app works completely offline and lets you create and restore backups whenever needed.
+<p>Your data stays on your device and is never uploaded to external servers. The app works completely offline and lets you create and restore backups whenever needed.</p>
 
-### **Ad-Free Experience**
+<h3><strong>Ad-Free Experience</strong></h3>
 
-Enjoy a clean, distraction-free experience with no ads.
+<p>Enjoy a clean, distraction-free experience with no ads.</p>
 
-### **Arabic & English Support**
+<h3><strong>Arabic & English Support</strong></h3>
 
-The app is fully available in both Arabic and English.
+<p>The app is fully available in both Arabic and English.</p>
