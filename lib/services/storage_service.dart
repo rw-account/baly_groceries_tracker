@@ -498,4 +498,17 @@ class StorageService {
     }
     await batch.commit(noResult: true);
   }
+
+  // ─── Background helper ────────────────────────────────────────────────────────
+
+  /// Opens its own DB connection (for use in background isolates / Workmanager).
+  Future<List<ItemModel>> getAllItemsBackground() async {
+    final db = await _openDatabase();
+    try {
+      final rows = await db.query(_tableName, orderBy: 'createdAt ASC');
+      return rows.map(ItemModel.fromMap).toList();
+    } finally {
+      await db.close();
+    }
+  }
 }
