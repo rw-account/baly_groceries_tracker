@@ -10,7 +10,7 @@ import 'package:baly_groceries_tracker/services/storage_service.dart';
 import 'package:baly_groceries_tracker/services/backup_exception.dart';
 
 class BackupService {
-  static const String _dbName = 'home_orders.db';
+  static const String _dbName = 'baly_groceries_tracker.db';
 
   /// Creates a backup of the database file using the system file picker.
   /// Shows a Save dialog with a timestamped filename.
@@ -35,7 +35,7 @@ class BackupService {
           .replaceAll(':', '-')
           .split('.')
           .first;
-      final fileName = 'home_orders_backup_$timestamp.db';
+      final fileName = 'baly_groceries_tracker_backup_$timestamp.db';
       tempBackupFile = File(p.join(tempDir.path, fileName));
 
       // -------------------------------------------------------------

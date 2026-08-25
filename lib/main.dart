@@ -5,6 +5,7 @@ import 'package:baly_groceries_tracker/providers/app_state_provider.dart';
 import 'package:baly_groceries_tracker/providers/locale_provider.dart';
 import 'package:baly_groceries_tracker/providers/storage_service_provider.dart';
 import 'package:baly_groceries_tracker/services/battery_service.dart';
+import 'package:baly_groceries_tracker/services/workmanager_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'services/storage_service.dart';
 import 'services/notification_service.dart';
@@ -25,6 +26,7 @@ Future<void> main() async {
   final appState = AppStateNotifier(prefs);
 
   await NotificationService.init();
+  await WorkmanagerService.init();
   unawaited(
     storage.runLogRetentionCleanup().catchError((e, st) {
       debugPrint('Log retention cleanup failed: $e');

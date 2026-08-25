@@ -9,7 +9,7 @@ import '../models/item_change_log_model.dart';
 import '../models/log_retention_option.dart';
 
 class StorageService {
-  static const String _dbName = 'home_orders.db';
+  static const String _dbName = 'baly_groceries_tracker.db';
   static const int _dbVersion = 1;
   
   // Tables

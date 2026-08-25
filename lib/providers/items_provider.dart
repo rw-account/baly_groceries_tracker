@@ -5,7 +5,6 @@ import 'package:baly_groceries_tracker/providers/storage_service_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 import '../models/item_model.dart';
-import '../services/notification_service.dart';
 import '../services/storage_service.dart';
 import '../models/item_change_log_model.dart';
 import 'item_history_provider.dart';
@@ -25,10 +24,9 @@ class ItemsNotifier extends _$ItemsNotifier {
 
   // ─── Helpers ────────────────────────────────────────────────────────────────
 
-  Future<void> _refreshStateAndNotifications(StorageService storage) async {
+  Future<void> _refreshState(StorageService storage) async {
     final latestItems = await storage.getAllItems();
     state = AsyncData(latestItems); 
-    await NotificationService.scheduleDailySummary(latestItems);
   }
 
   bool isNameDuplicate(String name, {String? excludeId}) {
@@ -71,7 +69,7 @@ class ItemsNotifier extends _$ItemsNotifier {
       item: item,
       actionType: ItemActionType.create,
     );
-    await _refreshStateAndNotifications(storage);
+    await _refreshState(storage);
   }
 
   Future<void> updateItem(
@@ -95,7 +93,7 @@ class ItemsNotifier extends _$ItemsNotifier {
     ref.invalidate(shoppingListProvider);
     ref.invalidate(itemHistoryProvider(updated.id));
 
-    await _refreshStateAndNotifications(storage);
+    await _refreshState(storage);
   }
 
   Future<void> deleteItem(String id) async {
@@ -107,7 +105,7 @@ class ItemsNotifier extends _$ItemsNotifier {
     ref.invalidate(shoppingListProvider);
     ref.invalidate(itemHistoryProvider(id));
 
-    await _refreshStateAndNotifications(storage);
+    await _refreshState(storage);
   }
 
   /// Reverts an item's current state to a specific log version snapshot.
