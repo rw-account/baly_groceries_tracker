@@ -43,6 +43,8 @@ class AppTheme {
       surfaceContainerHighest: card,
       error: _error,
       onError: Colors.white,
+      errorContainer: Color(0x29FF6B6B),
+      onErrorContainer: Color(0xFFFFD4D4),
       tertiary: _warning,
       onTertiary: Colors.black,
       surfaceContainerLow: Color(0xFF1E2D3D),

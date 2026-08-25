@@ -1147,4 +1147,27 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get expectedDaysNote =>
       'يكفي رقم تقريبي، ولا يشترط أن يكون دقيقًا بنسبة 100٪';
+
+  @override
+  String get notificationTimeSectionTitle => 'توقيت تنبيهات المواد';
+
+  @override
+  String get notificationTimeLabel => 'وقت الإشعار';
+
+  @override
+  String get notificationTimeDisclaimer =>
+      'ملاحظة: قد يتأخر وصول الإشعار لبضع دقائق بسبب نظام توفير الطاقة الافتراضي في الهاتف.';
+
+  @override
+  String get batteryOptimizationWarningTitle => 'قيود البطارية مفعلة';
+
+  @override
+  String get batteryOptimizationWarningContent =>
+      'لم يتم إدراج هذا التطبيق ضمن قائمة التطبيقات المستثناة من تحسين البطارية؛ مما قد يؤدي إلى تأخير وصول التنبيهات أو حظرها. بخطوة بسيطة، يمكنك السماح للتطبيق بتقديم التنبيهات إليك دائماً وبدون قيود.';
+
+  @override
+  String get batteryOptimizationOpenSettings => 'فتح إعدادات البطارية';
+
+  @override
+  String get notificationTimeUpdated => 'تم تحديث وقت الإشعار بنجاح';
 }

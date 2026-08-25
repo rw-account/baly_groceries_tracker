@@ -1917,5 +1917,40 @@
   "expectedDaysNote": "يكفي رقم تقريبي، ولا يشترط أن يكون دقيقًا بنسبة 100٪",
   "@expectedDaysNote": {
     "description": "Helper text explaining that the expected depletion days can be an approximate estimate."
+  },
+
+  "notificationTimeSectionTitle": "توقيت تنبيهات المواد",
+  "@notificationTimeSectionTitle": {
+    "description": "Title for the notification time section in settings"
+  },
+
+  "notificationTimeLabel": "وقت الإشعار",
+  "@notificationTimeLabel": {
+    "description": "Label for the notification time setting"
+  },
+
+  "notificationTimeDisclaimer": "ملاحظة: قد يتأخر وصول الإشعار لبضع دقائق بسبب نظام توفير الطاقة الافتراضي في الهاتف.",
+  "@notificationTimeDisclaimer": {
+    "description": "Disclaimer about notification timing accuracy"
+  },
+
+  "batteryOptimizationWarningTitle": "قيود البطارية مفعلة",
+  "@batteryOptimizationWarningTitle": {
+    "description": "Warning title when battery optimization is not disabled"
+  },
+
+  "batteryOptimizationWarningContent": "لم يتم إدراج هذا التطبيق ضمن قائمة التطبيقات المستثناة من تحسين البطارية؛ مما قد يؤدي إلى تأخير وصول التنبيهات أو حظرها. بخطوة بسيطة، يمكنك السماح للتطبيق بتقديم التنبيهات إليك دائماً وبدون قيود.",
+  "@batteryOptimizationWarningContent": {
+    "description": "Warning content when battery optimization is not disabled"
+  },
+
+  "batteryOptimizationOpenSettings": "فتح إعدادات البطارية",
+  "@batteryOptimizationOpenSettings": {
+    "description": "Button text to open battery settings"
+  },
+
+  "notificationTimeUpdated": "تم تحديث وقت الإشعار بنجاح",
+  "@notificationTimeUpdated": {
+    "description": "Success message when notification time is updated"
   }
 }

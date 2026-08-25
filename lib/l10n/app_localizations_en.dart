@@ -1155,4 +1155,28 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get expectedDaysNote =>
       'An approximate number is enough; it doesn\'t have to be 100% accurate.';
+
+  @override
+  String get notificationTimeSectionTitle => 'Item Notification Time';
+
+  @override
+  String get notificationTimeLabel => 'Notification Time';
+
+  @override
+  String get notificationTimeDisclaimer =>
+      'Note: Notification delivery may be delayed by a few minutes due to the phone\'s default power-saving system.';
+
+  @override
+  String get batteryOptimizationWarningTitle => 'Battery Restrictions Enabled';
+
+  @override
+  String get batteryOptimizationWarningContent =>
+      'This app is not on the battery optimization exemption list, which may delay or block your alerts. With a simple step, you can allow the app to always deliver alerts to you without restrictions.';
+
+  @override
+  String get batteryOptimizationOpenSettings => 'Open Battery Settings';
+
+  @override
+  String get notificationTimeUpdated =>
+      'Notification time updated successfully';
 }

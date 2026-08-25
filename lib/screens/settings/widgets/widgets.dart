@@ -6,4 +6,5 @@ export 'custom_days_dialog.dart';
 export 'language_option.dart';
 export 'language_section.dart';
 export 'log_management_section.dart';
+export 'notification_time_section.dart';
 export 'retention_radio_tile.dart';

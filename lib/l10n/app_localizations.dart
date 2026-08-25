@@ -2119,6 +2119,48 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'يكفي رقم تقريبي، ولا يشترط أن يكون دقيقًا بنسبة 100٪'**
   String get expectedDaysNote;
+
+  /// Title for the notification time section in settings
+  ///
+  /// In ar, this message translates to:
+  /// **'توقيت تنبيهات المواد'**
+  String get notificationTimeSectionTitle;
+
+  /// Label for the notification time setting
+  ///
+  /// In ar, this message translates to:
+  /// **'وقت الإشعار'**
+  String get notificationTimeLabel;
+
+  /// Disclaimer about notification timing accuracy
+  ///
+  /// In ar, this message translates to:
+  /// **'ملاحظة: قد يتأخر وصول الإشعار لبضع دقائق بسبب نظام توفير الطاقة الافتراضي في الهاتف.'**
+  String get notificationTimeDisclaimer;
+
+  /// Warning title when battery optimization is not disabled
+  ///
+  /// In ar, this message translates to:
+  /// **'قيود البطارية مفعلة'**
+  String get batteryOptimizationWarningTitle;
+
+  /// Warning content when battery optimization is not disabled
+  ///
+  /// In ar, this message translates to:
+  /// **'لم يتم إدراج هذا التطبيق ضمن قائمة التطبيقات المستثناة من تحسين البطارية؛ مما قد يؤدي إلى تأخير وصول التنبيهات أو حظرها. بخطوة بسيطة، يمكنك السماح للتطبيق بتقديم التنبيهات إليك دائماً وبدون قيود.'**
+  String get batteryOptimizationWarningContent;
+
+  /// Button text to open battery settings
+  ///
+  /// In ar, this message translates to:
+  /// **'فتح إعدادات البطارية'**
+  String get batteryOptimizationOpenSettings;
+
+  /// Success message when notification time is updated
+  ///
+  /// In ar, this message translates to:
+  /// **'تم تحديث وقت الإشعار بنجاح'**
+  String get notificationTimeUpdated;
 }
 
 class _AppLocalizationsDelegate

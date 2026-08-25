@@ -304,6 +304,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           onLanguageSelected: localeNotifier.changeLocale,
         ),
         const SizedBox(height: 32),
+        const NotificationTimeSection(),
+        const SizedBox(height: 32),
         BackupRestoreSection(
           isProcessing: _isProcessing,
           onBackup: _isProcessing ? null : _handleBackup,

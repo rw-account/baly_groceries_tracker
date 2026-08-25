@@ -1917,5 +1917,40 @@
   "expectedDaysNote": "An approximate number is enough; it doesn't have to be 100% accurate.",
   "@expectedDaysNote": {
     "description": "Helper text explaining that the expected depletion days can be an approximate estimate."
+  },
+
+  "notificationTimeSectionTitle": "Item Notification Time",
+  "@notificationTimeSectionTitle": {
+    "description": "Title for the notification time section in settings"
+  },
+
+  "notificationTimeLabel": "Notification Time",
+  "@notificationTimeLabel": {
+    "description": "Label for the notification time setting"
+  },
+
+  "notificationTimeDisclaimer": "Note: Notification delivery may be delayed by a few minutes due to the phone's default power-saving system.",
+  "@notificationTimeDisclaimer": {
+    "description": "Disclaimer about notification timing accuracy"
+  },
+
+  "batteryOptimizationWarningTitle": "Battery Restrictions Enabled",
+  "@batteryOptimizationWarningTitle": {
+    "description": "Warning title when battery optimization is not disabled"
+  },
+
+  "batteryOptimizationWarningContent": "This app is not on the battery optimization exemption list, which may delay or block your alerts. With a simple step, you can allow the app to always deliver alerts to you without restrictions.",
+  "@batteryOptimizationWarningContent": {
+    "description": "Warning content when battery optimization is not disabled"
+  },
+
+  "batteryOptimizationOpenSettings": "Open Battery Settings",
+  "@batteryOptimizationOpenSettings": {
+    "description": "Button text to open battery settings"
+  },
+
+  "notificationTimeUpdated": "Notification time updated successfully",
+  "@notificationTimeUpdated": {
+    "description": "Success message when notification time is updated"
   }
 }
