@@ -26,21 +26,40 @@ void callbackDispatcher() {
         final items = await StorageService().getAllItemsBackground();
         await NotificationService.showDailySummaryNow(items);
       }
+      
+      return true;
     } catch (e) {
       debugPrint('[WorkmanagerService] task error: $e');
+      return false; 
     }
-
-    return true;
   });
 }
 
 class WorkmanagerService {
   static Future<void> init() async {
     await Workmanager().initialize(callbackDispatcher);
-    await updateDailyTaskSchedule();
+
+    final initialDelay = await _calculateInitialDelayToTargetTime();
+
+    await Workmanager().registerPeriodicTask(
+      'dailyTaskId',
+      dailyTask,
+      frequency: const Duration(hours: 24),
+      initialDelay: initialDelay,
+      existingWorkPolicy: ExistingPeriodicWorkPolicy.keep,
+      constraints: Constraints(
+        networkType: NetworkType.notRequired,
+        requiresBatteryNotLow: false,
+        requiresCharging: false,
+        requiresDeviceIdle: false,
+      ),
+      // Retry the task after 10 minutes if it fails due to a crash or storage error.
+      backoffPolicy: BackoffPolicy.exponential,
+      backoffPolicyDelay: const Duration(minutes: 10),
+    );
   }
 
-  /// Reschedule the task using the new time stored in SharedPreferences.
+  /// Called exclusively when the user changes the time from the Settings screen.
   static Future<void> updateDailyTaskSchedule() async {
     final initialDelay = await _calculateInitialDelayToTargetTime();
 
@@ -49,11 +68,15 @@ class WorkmanagerService {
       dailyTask,
       frequency: const Duration(hours: 24),
       initialDelay: initialDelay,
-      existingWorkPolicy: ExistingPeriodicWorkPolicy.update,
+      existingWorkPolicy: ExistingPeriodicWorkPolicy.replace, 
       constraints: Constraints(
         networkType: NetworkType.notRequired,
         requiresBatteryNotLow: false,
+        requiresCharging: false,
+        requiresDeviceIdle: false,
       ),
+      backoffPolicy: BackoffPolicy.exponential,
+      backoffPolicyDelay: const Duration(minutes: 10),
     );
   }
 
