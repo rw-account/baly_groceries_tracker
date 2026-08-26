@@ -8,15 +8,19 @@ import '../../../providers/locale_provider.dart';
 mixin DatePickerMixin on AddEditItemState {
   static final DateFormat _dateFormat = DateFormat('yyyy-MM-dd');
 
+  DateTime _toDateOnly(DateTime dt) {
+    return DateTime(dt.year, dt.month, dt.day);
+  }
+
   Future<void> pickLastRefreshedDate() async {
     if (isPickingDate) return;
     isPickingDate = true;
 
     try {
-      final now = DateTime.now();
-      final initialDate = (lastRefreshedAt != null && !lastRefreshedAt!.isAfter(now))
-        ? lastRefreshedAt!
-        : now;
+      final todayDateOnly = _toDateOnly(DateTime.now());
+      final initialDate = (lastRefreshedAt != null && !lastRefreshedAt!.isAfter(todayDateOnly))
+        ? _toDateOnly(lastRefreshedAt!)
+        : todayDateOnly;
       
       final currentLocale = Locale(LocaleNotifier.currentLanguage);
 
@@ -24,7 +28,7 @@ mixin DatePickerMixin on AddEditItemState {
         context: context,
         initialDate: initialDate,
         firstDate: DateTime(2000),
-        lastDate: now,
+        lastDate: todayDateOnly,
         locale: currentLocale,
         helpText: context.loc.renewalDatePickerHelpText,
         cancelText: context.loc.cancelLabel,
@@ -85,9 +89,10 @@ mixin DatePickerMixin on AddEditItemState {
   }
 
   void _applyDateChange(DateTime newDate) {
+    final dateOnly = _toDateOnly(newDate);
     setState(() {
-      lastRefreshedAt = newDate;
-      dateCtrl.text = _dateFormat.format(newDate);
+      lastRefreshedAt = dateOnly;
+      dateCtrl.text = _dateFormat.format(dateOnly);
     });
   }
 }
