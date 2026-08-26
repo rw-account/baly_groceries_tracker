@@ -1,4 +1,4 @@
-- Custom Notification Timing: Choose your preferred time to receive daily notifications, replacing the previous fixed default (8:00 PM).
+- Custom Notification Timing: Choose your preferred time to receive alerts, replacing the previous fixed default (8:00 PM).
   
 - Notification Bug Fix: Resolved a data staleness issue where notifications displayed outdated and inaccurate remaining days. Remaining days are now calculated dynamically right before the alert is sent.
 
