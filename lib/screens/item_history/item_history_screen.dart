@@ -13,6 +13,10 @@ import 'package:baly_groceries_tracker/providers/items_provider.dart';
 import 'package:baly_groceries_tracker/router/route_paths.dart';
 import '../../core/utils/ui_helpers.dart';
 
+String _formatDate(DateTime date) {
+  return DateFormat('yyyy/MM/dd', 'en').format(date);
+}
+
 String _formatFullDateTime(DateTime date) {
   return DateFormat('yyyy/MM/dd - hh:mm:ss a', 'en').format(date);
 }
@@ -145,8 +149,8 @@ class ItemHistoryScreen extends ConsumerWidget {
     );
 
     try {
-      final formattedDate = _formatFullDateTime(log.timestampDateTime);
-      final dateStr = '\u200E$formattedDate';
+      final formattedFullDateTime = _formatFullDateTime(log.timestampDateTime);
+      final dateStr = '\u200E$formattedFullDateTime';
       final revertDescription = context.loc.revertDescription(dateStr);
 
       final restoredItem = await ref
@@ -192,7 +196,7 @@ class _LogItemCard extends StatelessWidget {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
 
-    final formattedDate = '\u200E${_formatFullDateTime(log.timestampDateTime)}';
+    final formattedFullDateTime = '\u200E${_formatFullDateTime(log.timestampDateTime)}';
 
     final oldState = log.parsedPreviousState;
     final newState = log.parsedNewState;
@@ -218,7 +222,7 @@ class _LogItemCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header Row: Action Tag & Local Timestamp
+            // Header Row: Action Tag & Local Date
             Row(
               children: [
                 Container(
@@ -250,12 +254,12 @@ class _LogItemCard extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Icon(Icons.access_time_rounded,
+                      Icon(Icons.calendar_today_outlined,
                           size: 14, color: cs.onSurfaceVariant),
                       const SizedBox(width: 4),
                       Flexible(
                         child: Text(
-                          formattedDate,
+                          formattedFullDateTime,
                           textAlign: TextAlign.end,
                           softWrap: true,
                           style: theme.textTheme.bodySmall?.copyWith(
@@ -337,17 +341,17 @@ class _LogItemCard extends StatelessWidget {
     );
   }
 
-  String _formatNullableFullDateTime(DateTime? date) {
+  String _formatNullableDate(DateTime? date) {
     if (date == null) return '-';
-    return '\u200E${_formatFullDateTime(date)}';
+    return '\u200E${_formatDate(date)}';
   }
 
-  /// Checks if two nullable DateTimes represent the exact same moment.
-  bool _isSameMoment(DateTime? d1, DateTime? d2) {
+  /// Checks if two nullable DateTimes represent the exact same calendar day.
+  bool _isSameDate(DateTime? d1, DateTime? d2) {
     if (d1 == null && d2 == null) return true;
     if (d1 == null || d2 == null) return false;
 
-    return d1.isAtSameMomentAs(d2);
+    return d1.year == d2.year && d1.month == d2.month && d1.day == d2.day;
   }
 
   /// Analyzes state changes between item versions and converts them into
@@ -424,10 +428,10 @@ class _LogItemCard extends StatelessWidget {
       diffs.add(loc.diffNotesChanged);
     }
 
-    if (!_isSameMoment(oldItem.lastRefreshedAt, newItem.lastRefreshedAt)) {
+    if (!_isSameDate(oldItem.lastRefreshedAt, newItem.lastRefreshedAt)) {
       diffs.add(loc.diffRefreshedAtChangedFromTo(
-        _formatNullableFullDateTime(oldItem.lastRefreshedAt),
-        _formatNullableFullDateTime(newItem.lastRefreshedAt),
+        _formatNullableDate(oldItem.lastRefreshedAt),
+        _formatNullableDate(newItem.lastRefreshedAt),
       ));
     }
 

@@ -1,4 +1,4 @@
-# 🚀 Next Release v1.1.0
+# 🚀 Next Release
 
 ## 💡 Feature: Organizing the Shopping List by Categories
 
