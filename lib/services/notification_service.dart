@@ -11,10 +11,10 @@ class NotificationService {
 
   // Notification Config
   static const int _notificationId = 999;
-  static const String _channelId = 'daily_summary';
-  static const String _channelName = 'Daily Digest';
+  static const String _channelId = 'item_alerts';
+  static const String _channelName = 'Item Alerts';
   static const String _channelDescription =
-      'Daily notification showing items requiring attention';
+      'Notification showing items requiring attention';
   static const Color _notificationColor = Color(0xFF66C0F4);
 
   // Defaults
