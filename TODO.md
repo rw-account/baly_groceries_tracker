@@ -1,5 +1,18 @@
 # 🚀 Next Release
 
+## 💡 Feature: Settings Backup & Restore via SQLite
+
+> **Goal:** Include `SharedPreferences` settings (e.g., notification time, log retention duration) inside the exported SQLite `.db` backup file without altering the existing app architecture or modifying UI screens.
+
+### 📋 How It Works & Required Tasks
+
+- **Backup Table:** Create a dedicated `settings_backup` table (`key TEXT PRIMARY KEY, value TEXT`) in SQLite to act as a bridge during backup and restore operations.
+- **Export Process (Backup):** Automatically read selected keys from `SharedPreferences` and copy them as key-value pairs into the `settings_backup` table right before exporting the `.db` file.
+- **Import Process (Restore):** After restoring the `.db` file on a new device, read the `settings_backup` table and re-inject the values into local `SharedPreferences` with proper type casting (String, int, bool).
+- **Architecture Continuity:** Continue using `SharedPreferences` across all UI screens as normal, avoiding complex refactoring while achieving seamless settings migration.
+
+---
+
 ## 💡 Feature: Organizing the Shopping List by Categories
 
 > **Goal:** Simplify the shopping experience for the user by grouping items based on the shopping location (e.g., supermarket, restaurant, electronics store), saving time when present at a specific location instead of going through the entire list.
