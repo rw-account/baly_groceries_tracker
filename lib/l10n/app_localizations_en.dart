@@ -359,7 +359,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get itemNameFieldLabel => 'Item name';
 
   @override
-  String get itemNameFieldHint => 'Example: sugar, flour, oil';
+  String get itemNameFieldHint => 'Example: sugar, flour, milk...';
 
   @override
   String get quantityDescriptionLabel => 'Quantity description (optional)';
@@ -628,16 +628,28 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String itemRemainingDaysPositiveFormat(String days) {
-    return 'Enough for $days days';
+  String itemRemainingDaysPositiveFormat(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Enough for $days days',
+      one: 'Enough for 1 day',
+    );
+    return '$_temp0';
   }
 
   @override
   String get itemRemainingDaysZero => 'Runs out today';
 
   @override
-  String itemRemainingDaysNegativeFormat(String days) {
-    return 'Ran out $days days ago';
+  String itemRemainingDaysNegativeFormat(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Ran out $days days ago',
+      one: 'Ran out yesterday',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -964,6 +976,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get correctNowButtonLabel => 'Correct Reality Now';
 
   @override
+  String remainingDaysInfo(int days) {
+    return 'Current remaining days: $days';
+  }
+
+  @override
   String get depletedToday => 'Ran out today.';
 
   @override
@@ -972,7 +989,7 @@ class AppLocalizationsEn extends AppLocalizations {
       count,
       locale: localeName,
       other: 'Ran out $count days ago.',
-      one: 'Ran out 1 day ago.',
+      one: 'Ran out yesterday.',
     );
     return '$_temp0';
   }

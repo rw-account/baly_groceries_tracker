@@ -606,7 +606,7 @@
     "description": "Label for the item name field"
   },
 
-  "itemNameFieldHint": "مثال: سكر، دقيق، زيت",
+  "itemNameFieldHint": "مثال: سكر، دقيق، حليب…",
   "@itemNameFieldHint": {
     "description": "Hint text for the item name field in add/edit screen"
   },
@@ -891,7 +891,7 @@
     "description": "Chip label showing item is already in shopping list"
   },
 
-  "expiresToday": "ينفد اليوم",
+  "expiresToday": "نفد اليوم",
   "@expiresToday": {
     "description": "Label when item expires today"
   },
@@ -1066,29 +1066,27 @@
       }
     },
 
-  "itemRemainingDaysPositiveFormat": "يكفي {days} يوم",
+  "itemRemainingDaysPositiveFormat": "{days, plural, =1{يكفي ليوم واحد} =2{يكفي ليومين} few{يكفي {days} أيام} many{يكفي {days} يوماً} other{يكفي {days} يوم}}",
   "@itemRemainingDaysPositiveFormat": {
     "description": "Format for remaining days when positive",
     "placeholders": {
       "days": {
-        "type": "String",
-        "example": "5"
+        "type": "int"
       }
     }
   },
 
-  "itemRemainingDaysZero": "ينتهي اليوم",
+  "itemRemainingDaysZero": "نفد اليوم",
   "@itemRemainingDaysZero": {
     "description": "Text when item expires today"
   },
 
-  "itemRemainingDaysNegativeFormat": "انتهى منذ {days} يوم",
+  "itemRemainingDaysNegativeFormat": "{days, plural, =1{نفد امس} =2{نفد قبل يومين} few{نفد قبل {days} أيام} many{نفد قبل {days} يوماً} other{نفد قبل {days} يوم}}",
   "@itemRemainingDaysNegativeFormat": {
     "description": "Format for expired items with days since expiry",
     "placeholders": {
       "days": {
-        "type": "String",
-        "example": "3"
+        "type": "int"
       }
     }
   },
@@ -1611,12 +1609,23 @@
     "description": "Label for the button used to correct the actual stock status immediately"
   },
 
+  "remainingDaysInfo": "الأيام الحالية المتبقية هي: {days} يوم",
+  "@remainingDaysInfo": {
+    "description": "Helper text showing the current remaining days for the item",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+
   "depletedToday": "نفد اليوم.",
   "@depletedToday": {
     "description": "Message shown when the item is depleted today."
   },
 
-  "depletedDaysAgo": "{count, plural, =1{نفد قبل يوم.} =2{نفد قبل يومين.} few{نفد قبل {count} أيام.} many{نفد قبل {count} يوماً.} other{نفد قبل {count} يوم.}}",
+  "depletedDaysAgo": "{count, plural, =1{نفد امس.} =2{نفد قبل يومين.} few{نفد قبل {count} أيام.} many{نفد قبل {count} يوماً.} other{نفد قبل {count} يوم.}}",
   "@depletedDaysAgo": {
     "description": "Message shown when the item was depleted a specified number of days ago.",
     "placeholders": {

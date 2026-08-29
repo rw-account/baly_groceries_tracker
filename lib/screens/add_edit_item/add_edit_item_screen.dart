@@ -43,20 +43,30 @@ class _AddEditItemScreenState extends AddEditItemState
     super.dispose();
   }
 
-  /// Returns a dynamic warning message for values <= 0; otherwise returns null.
-  /// This compensates for negative remaining-day values to provide a clearer UX.
-  String? _getDepletedWarningMessage() {
-    final text = daysCtrl.text.trim();
-    
-    if (text.isEmpty || text == '-') return null;
+  int _remainingDaysFromNow() {
+    final now = DateTime.now();
+    final remainingDays = widget.item?.remainingDaysAt(now);
+    return remainingDays ?? 0;
+  }
 
-    final days = int.tryParse(text);
-    if (days == null || days > 0) return null;
+  ({String message, bool isWarning}) _getCurrentDaysInfoMessage() {
+    final days = _remainingDaysFromNow();
 
-    if (days == 0) {
-      return context.loc.depletedToday;
+    if (days > 0) {
+      return (
+        message: context.loc.remainingDaysInfo(days),
+        isWarning: false,
+      );
+    } else if (days == 0) {
+      return (
+        message: context.loc.depletedToday,
+        isWarning: true,
+      );
     } else {
-      return context.loc.depletedDaysAgo(days.abs());
+      return (
+        message: context.loc.depletedDaysAgo(days.abs()),
+        isWarning: true,
+      );
     }
   }
 
@@ -110,15 +120,12 @@ class _AddEditItemScreenState extends AddEditItemState
   }
 
   Future<void> _handleRestock() async {
-    final now = DateTime.now();
-    final parsedDays = widget.item != null
-        ? widget.item!.remainingDaysAt(now)
-        : int.tryParse(daysCtrl.text.trim()) ?? 0;
+    final remainingDaysFromNow = _remainingDaysFromNow();
 
     final result = await showRestockDialog(
       context,
       itemName: nameCtrl.text,
-      remainingDays: parsedDays,
+      remainingDaysFromNow: remainingDaysFromNow,
     );
     
     if (!result.confirmed || result.newTotalDays == null) return;
@@ -367,10 +374,10 @@ class _AddEditItemScreenState extends AddEditItemState
     final dateToShow = item != null ? (item.lastRefreshedAt ?? item.createdAt) : null;
 
     final lastRefreshedDateText = dateToShow != null
-        ? '${_dateFormat.format(dateToShow)} • ${formatRelativeDate(dateToShow)}'
+        ? '\u200E${_dateFormat.format(dateToShow)} • ${formatRelativeDate(dateToShow)}'
         : null;
 
-    final warningMessage = _getDepletedWarningMessage();
+    final info = _getCurrentDaysInfoMessage();
 
     return [
       SectionTitle(
@@ -417,7 +424,6 @@ class _AddEditItemScreenState extends AddEditItemState
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'^-?\d*')),
         ],
-        onChanged: (_) => setState(() {}),
         onSubmitted: (_) => _daysFocus.unfocus(),
         validator: (v) {
           if (v == null || v.trim().isEmpty) return context.loc.enterDaysError;
@@ -426,7 +432,7 @@ class _AddEditItemScreenState extends AddEditItemState
           return null;
         },
       ),
-      if (warningMessage != null) ...[
+      if (isEditing && info.isWarning) ...[
         const SizedBox(height: 6),
         Padding(
           padding: const EdgeInsetsDirectional.only(start: 12),
@@ -440,10 +446,35 @@ class _AddEditItemScreenState extends AddEditItemState
               const SizedBox(width: 6),
               Expanded(
                 child: Text(
-                  warningMessage,
+                  info.message,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                         fontWeight: FontWeight.w500,
+                      ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+      if (isEditing && !info.isWarning) ...[
+        const SizedBox(height: 6),
+        Padding(
+          padding: const EdgeInsetsDirectional.only(start: 12),
+          child: Row(
+            children: [
+              Icon(
+                Icons.info_outline_rounded,
+                size: 16,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Text(
+                  info.message,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        fontWeight: FontWeight.w400,
                       ),
                 ),
               ),

@@ -44,10 +44,10 @@ class ItemCard extends StatelessWidget {
 
     final remainingDays = item.remainingDaysAt(now);
     final remainingText = remainingDays > 0
-        ? context.loc.itemRemainingDaysPositiveFormat(remainingDays.toString())
+        ? context.loc.itemRemainingDaysPositiveFormat(remainingDays)
         : remainingDays == 0
             ? context.loc.itemRemainingDaysZero
-            : context.loc.itemRemainingDaysNegativeFormat((-remainingDays).toString());
+            : context.loc.itemRemainingDaysNegativeFormat(-remainingDays);
     final expiryText = _dateFormat.format(item.expectedExpiryDate);
 
     final dateToShow = item.lastRefreshedAt ?? item.createdAt;

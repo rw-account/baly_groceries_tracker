@@ -354,7 +354,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get itemNameFieldLabel => 'اسم المادة';
 
   @override
-  String get itemNameFieldHint => 'مثال: سكر، دقيق، زيت';
+  String get itemNameFieldHint => 'مثال: سكر، دقيق، حليب…';
 
   @override
   String get quantityDescriptionLabel => 'وصف الكمية (اختياري)';
@@ -523,7 +523,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get inShoppingListChipLabel => 'في القائمة';
 
   @override
-  String get expiresToday => 'ينفد اليوم';
+  String get expiresToday => 'نفد اليوم';
 
   @override
   String expiresInFormat(String date) {
@@ -621,16 +621,34 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String itemRemainingDaysPositiveFormat(String days) {
-    return 'يكفي $days يوم';
+  String itemRemainingDaysPositiveFormat(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'يكفي $days يوم',
+      many: 'يكفي $days يوماً',
+      few: 'يكفي $days أيام',
+      two: 'يكفي ليومين',
+      one: 'يكفي ليوم واحد',
+    );
+    return '$_temp0';
   }
 
   @override
-  String get itemRemainingDaysZero => 'ينتهي اليوم';
+  String get itemRemainingDaysZero => 'نفد اليوم';
 
   @override
-  String itemRemainingDaysNegativeFormat(String days) {
-    return 'انتهى منذ $days يوم';
+  String itemRemainingDaysNegativeFormat(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'نفد قبل $days يوم',
+      many: 'نفد قبل $days يوماً',
+      few: 'نفد قبل $days أيام',
+      two: 'نفد قبل يومين',
+      one: 'نفد امس',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -955,6 +973,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get correctNowButtonLabel => 'تصحيح الواقع الآن';
 
   @override
+  String remainingDaysInfo(int days) {
+    return 'الأيام الحالية المتبقية هي: $days يوم';
+  }
+
+  @override
   String get depletedToday => 'نفد اليوم.';
 
   @override
@@ -966,7 +989,7 @@ class AppLocalizationsAr extends AppLocalizations {
       many: 'نفد قبل $count يوماً.',
       few: 'نفد قبل $count أيام.',
       two: 'نفد قبل يومين.',
-      one: 'نفد قبل يوم.',
+      one: 'نفد امس.',
     );
     return '$_temp0';
   }

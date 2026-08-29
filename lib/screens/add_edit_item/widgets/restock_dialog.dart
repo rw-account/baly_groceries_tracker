@@ -11,13 +11,13 @@ const RestockDialogResult _cancelledResult = (confirmed: false, newTotalDays: nu
 Future<RestockDialogResult> showRestockDialog(
   BuildContext context, {
   String? itemName,
-  int? remainingDays,
+  int? remainingDaysFromNow,
 }) async {
   final result = await showDialog<RestockDialogResult>(
     context: context,
     builder: (context) => _RestockDialog(
       itemName: itemName,
-      remainingDays: remainingDays,
+      remainingDaysFromNow: remainingDaysFromNow,
     ),
   );
   return result ?? _cancelledResult;
@@ -25,11 +25,11 @@ Future<RestockDialogResult> showRestockDialog(
 
 class _RestockDialog extends StatefulWidget {
   final String? itemName;
-  final int? remainingDays;
+  final int? remainingDaysFromNow;
 
   const _RestockDialog({
     this.itemName,
-    this.remainingDays,
+    this.remainingDaysFromNow,
   });
 
   @override
@@ -52,8 +52,8 @@ class _RestockDialogState extends State<_RestockDialog> {
   @override
   void initState() {
     super.initState();
-    _originalDays = (widget.remainingDays != null && widget.remainingDays! > 0)
-        ? widget.remainingDays!
+    _originalDays = (widget.remainingDaysFromNow != null && widget.remainingDaysFromNow! > 0)
+        ? widget.remainingDaysFromNow!
         : 0;
 
     // Pre-fill with '0' if expired or zero, ensuring instant validation readiness

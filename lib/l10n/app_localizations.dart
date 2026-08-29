@@ -719,7 +719,7 @@ abstract class AppLocalizations {
   /// Hint text for the item name field in add/edit screen
   ///
   /// In ar, this message translates to:
-  /// **'مثال: سكر، دقيق، زيت'**
+  /// **'مثال: سكر، دقيق، حليب…'**
   String get itemNameFieldHint;
 
   /// Label for the quantity description field
@@ -1025,7 +1025,7 @@ abstract class AppLocalizations {
   /// Label when item expires today
   ///
   /// In ar, this message translates to:
-  /// **'ينفد اليوم'**
+  /// **'نفد اليوم'**
   String get expiresToday;
 
   /// Format for item expiring in future with relative date
@@ -1199,20 +1199,20 @@ abstract class AppLocalizations {
   /// Format for remaining days when positive
   ///
   /// In ar, this message translates to:
-  /// **'يكفي {days} يوم'**
-  String itemRemainingDaysPositiveFormat(String days);
+  /// **'{days, plural, =1{يكفي ليوم واحد} =2{يكفي ليومين} few{يكفي {days} أيام} many{يكفي {days} يوماً} other{يكفي {days} يوم}}'**
+  String itemRemainingDaysPositiveFormat(int days);
 
   /// Text when item expires today
   ///
   /// In ar, this message translates to:
-  /// **'ينتهي اليوم'**
+  /// **'نفد اليوم'**
   String get itemRemainingDaysZero;
 
   /// Format for expired items with days since expiry
   ///
   /// In ar, this message translates to:
-  /// **'انتهى منذ {days} يوم'**
-  String itemRemainingDaysNegativeFormat(String days);
+  /// **'{days, plural, =1{نفد امس} =2{نفد قبل يومين} few{نفد قبل {days} أيام} many{نفد قبل {days} يوماً} other{نفد قبل {days} يوم}}'**
+  String itemRemainingDaysNegativeFormat(int days);
 
   /// Label for expected expiry section in item card
   ///
@@ -1808,6 +1808,12 @@ abstract class AppLocalizations {
   /// **'تصحيح الواقع الآن'**
   String get correctNowButtonLabel;
 
+  /// Helper text showing the current remaining days for the item
+  ///
+  /// In ar, this message translates to:
+  /// **'الأيام الحالية المتبقية هي: {days} يوم'**
+  String remainingDaysInfo(int days);
+
   /// Message shown when the item is depleted today.
   ///
   /// In ar, this message translates to:
@@ -1817,7 +1823,7 @@ abstract class AppLocalizations {
   /// Message shown when the item was depleted a specified number of days ago.
   ///
   /// In ar, this message translates to:
-  /// **'{count, plural, =1{نفد قبل يوم.} =2{نفد قبل يومين.} few{نفد قبل {count} أيام.} many{نفد قبل {count} يوماً.} other{نفد قبل {count} يوم.}}'**
+  /// **'{count, plural, =1{نفد امس.} =2{نفد قبل يومين.} few{نفد قبل {count} أيام.} many{نفد قبل {count} يوماً.} other{نفد قبل {count} يوم.}}'**
   String depletedDaysAgo(int count);
 
   /// Title for the change history screen

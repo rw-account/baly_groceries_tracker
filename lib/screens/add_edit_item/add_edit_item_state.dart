@@ -59,12 +59,10 @@ abstract class AddEditItemState extends ConsumerState<AddEditItemScreen> {
   void initState() {
     super.initState();
     final i = widget.item;
-    final now = DateTime.now();
-    final remainingDays = i?.remainingDaysAt(now);
 
     nameCtrl = TextEditingController(text: i?.name ?? '');
     descCtrl = TextEditingController(text: i?.quantityDescription ?? '');
-    daysCtrl = TextEditingController(text: remainingDays?.toString() ?? '');
+    daysCtrl = TextEditingController(text: (i?.expectedDays ?? 0).toString());
     warningCtrl = TextEditingController(text: (i?.warningThresholdDays ?? 10).toString());
     urgentCtrl = TextEditingController(text: (i?.urgentThresholdDays ?? 3).toString());
     notesCtrl = TextEditingController(text: i?.notes ?? '');

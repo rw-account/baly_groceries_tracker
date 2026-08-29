@@ -606,7 +606,7 @@
     "description": "Label for the item name field"
   },
 
-  "itemNameFieldHint": "Example: sugar, flour, oil",
+  "itemNameFieldHint": "Example: sugar, flour, milk...",
   "@itemNameFieldHint": {
     "description": "Hint text for the item name field in add/edit screen"
   },
@@ -1066,13 +1066,12 @@
       }
     },
 
-  "itemRemainingDaysPositiveFormat": "Enough for {days} days",
+  "itemRemainingDaysPositiveFormat": "{days, plural, =1{Enough for 1 day} other{Enough for {days} days}}",
   "@itemRemainingDaysPositiveFormat": {
     "description": "Format for remaining days when positive",
     "placeholders": {
       "days": {
-        "type": "String",
-        "example": "5"
+        "type": "int"
       }
     }
   },
@@ -1082,13 +1081,12 @@
     "description": "Text when item expires today"
   },
 
-  "itemRemainingDaysNegativeFormat": "Ran out {days} days ago",
+  "itemRemainingDaysNegativeFormat": "{days, plural, =1{Ran out yesterday} other{Ran out {days} days ago}}",
   "@itemRemainingDaysNegativeFormat": {
     "description": "Format for expired items with days since expiry",
     "placeholders": {
       "days": {
-        "type": "String",
-        "example": "3"
+        "type": "int"
       }
     }
   },
@@ -1611,12 +1609,23 @@
     "description": "Label for the button used to correct the actual stock status immediately"
   },
 
+  "remainingDaysInfo": "Current remaining days: {days}",
+  "@remainingDaysInfo": {
+    "description": "Helper text showing the current remaining days for the item",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+
   "depletedToday": "Ran out today.",
   "@depletedToday": {
     "description": "Message shown when the item is depleted today."
   },
 
-  "depletedDaysAgo": "{count, plural, =1{Ran out 1 day ago.} other{Ran out {count} days ago.}}",
+  "depletedDaysAgo": "{count, plural, =1{Ran out yesterday.} other{Ran out {count} days ago.}}",
   "@depletedDaysAgo": {
     "description": "Message shown when the item was depleted a specified number of days ago.",
     "placeholders": {
