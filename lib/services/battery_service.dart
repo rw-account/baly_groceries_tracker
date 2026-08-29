@@ -2,10 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:app_settings/app_settings.dart';
 import '../../../core/utils/context_extensions.dart';
 import '../../core/utils/ui_helpers.dart';
+import 'notification_service.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Business Logic: Battery Service
@@ -116,22 +118,31 @@ class BatteryService {
 
 /// Checks conditions and displays the battery optimization dialog if needed.
 Future<void> checkAndShowBatteryDialog(BuildContext context) async {
-  // 1. Check if the prompt should be shown via the service
+  // 1. Check notification permission status
+  final PermissionStatus notificationStatus = await Permission.notification.status;
+  final NotificationPermissionState permissionState =
+      NotificationService.resolvePermissionState(notificationStatus);
+
+  if (permissionState != NotificationPermissionState.granted || !context.mounted) {
+    return;
+  }
+
+  // 2. Check if the prompt should be shown via the service
   final bool shouldShow = await BatteryService.shouldShowBatteryPrompt();
   if (!shouldShow || !context.mounted) return;
 
-  // 2. Show the dialog and wait for user response
+  // 3. Show the dialog and wait for user response
   final bool? shouldProceed = await _showBatteryDialog(context);
 
-  // 3. Mark the prompt as shown regardless of the user's choice
+  // 4. Mark the prompt as shown regardless of the user's choice
   await BatteryService.markPromptAsShown();
 
   if (shouldProceed != true || !context.mounted) return;
 
-  // 4. Attempt to open settings
+  // 5. Attempt to open settings
   final bool success = await BatteryService.openBatterySettings();
 
-  // 5. Show error fallback if opening settings failed
+  // 6. Show error fallback if opening settings failed
   if (!success && context.mounted) {
     showErrorSnackBar(context, context.loc.batterySnackBarError);
   }

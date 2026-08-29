@@ -1,9 +1,18 @@
 // lib/services/notification_service.dart
 
+import 'dart:async';
+import 'package:baly_groceries_tracker/core/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/item_model.dart';
+
+enum NotificationPermissionState {
+  granted,
+  requestNeeded,
+  settingsRequired,
+}
 
 class NotificationService {
   static final FlutterLocalNotificationsPlugin _plugin =
@@ -22,6 +31,9 @@ class NotificationService {
 
   // SharedPreferences Keys
   static const String _languageCodeKey = 'language_code';
+  static const String _dontAskPrePermissionKey =
+      'dont_ask_notification_pre_permission';
+  static const String _dontAskSettingsKey = 'dont_ask_notification_settings';
 
   // ─────────────────────────────────────────────────────────────────────────────
   // Initialization
@@ -30,9 +42,10 @@ class NotificationService {
   static Future<void> init() async {
     try {
       await _initializePlugin();
-      await _requestPermissions();
-    } catch (e) {
+    } catch (e, stackTrace) {
       debugPrint('NotificationService.init error: $e');
+      debugPrintStack(stackTrace: stackTrace);
+      rethrow;
     }
   }
 
@@ -42,12 +55,208 @@ class NotificationService {
     await _plugin.initialize(settings: settings);
   }
 
-  /// Requests notification permissions (required for Android 13+).
-  static Future<void> _requestPermissions() async {
-    final androidImpl = _plugin.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
-    await androidImpl?.requestNotificationsPermission();
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Permission Handling
+  // ─────────────────────────────────────────────────────────────────────────────
+
+  static NotificationPermissionState resolvePermissionState(
+      PermissionStatus status) {
+    if (status.isGranted) {
+      return NotificationPermissionState.granted;
+    }
+    if (status.isPermanentlyDenied) {
+      return NotificationPermissionState.settingsRequired;
+    }
+    return NotificationPermissionState.requestNeeded;
   }
+
+  /// Requests notification permissions with a custom pre-prompt and settings fallback.
+  static Future<void> requestPermissions(BuildContext? context) async {
+    final status = await Permission.notification.status;
+    final permissionState = resolvePermissionState(status);
+
+    if (permissionState == NotificationPermissionState.granted) {
+      return;
+    }
+
+    if (permissionState == NotificationPermissionState.settingsRequired) {
+      if (context != null && context.mounted) {
+        await _showSettingsBanner(context);
+      }
+      return;
+    }
+
+    bool shouldContinue = true;
+    if (context != null && context.mounted) {
+      shouldContinue = await _showPrePermissionBanner(context);
+    }
+
+    if (!shouldContinue) return;
+
+    final requestedStatus = await Permission.notification.request();
+    if (requestedStatus.isPermanentlyDenied && context != null && context.mounted) {
+      await _showSettingsBanner(context);
+    }
+  }
+
+  static Future<bool> _showPrePermissionBanner(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    final bool dontAskAgain = prefs.getBool(_dontAskPrePermissionKey) ?? false;
+
+    if (dontAskAgain) {
+      return false;
+    }
+
+    if (!context.mounted) return false;
+
+    ScaffoldMessenger.of(context).clearMaterialBanners();
+    final Completer<bool> completer = Completer<bool>();
+    final colorScheme = Theme.of(context).colorScheme;
+
+    ScaffoldMessenger.of(context).showMaterialBanner(
+      MaterialBanner(
+        elevation: 2,
+        backgroundColor: colorScheme.primaryContainer,
+        forceActionsBelow: true,
+        leading: Icon(
+          Icons.notifications_active_rounded,
+          color: colorScheme.primary,
+          size: 28,
+        ),
+        content: Text(
+          context.loc.notificationPrePermissionMessage,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: colorScheme.onPrimaryContainer,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              final p = await SharedPreferences.getInstance();
+              await p.setBool(_dontAskPrePermissionKey, true);
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).clearMaterialBanners();
+              }
+              if (!completer.isCompleted) completer.complete(false);
+            },
+            child: Text(
+              context.loc.dontAskAgain,
+              style: TextStyle(color: colorScheme.onPrimaryContainer.withValues(alpha: 0.7)),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              ScaffoldMessenger.of(context).clearMaterialBanners();
+              if (!completer.isCompleted) completer.complete(false);
+            },
+            child: Text(
+              context.loc.notNow,
+              style: TextStyle(color: colorScheme.onPrimaryContainer.withValues(alpha: 0.7)),
+            ),
+          ),
+          FilledButton(
+            onPressed: () {
+              ScaffoldMessenger.of(context).clearMaterialBanners();
+              if (!completer.isCompleted) completer.complete(true);
+            },
+            style: FilledButton.styleFrom(
+              minimumSize: const Size(80, 44),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+            ),
+            child: Text(context.loc.enable),
+          ),
+        ],
+      ),
+    );
+
+    return completer.future;
+  }
+
+  static Future<void> _showSettingsBanner(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    final bool dontAskAgain = prefs.getBool(_dontAskSettingsKey) ?? false;
+
+    if (dontAskAgain) {
+      return;
+    }
+
+    if (!context.mounted) return;
+
+    ScaffoldMessenger.of(context).clearMaterialBanners();
+    final colorScheme = Theme.of(context).colorScheme;
+
+    ScaffoldMessenger.of(context).showMaterialBanner(
+      MaterialBanner(
+        elevation: 2,
+        backgroundColor: Color.alphaBlend(
+          colorScheme.errorContainer,
+          colorScheme.surface,
+        ),
+        forceActionsBelow: true,
+        leading: Icon(
+          Icons.notifications_off_rounded,
+          color: colorScheme.onErrorContainer,
+          size: 28,
+        ),
+        content: Text(
+          context.loc.notificationSettingsMessage,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: colorScheme.onErrorContainer,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              final p = await SharedPreferences.getInstance();
+              await p.setBool(_dontAskSettingsKey, true);
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).clearMaterialBanners();
+              }
+            },
+            child: Text(
+              context.loc.dontAskAgain,
+              style: TextStyle(
+                color: colorScheme.onErrorContainer.withValues(alpha: 0.7),
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              ScaffoldMessenger.of(context).clearMaterialBanners();
+            },
+            child: Text(
+              context.loc.notNow,
+              style: TextStyle(
+                color: colorScheme.onErrorContainer,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          FilledButton(
+            onPressed: () {
+              ScaffoldMessenger.of(context).clearMaterialBanners();
+              openAppSettings();
+            },
+            style: FilledButton.styleFrom(
+              backgroundColor: colorScheme.error,
+              foregroundColor: colorScheme.onError,
+              minimumSize: const Size(80, 44),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+            ),
+            child: Text(context.loc.settings),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Daily Summary Notification
+  // ─────────────────────────────────────────────────────────────────────────────
 
   static Future<void> showDailySummaryNow(List<ItemModel> items) async {
     try {
@@ -100,8 +309,10 @@ class NotificationService {
           ),
         ),
       );
-    } catch (e) {
+    } catch (e, stackTrace) {
       debugPrint('Notification show error: $e');
+      debugPrintStack(stackTrace: stackTrace);
+      rethrow;
     }
   }
 
@@ -148,14 +359,15 @@ class NotificationService {
 
     if (urgentItems.isNotEmpty) {
       buffer.writeln(isArabic ? '🔴 عاجل:' : '🔴 Urgent:');
-      int limit = urgentItems.length > maxItemsToShow ? maxItemsToShow : urgentItems.length;
+      final int limit =
+          urgentItems.length > maxItemsToShow ? maxItemsToShow : urgentItems.length;
       for (int i = 0; i < limit; i++) {
         buffer.writeln('   • ${urgentItems[i].name}');
       }
       if (urgentItems.length > maxItemsToShow) {
         final remaining = urgentItems.length - maxItemsToShow;
-        buffer.writeln(isArabic 
-            ? '   • و $remaining أخرى' 
+        buffer.writeln(isArabic
+            ? '   • و $remaining أخرى'
             : '   • +$remaining more');
       }
     }
@@ -165,14 +377,15 @@ class NotificationService {
         buffer.writeln();
       }
       buffer.writeln(isArabic ? '🟡 انتبه:' : '🟡 Warning:');
-      int limit = warningItems.length > maxItemsToShow ? maxItemsToShow : warningItems.length;
+      final int limit =
+          warningItems.length > maxItemsToShow ? maxItemsToShow : warningItems.length;
       for (int i = 0; i < limit; i++) {
         buffer.writeln('   • ${warningItems[i].name}');
       }
       if (warningItems.length > maxItemsToShow) {
         final remaining = warningItems.length - maxItemsToShow;
-        buffer.writeln(isArabic 
-            ? '   • و $remaining أخرى' 
+        buffer.writeln(isArabic
+            ? '   • و $remaining أخرى'
             : '   • +$remaining more');
       }
     }

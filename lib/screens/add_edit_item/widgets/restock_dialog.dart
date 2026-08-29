@@ -202,7 +202,10 @@ class _RestockDialogState extends State<_RestockDialog> {
                   textInputAction: TextInputAction.next,
                   style: TextStyle(color: cs.onSurface),
                   cursorColor: cs.primary,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(4),
+                  ],
                   keyboardType: TextInputType.number,
                   decoration: _fieldDecoration(
                     cs,
@@ -245,7 +248,10 @@ class _RestockDialogState extends State<_RestockDialog> {
                   textInputAction: TextInputAction.done,
                   style: TextStyle(color: cs.onSurface),
                   cursorColor: cs.primary,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(4),
+                  ],
                   keyboardType: TextInputType.number,
                   decoration: _fieldDecoration(
                     cs,

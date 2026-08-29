@@ -2167,6 +2167,36 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تم تحديث وقت الإشعار بنجاح'**
   String get notificationTimeUpdated;
+
+  /// Message in banner asking user to grant notification permissions
+  ///
+  /// In ar, this message translates to:
+  /// **'يرجى السماح بالإشعارات لتصلك تنبيهات المواد.'**
+  String get notificationPrePermissionMessage;
+
+  /// Button label to dismiss banner temporarily
+  ///
+  /// In ar, this message translates to:
+  /// **'ليس الآن'**
+  String get notNow;
+
+  /// Button label to grant or enable permissions
+  ///
+  /// In ar, this message translates to:
+  /// **'تفعيل'**
+  String get enable;
+
+  /// Message in banner when notifications are permanently denied
+  ///
+  /// In ar, this message translates to:
+  /// **'تم تعطيل الإشعارات سابقاً. الرجاء تفعيلها من إعدادات الهاتف لتلقي تنبيهات النفاد.'**
+  String get notificationSettingsMessage;
+
+  /// Button label to prevent showing banner again
+  ///
+  /// In ar, this message translates to:
+  /// **'عدم السؤال مجدداً'**
+  String get dontAskAgain;
 }
 
 class _AppLocalizationsDelegate

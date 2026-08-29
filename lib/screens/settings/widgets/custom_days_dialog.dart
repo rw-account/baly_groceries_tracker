@@ -82,7 +82,10 @@ class _CustomDaysDialogState extends State<CustomDaysDialog> {
               controller: _controller,
               focusNode: _focusNode,
               keyboardType: TextInputType.number,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                LengthLimitingTextInputFormatter(4),
+              ],
               decoration: InputDecoration(
                 labelText: context.loc.customRetentionDaysLabel,
                 hintText: context.loc.customRetentionDaysHint,

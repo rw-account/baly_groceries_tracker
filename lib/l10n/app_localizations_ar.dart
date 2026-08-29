@@ -1193,4 +1193,21 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notificationTimeUpdated => 'تم تحديث وقت الإشعار بنجاح';
+
+  @override
+  String get notificationPrePermissionMessage =>
+      'يرجى السماح بالإشعارات لتصلك تنبيهات المواد.';
+
+  @override
+  String get notNow => 'ليس الآن';
+
+  @override
+  String get enable => 'تفعيل';
+
+  @override
+  String get notificationSettingsMessage =>
+      'تم تعطيل الإشعارات سابقاً. الرجاء تفعيلها من إعدادات الهاتف لتلقي تنبيهات النفاد.';
+
+  @override
+  String get dontAskAgain => 'عدم السؤال مجدداً';
 }

@@ -1961,5 +1961,30 @@
   "notificationTimeUpdated": "تم تحديث وقت الإشعار بنجاح",
   "@notificationTimeUpdated": {
     "description": "Success message when notification time is updated"
+  },
+
+  "notificationPrePermissionMessage": "يرجى السماح بالإشعارات لتصلك تنبيهات المواد.",
+  "@notificationPrePermissionMessage": {
+    "description": "Message in banner asking user to grant notification permissions"
+  },
+
+  "notNow": "ليس الآن",
+  "@notNow": {
+    "description": "Button label to dismiss banner temporarily"
+  },
+
+  "enable": "تفعيل",
+  "@enable": {
+    "description": "Button label to grant or enable permissions"
+  },
+
+  "notificationSettingsMessage": "تم تعطيل الإشعارات سابقاً. الرجاء تفعيلها من إعدادات الهاتف لتلقي تنبيهات النفاد.",
+  "@notificationSettingsMessage": {
+    "description": "Message in banner when notifications are permanently denied"
+  },
+
+  "dontAskAgain": "عدم السؤال مجدداً",
+  "@dontAskAgain": {
+    "description": "Button label to prevent showing banner again"
   }
 }

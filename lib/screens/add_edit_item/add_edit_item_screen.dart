@@ -423,6 +423,7 @@ class _AddEditItemScreenState extends AddEditItemState
         textInputAction: TextInputAction.done,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'^-?\d*')),
+          LengthLimitingTextInputFormatter(4),
         ],
         onSubmitted: (_) => _daysFocus.unfocus(),
         validator: (v) {

@@ -1,5 +1,6 @@
 // lib/screens/home/home_screen.dart
 
+import 'package:baly_groceries_tracker/services/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restart_app/restart_app.dart';
@@ -27,10 +28,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        checkAndShowBatteryDialog(context);
-      }
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!mounted) return;
+      await NotificationService.requestPermissions(context);
+      if (!mounted) return;
+      checkAndShowBatteryDialog(context);
     });
   }
 

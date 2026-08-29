@@ -82,6 +82,7 @@ class _EditPriceDialogState extends State<_EditPriceDialog> {
           cursorColor: cs.primary,
           inputFormatters: [
             FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+            LengthLimitingTextInputFormatter(15), 
             TextInputFormatter.withFunction((oldValue, newValue) {
               if ('.'.allMatches(newValue.text).length > 1) {
                 return oldValue;

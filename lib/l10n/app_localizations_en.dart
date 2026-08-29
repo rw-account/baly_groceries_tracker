@@ -1196,4 +1196,21 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get notificationTimeUpdated =>
       'Notification time updated successfully';
+
+  @override
+  String get notificationPrePermissionMessage =>
+      'Please allow notifications to receive item alerts.';
+
+  @override
+  String get notNow => 'Not now';
+
+  @override
+  String get enable => 'Enable';
+
+  @override
+  String get notificationSettingsMessage =>
+      'Notifications were previously disabled. Please enable them in phone settings to receive item alerts.';
+
+  @override
+  String get dontAskAgain => 'Don\'t ask again';
 }

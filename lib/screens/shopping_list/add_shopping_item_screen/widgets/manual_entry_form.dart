@@ -145,6 +145,7 @@ class _ManualEntryFormState extends State<ManualEntryForm> {
             textInputAction: TextInputAction.done,
             inputFormatters: [
               FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+                LengthLimitingTextInputFormatter(15), 
               TextInputFormatter.withFunction((old, current) {
                 return '.'.allMatches(current.text).length > 1 ? old : current;
               }),

@@ -1961,5 +1961,30 @@
   "notificationTimeUpdated": "Notification time updated successfully",
   "@notificationTimeUpdated": {
     "description": "Success message when notification time is updated"
+  },
+
+  "notificationPrePermissionMessage": "Please allow notifications to receive item alerts.",
+  "@notificationPrePermissionMessage": {
+    "description": "Message in banner asking user to grant notification permissions"
+  },
+
+  "notNow": "Not now",
+  "@notNow": {
+    "description": "Button label to dismiss banner temporarily"
+  },
+
+  "enable": "Enable",
+  "@enable": {
+    "description": "Button label to grant or enable permissions"
+  },
+
+  "notificationSettingsMessage": "Notifications were previously disabled. Please enable them in phone settings to receive item alerts.",
+  "@notificationSettingsMessage": {
+    "description": "Message in banner when notifications are permanently denied"
+  },
+
+  "dontAskAgain": "Don't ask again",
+  "@dontAskAgain": {
+    "description": "Button label to prevent showing banner again"
   }
 }

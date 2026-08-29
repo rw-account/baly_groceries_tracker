@@ -209,7 +209,10 @@ class _StockStatusDialogState extends State<_StockStatusDialog> {
                     textInputAction: TextInputAction.done,
                     style: TextStyle(color: cs.onSurface),
                     cursorColor: cs.primary,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(4),
+                    ],
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       labelText: l10n.stockStatusRemainingDaysLabel,
