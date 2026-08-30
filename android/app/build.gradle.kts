@@ -18,8 +18,12 @@ plugins {
 
 android {
     namespace = "com.baly_groceries_tracker.app"
-    compileSdk = 37
-    compileSdkMinor = 0
+    compileSdkExtension = 37
+    compileSdk {
+        version = release(37) {
+            minorApiLevel = 0 // Force Gradle and transitive dependencies to use the android-37.0 directory
+        }
+    }
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
