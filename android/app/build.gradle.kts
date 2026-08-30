@@ -19,6 +19,7 @@ plugins {
 android {
     namespace = "com.baly_groceries_tracker.app"
     compileSdk = 37
+    compileSdkMinor = 0
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
