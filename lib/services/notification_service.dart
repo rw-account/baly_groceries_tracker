@@ -94,7 +94,10 @@ class NotificationService {
     if (!shouldContinue) return;
 
     final requestedStatus = await Permission.notification.request();
-    if (requestedStatus.isPermanentlyDenied && context != null && context.mounted) {
+
+    // Android <= 12 doesn't prompt for notifications at runtime.
+    // Using !isGranted ensures the fallback banner shows across all API levels.
+    if (!requestedStatus.isGranted && context != null && context.mounted) {
       await _showSettingsBanner(context);
     }
   }
@@ -143,7 +146,9 @@ class NotificationService {
             },
             child: Text(
               context.loc.dontAskAgain,
-              style: TextStyle(color: colorScheme.onPrimaryContainer.withValues(alpha: 0.7)),
+              style: TextStyle(
+                color: colorScheme.onPrimaryContainer.withValues(alpha: 0.7),
+              ),
             ),
           ),
           TextButton(
@@ -153,7 +158,9 @@ class NotificationService {
             },
             child: Text(
               context.loc.notNow,
-              style: TextStyle(color: colorScheme.onPrimaryContainer.withValues(alpha: 0.7)),
+              style: TextStyle(
+                color: colorScheme.onPrimaryContainer.withValues(alpha: 0.7),
+              ),
             ),
           ),
           FilledButton(
@@ -221,6 +228,7 @@ class NotificationService {
               context.loc.dontAskAgain,
               style: TextStyle(
                 color: colorScheme.onErrorContainer.withValues(alpha: 0.7),
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
@@ -231,7 +239,7 @@ class NotificationService {
             child: Text(
               context.loc.notNow,
               style: TextStyle(
-                color: colorScheme.onErrorContainer,
+                color: colorScheme.onErrorContainer.withValues(alpha: 0.7),
                 fontWeight: FontWeight.w600,
               ),
             ),

@@ -31,11 +31,12 @@ class StorageService {
 
   /// Initializes the database connection. Must be called before any CRUD operations.
   Future<void> init() async {
-    _db = await _openDatabase();
+    _db = await _openMainDatabase();
   }
 
-  /// Opens the database and defines the schema creation logic.
-  Future<Database> _openDatabase() async {
+  /// Opens the main database connection for the app. 
+  /// This is the primary connection used in the main isolate.
+  Future<Database> _openMainDatabase() async {
     final dbPath = await getDatabasesPath();
     final fullPath = p.join(dbPath, _dbName);
 
@@ -43,6 +44,19 @@ class StorageService {
       fullPath,
       version: _dbVersion,
       onCreate: _onCreateDatabase,
+    );
+  }
+
+  /// Opens a separate database connection for background operations (e.g., Workmanager).
+  Future<Database> _openBackgroundDatabase() async {
+    final dbPath = await getDatabasesPath();
+    final fullPath = p.join(dbPath, _dbName);
+
+    return openDatabase(
+      fullPath,
+      version: _dbVersion,
+      onCreate: _onCreateDatabase,
+      singleInstance: false,
     );
   }
 
@@ -119,7 +133,7 @@ class StorageService {
   /// Reopens the database connection after it was closed.
   /// Called after a successful restore operation.
   Future<void> reopenDatabase() async {
-    _db = await _openDatabase();
+    _db = await _openMainDatabase();
   }
 
   /// Forces all WAL (Write-Ahead Log) changes to be merged into the main
@@ -501,14 +515,19 @@ class StorageService {
 
   // ─── Background helper ────────────────────────────────────────────────────────
 
-  /// Opens its own DB connection (for use in background isolates / Workmanager).
+  /// Opens a separate DB connection for background isolates/WorkManager.
+  /// Uses `singleInstance: false` as recommended by sqflite for background
+  /// database access. The connection must not be closed here, as sqflite
+  /// recommends keeping the background connection open when using the
+  /// database from another isolate.
   Future<List<ItemModel>> getAllItemsBackground() async {
-    final db = await _openDatabase();
-    try {
-      final rows = await db.query(_tableName, orderBy: 'createdAt ASC');
-      return rows.map(ItemModel.fromMap).toList();
-    } finally {
-      await db.close();
-    }
+    final db = await _openBackgroundDatabase();
+
+    final rows = await db.query(
+    _tableName,
+    orderBy: 'createdAt ASC',
+    );
+
+    return rows.map(ItemModel.fromMap).toList();
   }
 }
