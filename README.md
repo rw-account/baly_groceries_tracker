@@ -10,7 +10,7 @@
 ![No Ads](https://img.shields.io/badge/ads-Free%20%26%20No%20Ads-FF9800)
 [![Languages](https://img.shields.io/badge/languages-Arabic%20%7C%20English-7952B3)](lib/l10n/)
 
-**Baly Groceries Tracker** is a free and open-source app that gives you an instant overview of your groceries. See at a glance exactly how much you have left of eggs, flour, rice, and other everyday essentials, so you always know what's running low and what's still well stocked.
+**Baly Groceries Tracker** is a free and open-source app that gives you an instant overview of your grocery items. See at a glance exactly how much you have left of eggs, flour, rice, and other everyday essentials, so you always know what's running low and what's still well stocked.
 
 Stay organized and shop with confidence. By keeping track of your groceries and alerting you before essential items run low, the app helps you prioritize what truly needs to be replaced. This makes it easier to spend your budget on necessities first instead of impulse purchases, reducing waste, avoiding last-minute shortages, and giving you greater peace of mind in your day-to-day life, perfect for families and anyone seeking a better, more organized life.
 
@@ -22,7 +22,7 @@ The **Expiry** screen automatically lists items that are running low, prioritize
 
 ### Smart Notifications
 
-Receive timely reminders before your groceries run low, giving you plenty of time to plan your shopping. You can also disable notifications for individual items whenever you like.
+Receive early alerts before your grocery items run out, allowing you to plan your shopping ahead of time. You have full control to adjust notification timing or disable alerts for any item whenever you like.
 
 ### Built-in Shopping List
 
