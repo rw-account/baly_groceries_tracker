@@ -58,10 +58,10 @@ The app is fully available in both Arabic and English.
     </tr>
     <tr>
       <td align="center">
-        <img src="assets/screenshots/en/home_en.png" alt="English home screen" width="260">
+        <img src="assets/screenshots/en/en_not_1080x1920/home_en.png" alt="English home screen" width="260">
       </td>
       <td align="center">
-        <img src="assets/screenshots/en/expiry_en.png" alt="English expiry screen" width="260">
+        <img src="assets/screenshots/en/en_not_1080x1920/expiry_en.png" alt="English expiry screen" width="260">
       </td>
     </tr>
     <tr>
@@ -70,10 +70,10 @@ The app is fully available in both Arabic and English.
     </tr>
     <tr>
       <td align="center">
-        <img src="assets/screenshots/en/shopping_list_en.png" alt="English shopping list screen" width="260">
+        <img src="assets/screenshots/en/en_not_1080x1920/shopping_list_en.png" alt="English shopping list screen" width="260">
       </td>
       <td align="center">
-        <img src="assets/screenshots/en/edit_item_en.png" alt="English edit item screen" width="260">
+        <img src="assets/screenshots/en/en_not_1080x1920/edit_item_en.png" alt="English edit item screen" width="260">
       </td>
     </tr>
     <tr>

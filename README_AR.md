@@ -63,10 +63,10 @@
     </tr>
     <tr>
       <td align="center">
-        <img src="assets/screenshots/ar/home_ar.png" alt="Arabic home screen" width="260">
+        <img src="assets/screenshots/ar/ar_not_1080x1920/home_ar.png" alt="Arabic home screen" width="260">
       </td>
       <td align="center">
-        <img src="assets/screenshots/ar/expiry_ar.png" alt="Arabic expiry screen" width="260">
+        <img src="assets/screenshots/ar/ar_not_1080x1920/expiry_ar.png" alt="Arabic expiry screen" width="260">
       </td>
     </tr>
     <tr>
@@ -75,10 +75,10 @@
     </tr>
     <tr>
       <td align="center">
-        <img src="assets/screenshots/ar/shopping_list_ar.png" alt="Arabic shopping list screen" width="260">
+        <img src="assets/screenshots/ar/ar_not_1080x1920/shopping_list_ar.png" alt="Arabic shopping list screen" width="260">
       </td>
       <td align="center">
-        <img src="assets/screenshots/ar/edit_item_ar.png" alt="Arabic edit item screen" width="260">
+        <img src="assets/screenshots/ar/ar_not_1080x1920/edit_item_ar.png" alt="Arabic edit item screen" width="260">
       </td>
     </tr>
     <tr>
