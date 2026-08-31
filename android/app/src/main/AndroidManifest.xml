@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
+    <!-- Force remove ACCESS_NETWORK_STATE inserted by third-party packages -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" tools:node="remove" />
+
     <queries>
         <intent>
             <action android:name="android.settings.IGNORE_BATTERY_OPTIMIZATION_SETTINGS" />
