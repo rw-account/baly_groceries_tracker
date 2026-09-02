@@ -1,41 +1,55 @@
-<strong>Baly Groceries Tracker</strong> is a free and open-source app that gives you an instant overview of your grocery items. See at a glance exactly how much you have left of eggs, flour, rice, and other everyday essentials, so you always know what's running low and what's still well stocked.
+A free, open-source app that frees your mind from constantly worrying about essential household needs.
 
-Stay organized and shop with confidence. By keeping track of your groceries and alerting you before essential items run low, the app helps you prioritize what truly needs to be replaced. This makes it easier to spend your budget on necessities first instead of impulse purchases, reducing waste, avoiding last-minute shortages, and giving you greater peace of mind in your day-to-day life, perfect for families and anyone seeking a better, more organized life.
+At a quick glance, you can see how much you have left of eggs, flour, rice, and other daily essentials — so you always know what's about to run out and what's still in stock.
 
-<br>
+Stay organized and enjoy peace of mind by tracking your groceries and receiving alerts before essential items run out.
+
+The app helps you prioritize what truly needs to be bought, making it easier to spend your budget on necessities first rather than on impulse purchases.
+
+This reduces waste, lowers the risk of financial strain caused by poor planning, and gives you greater peace of mind in your daily life.
+
+Perfect for families and anyone seeking a better, more organized life.
 
 <big><strong>Key Features</strong></big>
 
-<br>
-
 <strong>Expiry Screen</strong>
 
-<blockquote>The <strong>Expiry</strong> screen automatically lists items that are running low, prioritized with clear visual indicators so you can instantly see what needs to be restocked first.</blockquote>
+Displays all items that are about to run out, sorted by priority, with clear visual indicators — so you instantly know what needs to be bought first.
 
-<strong>Smart Notifications</strong>
+Frees you from constant worry and the recurring question: "Is something essential about to run out right now?"
 
-<blockquote>Receive early alerts before your grocery items run out, allowing you to plan your shopping ahead of time. You have full control to adjust notification timing or disable alerts for any item whenever you like.</blockquote>
+<strong>Smart Alerts</strong>
+
+The app sends a notification when any household supply is close to running out, giving you enough time to plan your purchase before it runs out.
+
+You can also manage notifications and disable them for any item as you wish, and choose your preferred time for notifications to arrive.
 
 <strong>Built-in Shopping List</strong>
 
-<blockquote>No need for a separate shopping list app. Add items that are running low, along with anything else you need, and buy only what matters. Easily share your shopping list via WhatsApp with family or anyone shopping on your behalf.</blockquote>
+No need to write your shopping list elsewhere. The app provides a shopping list where you can add items that are about to run out, along with anything else you don't track within the app.
 
-<strong>Share Your Inventory</strong>
+So you buy only what you need and avoid unnecessary impulse purchases — with the option to easily share the list via WhatsApp with anyone who can do the shopping for you.
 
-<blockquote>Want to let a family member know what's available at home? Generate a summary of your tracked groceries, including the estimated time remaining for each item, and share it instantly via WhatsApp.</blockquote>
+<strong>Inventory Sharing</strong>
 
-<strong>Complete History</strong>
+Want to let a family member know what's in the house?
 
-<blockquote>Made a mistake or want to check a previous update? Browse the complete history of every change, see exactly what was modified and when, and restore any previous version whenever you need.</blockquote>
+No need to explain the state of your supplies manually. You can generate a summary showing all available items and how much is left of each, and easily share it via WhatsApp.
 
-<strong>Private & Offline</strong>
+<strong>Change History</strong>
 
-<blockquote>Your data stays on your device and is never uploaded to external servers. The app works completely offline and lets you create and restore backups whenever needed.</blockquote>
+Don't worry if you make a mistake updating an item's data or doubt a value you entered previously.
 
-<strong>Ad-Free Experience</strong>
+The app lets you review the change history to see what was modified and when, with the ability to easily revert to any previous state.
 
-<blockquote>Enjoy a clean, distraction-free experience with no ads.</blockquote>
+<strong>Complete Privacy</strong>
 
-<strong>Arabic & English Support</strong>
+All your data is stored locally on your device, and the app works fully offline, with the ability to create backups and restore them whenever needed.
 
-<blockquote>The app is fully available in both Arabic and English.</blockquote>
+<strong>No Ads</strong>
+
+The app is completely free of ads, so you can use it without any annoyance or distraction.
+
+<strong>Supports Arabic and English</strong>
+
+The app supports both Arabic and English.

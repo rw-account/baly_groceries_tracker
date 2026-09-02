@@ -1,13 +1,24 @@
 // lib/services/backup_service.dart
 
 import 'dart:io';
+import 'package:baly_groceries_tracker/services/workmanager_service.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_file_dialog/flutter_file_dialog.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 import 'package:baly_groceries_tracker/services/storage_service.dart';
-import 'package:baly_groceries_tracker/services/backup_exception.dart';
+
+
+/// The single source of truth for SharedPreferences keys included in database
+/// backups. Add a key here only when that setting should be backed up/restored.
+const backupPreferenceKeys = <String>[
+  'language_code',
+  'notification_hour',
+  'notification_minute',
+  'log_retention_option',
+  'log_retention_custom_days',
+];
 
 class BackupService {
   static const String _dbName = 'baly_groceries_tracker.db';
@@ -41,8 +52,9 @@ class BackupService {
       // -------------------------------------------------------------
       // 3. Critical Section (Fast Copy)
       // -------------------------------------------------------------
+      await storage.preparePreferencesForBackup();
       await storage.checkpointDatabase();
-      
+
       // Close the database to prevent file locks or corruption during the copy
       await storage.closeDatabase();
       databaseWasClosed = true;
@@ -101,7 +113,6 @@ class BackupService {
       }
     }
   }
-
 
   /// Restores the database from a user-selected file.
   ///
@@ -176,9 +187,11 @@ class BackupService {
 
       // 5. Reopen the database with the newly restored data
       await storage.reopenDatabase();
-      databaseWasClosed = false; // Reopen succeeded; rollback is no longer needed
+      databaseWasClosed =
+          false; // Reopen succeeded; rollback is no longer needed
+      await storage.restorePreferencesFromBackup();
 
-      // 6. Safe Cleanup: Delete old backup files. 
+      // 6. Safe Cleanup: Delete old backup files.
       // Errors are handled gracefully inside _deleteIfExists to prevent triggering a false rollback.
       await _deleteIfExists(originalDbBackup);
       await _deleteIfExists(
@@ -187,6 +200,9 @@ class BackupService {
       await _deleteIfExists(
         originalShmBackup == null ? null : File(originalShmBackup),
       );
+
+      // 7. Update the daily task schedule after restoring preferences
+      await WorkmanagerService.updateDailyTaskSchedule();
 
     } on BackupException {
       await _rollbackRestore(
@@ -266,12 +282,46 @@ class BackupService {
     }
   }
 
-  /// Safely deletes a file if it exists. Swallows errors to ensure 
+  /// Safely deletes a file if it exists. Swallows errors to ensure
   /// cleanup operations do not crash the app.
   static Future<void> _deleteIfExists(File? file) async {
     if (file == null) return;
     try {
       if (await file.exists()) await file.delete();
     } catch (_) {}
+  }
+}
+
+/// Strongly-typed categories of errors that can occur during backup
+/// or restore operations. Replaces fragile string-matching against
+/// `Exception.toString()`.
+enum BackupErrorType {
+  backupFileNotFound,
+  backupCancelled,
+  backupSaveError,
+  restoreCancelled,
+  restoreFileNotFound,
+  restoreInvalidFile,
+  restoreFailed,
+  unknown,
+}
+
+/// A typed exception thrown by [BackupService] for backup/restore
+/// failures. Carries a [type] enum for reliable, compiler-checked
+/// handling at the call site, plus optional [details] / [cause] for
+/// logging or debugging.
+class BackupException implements Exception {
+  final BackupErrorType type;
+  final String? details;
+  final Object? cause;
+
+  const BackupException(this.type, {this.details, this.cause});
+
+  @override
+  String toString() {
+    final buffer = StringBuffer('BackupException: $type');
+    if (details != null) buffer.write(' ($details)');
+    if (cause != null) buffer.write(' [cause: $cause]');
+    return buffer.toString();
   }
 }

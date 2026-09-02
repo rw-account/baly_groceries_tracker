@@ -1451,7 +1451,7 @@ abstract class AppLocalizations {
   /// Subtitle for the create backup action
   ///
   /// In ar, this message translates to:
-  /// **'إنشاء نسخة احتياطية من قاعدة البيانات'**
+  /// **'إنشاء ملف جديد يحتوي على جميع بياناتك الحالية'**
   String get createBackupSubtitle;
 
   /// Subtitle for the restore backup action
@@ -1499,7 +1499,7 @@ abstract class AppLocalizations {
   /// Dialog content explaining that current data will be replaced and the app will restart after a successful restore
   ///
   /// In ar, this message translates to:
-  /// **'سيتم استبدال جميع البيانات الحالية بالبيانات الموجودة في النسخة الاحتياطية.\n\nبعد نجاح الاستعادة، سيتم إعادة تشغيل التطبيق لتحديث البيانات.\n\nهل تريد المتابعة؟'**
+  /// **'سيتم استبدال جميع البيانات والإعدادات الحالية (بما في ذلك اللغة وأوقات التنبيهات) بالبيانات الموجودة في النسخة الاحتياطية.\n\nبعد نجاح الاستعادة، سيتم إعادة تشغيل التطبيق لتطبيق التغييرات.\n\nهل تريد المتابعة؟'**
   String get restoreConfirmationContent;
 
   /// Button label to confirm restore

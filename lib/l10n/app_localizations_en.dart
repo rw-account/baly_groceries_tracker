@@ -779,7 +779,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get backupFileExtension => 'Database files (*.db)';
 
   @override
-  String get createBackupSubtitle => 'Create a backup of the database';
+  String get createBackupSubtitle =>
+      'Create a new file with all your current data';
 
   @override
   String get restoreBackupSubtitle => 'Restore data from a backup file';
@@ -804,7 +805,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get restoreConfirmationContent =>
-      'All current data will be replaced with the data from the backup file.\n\nAfter a successful restore, the app will restart to refresh the data.\n\nDo you want to continue?';
+      'All current data and preferences (such as language and notification time) will be replaced with the data from the backup file.\n\nAfter successful restore, the app will restart to apply the changes.\n\nDo you want to continue?';
 
   @override
   String get restoreConfirmLabel => 'Restore';

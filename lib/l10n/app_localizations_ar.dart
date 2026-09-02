@@ -778,7 +778,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get backupFileExtension => 'ملفات قاعدة البيانات (*.db)';
 
   @override
-  String get createBackupSubtitle => 'إنشاء نسخة احتياطية من قاعدة البيانات';
+  String get createBackupSubtitle =>
+      'إنشاء ملف جديد يحتوي على جميع بياناتك الحالية';
 
   @override
   String get restoreBackupSubtitle => 'استعادة البيانات من ملف نسخة احتياطية';
@@ -803,7 +804,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get restoreConfirmationContent =>
-      'سيتم استبدال جميع البيانات الحالية بالبيانات الموجودة في النسخة الاحتياطية.\n\nبعد نجاح الاستعادة، سيتم إعادة تشغيل التطبيق لتحديث البيانات.\n\nهل تريد المتابعة؟';
+      'سيتم استبدال جميع البيانات والإعدادات الحالية (بما في ذلك اللغة وأوقات التنبيهات) بالبيانات الموجودة في النسخة الاحتياطية.\n\nبعد نجاح الاستعادة، سيتم إعادة تشغيل التطبيق لتطبيق التغييرات.\n\nهل تريد المتابعة؟';
 
   @override
   String get restoreConfirmLabel => 'استعادة';

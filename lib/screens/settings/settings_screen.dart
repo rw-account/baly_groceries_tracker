@@ -11,7 +11,6 @@ import '../../models/log_retention_option.dart';
 import '../../providers/locale_provider.dart';
 import '../../providers/storage_service_provider.dart';
 import '../../services/backup_service.dart';
-import '../../services/backup_exception.dart';
 import 'widgets/widgets.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {

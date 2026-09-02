@@ -1,5 +1,7 @@
 // lib/services/storage_service.dart
 
+import 'dart:convert';
+import 'package:baly_groceries_tracker/services/backup_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
@@ -10,12 +12,13 @@ import '../models/log_retention_option.dart';
 
 class StorageService {
   static const String _dbName = 'baly_groceries_tracker.db';
-  static const int _dbVersion = 1;
-  
+  static const int _dbVersion = 2;
+
   // Tables
   static const String _tableName = 'items';
   static const String _shoppingItemsTableName = 'shopping_items';
   static const String _itemChangeLogsTableName = 'item_change_logs';
+  static const String _settingsBackupTableName = 'settings_backup';
 
   // SharedPreferences Keys
   static const String _hasSeededKey = 'has_seeded_default_items';
@@ -34,7 +37,7 @@ class StorageService {
     _db = await _openMainDatabase();
   }
 
-  /// Opens the main database connection for the app. 
+  /// Opens the main database connection for the app.
   /// This is the primary connection used in the main isolate.
   Future<Database> _openMainDatabase() async {
     final dbPath = await getDatabasesPath();
@@ -44,6 +47,7 @@ class StorageService {
       fullPath,
       version: _dbVersion,
       onCreate: _onCreateDatabase,
+      onUpgrade: _onUpgradeDatabase,
     );
   }
 
@@ -56,6 +60,7 @@ class StorageService {
       fullPath,
       version: _dbVersion,
       onCreate: _onCreateDatabase,
+      onUpgrade: _onUpgradeDatabase,
       singleInstance: false,
     );
   }
@@ -102,14 +107,43 @@ class StorageService {
       )
     ''');
 
+    _createSettingsBackupTable(batch);
+
     // Indexes for performance optimization
-    batch.execute('CREATE INDEX IF NOT EXISTS idx_items_created_at ON $_tableName(createdAt)');
-    batch.execute('CREATE INDEX IF NOT EXISTS idx_shopping_items_created_at ON $_shoppingItemsTableName(created_at)');
-    batch.execute('CREATE INDEX IF NOT EXISTS idx_shopping_items_inventory_item_id ON $_shoppingItemsTableName(inventory_item_id)');
-    batch.execute('CREATE INDEX IF NOT EXISTS idx_change_logs_item_id ON $_itemChangeLogsTableName(item_id)');
-    batch.execute('CREATE INDEX IF NOT EXISTS idx_change_logs_timestamp ON $_itemChangeLogsTableName(timestamp)');
+    batch.execute(
+        'CREATE INDEX IF NOT EXISTS idx_items_created_at ON $_tableName(createdAt)');
+    batch.execute(
+        'CREATE INDEX IF NOT EXISTS idx_shopping_items_created_at ON $_shoppingItemsTableName(created_at)');
+    batch.execute(
+        'CREATE INDEX IF NOT EXISTS idx_shopping_items_inventory_item_id ON $_shoppingItemsTableName(inventory_item_id)');
+    batch.execute(
+        'CREATE INDEX IF NOT EXISTS idx_change_logs_item_id ON $_itemChangeLogsTableName(item_id)');
+    batch.execute(
+        'CREATE INDEX IF NOT EXISTS idx_change_logs_timestamp ON $_itemChangeLogsTableName(timestamp)');
 
     await batch.commit(noResult: true);
+  }
+
+  Future<void> _onUpgradeDatabase(
+    Database db,
+    int oldVersion,
+    int newVersion,
+  ) async {
+    if (oldVersion < 2) {
+      final batch = db.batch();
+      _createSettingsBackupTable(batch);
+      await batch.commit(noResult: true);
+    }
+  }
+
+  void _createSettingsBackupTable(Batch batch) {
+    batch.execute('''
+      CREATE TABLE IF NOT EXISTS $_settingsBackupTableName (
+        key   TEXT PRIMARY KEY,
+        type  TEXT NOT NULL,
+        value TEXT NOT NULL
+      )
+    ''');
   }
 
   /// Getter for the active database instance. Throws an error if not initialized.
@@ -144,6 +178,122 @@ class StorageService {
     }
   }
 
+  Future<void> preparePreferencesForBackup() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.reload();
+
+    await _database.transaction((txn) async {
+      await txn.execute('''
+        CREATE TABLE IF NOT EXISTS $_settingsBackupTableName (
+          key   TEXT PRIMARY KEY,
+          type  TEXT NOT NULL,
+          value TEXT NOT NULL
+        )
+      ''');
+      await txn.delete(_settingsBackupTableName);
+
+      for (final key in backupPreferenceKeys) {
+        if (!prefs.containsKey(key)) continue;
+
+        final encoded = _encodePreferenceValue(prefs.get(key));
+        if (encoded == null) continue;
+
+        await txn.insert(
+          _settingsBackupTableName,
+          {
+            'key': key,
+            'type': encoded.type,
+            'value': encoded.value,
+          },
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      }
+    });
+  }
+
+  Future<void> restorePreferencesFromBackup() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final rows = await _database.query(_settingsBackupTableName);
+
+      for (final row in rows) {
+        final key = row['key'];
+        final type = row['type'];
+        final value = row['value'];
+
+        if (key is! String ||
+            type is! String ||
+            value is! String ||
+            !backupPreferenceKeys.contains(key)) {
+          continue;
+        }
+
+        try {
+          await _restorePreferenceValue(
+            prefs: prefs,
+            key: key,
+            type: type,
+            serializedValue: value,
+          );
+        } catch (_) {
+          // Ignore invalid or incompatible rows so one bad setting does not
+          // prevent the rest of the backup from being restored.
+        }
+      }
+    } catch (_) {
+      return;
+    }
+  }
+
+  _SerializedPreference? _encodePreferenceValue(Object? value) {
+    if (value is String) {
+      return _SerializedPreference('string', value);
+    }
+    if (value is int) {
+      return _SerializedPreference('int', value.toString());
+    }
+    if (value is bool) {
+      return _SerializedPreference('bool', value.toString());
+    }
+    if (value is double) {
+      return _SerializedPreference('double', value.toString());
+    }
+    if (value is List<String>) {
+      return _SerializedPreference('stringList', jsonEncode(value));
+    }
+
+    return null;
+  }
+
+  Future<void> _restorePreferenceValue({
+    required SharedPreferences prefs,
+    required String key,
+    required String type,
+    required String serializedValue,
+  }) async {
+    switch (type) {
+      case 'string':
+        await prefs.setString(key, serializedValue);
+      case 'int':
+        final value = int.tryParse(serializedValue);
+        if (value != null) await prefs.setInt(key, value);
+      case 'bool':
+        if (serializedValue == 'true') {
+          await prefs.setBool(key, true);
+        } else if (serializedValue == 'false') {
+          await prefs.setBool(key, false);
+        }
+      case 'double':
+        final value = double.tryParse(serializedValue);
+        if (value != null) await prefs.setDouble(key, value);
+      case 'stringList':
+        final decoded = jsonDecode(serializedValue);
+        if (decoded is List && decoded.every((item) => item is String)) {
+          await prefs.setStringList(key, decoded.cast<String>());
+        }
+    }
+  }
+
   // ─────────────────────────────────────────────────────────────────────────────
   // Seeding Default Data
   // ─────────────────────────────────────────────────────────────────────────────
@@ -157,18 +307,20 @@ class StorageService {
     if (hasSeeded) return;
 
     final String langCode = prefs.getString(_languageCodeKey) ?? 'ar';
-    
+
     final defaultInventoryItems = _getDefaultInventoryItems(langCode);
     final defaultShoppingItems = _getDefaultShoppingItems(langCode);
 
     final batch = _database.batch();
 
     for (final item in defaultInventoryItems) {
-      batch.insert(_tableName, item.toMap(), conflictAlgorithm: ConflictAlgorithm.ignore);
+      batch.insert(_tableName, item.toMap(),
+          conflictAlgorithm: ConflictAlgorithm.ignore);
     }
 
     for (final shoppingItem in defaultShoppingItems) {
-      batch.insert(_shoppingItemsTableName, shoppingItem.toMap(), conflictAlgorithm: ConflictAlgorithm.ignore);
+      batch.insert(_shoppingItemsTableName, shoppingItem.toMap(),
+          conflictAlgorithm: ConflictAlgorithm.ignore);
     }
 
     await batch.commit(noResult: true);
@@ -255,10 +407,10 @@ class StorageService {
   /// Retrieves all inventory items, sorted by remaining days ascending.
   Future<List<ItemModel>> getAllItems() async {
     final rows = await _database.query(_tableName, orderBy: 'createdAt ASC');
-    
+
     final items = rows.map(ItemModel.fromMap).toList()
       ..sort((a, b) => a.remainingDays.compareTo(b.remainingDays));
-      
+
     return items;
   }
 
@@ -281,7 +433,8 @@ class StorageService {
     await _database.transaction((txn) async {
       ItemModel? oldState = previousItem;
       if (oldState == null && actionType != ItemActionType.create) {
-        final rows = await txn.query(_tableName, where: 'id = ?', whereArgs: [item.id]);
+        final rows =
+            await txn.query(_tableName, where: 'id = ?', whereArgs: [item.id]);
         if (rows.isNotEmpty) {
           oldState = ItemModel.fromMap(rows.first);
         }
@@ -318,7 +471,8 @@ class StorageService {
       ItemModel? oldState;
 
       // Capture the current item state before deletion.
-      final rows = await txn.query(_tableName, where: 'id = ?', whereArgs: [id]);
+      final rows =
+          await txn.query(_tableName, where: 'id = ?', whereArgs: [id]);
       if (rows.isNotEmpty) {
         oldState = ItemModel.fromMap(rows.first);
       }
@@ -422,7 +576,8 @@ class StorageService {
 
   /// Retrieves all shopping list items, sorted by creation date ascending.
   Future<List<ShoppingItem>> getAllShoppingItems() async {
-    final rows = await _database.query(_shoppingItemsTableName, orderBy: 'created_at ASC');
+    final rows = await _database.query(_shoppingItemsTableName,
+        orderBy: 'created_at ASC');
     return rows.map(ShoppingItem.fromMap).toList();
   }
 
@@ -459,7 +614,8 @@ class StorageService {
 
   /// Deletes a specific shopping item by ID.
   Future<void> deleteShoppingItem(int id) async {
-    await _database.delete(_shoppingItemsTableName, where: 'id = ?', whereArgs: [id]);
+    await _database
+        .delete(_shoppingItemsTableName, where: 'id = ?', whereArgs: [id]);
   }
 
   /// Deletes all shopping list items.
@@ -483,7 +639,8 @@ class StorageService {
 
   /// Deletes all shopping_list rows linked to the given inventory item.
   /// Prevents orphaned references when an inventory item is deleted.
-  Future<void> deleteShoppingItemsForInventoryItem(String inventoryItemId) async {
+  Future<void> deleteShoppingItemsForInventoryItem(
+      String inventoryItemId) async {
     await _database.delete(
       _shoppingItemsTableName,
       where: 'inventory_item_id = ?',
@@ -492,7 +649,8 @@ class StorageService {
   }
 
   /// Bulk inserts multiple shopping items efficiently using a batch.
-  Future<void> addMultipleShoppingItems(List<ShoppingItem> itemsToInsert) async {
+  Future<void> addMultipleShoppingItems(
+      List<ShoppingItem> itemsToInsert) async {
     if (itemsToInsert.isEmpty) return;
 
     final batch = _database.batch();
@@ -524,10 +682,17 @@ class StorageService {
     final db = await _openBackgroundDatabase();
 
     final rows = await db.query(
-    _tableName,
-    orderBy: 'createdAt ASC',
+      _tableName,
+      orderBy: 'createdAt ASC',
     );
 
     return rows.map(ItemModel.fromMap).toList();
   }
+}
+
+class _SerializedPreference {
+  const _SerializedPreference(this.type, this.value);
+
+  final String type;
+  final String value;
 }

@@ -1289,7 +1289,7 @@
     "description": "File filter label for .db files"
   },
 
-  "createBackupSubtitle": "Create a backup of the database",
+  "createBackupSubtitle": "Create a new file with all your current data",
   "@createBackupSubtitle": {
   "description": "Subtitle for the create backup action"
   },
@@ -1329,7 +1329,7 @@
     "description": "Dialog title when restoring backup"
   },
 
-  "restoreConfirmationContent": "All current data will be replaced with the data from the backup file.\n\nAfter a successful restore, the app will restart to refresh the data.\n\nDo you want to continue?",
+  "restoreConfirmationContent": "All current data and preferences (such as language and notification time) will be replaced with the data from the backup file.\n\nAfter successful restore, the app will restart to apply the changes.\n\nDo you want to continue?",
   "@restoreConfirmationContent": {
     "description": "Dialog content explaining that current data will be replaced and the app will restart after a successful restore"
   },

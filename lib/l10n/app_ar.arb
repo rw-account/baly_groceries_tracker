@@ -1289,7 +1289,7 @@
     "description": "File filter label for .db files"
   },
 
-  "createBackupSubtitle": "إنشاء نسخة احتياطية من قاعدة البيانات",
+  "createBackupSubtitle": "إنشاء ملف جديد يحتوي على جميع بياناتك الحالية",
   "@createBackupSubtitle": {
   "description": "Subtitle for the create backup action"
   },
@@ -1329,7 +1329,7 @@
     "description": "Dialog title when restoring backup"
   },
 
-  "restoreConfirmationContent": "سيتم استبدال جميع البيانات الحالية بالبيانات الموجودة في النسخة الاحتياطية.\n\nبعد نجاح الاستعادة، سيتم إعادة تشغيل التطبيق لتحديث البيانات.\n\nهل تريد المتابعة؟",
+  "restoreConfirmationContent": "سيتم استبدال جميع البيانات والإعدادات الحالية (بما في ذلك اللغة وأوقات التنبيهات) بالبيانات الموجودة في النسخة الاحتياطية.\n\nبعد نجاح الاستعادة، سيتم إعادة تشغيل التطبيق لتطبيق التغييرات.\n\nهل تريد المتابعة؟",
   "@restoreConfirmationContent": {
     "description": "Dialog content explaining that current data will be replaced and the app will restart after a successful restore"
   },
