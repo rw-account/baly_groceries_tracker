@@ -76,10 +76,12 @@ android {
 android.applicationVariants.configureEach {
     val variant = this
 
+    // Give arm64-v8a the highest value so that it has the highest versionCode,
+    // making it appear as the default suggested version in F-Droid.
     val abiCodes = mapOf(
-        "armeabi-v7a" to 1,
-        "arm64-v8a" to 2,
-        "x86_64" to 3
+        "x86_64" to 1,
+        "armeabi-v7a" to 2,
+        "arm64-v8a" to 3
     )
 
     variant.outputs.forEach { output ->
