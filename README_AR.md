@@ -25,6 +25,28 @@
 
 مثالي للعائلات ولكل من يسعى لحياة أفضل وأكثر تنظيمًا.
 
+## التحميل
+
+<div align="center">
+  <div margin-bottom="5">
+  <a href="https://baly-groceries-tracker.ar.uptodown.com/android">
+    <img src="https://stc.utdstc.com/img/mediakit/download-gio-big.png"
+         alt="Get it on Uptodown"
+         height="49">
+  </a>
+  </div>
+  <a href="https://f-droid.org/ar/packages/com.baly_groceries_tracker.app/">
+    <img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+         alt="Get it on F-Droid"
+         height="69">
+  </a>
+  <a href="https://github.com/rw-account/baly_groceries_tracker/releases/latest">
+    <img src="https://raw.githubusercontent.com/Kunzisoft/Github-badge/main/get-it-on-github.png"
+         alt="Get it on GitHub"
+         height="69">
+  </a>
+</div>
+
 ## الميزات الرئيسية
 
 ### شاشة "النفاد"

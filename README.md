@@ -22,6 +22,28 @@ This reduces waste, lowers the risk of financial strain caused by poor planning,
 
 Perfect for families and anyone seeking a better, more organized life.
 
+## Download
+
+<div align="center">
+  <div margin-bottom="5">
+  <a href="https://baly-groceries-tracker.en.uptodown.com/android">
+    <img src="https://stc.utdstc.com/img/mediakit/download-gio-big.png"
+         alt="Get it on Uptodown"
+         height="49">
+  </a>
+  </div>
+  <a href="https://f-droid.org/en/packages/com.baly_groceries_tracker.app/">
+    <img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+         alt="Get it on F-Droid"
+         height="69">
+  </a>
+  <a href="https://github.com/rw-account/baly_groceries_tracker/releases/latest">
+    <img src="https://raw.githubusercontent.com/Kunzisoft/Github-badge/main/get-it-on-github.png"
+         alt="Get it on GitHub"
+         height="69">
+  </a>
+</div>
+
 ## Key Features
 
 ### Expiry Screen
