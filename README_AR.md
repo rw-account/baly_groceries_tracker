@@ -28,26 +28,28 @@
 ## التحميل
 
 <div align="center">
-  <div style="margin-bottom: 5px;">
-    <a href="https://baly-groceries-tracker.ar.uptodown.com/android">
-      <img src="https://stc.utdstc.com/img/mediakit/download-gio-big.png"
-           alt="Get it on Uptodown"
-           height="49">
-    </a>
-  </div>
+  <a href="https://baly-groceries-tracker.ar.uptodown.com/android"
+     style="display: inline-block; text-decoration: none; margin-bottom: 12px;">
+    <img src="https://stc.utdstc.com/img/mediakit/download-gio-big.png"
+         alt="Get it on Uptodown"
+         height="49">
+  </a>
 
-  <div style="display: flex; justify-content: center; gap: 5px; flex-wrap: wrap;">
-    <a href="https://f-droid.org/ar/packages/com.baly_groceries_tracker.app/">
-      <img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
-           alt="Get it on F-Droid"
-           height="69">
-    </a>
-    <a href="https://github.com/rw-account/baly_groceries_tracker/releases/latest">
-      <img src="https://raw.githubusercontent.com/Kunzisoft/Github-badge/main/get-it-on-github.png"
-           alt="Get it on GitHub"
-           height="69">
-    </a>
-  </div>
+  <br>
+
+  <a href="https://f-droid.org/ar/packages/com.baly_groceries_tracker.app/"
+     style="display: inline-block; text-decoration: none; margin-right: 8px;">
+    <img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+         alt="Get it on F-Droid"
+         height="69">
+  </a>
+
+  <a href="https://github.com/rw-account/baly_groceries_tracker/releases/latest"
+     style="display: inline-block; text-decoration: none;">
+    <img src="https://raw.githubusercontent.com/Kunzisoft/Github-badge/main/get-it-on-github.png"
+         alt="Get it on GitHub"
+         height="69">
+  </a>
 </div>
 
 ## الميزات الرئيسية
