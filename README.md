@@ -24,25 +24,25 @@ Perfect for families and anyone seeking a better, more organized life.
 
 ## Download
 
-<div align="center">
-  <div style="margin-bottom: 5px;">
+<div align="center" style="padding: 24px 16px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin: 16px 0;">
+  <div style="display: flex; justify-content: center; align-items: center; gap: 18px; flex-wrap: wrap;">
+    <!-- Uptodown -->
     <a href="https://baly-groceries-tracker.en.uptodown.com/android"
-       style="display: inline-block; text-decoration: none;">
+       style="display: inline-block; text-decoration: none; transition: transform 0.2s;">
       <img src="https://stc.utdstc.com/img/mediakit/download-gio-big.png"
            alt="Get it on Uptodown"
            height="49">
     </a>
-  </div>
-
-  <div style="display: flex; justify-content: center; gap: 5px; flex-wrap: wrap;">
+    <!-- F-Droid -->
     <a href="https://f-droid.org/en/packages/com.baly_groceries_tracker.app/"
-       style="display: inline-block; text-decoration: none;">
+       style="display: inline-block; text-decoration: none; transition: transform 0.2s;">
       <img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
            alt="Get it on F-Droid"
            height="69">
     </a>
+    <!-- GitHub -->
     <a href="https://github.com/rw-account/baly_groceries_tracker/releases/latest"
-       style="display: inline-block; text-decoration: none;">
+       style="display: inline-block; text-decoration: none; transition: transform 0.2s;">
       <img src="https://raw.githubusercontent.com/Kunzisoft/Github-badge/main/get-it-on-github.png"
            alt="Get it on GitHub"
            height="69">
