@@ -24,27 +24,17 @@ Perfect for families and anyone seeking a better, more organized life.
 
 ## Download
 
-<p align="center">
-  <table align="center" style="border-collapse: collapse; border: none; padding: 20px; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.12);">
-    <tr>
-      <td align="center" style="border: none; padding: 8px 20px;">
-        <a href="https://baly-groceries-tracker.en.uptodown.com/android" style="display: inline-block; text-decoration: none;">
-          <img src="https://stc.utdstc.com/img/mediakit/download-gio-big.png" alt="Get it on Uptodown" height="49">
-        </a>
-      </td>
-    </tr>
-    <tr>
-      <td align="center" style="border: none; padding: 8px 20px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
-        <a href="https://f-droid.org/en/packages/com.baly_groceries_tracker.app/" style="display: inline-block; text-decoration: none;">
-          <img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="69">
-        </a>
-        <a href="https://github.com/rw-account/baly_groceries_tracker/releases/latest" style="display: inline-block; text-decoration: none;">
-          <img src="https://raw.githubusercontent.com/Kunzisoft/Github-badge/main/get-it-on-github.png" alt="Get it on GitHub" height="69">
-        </a>
-      </td>
-    </tr>
-  </table>
-</p>
+<div align="center">
+  <a href="https://baly-groceries-tracker.en.uptodown.com/android">
+    <img src="https://stc.utdstc.com/img/mediakit/download-gio-big.png" alt="Get it on Uptodown" height="49">
+  </a><br><br>
+  <a href="https://f-droid.org/en/packages/com.baly_groceries_tracker.app/">
+    <img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="70">
+  </a><br><br>
+  <a href="https://github.com/rw-account/baly_groceries_tracker/releases/latest">
+    <img src="https://raw.githubusercontent.com/Kunzisoft/Github-badge/main/get-it-on-github.png" alt="Get it on GitHub" height="70">
+  </a>
+</div>
 
 ## Key Features
 
