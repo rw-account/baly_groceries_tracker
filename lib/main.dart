@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'package:baly_groceries_tracker/providers/app_state_provider.dart';
+import 'package:baly_groceries_tracker/providers/items_provider.dart';
 import 'package:baly_groceries_tracker/providers/locale_provider.dart';
 import 'package:baly_groceries_tracker/providers/storage_service_provider.dart';
 import 'package:baly_groceries_tracker/services/battery_service.dart';
@@ -48,11 +49,37 @@ Future<void> main() async {
   );
 }
 
-class BalyGroceriesTrackerApp extends ConsumerWidget {
+class BalyGroceriesTrackerApp extends ConsumerStatefulWidget {
   const BalyGroceriesTrackerApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<BalyGroceriesTrackerApp> createState() => _BalyGroceriesTrackerAppState();
+}
+
+class _BalyGroceriesTrackerAppState extends ConsumerState<BalyGroceriesTrackerApp>
+    with WidgetsBindingObserver {
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      ref.invalidate(itemsProvider);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final locale = ref.watch(localeProvider);
 
     return MaterialApp.router(
