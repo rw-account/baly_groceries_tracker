@@ -891,7 +891,7 @@
     "description": "Chip label showing item is already in shopping list"
   },
 
-  "expiresToday": "نفد اليوم",
+  "expiresToday": "ينفد اليوم",
   "@expiresToday": {
     "description": "Label when item expires today"
   },
@@ -1076,7 +1076,7 @@
     }
   },
 
-  "itemRemainingDaysZero": "نفد اليوم",
+  "itemRemainingDaysZero": "ينفد اليوم",
   "@itemRemainingDaysZero": {
     "description": "Text when item expires today"
   },
@@ -1620,7 +1620,7 @@
     }
   },
 
-  "depletedToday": "نفد اليوم.",
+  "depletedToday": "ينفد اليوم.",
   "@depletedToday": {
     "description": "Message shown when the item is depleted today."
   },

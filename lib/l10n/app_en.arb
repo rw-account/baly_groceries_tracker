@@ -1620,7 +1620,7 @@
     }
   },
 
-  "depletedToday": "Ran out today.",
+  "depletedToday": "Runs out today",
   "@depletedToday": {
     "description": "Message shown when the item is depleted today."
   },

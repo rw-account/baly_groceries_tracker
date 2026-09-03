@@ -1025,7 +1025,7 @@ abstract class AppLocalizations {
   /// Label when item expires today
   ///
   /// In ar, this message translates to:
-  /// **'نفد اليوم'**
+  /// **'ينفد اليوم'**
   String get expiresToday;
 
   /// Format for item expiring in future with relative date
@@ -1205,7 +1205,7 @@ abstract class AppLocalizations {
   /// Text when item expires today
   ///
   /// In ar, this message translates to:
-  /// **'نفد اليوم'**
+  /// **'ينفد اليوم'**
   String get itemRemainingDaysZero;
 
   /// Format for expired items with days since expiry
@@ -1817,7 +1817,7 @@ abstract class AppLocalizations {
   /// Message shown when the item is depleted today.
   ///
   /// In ar, this message translates to:
-  /// **'نفد اليوم.'**
+  /// **'ينفد اليوم.'**
   String get depletedToday;
 
   /// Message shown when the item was depleted a specified number of days ago.

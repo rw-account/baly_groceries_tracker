@@ -982,7 +982,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get depletedToday => 'Ran out today.';
+  String get depletedToday => 'Runs out today';
 
   @override
   String depletedDaysAgo(int count) {

@@ -523,7 +523,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get inShoppingListChipLabel => 'في القائمة';
 
   @override
-  String get expiresToday => 'نفد اليوم';
+  String get expiresToday => 'ينفد اليوم';
 
   @override
   String expiresInFormat(String date) {
@@ -635,7 +635,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get itemRemainingDaysZero => 'نفد اليوم';
+  String get itemRemainingDaysZero => 'ينفد اليوم';
 
   @override
   String itemRemainingDaysNegativeFormat(int days) {
@@ -979,7 +979,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get depletedToday => 'نفد اليوم.';
+  String get depletedToday => 'ينفد اليوم.';
 
   @override
   String depletedDaysAgo(int count) {
