@@ -1620,14 +1620,14 @@
     }
   },
 
-  "depletedToday": "Runs out today",
+  "depletedToday": "Current remaining days: zero days (runs out today).",
   "@depletedToday": {
-    "description": "Message shown when the item is depleted today."
+    "description": "Message shown when the item has zero remaining days and will run out today."
   },
 
-  "depletedDaysAgo": "{count, plural, =1{Ran out yesterday.} other{Ran out {count} days ago.}}",
+  "depletedDaysAgo": "{count, plural, =1{Current remaining days: zero days (ran out yesterday).} other{Current remaining days: zero days (ran out {count} days ago).}}",
   "@depletedDaysAgo": {
-    "description": "Message shown when the item was depleted a specified number of days ago.",
+    "description": "Message shown when the item has zero remaining days and was depleted a specified number of days ago.",
     "placeholders": {
       "count": {
         "type": "int"

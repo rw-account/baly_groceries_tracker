@@ -1814,16 +1814,16 @@ abstract class AppLocalizations {
   /// **'الأيام الحالية المتبقية هي: {days} يوم'**
   String remainingDaysInfo(int days);
 
-  /// Message shown when the item is depleted today.
+  /// Message shown when the item has zero remaining days and will run out today.
   ///
   /// In ar, this message translates to:
-  /// **'ينفد اليوم.'**
+  /// **'الأيام الحالية المتبقية هي: صفر يوم (ينفد اليوم).'**
   String get depletedToday;
 
-  /// Message shown when the item was depleted a specified number of days ago.
+  /// Message shown when the item has zero remaining days and was depleted a specified number of days ago.
   ///
   /// In ar, this message translates to:
-  /// **'{count, plural, =1{نفد امس.} =2{نفد قبل يومين.} few{نفد قبل {count} أيام.} many{نفد قبل {count} يوماً.} other{نفد قبل {count} يوم.}}'**
+  /// **'{count, plural, =1{الأيام الحالية المتبقية هي: صفر يوم (نفد أمس).} =2{الأيام الحالية المتبقية هي: صفر يوم (نفد قبل يومين).} few{الأيام الحالية المتبقية هي: صفر يوم (نفد قبل {count} أيام).} many{الأيام الحالية المتبقية هي: صفر يوم (نفد قبل {count} يوماً).} other{الأيام الحالية المتبقية هي: صفر يوم (نفد قبل {count} يوم).}}'**
   String depletedDaysAgo(int count);
 
   /// Title for the change history screen

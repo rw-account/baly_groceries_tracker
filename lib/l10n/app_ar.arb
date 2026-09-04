@@ -1620,14 +1620,14 @@
     }
   },
 
-  "depletedToday": "ينفد اليوم.",
+  "depletedToday": "الأيام الحالية المتبقية هي: صفر يوم (ينفد اليوم).",
   "@depletedToday": {
-    "description": "Message shown when the item is depleted today."
+    "description": "Message shown when the item has zero remaining days and will run out today."
   },
 
-  "depletedDaysAgo": "{count, plural, =1{نفد امس.} =2{نفد قبل يومين.} few{نفد قبل {count} أيام.} many{نفد قبل {count} يوماً.} other{نفد قبل {count} يوم.}}",
+  "depletedDaysAgo": "{count, plural, =1{الأيام الحالية المتبقية هي: صفر يوم (نفد أمس).} =2{الأيام الحالية المتبقية هي: صفر يوم (نفد قبل يومين).} few{الأيام الحالية المتبقية هي: صفر يوم (نفد قبل {count} أيام).} many{الأيام الحالية المتبقية هي: صفر يوم (نفد قبل {count} يوماً).} other{الأيام الحالية المتبقية هي: صفر يوم (نفد قبل {count} يوم).}}",
   "@depletedDaysAgo": {
-    "description": "Message shown when the item was depleted a specified number of days ago.",
+    "description": "Message shown when the item has zero remaining days and was depleted a specified number of days ago.",
     "placeholders": {
       "count": {
         "type": "int"

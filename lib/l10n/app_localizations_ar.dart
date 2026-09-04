@@ -979,18 +979,19 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get depletedToday => 'ينفد اليوم.';
+  String get depletedToday =>
+      'الأيام الحالية المتبقية هي: صفر يوم (ينفد اليوم).';
 
   @override
   String depletedDaysAgo(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'نفد قبل $count يوم.',
-      many: 'نفد قبل $count يوماً.',
-      few: 'نفد قبل $count أيام.',
-      two: 'نفد قبل يومين.',
-      one: 'نفد امس.',
+      other: 'الأيام الحالية المتبقية هي: صفر يوم (نفد قبل $count يوم).',
+      many: 'الأيام الحالية المتبقية هي: صفر يوم (نفد قبل $count يوماً).',
+      few: 'الأيام الحالية المتبقية هي: صفر يوم (نفد قبل $count أيام).',
+      two: 'الأيام الحالية المتبقية هي: صفر يوم (نفد قبل يومين).',
+      one: 'الأيام الحالية المتبقية هي: صفر يوم (نفد أمس).',
     );
     return '$_temp0';
   }

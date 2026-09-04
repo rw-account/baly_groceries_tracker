@@ -982,15 +982,16 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get depletedToday => 'Runs out today';
+  String get depletedToday =>
+      'Current remaining days: zero days (runs out today).';
 
   @override
   String depletedDaysAgo(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Ran out $count days ago.',
-      one: 'Ran out yesterday.',
+      other: 'Current remaining days: zero days (ran out $count days ago).',
+      one: 'Current remaining days: zero days (ran out yesterday).',
     );
     return '$_temp0';
   }
